@@ -1,9 +1,10 @@
 import type {ReadStream} from "node:fs";
-import {SaxEventType, SAXParser, Tag, Text} from "sax-wasm";
+import {SaxEvent, SaxEventType, SAXParser, Tag, Text} from "sax-wasm";
 import {finished} from "node:stream/promises";
 import fs from "node:fs/promises";
 import {createRequire} from "node:module";
 import {Directive} from "../linter/LinterContext.js";
+import {Readable} from "node:stream";
 const require = createRequire(import.meta.url);
 
 export function isSaxParserToJSON(tag: unknown): tag is Tag {
@@ -50,43 +51,32 @@ export function extractDirective(comment: Text): Directive | undefined {
 	};
 }
 
-let saxWasmBuffer: Buffer;
+let saxWasmBuffer: Uint8Array;
 export async function initSaxWasm() {
 	if (!saxWasmBuffer) {
 		const saxPath = require.resolve("sax-wasm/lib/sax-wasm.wasm");
-		saxWasmBuffer = await fs.readFile(saxPath);
+		saxWasmBuffer = await fs.readFile(saxPath) as Uint8Array;
 	}
 
 	return saxWasmBuffer;
 }
 
 export async function parseXml(
-	contentStream: ReadStream, parseHandler: typeof SAXParser.prototype.eventHandler,
+	contentStream: ReadStream, parseHandler: (event: SaxEvent[0], detail: SaxEvent[1]) => void,
 	events: number = SaxEventType.CloseTag | SaxEventType.OpenTag | SaxEventType.Comment) {
 	const saxWasmBuffer = await initSaxWasm();
 	const saxParser = new SAXParser(events);
-
-	saxParser.eventHandler = parseHandler;
 
 	// Instantiate and prepare the wasm for parsing
 	if (!await saxParser.prepareWasm(saxWasmBuffer)) {
 		throw new Error("Unknown error during WASM Initialization");
 	}
 
-	// Start the stream
-	contentStream.on("data", (chunk: Uint8Array) => {
-		try {
-			saxParser.write(chunk);
-		} catch (err) {
-			if (err instanceof Error) {
-				// In case of an error, destroy the content stream to make the
-				// error bubble up to our callers
-				contentStream.destroy(err);
-			} else {
-				throw err;
-			}
-		}
-	});
+	const webContentStream = Readable.toWeb(contentStream) as ReadableStream<Uint8Array>;
+
+	for await (const [event, detail] of saxParser.parse(webContentStream.getReader())) {
+		parseHandler(event, detail);
+	}
+
 	await finished(contentStream);
-	saxParser.end();
 }
