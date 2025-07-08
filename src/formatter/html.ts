@@ -65,9 +65,9 @@ export class Html {
 				resultsHtml += `<td><code>${location}</code></td>`;
 				resultsHtml += `<td>${msg.message}</td>`;
 				if (showDetails && msg.messageDetails) {
-					resultsHtml += `<td>${this.formatMessageDetails(msg)}</td>`;
+					resultsHtml += `<td class="details">${this.formatMessageDetails(msg)}</td>`;
 				} else if (showDetails) {
-					resultsHtml += `<td></td>`;
+					resultsHtml += `<td class="details"></td>`;
 				}
 				resultsHtml += `</tr>`;
 			});
@@ -104,7 +104,7 @@ export class Html {
 			font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
 				Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 			line-height: 1.5;
-			max-width: 1200px;
+			max-width: 1600px;
 			margin: 0 auto;
 			padding: 20px;
 			color: #333;
@@ -159,6 +159,9 @@ export class Html {
 		tr.fatal-error td:first-child {
 			color: #b31d28;
 			font-weight: 600;
+		}
+		td.details a {
+			overflow-wrap: anywhere;
 		}
 		code {
 			background-color: #f6f8fa;
