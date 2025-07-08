@@ -2,6 +2,7 @@ import {Argv, ArgumentsCamelCase, CommandModule, MiddlewareFunction} from "yargs
 import {Text} from "../formatter/text.js";
 import {Json} from "../formatter/json.js";
 import {Markdown} from "../formatter/markdown.js";
+import {Html} from "../formatter/html.js";
 import {Coverage} from "../formatter/coverage.js";
 import {writeFile} from "node:fs/promises";
 import baseMiddleware from "./middlewares/base.js";
@@ -106,7 +107,7 @@ const lintCommand: FixedCommandModule<object, LinterArg> = {
 				describe: "Set the output format for the linter result",
 				default: "stylish",
 				type: "string",
-				choices: ["stylish", "json", "markdown"],
+				choices: ["stylish", "json", "markdown", "html"],
 			})
 			.option("quiet", {
 				describe: "Report errors only",
@@ -206,6 +207,10 @@ async function handleLint(argv: ArgumentsCamelCase<LinterArg>) {
 	} else if (format === "markdown") {
 		const markdownFormatter = new Markdown();
 		process.stdout.write(markdownFormatter.format(res, details, getVersion(), fix, quiet));
+		process.stdout.write("\n");
+	} else if (format === "html") {
+		const htmlFormatter = new Html();
+		process.stdout.write(htmlFormatter.format(res, details, getVersion(), fix, quiet));
 		process.stdout.write("\n");
 	} else if (format === "" || format === "stylish") {
 		const textFormatter = new Text(rootDir);
