@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.16.1](https://github.com/UI5/linter/compare/v1.16.0...v1.16.1) (2025-07-08)
+
+
+### Bug Fixes
+
+* Update links to latest LTS version 1.136 ([e0eac12](https://github.com/UI5/linter/commit/e0eac1292794a1f89d2ffa2cb9249a77aa9bca28))
+
 ## [1.16.0](https://github.com/UI5/linter/compare/v1.15.0...v1.16.0) (2025-07-03)
 
 
