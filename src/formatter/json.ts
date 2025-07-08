@@ -4,11 +4,11 @@ export class Json {
 	format(lintResults: LintResult[], showDetails: boolean, _quiet = false) {
 		const jsonFormattedResults: Pick<
 			LintResult,
-			"filePath"
-			| "messages"
-			| "errorCount"
-			| "warningCount"
-			| "fatalErrorCount"
+			"filePath" |
+			"messages" |
+			"errorCount" |
+			"warningCount" |
+			"fatalErrorCount"
 			// excluded by default: "coverageInfo"
 		>[] = [];
 		lintResults.forEach((oLintedFile) => {
