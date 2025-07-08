@@ -270,7 +270,7 @@ function _preProcessLinksInTextBlock(sText: string, ui5Url: string, ui5Version: 
 	return JSDocUtil().formatTextBlock(sText, linkFormatter);
 }
 
-export function resolveLinks(description?: string, ui5Url = "https://ui5.sap.com", ui5Version = "1.120"): string {
+export function resolveLinks(description?: string, ui5Url = "https://ui5.sap.com", ui5Version = "1.136"): string {
 	if (!description) {
 		return "";
 	}
