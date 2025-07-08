@@ -25,7 +25,7 @@ Checks whether a Component is configured for asynchronous loading via the `sap.u
 **Related information**
 - [Use Asynchronous Loading](https://ui5.sap.com/#/topic/676b636446c94eada183b1218a824717)
 - [Component Metadata](https://ui5.sap.com/#/topic/0187ea5e2eff4166b0453b9dcc8fc64f)
-- [sap.ui.core.IAsyncContentCreation](https://ui5.sap.com/1.120/#/api/sap.ui.core.IAsyncContentCreation)
+- [sap.ui.core.IAsyncContentCreation](https://ui5.sap.com/1.136/#/api/sap.ui.core.IAsyncContentCreation)
 
 ## csp-unsafe-inline-script
 

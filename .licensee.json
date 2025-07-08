@@ -8,7 +8,7 @@
     "blueOak": "bronze"
   },
   "packages": {
-    "@sapui5/types": "^1.120.4",
+    "@sapui5/types": "*",
     "callsite": "1.0.0",
     "deep-freeze-strict": "1.1.1",
     "yesno": "0.4.0",
