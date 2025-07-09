@@ -414,6 +414,7 @@ await ui5lint({
 	filePatterns: ["webapp/**/*.xml"],
 	ignorePatterns: ["webapp/thirdparty/"],
 	details: true,
+	fix: true,
 	config: "ui5lint-foo.config.mjs",
 	noConfig: true,
 	coverage: true,
@@ -441,13 +442,13 @@ await linterEngine.lint({
 	filePatterns: ["webapp/**/*.xml"],
 	ignorePatterns: ["webapp/thirdparty/"],
 	details: true,
+	fix: true,
 	config: "ui5lint-foo.config.mjs",
 	noConfig: true,
 	coverage: true,
 	ui5Config: "ui5-lint.yaml",
 	rootDir: "/path/to/project",
 });
-
 ```
 
 ## Internals
