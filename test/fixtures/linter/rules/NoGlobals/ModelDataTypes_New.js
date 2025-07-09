@@ -28,7 +28,7 @@ sap.ui.define(["sap/m/Input", "sap/ui/table/RowSettings"], (Input, RowSettings) 
 	rowSettings.applySettings({
 		highlight: {
 			path: "/names/0/amount",
-			type: "sap.ui.model.type.Integer"
+			"type": "sap.ui.model.type.Integer"
 		}
 	});
 

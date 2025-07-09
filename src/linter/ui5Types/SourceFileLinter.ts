@@ -1331,18 +1331,13 @@ export default class SourceFileLinter {
 	}
 
 	#analyzePropertyBindings(node: ts.ObjectLiteralExpression) {
-		const propNames = ["type", "formatter", "parts"];
 		node?.properties.forEach((prop) => {
 			if (!ts.isPropertyAssignment(prop)) {
 				return;
 			}
 
-			// Get the property inside the binding
-			let propertyField;
-
 			const propertyNameText = getPropertyNameText(prop.name);
-			if (!propertyNameText || !propNames.includes(propertyNameText)) {
-				// If the property is not one of the expected ones, we can skip it
+			if (!propertyNameText) {
 				return;
 			}
 
@@ -1353,31 +1348,15 @@ export default class SourceFileLinter {
 						this.#analyzePropertyBindings(part);
 					}
 				});
-				return;
-			}
-
-			if (ts.isObjectLiteralExpression(prop.initializer)) {
-				propertyField = getPropertyAssignmentsInObjectLiteralExpression(
-					propNames, prop.initializer)[0];
-			} else if (ts.isStringLiteralLike(prop.initializer) &&
-				ts.isIdentifier(prop.name) &&
-				// Whether it's a direct property of the Control
-				// or name collision in property binding
-				!ts.isNewExpression(prop.parent.parent)) {
-				/* Special Case (JS/TS): If the value of the property 'formatter' is a string,
-				it should be detected since the runtime cannot resolve it
-				even if a 'formatter' variable is imported: */
-				if (propertyNameText === "formatter") {
-					this.#reporter.addMessage(
-						MESSAGE.STRING_FOR_FORMATTER_VALUE_IN_JS, null, {node: prop.initializer}
-					);
-				} else {
-					propertyField = prop;
-				}
-			}
-
-			if (propertyField) {
-				this.#analyzeBindingPropertyNode(propertyField.initializer);
+			} else if (propertyNameText === "formatter" && ts.isStringLiteralLike(prop.initializer)) {
+				// Special Case (JS/TS): If the value of the property 'formatter' is a string,
+				// it should be detected since the runtime cannot resolve it
+				// even if a 'formatter' variable is imported:
+				this.#reporter.addMessage(
+					MESSAGE.STRING_FOR_FORMATTER_VALUE_IN_JS, null, {node: prop.initializer}
+				);
+			} else if (propertyNameText === "type") {
+				this.#analyzeBindingPropertyNode(prop.initializer);
 			}
 		});
 	}

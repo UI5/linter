@@ -3,12 +3,20 @@ sap.ui.define(
 	(Input, ObjectAttribute, Integer) => {
 		"use strict";
 
+		const otherProperties = {};
+
 		const input = new Input({
 			value: {
 				path: "/names/0/amount",
 				type: "sap.ui.model.type.Integer",
 				formatOptions: { minIntegerDigits: 3 },
 				constraints: { maximum: 1000 },
+
+				// Ensures that the code handles computed properties correctly
+				["computed" + "Property"]: "value",
+
+				// Spread operators are more complex to analyze, so they are not supported
+				...otherProperties
 			},
 			// This prop should not be analyzed at all as it's not existent
 			// and does not have the 'PropertyBindingInfo' type
@@ -18,6 +26,15 @@ sap.ui.define(
 				formatOptions: { minIntegerDigits: 3 },
 				constraints: { maximum: 1000 },
 			},
+
+			// This should not be analyzed as it is not a binding
+			formatter: "myFormatter",
+
+			// Ensures that the code handles computed properties correctly
+			["computed" + "Property"]: "value",
+
+			// Spread operators are more complex to analyze, so they are not supported
+			...otherProperties
 		});
 
 		input.applySettings({
@@ -27,6 +44,9 @@ sap.ui.define(
 				formatOptions: { minIntegerDigits: 3 },
 				constraints: { maximum: 1000 },
 			},
+
+			// This should not be analyzed as it is not a binding
+			formatter: "myFormatter",
 		});
 
 		// With "parts"
