@@ -897,7 +897,7 @@ export default class SourceFileLinter {
 					} else if (["bindProperty", "bindAggregation"].includes(symbolName) &&
 						moduleName === "sap/ui/base/ManagedObject" &&
 						node.arguments[1] && ts.isObjectLiteralExpression(node.arguments[1])) {
-						this.#analyzePropertyBindings(node.arguments[1], ["type", "formatter"]);
+						this.#analyzePropertyBindings(node.arguments[1]);
 					} else if (symbolName.startsWith("bind") &&
 						instanceType?.symbol?.declarations?.some((declaration) =>
 							ts.isClassDeclaration(declaration) &&
@@ -910,7 +910,7 @@ export default class SourceFileLinter {
 						const alternativePropName = propName.charAt(0).toLowerCase() + propName.slice(1);
 
 						if (this.#isPropertyBinding(node, [propName, alternativePropName])) {
-							this.#analyzePropertyBindings(node.arguments[0], ["type", "formatter"]);
+							this.#analyzePropertyBindings(node.arguments[0]);
 						}
 					} else if (symbolName === "create" && moduleName === "sap/ui/core/mvc/XMLView") {
 						this.#extractXmlFromJs(node, "XMLView.create");
@@ -1322,7 +1322,7 @@ export default class SourceFileLinter {
 						this.#isPropertyBinding(node, [getPropertyNameText(prop.name) ?? ""]))
 				) {
 					if (ts.isObjectLiteralExpression(prop.initializer)) {
-						this.#analyzePropertyBindings(prop.initializer, ["type", "formatter"]);
+						this.#analyzePropertyBindings(prop.initializer);
 					} else {
 						this.#analyzePropertyStringBindings(prop);
 					}
@@ -1330,7 +1330,8 @@ export default class SourceFileLinter {
 			});
 	}
 
-	#analyzePropertyBindings(node: ts.ObjectLiteralExpression, propNames: string[]) {
+	#analyzePropertyBindings(node: ts.ObjectLiteralExpression) {
+		const propNames = ["type", "formatter", "parts"];
 		node?.properties.forEach((prop) => {
 			if (!ts.isPropertyAssignment(prop)) {
 				return;
@@ -1338,18 +1339,35 @@ export default class SourceFileLinter {
 
 			// Get the property inside the binding
 			let propertyField;
+
+			const propertyNameText = getPropertyNameText(prop.name);
+			if (!propertyNameText || !propNames.includes(propertyNameText)) {
+				// If the property is not one of the expected ones, we can skip it
+				return;
+			}
+
+			if (propertyNameText === "parts" && ts.isArrayLiteralExpression(prop.initializer)) {
+				// If the property is 'parts', we need to analyze each part (recursively)
+				prop.initializer.elements.forEach((part) => {
+					if (ts.isObjectLiteralExpression(part)) {
+						this.#analyzePropertyBindings(part);
+					}
+				});
+				return;
+			}
+
 			if (ts.isObjectLiteralExpression(prop.initializer)) {
 				propertyField = getPropertyAssignmentsInObjectLiteralExpression(
 					propNames, prop.initializer)[0];
 			} else if (ts.isStringLiteralLike(prop.initializer) &&
-				ts.isIdentifier(prop.name) && propNames.includes(prop.name.text) &&
+				ts.isIdentifier(prop.name) &&
 				// Whether it's a direct property of the Control
 				// or name collision in property binding
 				!ts.isNewExpression(prop.parent.parent)) {
 				/* Special Case (JS/TS): If the value of the property 'formatter' is a string,
 				it should be detected since the runtime cannot resolve it
 				even if a 'formatter' variable is imported: */
-				if (prop.name.getText() === "formatter") {
+				if (propertyNameText === "formatter") {
 					this.#reporter.addMessage(
 						MESSAGE.STRING_FOR_FORMATTER_VALUE_IN_JS, null, {node: prop.initializer}
 					);
