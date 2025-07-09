@@ -1,6 +1,6 @@
 sap.ui.define(
-	["sap/m/Input", "sap/ui/model/type/Integer"],
-	(Input, Integer) => {
+	["sap/m/Input", "sap/m/ObjectAttribute", "sap/ui/model/type/Integer", "sap/ui/model/type/Date"],
+	(Input, ObjectAttribute, Integer) => {
 		"use strict";
 
 		const input = new Input({
@@ -51,5 +51,17 @@ sap.ui.define(
 				]
 			}
 		});
+
+		const objectAttribute = new ObjectAttribute({
+			text: {
+				path: "date",
+				type: "sap.ui.model.type.Date",
+				formatOptions: {
+					UTC: true,
+					// "short" is a format option and not a data type "type", so this should not be reported as a global
+					type: "short"
+				}
+			}
+		})
 	}
 );
