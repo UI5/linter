@@ -1,7 +1,9 @@
 sap.ui.define(
-	["sap/m/Input", "sap/ui/model/type/Integer"],
-	(Input, Integer) => {
+	["sap/m/Input", "sap/m/ObjectAttribute", "sap/ui/model/type/Integer", "sap/ui/model/type/Date"],
+	(Input, ObjectAttribute, Integer) => {
 		"use strict";
+
+		const otherProperties = {};
 
 		const input = new Input({
 			value: {
@@ -9,6 +11,12 @@ sap.ui.define(
 				type: "sap.ui.model.type.Integer",
 				formatOptions: { minIntegerDigits: 3 },
 				constraints: { maximum: 1000 },
+
+				// Ensures that the code handles computed properties correctly
+				["computed" + "Property"]: "value",
+
+				// Spread operators are more complex to analyze, so they are not supported
+				...otherProperties
 			},
 			// This prop should not be analyzed at all as it's not existent
 			// and does not have the 'PropertyBindingInfo' type
@@ -18,8 +26,17 @@ sap.ui.define(
 				formatOptions: { minIntegerDigits: 3 },
 				constraints: { maximum: 1000 },
 			},
+
+			// This should not be analyzed as it is not a binding
+			formatter: "myFormatter",
+
+			// Ensures that the code handles computed properties correctly
+			["computed" + "Property"]: "value",
+
+			// Spread operators are more complex to analyze, so they are not supported
+			...otherProperties
 		});
-		
+
 		input.applySettings({
 			value: {
 				path: "/names/0/amount",
@@ -27,6 +44,44 @@ sap.ui.define(
 				formatOptions: { minIntegerDigits: 3 },
 				constraints: { maximum: 1000 },
 			},
+
+			// This should not be analyzed as it is not a binding
+			formatter: "myFormatter",
 		});
+
+		// With "parts"
+		const input2 = new Input({
+			value: {
+				parts: [
+					{
+						path: 'amount',
+						type: 'sap.ui.model.type.Integer',
+						formatOptions: {
+							minIntegerDigits: 3
+						},
+						constraints: {
+							maximum: 1000
+						}
+					},
+					{
+						path: 'employees',
+						type: 'sap.ui.model.type.Integer'
+					},
+					'street'
+				]
+			}
+		});
+
+		const objectAttribute = new ObjectAttribute({
+			text: {
+				path: "date",
+				type: "sap.ui.model.type.Date",
+				formatOptions: {
+					UTC: true,
+					// "short" is a format option and not a data type "type", so this should not be reported as a global
+					type: "short"
+				}
+			}
+		})
 	}
 );

@@ -5,9 +5,15 @@ sap.ui.define(
 		const input = new Input({
 			value: { path: 'invoice>Status', formatter: 'formatter.statusText' }
 		});
+		// With "parts": Should be detected as "unsupported-api-usage" (formatter is a string):
+		const input2 = new Input({
+			value: {
+				parts: [{ path: 'invoice>Status', formatter: 'formatter.statusText'}]
+			}
+		});
 
 		// Should NOT be detected:
-		const input2 = new Input({
+		const input3 = new Input({
 			value: { path: 'invoice>Status', formatter: formatter.statusText }
 		});
 	}
