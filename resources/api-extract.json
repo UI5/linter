@@ -1,7 +1,7 @@
 {
   "framework": {
     "name": "SAPUI5",
-    "version": "1.136.2"
+    "version": "1.136.3"
   },
   "metadata": {
     "sap.ca.ui.AddPicture": {
@@ -1844,12 +1844,15 @@
       ],
       "property": [
         "anchor",
+        "availability",
         "header",
         "horizontalAlign",
         "importance",
         "key",
         "placement",
         "properties",
+        "required",
+        "tooltip",
         "width",
         "widthIncludingColumnHeader"
       ],
@@ -1870,6 +1873,7 @@
         "exportSettings"
       ],
       "property": [
+        "availability",
         "horizontalAlign",
         "importance",
         "key",
