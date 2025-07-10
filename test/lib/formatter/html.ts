@@ -148,7 +148,7 @@ test("Message with no details", (t) => {
 	const htmlResult = htmlFormatter.format(lintResults, true, "1.2.3", false, false);
 
 	t.snapshot(htmlResult);
-	t.true(htmlResult.includes("Error with no details"));
+	t.true(htmlResult.includes("Error&#x20;with&#x20;no&#x20;details"));
 });
 
 // Test formatSeverity and getSeverityClass directly to cover all branches
@@ -240,19 +240,23 @@ test("URL detection in message details", (t) => {
 	const testCases = [
 		{
 			input: "Check https://example.com/api for details",
-			expected: "Check <a href=\"https://example.com/api\" target=\"_blank\">https://example.com/api</a> for details",
+			// eslint-disable-next-line max-len
+			expected: "Check <a href=\"https&#x3a;&#x2f;&#x2f;example.com&#x2f;api\" target=\"_blank\">https&#x3a;&#x2f;&#x2f;example.com&#x2f;api</a> for details",
 		},
 		{
 			input: "Documentation at (https://ui5.sap.com/api/)",
-			expected: "Documentation at (<a href=\"https://ui5.sap.com/api/\" target=\"_blank\">https://ui5.sap.com/api/</a>)",
+			// eslint-disable-next-line max-len
+			expected: "Documentation at &#x28;<a href=\"https&#x3a;&#x2f;&#x2f;ui5.sap.com&#x2f;api&#x2f;\" target=\"_blank\">https&#x3a;&#x2f;&#x2f;ui5.sap.com&#x2f;api&#x2f;</a>&#x29;",
 		},
 		{
 			input: "See www.example.org for more information",
-			expected: "See <a href=\"http://www.example.org\" target=\"_blank\">www.example.org</a> for more information",
+			// eslint-disable-next-line max-len
+			expected: "See <a href=\"http&#x3a;&#x2f;&#x2f;www.example.org\" target=\"_blank\">www.example.org</a> for more information",
 		},
 		{
 			input: "UI5 docs ui5.sap.com/topic/documentation",
-			expected: "UI5 docs <a href=\"https://ui5.sap.com/topic/documentation\" target=\"_blank\">ui5.sap.com/topic/documentation</a>",
+			// eslint-disable-next-line max-len
+			expected: "UI5 docs <a href=\"https&#x3a;&#x2f;&#x2f;ui5.sap.com&#x2f;topic&#x2f;documentation\" target=\"_blank\">ui5.sap.com&#x2f;topic&#x2f;documentation</a>",
 		},
 		{
 			input: "No URLs in this text",
@@ -299,8 +303,10 @@ test("URL detection in message details", (t) => {
 	const htmlResult = htmlFormatter.format(lintResults, true, "1.2.3", false, false);
 
 	// Make sure both URLs were converted to links in the HTML
-	t.true(htmlResult.includes("<a href=\"https://ui5.sap.com\" target=\"_blank\">https://ui5.sap.com</a>"));
-	t.true(htmlResult.includes("<a href=\"http://www.example.com\" target=\"_blank\">www.example.com</a>"));
+	// eslint-disable-next-line max-len
+	t.true(htmlResult.includes("<a href=\"https&#x3a;&#x2f;&#x2f;ui5.sap.com\" target=\"_blank\">https&#x3a;&#x2f;&#x2f;ui5.sap.com</a>"));
+	// eslint-disable-next-line max-len
+	t.true(htmlResult.includes("<a href=\"http&#x3a;&#x2f;&#x2f;www.example.com\" target=\"_blank\">www.example.com</a>"));
 });
 
 // Test with undefined messageDetails
