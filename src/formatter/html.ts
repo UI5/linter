@@ -1,5 +1,6 @@
 import {LintResult, LintMessage} from "../linter/LinterContext.js";
 import {LintMessageSeverity} from "../linter/messages.js";
+import encodeXML from "./lib/encodeXML.js";
 
 export class Html {
 	format(lintResults: LintResult[], showDetails: boolean, version: string, autofix: boolean, quiet = false): string {
@@ -20,7 +21,7 @@ export class Html {
 			totalFatalErrorCount += fatalErrorCount;
 
 			// Add the file path as a section header
-			resultsHtml += `<div class="file">
+			resultsHtml += encodeXML`<div class="file">
 				<h3>${filePath}</h3>
 				<table>
 					<thead>
@@ -28,8 +29,8 @@ export class Html {
 							<th>Severity</th>
 							<th>Rule</th>
 							<th>Location</th>
-							<th>Message</th>
-							${showDetails ? "<th>Details</th>" : ""}
+							<th>Message</th>`;
+			resultsHtml += `${showDetails ? "<th>Details</th>" : ""}
 						</tr>
 					</thead>
 					<tbody>`;
@@ -57,13 +58,12 @@ export class Html {
 				const severityClass = this.getSeverityClass(msg.severity, msg.fatal);
 				const severityText = this.formatSeverity(msg.severity, msg.fatal);
 				const location = `${msg.line ?? 0}:${msg.column ?? 0}`;
-				const rule = `<a href="https://github.com/UI5/linter/blob/v${version}/docs/Rules.md#${msg.ruleId}" target="_blank">${msg.ruleId}</a>`;
 
-				resultsHtml += `<tr class="${severityClass}">`;
-				resultsHtml += `<td>${severityText}</td>`;
-				resultsHtml += `<td>${rule}</td>`;
-				resultsHtml += `<td><code>${location}</code></td>`;
-				resultsHtml += `<td>${msg.message}</td>`;
+				resultsHtml += encodeXML`<tr class="${severityClass}">`;
+				resultsHtml += encodeXML`<td>${severityText}</td>`;
+				resultsHtml += encodeXML`<td><a href="https://github.com/UI5/linter/blob/v${version}/docs/Rules.md#${msg.ruleId}" target="_blank">${msg.ruleId}</a></td>`;
+				resultsHtml += encodeXML`<td><code>${location}</code></td>`;
+				resultsHtml += encodeXML`<td>${msg.message}</td>`;
 				if (showDetails && msg.messageDetails) {
 					resultsHtml += `<td class="details">${this.formatMessageDetails(msg)}</td>`;
 				} else if (showDetails) {
@@ -257,19 +257,20 @@ export class Html {
 		// This regex matches http/https URLs and also patterns like ui5.sap.com/... with or without protocol
 		return cleanedDetails.replace(
 			/(https?:\/\/[^\s)]+)|(\([^(]*?)(https?:\/\/[^\s)]+)([^)]*?\))|(\b(?:www\.|ui5\.sap\.com)[^\s)]+)/g,
-			(match, directUrl, beforeParen, urlInParen, afterParen, domainUrl) => {
+			(match, directUrl: string, beforePar: string, urlInPar: string, afterPar: string,
+				domainUrl: string) => {
 				if (directUrl) {
 					// Direct URL without parentheses
-					return `<a href="${directUrl}" target="_blank">${directUrl}</a>`;
-				} else if (urlInParen) {
+					return encodeXML`<a href="${directUrl}" target="_blank">${directUrl}</a>`;
+				} else if (urlInPar) {
 					// URL inside parentheses - keep the parentheses as text but make the URL a link
-					return `${beforeParen}<a href="${urlInParen}" target="_blank">${urlInParen}</a>${afterParen}`;
+					return encodeXML`${beforePar}<a href="${urlInPar}" target="_blank">${urlInPar}</a>${afterPar}`;
 				} else if (domainUrl) {
 					// Domain starting with www. or ui5.sap.com without http(s)://
 					const fullUrl = typeof domainUrl === "string" && domainUrl.startsWith("www.") ?
 						`http://${domainUrl}` :
 						`https://${domainUrl}`;
-					return `<a href="${fullUrl}" target="_blank">${domainUrl}</a>`;
+					return encodeXML`<a href="${fullUrl}" target="_blank">${domainUrl}</a>`;
 				}
 				return match;
 			}
