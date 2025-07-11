@@ -1,6 +1,11 @@
 /*
-* Encoding according to the Secure Programming Guide (Preventing XSS Exploits)
-*/
+ * This is a modified copy of the sap/base/security/encodeXML.js module from OpenUI5
+ * https://github.com/UI5/openui5/blob/1794b121ecc986fcfeb59648d0270963aced36ac/src/sap.ui.core/src/sap/base/security/encodeXML.js
+ */
+
+/*
+ * Encoding according to the Secure Programming Guide
+ */
 
 /**
  * Encodes XML / HTML strings to prevent XSS exploits.

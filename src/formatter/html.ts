@@ -257,15 +257,14 @@ export class Html {
 		// This regex matches http/https URLs and also patterns like ui5.sap.com/... with or without protocol
 		return cleanedDetails.replace(
 			/(https?:\/\/[^\s)]+)|(\([^(]*?)(https?:\/\/[^\s)]+)([^)]*?\))|(\b(?:www\.|ui5\.sap\.com)[^\s)]+)/g,
-			(match, directUrl: string, beforeParen: string, urlInParen: string, afterParen: string,
+			(match, directUrl: string, beforePar: string, urlInPar: string, afterPar: string,
 				domainUrl: string) => {
 				if (directUrl) {
 					// Direct URL without parentheses
 					return encodeXML`<a href="${directUrl}" target="_blank">${directUrl}</a>`;
-				} else if (urlInParen) {
+				} else if (urlInPar) {
 					// URL inside parentheses - keep the parentheses as text but make the URL a link
-					// eslint-disable-next-line max-len
-					return encodeXML`${beforeParen}<a href="${urlInParen}" target="_blank">${urlInParen}</a>${afterParen}`;
+					return encodeXML`${beforePar}<a href="${urlInPar}" target="_blank">${urlInPar}</a>${afterPar}`;
 				} else if (domainUrl) {
 					// Domain starting with www. or ui5.sap.com without http(s)://
 					const fullUrl = typeof domainUrl === "string" && domainUrl.startsWith("www.") ?
