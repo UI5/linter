@@ -151,7 +151,7 @@ ui5lint --details
 
 #### `--format`
 
-Choose the output format. Currently, `stylish` (default), `json`,`markdown` and `html` are supported.
+Choose the output format. Currently, `stylish` (default), `json`, `markdown`, and `html` are supported.
 
 **Example:**
 ```sh
