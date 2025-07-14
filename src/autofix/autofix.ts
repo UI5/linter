@@ -9,6 +9,7 @@ import {RequireExpression} from "../linter/ui5Types/amdTranspiler/parseRequire.j
 import generateChangesJs from "./generateChangesJs.js";
 import generateChangesXml from "./generateChangesXml.js";
 import {getFactoryBody} from "./amdImports.js";
+import generateChangesHtml from "./generateChangesHtml.js";
 
 const log = getLogger("linter:autofix");
 
@@ -184,6 +185,8 @@ export default async function ({
 	const messages = new Map<string, RawLintMessage[]>();
 	const xmlResources: Resource[] = [];
 	const jsResources: Resource[] = [];
+	const htmlResources: Resource[] = [];
+
 	for (const [_, autofixResource] of autofixResources) {
 		const fixMessages = autofixResource.messages.filter((msg) => msg.fix);
 		if (!fixMessages.length) {
@@ -191,8 +194,11 @@ export default async function ({
 			continue;
 		}
 		messages.set(autofixResource.resource.getPath(), fixMessages);
-		if (autofixResource.resource.getPath().endsWith(".xml")) {
+		const resourcePath = autofixResource.resource.getPath();
+		if (resourcePath.endsWith(".xml")) {
 			xmlResources.push(autofixResource.resource);
+		} else if (resourcePath.endsWith(".html")) {
+			htmlResources.push(autofixResource.resource);
 		} else {
 			jsResources.push(autofixResource.resource);
 		}
@@ -206,6 +212,10 @@ export default async function ({
 	if (xmlResources.length) {
 		log.verbose(`Applying autofixes for ${xmlResources.length} XML resources`);
 		await autofixXml(xmlResources, messages, context, res);
+	}
+	if (htmlResources.length) {
+		log.verbose(`Applying autofixes for ${htmlResources.length} HTML resources`);
+		await autofixHtml(htmlResources, messages, context, res);
 	}
 
 	return res;
@@ -358,6 +368,73 @@ async function autofixXml(
 		}
 		res.set(resourcePath, newContent);
 	}
+}
+
+async function autofixHtml(
+	htmlResources: Resource[], messages: Map<ResourcePath, RawLintMessage[]>, context: LinterContext,
+	res: AutofixResult
+): Promise<void> {
+	for (const resource of htmlResources) {
+		const resourcePath = resource.getPath();
+		// TODO: HTML can be parsed as XML, but it is not strictly XML compliant
+		// const existingHtmlError = await getXmlErrorForFile(await resource.getString());
+		// if (existingHtmlError) {
+		// 	log.verbose(`Skipping autofix for '${resourcePath}'. Syntax error reported in original source file:\n` +
+		// 		`[${existingHtmlError.line}:${existingHtmlError.col}] ${existingHtmlError.msg}`);
+		// 	continue;
+		// }
+
+		const newContent = await applyFixesHtml(resource, messages.get(resourcePath)!);
+		if (!newContent) {
+			continue;
+		}
+
+		// Check for errors after applying fixes
+		// TODO: HTML can be parsed as XML, but it is not strictly XML compliant
+		// const newHtmlError = await getXmlErrorForFile(newContent);
+		// if (newHtmlError) {
+		// 	const message = `Syntax error after applying autofix for '${resourcePath}'. ` +
+		// 		`This is likely a UI5 linter internal issue. Please check the verbose log. ` +
+		// 		`Please report this using the bug report template: ` +
+		// 		`https://github.com/UI5/linter/issues/new?template=bug-report.md`;
+		// 	const error = `Reported error (${newHtmlError.line}:${newHtmlError.col}): ${newHtmlError.msg}`;
+		// 	log.verbose(message);
+		// 	log.verbose(error);
+		// 	const contentWithMarkers = newContent.split("\n");
+		// 	if (newHtmlError.line !== undefined && newHtmlError.col !== undefined) {
+		// 		const line = newHtmlError.line - 1;
+		// 		// Insert line below the finding and mark the character
+		// 		const lineContent = contentWithMarkers[line];
+		// 		// Count number of tabs until the character
+		// 		const tabCount = lineContent.slice(0, newHtmlError.col).split("\t").length - 1;
+		// 		const leadingTabs = "\t".repeat(tabCount);
+		// 		const markerLine = line + 1;
+		// 		contentWithMarkers.splice(markerLine, 0, leadingTabs + " ".repeat(newHtmlError.col - tabCount) + "^");
+		// 	}
+		// 	log.verbose(resourcePath + ":\n" + contentWithMarkers.join("\n"));
+		// 	context.addLintingMessage(resourcePath, MESSAGE.AUTOFIX_ERROR, {message});
+		// 	continue;
+		// }
+
+		log.verbose(`Autofix applied to ${resourcePath}`);
+		res.set(resourcePath, newContent);
+	}
+}
+
+async function applyFixesHtml(
+	resource: Resource,
+	messages: RawLintMessage[]
+): Promise<string | undefined> {
+	const content = await resource.getString();
+	const changeSet: ChangeSet[] = [];
+
+	generateChangesHtml(messages, changeSet, content);
+
+	if (changeSet.length === 0) {
+		return undefined;
+	}
+
+	return applyChanges(content, changeSet);
 }
 
 function applyFixesJs(
