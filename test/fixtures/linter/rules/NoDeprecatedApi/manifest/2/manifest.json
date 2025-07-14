@@ -1,0 +1,157 @@
+{
+	"_version": "1.12.0",
+
+	"sap.app": {
+		"id": "com.ui5.troublesome.app",
+		"type": "application",
+		"i18n": "i18n/i18n.properties",
+		"title": "{{appTitle}}",
+		"description": "{{appDescription}}",
+		"applicationVersion": {
+			"version": "1.0.0"
+		},
+		"dataSources": {
+			"v4": {
+				"uri": "/api/odata-4/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "4.0"
+				}
+			}
+		}
+	},
+
+	"sap.ui": {
+		"technology": "UI5",
+		"icons": {},
+		"deviceTypes": {
+			"desktop": true,
+			"tablet": true,
+			"phone": true
+		}
+	},
+
+	"sap.ui5": {
+		"rootView": {
+			"viewName": "com.ui5.troublesome.app.view.App",
+			"type": "JS",
+			"async": true,
+			"id": "app"
+		},
+
+		"dependencies": {
+			"minUI5Version": "1.119.0",
+			"libs": {
+				"sap.ui.core": {},
+				"sap.m": {},
+				"sap.ca.scfld.md": {},
+				"sap.ca.ui": {},
+				"sap.fe.common": {},
+				"sap.fe.plugins": {},
+				"sap.fe.semantics": {},
+				"sap.landvisz": {},
+				"sap.makit": {},
+				"sap.me": {},
+				"sap.sac.grid": {},
+				"sap.ui.commons": {},
+				"sap.ui.suite": {},
+				"sap.ui.ux3": {},
+				"sap.ui.vtm": {},
+				"sap.uiext.inbox": {},
+				"sap.webanalytics.core": {},
+				"sap.zen.commons": {},
+				"sap.zen.crosstab": {},
+				"sap.zen.dsh": {}
+			},
+			"components": {
+				"sap.zen.dsh.fioriwrapper": {}
+			}
+		},
+
+		"handleValidation": true,
+
+		"contentDensities": {
+			"compact": true,
+			"cozy": true
+		},
+
+		"resources": {
+			"js": [{ "uri": "path/to/thirdparty.js" }]
+		},
+
+		"models": {
+			"i18n": {
+				"type": "sap.ui.model.resource.ResourceModel",
+				"settings": {
+					"bundleName": "com.ui5.troublesome.app.i18n.i18n"
+				}
+			},
+			"odata-v4": {
+				"type": "sap.ui.model.odata.v4.ODataModel",
+				"settings": {
+					"synchronizationMode": "None"
+				}
+			},
+			"odata-v4-via-dataSource": {
+				"dataSource": "v4",
+				"settings": {
+					"synchronizationMode": "None"
+				}
+			},
+			"odata": {
+				"type": "sap.ui.model.odata.ODataModel",
+				"settings": {
+					"serviceUrl": "/api/odata"
+				}
+			}
+		},
+
+		"routing": {
+			"config": {
+				"routerClass": "sap.m.routing.Router",
+				"viewType": "HTML",
+				"viewPath": "com.ui5.troublesome.app.view",
+				"viewLevel": 1,
+				"viewId": "deprecated",
+				"controlId": "app",
+				"controlAggregation": "pages",
+				"async": true
+			},
+			"routes": [
+				{
+					"pattern": "",
+					"name": "main",
+					"target": "main"
+				}
+			],
+			"targets": {
+				"main": {
+					"viewId": "main",
+					"viewName": "Main"
+				},
+				"myXML": {
+          			"name": "module:myapp/views/MyXML",
+					"viewType": "XML"
+        		},
+				"myHTML": {
+          			"name": "MyHTML",
+					"viewType": "HTML"
+        		},
+				"myJS": {
+          			"name": "MyJS",
+					"viewType": "JS"
+        		},
+				"myTemplate": {
+          			"name": "MyTemplate",
+					"viewType": "Template"
+        		},
+				"deprecatedProperties": {
+          			"viewName": "Deprecated",
+					"viewId": "deprecated",
+					"viewLevel": 1,
+					"viewType": "XML"
+        		}
+			}
+		}
+	}
+}
