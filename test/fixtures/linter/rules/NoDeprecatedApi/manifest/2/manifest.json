@@ -1,5 +1,5 @@
 {
-	"_version": "1.12.0",
+	"_version": "2.0.0",
 
 	"sap.app": {
 		"id": "com.ui5.troublesome.app",
@@ -130,27 +130,114 @@
 					"viewName": "Main"
 				},
 				"myXML": {
-          			"name": "module:myapp/views/MyXML",
+					"name": "module:myapp/views/MyXML",
 					"viewType": "XML"
-        		},
+				},
 				"myHTML": {
-          			"name": "MyHTML",
+					"name": "MyHTML",
 					"viewType": "HTML"
-        		},
+				},
 				"myJS": {
-          			"name": "MyJS",
+					"name": "MyJS",
 					"viewType": "JS"
-        		},
+				},
 				"myTemplate": {
-          			"name": "MyTemplate",
+					"name": "MyTemplate",
 					"viewType": "Template"
-        		},
+				},
 				"deprecatedProperties": {
-          			"viewName": "Deprecated",
+					"viewName": "Deprecated",
 					"viewId": "deprecated",
 					"viewLevel": 1,
 					"viewType": "XML"
-        		}
+				}
+			}
+		}
+	},
+
+	"sap.apf": {},
+	"sap.wda": {},
+	"sap.gui": {},
+	"sap.wcf": {},
+	"sap.map": {},
+	"sap.flp": {
+		"tileSize": "M",
+		"vizOptions": {
+			"displayFormats": {
+				"chart": "M",
+				"table": "M"
+			}
+		},
+		"origin": "https://example.com"
+	},
+	"sap.ovp": {
+		"globalFilterEntitySet": "GlobalFilter",
+		"globalFilterEntityType": "com.ui5.troublesome.app.GlobalFilterType"
+	},
+	"sap.copilot": {
+		"enabled": true,
+		"digitalAssistant": {
+			"enabled": true,
+			"serviceUrl": "/api/copilot"
+		}
+	},
+	"sap.card": {
+		"designtime": {
+			"cardType": "List",
+			"cardProperties": {
+				"title": "{{cardTitle}}",
+				"description": "{{cardDescription}}"
+			}
+		},
+		"data": {
+			"request": {
+				"url": "/api/card-data",
+				"cache": {
+					"noStore": false,
+					"enabled": true
+				}
+			}
+		},
+		"content": {
+			"columns": [
+				{
+					"identifier": "column1",
+					"url": "/api/column1",
+					"target": "_blank",
+					"text": "Column 1"
+				}
+			]
+		}
+	},
+	"sap.ui.integration": {
+		"cards": {
+			"myCard": {
+				"designtime": {
+					"cardType": "List",
+					"cardProperties": {
+						"title": "{{cardTitle}}",
+						"description": "{{cardDescription}}"
+					}
+				},
+				"data": {
+					"request": {
+						"url": "/api/card-data",
+						"cache": {
+							"noStore": false,
+							"enabled": true
+						}
+					}
+				},
+				"content": {
+					"columns": [
+						{
+							"identifier": "column1",
+							"url": "/api/column1",
+							"target": "_blank",
+							"text": "Column 1"
+						}
+					]
+				}
 			}
 		}
 	}
