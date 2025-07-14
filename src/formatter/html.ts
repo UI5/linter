@@ -255,30 +255,36 @@ export class Html {
 
 		// Check if the messageDetails contain any URLs
 		const urlRegex = /(https?:\/\/[^\s)]+)|(\([^(]*?)(https?:\/\/[^\s)]+)([^)]*?\))|(\b(?:www\.|ui5\.sap\.com)[^\s)]+)/g;
-		if (!urlRegex.test(cleanedDetails)) {
-			return encodeXML`${cleanedDetails}`;
-		}
-
-		// Convert URLs to hyperlinks
-		// This regex matches http/https URLs and also patterns like ui5.sap.com/... with or without protocol
-		return cleanedDetails.replace(urlRegex,
-			(match, directUrl: string, beforePar: string, urlInPar: string, afterPar: string,
-				domainUrl: string) => {
-				if (directUrl) {
-					// Direct URL without parentheses
-					return encodeXML`<a href="${directUrl}" target="_blank">${directUrl}</a>`;
-				} else if (urlInPar) {
-					// URL inside parentheses - keep the parentheses as text but make the URL a link
-					return encodeXML`${beforePar}<a href="${urlInPar}" target="_blank">${urlInPar}</a>${afterPar}`;
-				} else if (domainUrl) {
-					// Domain starting with www. or ui5.sap.com without http(s)://
-					const fullUrl = typeof domainUrl === "string" && domainUrl.startsWith("www.") ?
-						`http://${domainUrl}` :
-						`https://${domainUrl}`;
-					return encodeXML`<a href="${fullUrl}" target="_blank">${domainUrl}</a>`;
+		const convertURLsToLinks = (url: string) => {
+			return url.replace(urlRegex,
+				(match, directUrl: string, beforePar: string, urlInPar: string, afterPar: string,
+					domainUrl: string) => {
+					if (directUrl) {
+						// Direct URL without parentheses
+						return encodeXML`<a href="${directUrl}" target="_blank">${directUrl}</a>`;
+					} else if (urlInPar) {
+						// URL inside parentheses - keep the parentheses as text but make the URL a link
+						return encodeXML`${beforePar}<a href="${urlInPar}" target="_blank">${urlInPar}</a>${afterPar}`;
+					} else if (domainUrl) {
+						// Domain starting with www. or ui5.sap.com without http(s)://
+						const fullUrl = typeof domainUrl === "string" && domainUrl.startsWith("www.") ?
+							`http://${domainUrl}` :
+							`https://${domainUrl}`;
+						return encodeXML`<a href="${fullUrl}" target="_blank">${domainUrl}</a>`;
+					}
+					return match;
 				}
-				return match;
+			);
+		};
+
+		return cleanedDetails.replace(new RegExp(`((?:${urlRegex.source})|[^]+?)`, "g"), (m) => {
+			if (!urlRegex.test(m)) {
+				// Encode all non-URL parts XSS-safely
+				return encodeXML`${m}`;
+			} else {
+				// Generate hyperlinks with XSS-safe encoding
+				return convertURLsToLinks(m);
 			}
-		);
+		});
 	}
 }

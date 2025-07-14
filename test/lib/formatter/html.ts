@@ -241,22 +241,22 @@ test("URL detection in message details", (t) => {
 		{
 			input: "Check https://example.com/api for details",
 			// eslint-disable-next-line max-len
-			expected: "Check <a href=\"https&#x3a;&#x2f;&#x2f;example.com&#x2f;api\" target=\"_blank\">https&#x3a;&#x2f;&#x2f;example.com&#x2f;api</a> for details",
+			expected: "Check&#x20;<a href=\"https&#x3a;&#x2f;&#x2f;example.com&#x2f;api\" target=\"_blank\">https&#x3a;&#x2f;&#x2f;example.com&#x2f;api</a>&#x20;for&#x20;details",
 		},
 		{
 			input: "Documentation at (https://ui5.sap.com/api/)",
 			// eslint-disable-next-line max-len
-			expected: "Documentation at &#x28;<a href=\"https&#x3a;&#x2f;&#x2f;ui5.sap.com&#x2f;api&#x2f;\" target=\"_blank\">https&#x3a;&#x2f;&#x2f;ui5.sap.com&#x2f;api&#x2f;</a>&#x29;",
+			expected: "Documentation&#x20;at&#x20;&#x28;<a href=\"https&#x3a;&#x2f;&#x2f;ui5.sap.com&#x2f;api&#x2f;\" target=\"_blank\">https&#x3a;&#x2f;&#x2f;ui5.sap.com&#x2f;api&#x2f;</a>&#x29;",
 		},
 		{
 			input: "See www.example.org for more information",
 			// eslint-disable-next-line max-len
-			expected: "See <a href=\"http&#x3a;&#x2f;&#x2f;www.example.org\" target=\"_blank\">www.example.org</a> for more information",
+			expected: "See&#x20;<a href=\"http&#x3a;&#x2f;&#x2f;www.example.org\" target=\"_blank\">www.example.org</a>&#x20;for&#x20;more&#x20;information",
 		},
 		{
 			input: "UI5 docs ui5.sap.com/topic/documentation",
 			// eslint-disable-next-line max-len
-			expected: "UI5 docs <a href=\"https&#x3a;&#x2f;&#x2f;ui5.sap.com&#x2f;topic&#x2f;documentation\" target=\"_blank\">ui5.sap.com&#x2f;topic&#x2f;documentation</a>",
+			expected: "UI5&#x20;docs&#x20;<a href=\"https&#x3a;&#x2f;&#x2f;ui5.sap.com&#x2f;topic&#x2f;documentation\" target=\"_blank\">ui5.sap.com&#x2f;topic&#x2f;documentation</a>",
 		},
 		{
 			input: "No URLs in this text",
@@ -290,7 +290,7 @@ test("URL detection in message details", (t) => {
 					line: 1,
 					column: 1,
 					message: "Error with URL in details",
-					messageDetails: "See https://ui5.sap.com and www.example.com",
+					messageDetails: "See https://ui5.sap.com and see www.example.com",
 				},
 			],
 			coverageInfo: [],
@@ -328,19 +328,36 @@ test("Formatter messageDetails with undefined", (t) => {
 // Test formatMessageDetails() with XSS-vulnerable message details
 test("Formatter messageDetails with XSS-vulnerable message detals", (t) => {
 	const htmlFormatter = new Html();
+	const userInput = "<script>alert('XSS');</script>";
 
+	// Test Case 1: XSS-vulnerable user input
 	// @ts-expect-error Accessing private method
 	const result = htmlFormatter.formatMessageDetails({
 		ruleId: "test-rule",
 		severity: LintMessageSeverity.Error,
 		message: "Test message",
-		messageDetails: `*before*<script>alert('XSS');</script>*after*`,
+		messageDetails: `*before*${userInput}*after*`,
+		line: 1,
+		column: 1,
+	});
+	// Test Case 2: XSS-vulnerable user input AND link
+	// @ts-expect-error Accessing private method
+	const result2 = htmlFormatter.formatMessageDetails({
+		ruleId: "test-rule",
+		severity: LintMessageSeverity.Error,
+		message: "Test message",
+		messageDetails: `Check ${userInput}. See https://ui5.sap.com/api/`,
 		line: 1,
 		column: 1,
 	});
 
 	t.is(result,
 		"&#x2a;before&#x2a;&lt;script&gt;alert&#x28;&#x27;XSS&#x27;&#x29;&#x3b;&lt;&#x2f;script&gt;&#x2a;after&#x2a;",
+		"Should encode messageDetails XSS-safely");
+
+	t.is(result2,
+		// eslint-disable-next-line max-len
+		"Check&#x20;&lt;script&gt;alert&#x28;&#x27;XSS&#x27;&#x29;&#x3b;&lt;&#x2f;script&gt;.&#x20;See&#x20;<a href=\"https&#x3a;&#x2f;&#x2f;ui5.sap.com&#x2f;api&#x2f;\" target=\"_blank\">https&#x3a;&#x2f;&#x2f;ui5.sap.com&#x2f;api&#x2f;</a>",
 		"Should encode messageDetails XSS-safely");
 });
 
