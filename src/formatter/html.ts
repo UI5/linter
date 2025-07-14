@@ -253,10 +253,15 @@ export class Html {
 		// This more comprehensive regex handles all whitespace characters
 		const cleanedDetails = msg.messageDetails.replace(/[\s\t\r\n]+/g, " ");
 
+		// Check if the messageDetails contain any URLs
+		const urlRegex = /(https?:\/\/[^\s)]+)|(\([^(]*?)(https?:\/\/[^\s)]+)([^)]*?\))|(\b(?:www\.|ui5\.sap\.com)[^\s)]+)/g;
+		if (!urlRegex.test(cleanedDetails)) {
+			return encodeXML`${cleanedDetails}`;
+		}
+
 		// Convert URLs to hyperlinks
 		// This regex matches http/https URLs and also patterns like ui5.sap.com/... with or without protocol
-		return cleanedDetails.replace(
-			/(https?:\/\/[^\s)]+)|(\([^(]*?)(https?:\/\/[^\s)]+)([^)]*?\))|(\b(?:www\.|ui5\.sap\.com)[^\s)]+)/g,
+		return cleanedDetails.replace(urlRegex,
 			(match, directUrl: string, beforePar: string, urlInPar: string, afterPar: string,
 				domainUrl: string) => {
 				if (directUrl) {

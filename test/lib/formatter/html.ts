@@ -214,7 +214,7 @@ test("Formatter messageDetails with whitespace", (t) => {
 	// @ts-expect-error Accessing private method
 	const formattedDetails = htmlFormatter.formatMessageDetails(lintResults[0].messages[0]);
 	// Ensure we're testing exactly the expected output after whitespace normalization
-	t.is(formattedDetails, "This has multiple spaces and newlines and tabs");
+	t.is(formattedDetails, "This&#x20;has&#x20;multiple&#x20;spaces&#x20;and&#x20;newlines&#x20;and&#x20;tabs");
 	t.true(htmlResult.includes(formattedDetails));
 
 	// Also directly test the private method for messageDetails
@@ -229,7 +229,7 @@ test("Formatter messageDetails with whitespace", (t) => {
 		fatal: false,
 	});
 
-	t.is(testDetails, "Multiple spaces and newlines");
+	t.is(testDetails, "Multiple&#x20;spaces&#x20;and&#x20;newlines");
 });
 
 // Test URL detection in messageDetails
@@ -260,7 +260,7 @@ test("URL detection in message details", (t) => {
 		},
 		{
 			input: "No URLs in this text",
-			expected: "No URLs in this text",
+			expected: "No&#x20;URLs&#x20;in&#x20;this&#x20;text",
 		},
 	];
 
@@ -323,6 +323,25 @@ test("Formatter messageDetails with undefined", (t) => {
 	});
 
 	t.is(result, "", "Should return empty string for undefined messageDetails");
+});
+
+// Test formatMessageDetails() with XSS-vulnerable message details
+test("Formatter messageDetails with XSS-vulnerable message detals", (t) => {
+	const htmlFormatter = new Html();
+
+	// @ts-expect-error Accessing private method
+	const result = htmlFormatter.formatMessageDetails({
+		ruleId: "test-rule",
+		severity: LintMessageSeverity.Error,
+		message: "Test message",
+		messageDetails: `*before*<script>alert('XSS');</script>*after*`,
+		line: 1,
+		column: 1,
+	});
+
+	t.is(result,
+		"&#x2a;before&#x2a;&lt;script&gt;alert&#x28;&#x27;XSS&#x27;&#x29;&#x3b;&lt;&#x2f;script&gt;&#x2a;after&#x2a;",
+		"Should encode messageDetails XSS-safely");
 });
 
 test("Quiet mode - errors only", (t) => {
