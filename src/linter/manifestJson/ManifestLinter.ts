@@ -57,6 +57,130 @@ export default class ManifestLinter {
 	}
 
 	#analyzeManifest(manifest: SAPJSONSchemaForWebApplicationManifestFile) {
+		this.#analyzeManifest1(manifest);
+
+		if (manifest?._version?.startsWith("2.")) {
+			this.#analyzeManifest2(manifest);
+		} else {
+			this.#reporter?.addMessage(MESSAGE.NO_OUTDATED_MANIFEST_VERSION, {} as never);
+
+			const ui5MinVersion = manifest?.["sap.ui5"]?.dependencies?.minUI5Version ?? "0";
+			const [major, minor] = ui5MinVersion.split(".").map(Number);
+
+			if (major === 1 && minor < 136) {
+				// ERROR: Update UI5 version to at least 1.136
+				// this.#reporter?.addMessage(MESSAGE.NO_OUTDATED_MANIFEST_VERSION);
+			}
+		}
+	}
+
+	#analyzeManifest2(manifest: SAPJSONSchemaForWebApplicationManifestFile) {
+		const removed = [
+			["*", "_version"],
+			["sap.apf"],
+			["sap.wda"],
+			["sap.gui"],
+			["sap.wcf"],
+			["sap.flp", "origin"],
+			["sap.copilot", "digitalAssistant"],
+			["sap.map"],
+			["sap.card", "designtime"],
+			["sap.card", "content", "columns", "*", "url"],
+			["sap.card", "content", "columns", "*", "target"],
+			["sap.card", "content", "columns", "*", "text"],
+		];
+
+		const checkRemovedManifestProps = (manifestChunk: Record<string, unknown> | undefined,
+			removedEntry: string[], propName: string[]) => {
+			if (!manifestChunk) {
+				return;
+			}
+
+			for (const key of Object.keys(manifestChunk)) {
+				if (key === removedEntry[0] || removedEntry[0] === "*") {
+					if (removedEntry.length === 1 && manifestChunk[key] !== undefined) {
+						this.#reporter?.addMessage(MESSAGE.NO_REMOVED_MANIFEST_PROPERTY, {
+							propName: [...propName, key].join("/"),
+						}, "/" + [...propName, key].join("/"));
+					} else {
+						checkRemovedManifestProps(manifestChunk[key] as Record<string, unknown>,
+							removedEntry.slice(1), [...propName, key]);
+					}
+				}
+			}
+		};
+		for (const removedEntry of removed) {
+			checkRemovedManifestProps(manifest as unknown as Record<string, unknown>, removedEntry, []);
+		}
+
+		if ((manifest?.["sap.ui5"]?.resources?.js ?? []).length > 0) {
+			// TODO: Add correct message:
+			// no longer supported, if it is empty it can be removed, if not
+			// the application has to adjust their code base to load the module
+			// in a sap.ui.define call e.g. in the Component.js, manifest can not
+			// be migrated as long as code is not adjusted
+		} else if (manifest?.["sap.ui5"]?.resources?.js !== undefined) {
+			this.#reporter?.addMessage(MESSAGE.NO_REMOVED_MANIFEST_PROPERTY, {
+				propName: "/sap.ui5/resources/js",
+			}, "/sap.ui5/resources/js");
+		}
+
+		if (manifest?.["sap.ui5"]?.rootView?.async === true) {
+			this.#reporter?.addMessage(MESSAGE.NO_REMOVED_MANIFEST_PROPERTY, {
+				propName: "/sap.ui5/resources/js",
+			}, "/sap.ui5/resources/js");
+		} else if (manifest?.["sap.ui5"]?.rootView?.async !== undefined) {
+			// TODO: Add correct message:
+			// no longer supported, implicit new default value (true), removed from schema,
+			// if value is already true it can be removed, if not, application has to adjusted
+			// manually to leverage async routView
+		}
+
+		if (manifest?.["sap.ui5"]?.routing?.config?.async === true) {
+			this.#reporter?.addMessage(MESSAGE.NO_REMOVED_MANIFEST_PROPERTY, {
+				propName: "/sap.ui5/resources/js",
+			}, "/sap.ui5/resources/js");
+		} else if (manifest?.["sap.ui5"]?.routing?.config?.async !== undefined) {
+			// TODO: Add correct message:
+			// no longer supported, implicit new default value (true), removed from schema,
+			// if value is already true it can be removed, if not, application has to adjusted
+			// manually to leverage async routView
+		}
+
+		if (["XML", "JS"].includes(manifest?.["sap.ui5"]?.rootView?.type) &&
+			manifest?.["sap.ui5"]?.rootView?.name.startsWith("module:")) {
+			this.#reporter?.addMessage(MESSAGE.NO_REMOVED_MANIFEST_PROPERTY, {
+				propName: "/sap.ui5/rootView/type",
+			}, "/sap.ui5/rootView/type");
+		}
+
+		if (manifest?.["sap.flp"]?.tileSize !== undefined) {
+			this.#reporter?.addMessage(MESSAGE.NO_RENAMED_MANIFEST_PROPERTY, {
+				propName: "sap.flp/tileSize",
+				newName: "sap.flp/vizOptions/displayFormats",
+			}, "/sap.flp/tileSize");
+		}
+
+		if (manifest?.["sap.ovp"]?.globalFilterEntityType !== undefined) {
+			this.#reporter?.addMessage(MESSAGE.NO_RENAMED_MANIFEST_PROPERTY, {
+				propName: "sap.ovp/globalFilterEntityType",
+				newName: "sap.ovp/globalFilterEntitySet",
+			}, "/sap.ovp/globalFilterEntityType");
+		}
+
+		// TODO: The same for all other properties/values in sap.card section
+		if (manifest?.["sap.card"]?.data?.request?.cache?.noStore !== undefined) {
+			this.#reporter?.addMessage(MESSAGE.NO_RENAMED_MANIFEST_PROPERTY, {
+				propName: "sap.card/data/request/cache/noStore",
+				newName: "sap.card/data/request/cache/enabled",
+			}, "/sap.card/data/request/cache/noStore");
+		}
+
+		// TODO: /sap.card/content/columns/*/identifier/:
+		// No object is supported containing properties with name „url“ or „target“
+	}
+
+	#analyzeManifest1(manifest: SAPJSONSchemaForWebApplicationManifestFile) {
 		const {resources, models, dependencies, rootView, routing} =
 			(manifest["sap.ui5"] ?? {} as JSONSchemaForSAPUI5Namespace);
 		const {dataSources} = (manifest["sap.app"] ?? {} as JSONSchemaForSAPAPPNamespace);
