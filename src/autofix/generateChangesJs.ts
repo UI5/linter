@@ -150,7 +150,7 @@ export default function generateChanges(
 	const obsoleteModuleImports = new Set<ObsoleteModuleDependency>();
 
 	if (resourcePath.startsWith("/resources/")) {
-		// Block cyclic dependency to the module itself. This is only relevant when applying fixes
+		// Block cyclic dependency to the module itself. This is currently only relevant when applying fixes
 		// to UI5 framework internal modules
 		const currentModuleName = resourcePath.substring("/resources/".length).replace(/\.js$/, "");
 		blockedModuleImports.add(currentModuleName);
