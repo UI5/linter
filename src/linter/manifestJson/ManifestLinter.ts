@@ -148,7 +148,7 @@ export default class ManifestLinter {
 		}
 
 		if (["XML", "JS"].includes(manifest?.["sap.ui5"]?.rootView?.type) &&
-			manifest?.["sap.ui5"]?.rootView?.name.startsWith("module:")) {
+			manifest?.["sap.ui5"]?.rootView?.name?.startsWith("module:")) {
 			this.#reporter?.addMessage(MESSAGE.NO_REMOVED_MANIFEST_PROPERTY, {
 				propName: "/sap.ui5/rootView/type",
 			}, "/sap.ui5/rootView/type");
