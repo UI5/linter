@@ -23,16 +23,16 @@ const test = anyTest as TestFn<{
 	sharedLanguageService: SharedLanguageService; // Has to be defined by the actual test
 }>;
 
-export async function createMockedLinterModules() {
+export async function createMockedLinterModules(sinon: sinonGlobal.SinonSandbox = sinonGlobal) {
 	const typeLinterModule = await esmock("../../../src/linter/ui5Types/TypeLinter.js", {
 		"../../../src/linter/ui5Types/SourceFileLinter.js": SourceFileLinter,
 	});
 
 	const autofixSpy =
-		sinonGlobal.stub<Parameters<typeof autofix>, ReturnType<typeof autofix>>()
+		sinon.stub<Parameters<typeof autofix>, ReturnType<typeof autofix>>()
 			.callsFake((options: AutofixOptions) => autofix(options));
 
-	const writeFileStub = sinonGlobal.stub().resolves();
+	const writeFileStub = sinon.stub().resolves();
 
 	const lintWorkspaceModule = await esmock("../../../src/linter/lintWorkspace.js", {
 		"../../../src/linter/ui5Types/TypeLinter.js": typeLinterModule,

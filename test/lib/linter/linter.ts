@@ -22,7 +22,7 @@ const test = anyTest as TestFn<{
 test.before(async (t) => {
 	t.context.sinon = sinonGlobal.createSandbox();
 
-	const {indexModule: {UI5LinterEngine}} = await createMockedLinterModules();
+	const {indexModule: {UI5LinterEngine}} = await createMockedLinterModules(t.context.sinon);
 	t.context.linterEngine = new UI5LinterEngine();
 });
 test.afterEach.always((t) => {
