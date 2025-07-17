@@ -129,10 +129,13 @@ const aliasToAttr = new Map([
 ]);
 
 function lintBootstrapAttributes(tag: SaxTag, report: HtmlReporter) {
+	// Loop through the raw attributes of the bootstrap tag:
 	const attributes = new Map();
 	for (const attr of tag.attributes) {
+		// Check for renamed attributes (or aliases):
 		let attributeName = attr.name.value.toLowerCase();
 		if (oldToNewAttr.has(attributeName)) {
+			// Rename the attribute with new name:
 			const oldName = attr.name.value;
 			attributeName = oldToNewAttr.get(attributeName)!;
 			const fix = new RenameAttributeFix(attr, attributeName);
@@ -141,6 +144,7 @@ function lintBootstrapAttributes(tag: SaxTag, report: HtmlReporter) {
 				newName: attributeName,
 			}, attr.name, fix);
 		} else if (aliasToAttr.has(attributeName)) {
+			// Use alias name for further checks
 			attributeName = aliasToAttr.get(attributeName)!;
 		}
 
@@ -250,6 +254,7 @@ function lintBootstrapAttributes(tag: SaxTag, report: HtmlReporter) {
 		}
 	}
 
+	// Check for missing bootstrap parameters:
 	if (!attributes.has("data-sap-ui-async")) {
 		report.addMessage(MESSAGE.MISSING_BOOTSTRAP_PARAM, {
 			name: "data-sap-ui-async",
