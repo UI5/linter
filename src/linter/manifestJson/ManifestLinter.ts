@@ -57,6 +57,35 @@ export default class ManifestLinter {
 	}
 
 	#analyzeManifest(manifest: SAPJSONSchemaForWebApplicationManifestFile) {
+		if ("minUI5Version" in manifest) {
+			let availableVersions: string[] = [];
+
+			if (Array.isArray(manifest.minUI5Version)) {
+				availableVersions = manifest.minUI5Version as string[];
+			} else if (typeof manifest.minUI5Version === "string") {
+				availableVersions.push(manifest.minUI5Version);
+			}
+
+			// Check if any version is below 1.36
+			const isBellow136 = availableVersions.some((version) => {
+				const [major, minor] = version.split(".").map(Number);
+				return major === 1 && minor < 136;
+			});
+
+			if (isBellow136) {
+				// this.#reporter?.addMessage(MESSAGE.NO_OUTDATED_MANIFEST_VERSION, {}, "/minUI5Version");
+			}
+		}
+
+		if (manifest?._version?.startsWith("2.")) {
+			this.#analyzeManifest_1(manifest, true);
+		} else {
+			this.#analyzeManifest_1(manifest);
+			this.#reporter?.addMessage(MESSAGE.NO_OUTDATED_MANIFEST_VERSION, {} as never);
+		}
+	}
+
+	#analyzeManifest_1(manifest: SAPJSONSchemaForWebApplicationManifestFile, isManifest2: boolean = false) {
 		const {resources, models, dependencies, rootView, routing} =
 			(manifest["sap.ui5"] ?? {} as JSONSchemaForSAPUI5Namespace);
 		const {dataSources} = (manifest["sap.app"] ?? {} as JSONSchemaForSAPAPPNamespace);
