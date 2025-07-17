@@ -17,6 +17,11 @@
 	- [prefer-test-starter](#prefer-test-starter)
 	- [ui5-class-declaration](#ui5-class-declaration)
 	- [unsupported-api-usage](#unsupported-api-usage)
+	- [no-outdated-manifest-version](#no-outdated-manifest-version)
+	- [no-removed-manifest-property](#no-removed-manifest-property)
+	- [no-renamed-manifest-property](#no-renamed-manifest-property)
+	- [no-legacy-ui5-version-in-manifest-2](#no-legacy-ui5-version-in-manifest-2)
+	- [no-incorrect-manifest-property-value](#no-incorrect-manifest-property-value)
 
 ## async-component-flags
 
@@ -118,3 +123,23 @@ Checks whether the declaration of UI5 classes is correct. This rule only applies
 ## unsupported-api-usage
 
 Checks whether the UI5 API is used correctly, for example, whether a formatter in a JavaScript/TypeScript binding declaration is of type `function`.
+
+## no-outdated-manifest-version
+
+Legacy-free UI5 requires Manifest Version 2. This test checks the `_version` property in `manifest.json`.
+
+## no-removed-manifest-property
+
+Manifest Version 2 lacks several properties of earlier versions, which do not match anymore to the new schema. They must be omitted.
+
+## no-renamed-manifest-property
+
+Manifest Version 2 renames several properties of earlier versions. Their names must be adjusted to match the new schema.
+
+## no-legacy-ui5-version-in-manifest-2
+
+Checks the `minUI5Version` property in `manifest.json` for legacy UI5 versions, which must not be used.
+
+## no-incorrect-manifest-property-value
+
+In Manifest Version 2, checks whether the `type` property is explicitly set to `View` when `sap.ui5/routing/config/type` is not omitted or set to `View`.

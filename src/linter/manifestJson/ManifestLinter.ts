@@ -57,6 +57,35 @@ export default class ManifestLinter {
 	}
 
 	#analyzeManifest(manifest: SAPJSONSchemaForWebApplicationManifestFile) {
+		if ("minUI5Version" in manifest) {
+			let availableVersions: string[] = [];
+
+			if (Array.isArray(manifest.minUI5Version)) {
+				availableVersions = manifest.minUI5Version as string[];
+			} else if (typeof manifest.minUI5Version === "string") {
+				availableVersions.push(manifest.minUI5Version);
+			}
+
+			// Check if any version is below 1.36
+			const isBellow136 = availableVersions.some((version) => {
+				const [major, minor] = version.split(".").map(Number);
+				return major === 1 && minor < 136;
+			});
+
+			if (isBellow136) {
+				this.#reporter?.addMessage(MESSAGE.NO_LEGACY_UI5_VERSION_IN_MANIFEST_2, {} as never, "/minUI5Version");
+			}
+		}
+
+		if (manifest?._version?.startsWith("2.")) {
+			this.#analyzeManifest_1(manifest, true);
+		} else {
+			this.#analyzeManifest_1(manifest);
+			this.#reporter?.addMessage(MESSAGE.NO_OUTDATED_MANIFEST_VERSION, {} as never, "/_version");
+		}
+	}
+
+	#analyzeManifest_1(manifest: SAPJSONSchemaForWebApplicationManifestFile, isManifest2 = false) {
 		const {resources, models, dependencies, rootView, routing} =
 			(manifest["sap.ui5"] ?? {} as JSONSchemaForSAPUI5Namespace);
 		const {dataSources} = (manifest["sap.app"] ?? {} as JSONSchemaForSAPAPPNamespace);
@@ -83,9 +112,15 @@ export default class ManifestLinter {
 
 		// Detect deprecated type of rootView:
 		if (typeof rootView === "object" && rootView.type && deprecatedViewTypes.includes(rootView.type)) {
-			this.#reporter?.addMessage(MESSAGE.DEPRECATED_VIEW_TYPE, {
-				viewType: rootView.type,
-			}, "/sap.ui5/rootView/type");
+			if (isManifest2 && ["XML", "JS"].includes(rootView.type) && rootView.viewName.startsWith("module:")) {
+				// In manifest v2 there's a new default value handling.
+				// Property is no longer required in case value is "XML" or "JS" if view name starts with "module:"
+				this.#reporter?.addMessage(MESSAGE.NO_REMOVED_MANIFEST_PROPERTY, {} as never, "/sap.ui5/rootView/type");
+			} else {
+				this.#reporter?.addMessage(MESSAGE.DEPRECATED_VIEW_TYPE, {
+					viewType: rootView.type,
+				}, "/sap.ui5/rootView/type");
+			}
 		}
 
 		// Detect deprecated view type in routing.config:
@@ -97,8 +132,39 @@ export default class ManifestLinter {
 
 		// Detect deprecations in routing.targets:
 		const targets = routing?.targets;
+		const oldToNewTargetPropsMap = {
+			viewName: "name",
+			viewId: "id",
+			viewLevel: "level",
+			viewPath: "path",
+		};
 		if (targets) {
+			let configTypeView: "View" | "OtherType" | undefined = undefined;
+			if (routing?.config?.type) {
+				configTypeView = routing.config.type === "View" ? "View" : "OtherType";
+			}
+
 			for (const [key, target] of Object.entries(targets)) {
+				for (const [oldProp, newProp] of Object.entries(oldToNewTargetPropsMap)) {
+					if (target[oldProp] && !target[newProp]) {
+						this.#reporter?.addMessage(MESSAGE.NO_RENAMED_MANIFEST_PROPERTY, {
+							propName: oldProp,
+							newName: newProp,
+						}, `/sap.ui5/routing/targets/${key}/${oldProp}`);
+					}
+				}
+
+				if (configTypeView === "OtherType" && target?.type !== "View") {
+					this.#reporter?.addMessage(MESSAGE.NO_INCORRECT_MANIFEST_PROPERTY_VALUE, {
+						propName: `/sap.ui5/routing/targets/${key}/type`,
+						value: "View",
+					}, `/sap.ui5/routing/targets/${key}/type`);
+				} else if (configTypeView !== "OtherType" && target?.type === "View") {
+					this.#reporter?.addMessage(MESSAGE.REDUNDANT_VIEW_CONFIG_PROPERTY, {
+						propertyName: "type",
+					}, `/sap.ui5/routing/targets/${key}/type`);
+				}
+
 				// Check if name starts with module and viewType is defined:
 				const name = target.name ?? target.viewName;
 				if (name && (name as string).startsWith("module:")) {
@@ -120,7 +186,15 @@ export default class ManifestLinter {
 		}
 
 		if (resources?.js) {
-			this.#reporter?.addMessage(MESSAGE.DEPRECATED_MANIFEST_JS_RESOURCES, "/sap.ui5/resources/js");
+			if (isManifest2 && Array.isArray(resources.js) && resources.js.length === 0) {
+				// no longer supported in 2.0, if it is empty it can be removed, if not
+				// the application has to adjust their code base to load the module in a
+				// sap.ui.define call e.g. in the Component.js, manifest can not be migrated
+				// as long as code is not adjusted
+				this.#reporter?.addMessage(MESSAGE.NO_REMOVED_MANIFEST_PROPERTY, {} as never, "/sap.ui5/resources/js");
+			} else {
+				this.#reporter?.addMessage(MESSAGE.DEPRECATED_MANIFEST_JS_RESOURCES, "/sap.ui5/resources/js");
+			}
 		}
 
 		const modelKeys: string[] = (models && Object.keys(models)) ?? [];
