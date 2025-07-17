@@ -722,7 +722,7 @@ export const MESSAGE_INFO = {
 			`Version 2 and must no longer be provided`,
 		details: ({propName}: {propName: string}) => `Remove property '${propName}' and follow the migration ` +
 			`guide {@link topic:be0cf40f61184b358b5faedaec98b2da#loiobe0cf40f61184b358b5faedaec98b2da/section_manifest2 Manifest  ` +
-			`Components, and Libraries)}`,
+			`Version 2}`,
 	},
 
 	[MESSAGE.NO_RENAMED_MANIFEST_PROPERTY]: {
