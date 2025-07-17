@@ -697,7 +697,8 @@ export const MESSAGE_INFO = {
 
 		message: () => "manifest.json must be migrated to version 2",
 		details: () =>
-			"Set _version to >= 2.0.0 and follow the migration guide {@link topic:be0cf40f61184b358b5faedaec98b2da#loiobe0cf40f61184b358b5faedaec98b2da/section_manifest2 " +
+			"Set _version to >= 2.0.0 and follow the migration guide " +
+			"{@link topic:be0cf40f61184b358b5faedaec98b2da#loiobe0cf40f61184b358b5faedaec98b2da/section_manifest2 " +
 			"Manifest Version 2}",
 	},
 
@@ -707,8 +708,8 @@ export const MESSAGE_INFO = {
 
 		message: () => "Use a legacy-free UI5 version in manifest.json.",
 		details: () =>
-			"Set minUI5Version to >= 1.136.0 or higher and follow the migration " +
-			"guide {@link topic:be0cf40f61184b358b5faedaec98b2da#loiobe0cf40f61184b358b5faedaec98b2da/section_manifest2 " +
+			"Set minUI5Version to >= 1.136.0 or higher and follow the migration guide " +
+			"{@link topic:be0cf40f61184b358b5faedaec98b2da#loiobe0cf40f61184b358b5faedaec98b2da/section_manifest2 " +
 			"Manifest Version 2}",
 	},
 
@@ -718,9 +719,9 @@ export const MESSAGE_INFO = {
 
 		message: ({propName}: {propName: string}) => `Property '${propName}' has been removed in Manifest ` +
 			`Version 2 and must no longer be provided`,
-		details: ({propName}: {propName: string}) => `Remove property '${propName}' and follow the migration ` +
-			`guide {@link topic:be0cf40f61184b358b5faedaec98b2da#loiobe0cf40f61184b358b5faedaec98b2da/section_manifest2 Manifest  ` +
-			`Version 2}`,
+		details: ({propName}: {propName: string}) => `Remove property '${propName}' and follow the migration guide ` +
+			`{@link topic:be0cf40f61184b358b5faedaec98b2da#loiobe0cf40f61184b358b5faedaec98b2da/section_manifest2 ` +
+			`Manifest Version 2}`,
 	},
 
 	[MESSAGE.NO_RENAMED_MANIFEST_PROPERTY]: {
@@ -731,8 +732,8 @@ export const MESSAGE_INFO = {
 			`Property '${propName}' has been renamed to '${newName}' in Manifest Version 2`,
 		details: ({propName, newName}: {propName: string; newName: string}) =>
 			`Rename property '${propName}' to '${newName}' and follow the migration guide ` +
-			`{@link topic:be0cf40f61184b358b5faedaec98b2da#loiobe0cf40f61184b358b5faedaec98b2da/section_manifest2 Manifest ` +
-			`Version 2}`,
+			`{@link topic:be0cf40f61184b358b5faedaec98b2da#loiobe0cf40f61184b358b5faedaec98b2da/section_manifest2 ` +
+			`Manifest Version 2}`,
 	},
 
 	[MESSAGE.NO_INCORRECT_MANIFEST_PROPERTY_VALUE]: {
