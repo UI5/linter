@@ -20,6 +20,7 @@
 	- [no-outdated-manifest-version](#no-outdated-manifest-version)
 	- [no-removed-manifest-property](#no-removed-manifest-property)
 	- [no-renamed-manifest-property](#no-renamed-manifest-property)
+	- [no-legacy-ui5-version-in-manifest-2](#no-legacy-ui5-version-in-manifest-2)
 
 ## async-component-flags
 
@@ -133,3 +134,7 @@ In manifest version 2, some of the properties are removed and they do not match 
 ## no-renamed-manifest-property
 
 In manifest version 2, some of the properties are renamed, so the new names must be adjusted to match the schema.
+
+## no-legacy-ui5-version-in-manifest-2
+
+Check for legacy UI5 versions in `minUI5Version` property in `manifest.json`
