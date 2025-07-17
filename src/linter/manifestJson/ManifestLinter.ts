@@ -57,7 +57,7 @@ export default class ManifestLinter {
 			});
 
 			if (isBellow136) {
-				// this.#reporter?.addMessage(MESSAGE.NO_OUTDATED_MANIFEST_VERSION, {}, "/minUI5Version");
+				this.#reporter?.addMessage(MESSAGE.NO_LEGACY_UI5_VERSION_IN_MANIFEST_2, {} as never, "/minUI5Version");
 			}
 		}
 
