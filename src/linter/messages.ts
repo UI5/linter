@@ -699,7 +699,7 @@ export const MESSAGE_INFO = {
 
 		message: () => "manifest.json must be migrated to version 2",
 		details: () =>
-			"Set _version to >= 2.0.0 and follow the migration guide {@link topic:be0cf40f61184b358b5faedaec98b2da " +
+			"Set _version to >= 2.0.0 and follow the migration guide {@link topic:be0cf40f61184b358b5faedaec98b2da#loiobe0cf40f61184b358b5faedaec98b2da/section_manifest2 " +
 			"Manifest (Descriptor for Applications, Components, and Libraries)}",
 	},
 
