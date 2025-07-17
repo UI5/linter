@@ -744,7 +744,7 @@ export const MESSAGE_INFO = {
 		details: () =>
 			`Property 'type' should be explicitly set to 'View' in manifest version 2 ` +
 			`if 'sap.ui5/routing/config/type' is not omitted or set to 'View'. ` +
-			`{@link topic:be0cf40f61184b358b5faedaec98b2da Manifest (Descriptor for Applications, ` +
+			`See {@link topic:be0cf40f61184b358b5faedaec98b2da Manifest (Descriptor for Applications, ` +
 			`Components, and Libraries)}`,
 	},
 
