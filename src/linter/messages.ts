@@ -717,7 +717,7 @@ export const MESSAGE_INFO = {
 		ruleId: RULES["no-removed-manifest-property"],
 
 		message: ({propName}: {propName: string}) => `Property '${propName}' has been removed in Manifest ` +
-			`version 2 and must no longer be provided`,
+			`Version 2 and must no longer be provided`,
 		details: ({propName}: {propName: string}) => `Remove property '${propName}' and follow the migration ` +
 			`guide {@link topic:be0cf40f61184b358b5faedaec98b2da Manifest (Descriptor for Applications, ` +
 			`Components, and Libraries)}`,
