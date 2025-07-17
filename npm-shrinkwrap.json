@@ -47,7 +47,7 @@
 				"@types/yauzl-promise": "^4.0.1",
 				"@ui5-language-assistant/semantic-model": "^3.3.1",
 				"@ui5-language-assistant/semantic-model-types": "^3.3.1",
-				"@ui5/cli": "^4.0.20",
+				"@ui5/cli": "^4.0.21",
 				"ava": "^6.4.1",
 				"depcheck": "^1.4.7",
 				"eslint": "^9.31.0",
@@ -4151,9 +4151,9 @@
 			"dev": true
 		},
 		"node_modules/@ui5/cli": {
-			"version": "4.0.20",
-			"resolved": "https://registry.npmjs.org/@ui5/cli/-/cli-4.0.20.tgz",
-			"integrity": "sha512-ZZxOCZTKS2Ql0s4dF6AlVQL3NdLmIkpOjBsNdqeevuX+Gt1QuZL9Yi3FOD36CoJmUVbNVrFNptPAWoY1NEebdw==",
+			"version": "4.0.21",
+			"resolved": "https://registry.npmjs.org/@ui5/cli/-/cli-4.0.21.tgz",
+			"integrity": "sha512-HSErlbGVJoab91uR3IFSfJFT05Hqyd80xJkWPJtxPiFq4pez3jbYsX8Ne5+DLEGqiL+UcYKISgXe9pJ9VG/Ltg==",
 			"dev": true,
 			"hasShrinkwrap": true,
 			"license": "Apache-2.0",
