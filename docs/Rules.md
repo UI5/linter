@@ -17,6 +17,9 @@
 	- [prefer-test-starter](#prefer-test-starter)
 	- [ui5-class-declaration](#ui5-class-declaration)
 	- [unsupported-api-usage](#unsupported-api-usage)
+	- [no-outdated-manifest-version](#no-outdated-manifest-version)
+	- [no-removed-manifest-property](#no-removed-manifest-property)
+	- [no-renamed-manifest-property](#no-renamed-manifest-property)
 
 ## async-component-flags
 
@@ -118,3 +121,15 @@ Checks whether the declaration of UI5 classes is correct. This rule only applies
 ## unsupported-api-usage
 
 Checks whether the UI5 API is used correctly, for example, whether a formatter in a JavaScript/TypeScript binding declaration is of type `function`.
+
+## no-outdated-manifest-version
+
+For legacy free UI5, required manifest version is 2. This test checks the `_version` property in `manifest.json`.
+
+## no-removed-manifest-property
+
+In manifest version 2, some of the properties are removed and they do not match anymore to the new schema.
+
+## no-renamed-manifest-property
+
+In manifest version 2, some of the properties are renamed, so the new names must be adjusted to match the schema.
