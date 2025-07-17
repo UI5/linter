@@ -126,7 +126,7 @@ Checks whether the UI5 API is used correctly, for example, whether a formatter i
 
 ## no-outdated-manifest-version
 
-For legacy free UI5, required manifest version is 2. This test checks the `_version` property in `manifest.json`.
+Legacy-free UI5 requires Manifest Version 2. This test checks the `_version` property in `manifest.json`.
 
 ## no-removed-manifest-property
 
