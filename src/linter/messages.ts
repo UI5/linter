@@ -705,7 +705,7 @@ export const MESSAGE_INFO = {
 		severity: LintMessageSeverity.Error,
 		ruleId: RULES["no-legacy-ui5-version-in-manifest-2"],
 
-		message: () => "Use legacy free version of UI5 in manifest.json.",
+		message: () => "Use a legacy-free UI5 version in manifest.json.",
 		details: () =>
 			"Set minUI5Version to >= 1.136.0 or higher and follow the migration " +
 			"guide {@link topic:be0cf40f61184b358b5faedaec98b2da " +
