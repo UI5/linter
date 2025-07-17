@@ -18,6 +18,9 @@ export const RULES = {
 	"ui5-class-declaration": "ui5-class-declaration",
 	"unsupported-api-usage": "unsupported-api-usage",
 	"prefer-test-starter": "prefer-test-starter",
+	"no-outdated-manifest-version": "no-outdated-manifest-version",
+	"no-removed-manifest-property": "no-removed-manifest-property",
+	"no-renamed-manifest-property": "no-renamed-manifest-property",
 } as const;
 
 export enum LintMessageSeverity {
@@ -65,6 +68,9 @@ export enum MESSAGE {
 	NO_ICON_POOL_RENDERER,
 	NO_LEGACY_TEMPLATE_REQUIRE_SYNTAX,
 	NO_ODATA_GLOBALS,
+	NO_OUTDATED_MANIFEST_VERSION,
+	NO_REMOVED_MANIFEST_PROPERTY,
+	NO_RENAMED_MANIFEST_PROPERTY,
 	NOT_STATIC_CONTROL_RENDERER,
 	PARSING_ERROR,
 	AUTOFIX_ERROR,
@@ -679,6 +685,39 @@ export const MESSAGE_INFO = {
 		details: () =>
 			"Import the 'sap/ui/model/odata/ODataExpressionAddons' module instead. " +
 			"See {@link topic:28fcd55b04654977b63dacbee0552712 Best Practices for Developers}",
+	},
+
+	[MESSAGE.NO_OUTDATED_MANIFEST_VERSION]: {
+		severity: LintMessageSeverity.Error,
+		ruleId: RULES["no-outdated-manifest-version"],
+
+		message: () => "manifest.json must be migrated to version 2",
+		details: () =>
+			"Set _version to >= 2.0.0 and follow the migration guide {@link topic:be0cf40f61184b358b5faedaec98b2da " +
+			"Manifest (Descriptor for Applications, Components, and Libraries)}",
+	},
+
+	[MESSAGE.NO_REMOVED_MANIFEST_PROPERTY]: {
+		severity: LintMessageSeverity.Error,
+		ruleId: RULES["no-removed-manifest-property"],
+
+		message: ({propName}: {propName: string}) => `Property '${propName}' has been removed in manifest ` +
+			`version 2 and must no longer be provided`,
+		details: ({propName}: {propName: string}) => `Remove property '${propName}' and follow the migration ` +
+			`guide {@link topic:be0cf40f61184b358b5faedaec98b2da Manifest (Descriptor for Applications, ` +
+			`Components, and Libraries)}`,
+	},
+
+	[MESSAGE.NO_RENAMED_MANIFEST_PROPERTY]: {
+		severity: LintMessageSeverity.Error,
+		ruleId: RULES["no-renamed-manifest-property"],
+
+		message: ({propName, newName}: {propName: string; newName: string}) =>
+			`Property '${propName}' has been renamed to '${newName}' in manifest version 2`,
+		details: ({propName, newName}: {propName: string; newName: string}) =>
+			`Rename property '${propName}' to '${newName}' and follow the migration guide ` +
+			`{@link topic:be0cf40f61184b358b5faedaec98b2da Manifest (Descriptor for Applications, ` +
+			`Components, and Libraries)}`,
 	},
 
 } as const;
