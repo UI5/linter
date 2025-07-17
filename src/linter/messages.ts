@@ -710,7 +710,7 @@ export const MESSAGE_INFO = {
 		message: () => "Use a legacy-free UI5 version in manifest.json.",
 		details: () =>
 			"Set minUI5Version to >= 1.136.0 or higher and follow the migration " +
-			"guide {@link topic:be0cf40f61184b358b5faedaec98b2da " +
+			"guide {@link topic:be0cf40f61184b358b5faedaec98b2da#loiobe0cf40f61184b358b5faedaec98b2da/section_manifest2 " +
 			"Manifest (Descriptor for Applications, Components, and Libraries)}",
 	},
 
