@@ -130,7 +130,7 @@ Legacy-free UI5 requires Manifest Version 2. This test checks the `_version` pro
 
 ## no-removed-manifest-property
 
-In manifest version 2, some of the properties are removed and they do not match anymore to the new schema.
+Manifest Version 2 lacks several properties of earlier versions, which do not match anymore to the new schema. They must be omitted.
 
 ## no-renamed-manifest-property
 
