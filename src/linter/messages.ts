@@ -744,7 +744,7 @@ export const MESSAGE_INFO = {
 		message: ({propName, value}: {propName: string; value: string}) =>
 			`Check if '${propName}' is set to '${value}'`,
 		details: () =>
-			`Property 'type' should be explicitly set to 'View' in manifest version 2 ` +
+			`Property 'type' must be explicitly set to 'View' in Manifest Version 2 ` +
 			`if 'sap.ui5/routing/config/type' is not omitted or set to 'View'. ` +
 			`See {@link topic:be0cf40f61184b358b5faedaec98b2da Manifest (Descriptor for Applications, ` +
 			`Components, and Libraries)}`,
