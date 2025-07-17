@@ -21,6 +21,7 @@ export const RULES = {
 	"no-outdated-manifest-version": "no-outdated-manifest-version",
 	"no-removed-manifest-property": "no-removed-manifest-property",
 	"no-renamed-manifest-property": "no-renamed-manifest-property",
+	"no-legacy-ui5-version-in-manifest-2": "no-legacy-ui5-version-in-manifest-2",
 } as const;
 
 export enum LintMessageSeverity {
@@ -67,6 +68,7 @@ export enum MESSAGE {
 	NO_GLOBALS,
 	NO_ICON_POOL_RENDERER,
 	NO_LEGACY_TEMPLATE_REQUIRE_SYNTAX,
+	NO_LEGACY_UI5_VERSION_IN_MANIFEST_2,
 	NO_ODATA_GLOBALS,
 	NO_OUTDATED_MANIFEST_VERSION,
 	NO_REMOVED_MANIFEST_PROPERTY,
@@ -694,6 +696,17 @@ export const MESSAGE_INFO = {
 		message: () => "manifest.json must be migrated to version 2",
 		details: () =>
 			"Set _version to >= 2.0.0 and follow the migration guide {@link topic:be0cf40f61184b358b5faedaec98b2da " +
+			"Manifest (Descriptor for Applications, Components, and Libraries)}",
+	},
+
+	[MESSAGE.NO_LEGACY_UI5_VERSION_IN_MANIFEST_2]: {
+		severity: LintMessageSeverity.Error,
+		ruleId: RULES["no-legacy-ui5-version-in-manifest-2"],
+
+		message: () => "Use legacy free version of UI5 in manifest.json.",
+		details: () =>
+			"Set minUI5Version to >= 1.136.0 or higher and follow the migration " +
+			"guide {@link topic:be0cf40f61184b358b5faedaec98b2da " +
 			"Manifest (Descriptor for Applications, Components, and Libraries)}",
 	},
 
