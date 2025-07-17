@@ -69,7 +69,7 @@ export default class ManifestLinter {
 		}
 	}
 
-	#analyzeManifest_1(manifest: jsonSourceMapType, isManifest2: boolean = false) {
+	#analyzeManifest_1(manifest: SAPJSONSchemaForWebApplicationManifestFile, isManifest2 = false) {
 		const {resources, models, dependencies, rootView, routing} =
 			(manifest["sap.ui5"] ?? {} as JSONSchemaForSAPUI5Namespace);
 		const {dataSources} = (manifest["sap.app"] ?? {} as JSONSchemaForSAPAPPNamespace);
