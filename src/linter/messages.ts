@@ -732,7 +732,7 @@ export const MESSAGE_INFO = {
 		details: ({propName, newName}: {propName: string; newName: string}) =>
 			`Rename property '${propName}' to '${newName}' and follow the migration guide ` +
 			`{@link topic:be0cf40f61184b358b5faedaec98b2da#loiobe0cf40f61184b358b5faedaec98b2da/section_manifest2 Manifest ` +
-			`Components, and Libraries)}`,
+			`Version 2}`,
 	},
 
 	[MESSAGE.NO_INCORRECT_MANIFEST_PROPERTY_VALUE]: {
