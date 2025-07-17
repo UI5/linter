@@ -22,6 +22,7 @@ export const RULES = {
 	"no-removed-manifest-property": "no-removed-manifest-property",
 	"no-renamed-manifest-property": "no-renamed-manifest-property",
 	"no-legacy-ui5-version-in-manifest-2": "no-legacy-ui5-version-in-manifest-2",
+	"no-incorrect-manifest-property-value": "no-incorrect-manifest-property-value",
 } as const;
 
 export enum LintMessageSeverity {
@@ -67,6 +68,7 @@ export enum MESSAGE {
 	NO_EXPORTED_VALUES_BY_LIB,
 	NO_GLOBALS,
 	NO_ICON_POOL_RENDERER,
+	NO_INCORRECT_MANIFEST_PROPERTY_VALUE,
 	NO_LEGACY_TEMPLATE_REQUIRE_SYNTAX,
 	NO_LEGACY_UI5_VERSION_IN_MANIFEST_2,
 	NO_ODATA_GLOBALS,
@@ -729,6 +731,19 @@ export const MESSAGE_INFO = {
 			`Property '${propName}' has been renamed to '${newName}' in manifest version 2`,
 		details: ({propName, newName}: {propName: string; newName: string}) =>
 			`Rename property '${propName}' to '${newName}' and follow the migration guide ` +
+			`{@link topic:be0cf40f61184b358b5faedaec98b2da Manifest (Descriptor for Applications, ` +
+			`Components, and Libraries)}`,
+	},
+
+	[MESSAGE.NO_INCORRECT_MANIFEST_PROPERTY_VALUE]: {
+		severity: LintMessageSeverity.Warning,
+		ruleId: RULES["no-incorrect-manifest-property-value"],
+
+		message: ({propName, value}: {propName: string; value: string}) =>
+			`Check if '${propName}' is set to '${value}'`,
+		details: () =>
+			`Property 'type' should be explicitly set to 'View' in manifest version 2 ` +
+			`if 'sap.ui5/routing/config/type' is not omitted or set to 'View'. ` +
 			`{@link topic:be0cf40f61184b358b5faedaec98b2da Manifest (Descriptor for Applications, ` +
 			`Components, and Libraries)}`,
 	},
