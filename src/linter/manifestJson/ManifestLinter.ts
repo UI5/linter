@@ -123,6 +123,8 @@ export default class ManifestLinter {
 			viewPath: "path",
 		};
 		if (targets) {
+			const isConfigTypeView = routing?.config?.type === "View";
+
 			for (const [key, target] of Object.entries(targets)) {
 				for (const [oldProp, newProp] of Object.entries(oldToNewTargetPropsMap)) {
 					if (target[oldProp] && !target[newProp]) {
@@ -131,6 +133,17 @@ export default class ManifestLinter {
 							newName: newProp,
 						}, `/sap.ui5/routing/targets/${key}/${oldProp}`);
 					}
+				}
+
+				if (!isConfigTypeView && target?.type !== "View") {
+					this.#reporter?.addMessage(MESSAGE.NO_INCORRECT_MANIFEST_PROPERTY_VALUE, {
+						propName: `/sap.ui5/routing/targets/${key}/type`,
+						value: "View",
+					}, `/sap.ui5/routing/targets/${key}/type`);
+				} else if (isConfigTypeView && target?.type === "View") {
+					this.#reporter?.addMessage(MESSAGE.REDUNDANT_VIEW_CONFIG_PROPERTY, {
+						propertyName: "type",
+					}, `/sap.ui5/routing/targets/${key}/type`);
 				}
 
 				// Check if name starts with module and viewType is defined:
