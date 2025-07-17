@@ -4,7 +4,7 @@ import {ChangeSet} from "./autofix.js";
 import {toPosition} from "./generateChangesXml.js";
 import {Position} from "sax-wasm";
 
-export default function generateChangesXml(
+export default function generateChangesHtml(
 	messages: RawLintMessage[],
 	changeSets: ChangeSet[], content: string
 ) {
