@@ -719,7 +719,7 @@ export const MESSAGE_INFO = {
 		message: ({propName}: {propName: string}) => `Property '${propName}' has been removed in Manifest ` +
 			`Version 2 and must no longer be provided`,
 		details: ({propName}: {propName: string}) => `Remove property '${propName}' and follow the migration ` +
-			`guide {@link topic:be0cf40f61184b358b5faedaec98b2da Manifest (Descriptor for Applications, ` +
+			`guide {@link topic:be0cf40f61184b358b5faedaec98b2da#loiobe0cf40f61184b358b5faedaec98b2da/section_manifest2 Manifest  ` +
 			`Components, and Libraries)}`,
 	},
 
