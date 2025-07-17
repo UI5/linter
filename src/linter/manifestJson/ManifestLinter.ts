@@ -65,7 +65,7 @@ export default class ManifestLinter {
 			this.#analyzeManifest_1(manifest, true);
 		} else {
 			this.#analyzeManifest_1(manifest);
-			this.#reporter?.addMessage(MESSAGE.NO_OUTDATED_MANIFEST_VERSION, {} as never);
+			this.#reporter?.addMessage(MESSAGE.NO_OUTDATED_MANIFEST_VERSION, {} as never, "/_version");
 		}
 	}
 
@@ -96,9 +96,15 @@ export default class ManifestLinter {
 
 		// Detect deprecated type of rootView:
 		if (typeof rootView === "object" && rootView.type && deprecatedViewTypes.includes(rootView.type)) {
-			this.#reporter?.addMessage(MESSAGE.DEPRECATED_VIEW_TYPE, {
-				viewType: rootView.type,
-			}, "/sap.ui5/rootView/type");
+			if (isManifest2 && ["XML", "JS"].includes(rootView.type) && rootView.viewName.startsWith("module:")) {
+				// In manifest v2 there's a new default value handling.
+				// Property is no longer required in case value is "XML" or "JS" if view name starts with "module:"
+				this.#reporter?.addMessage(MESSAGE.NO_REMOVED_MANIFEST_PROPERTY, {} as never, "/sap.ui5/rootView/type");
+			} else {
+				this.#reporter?.addMessage(MESSAGE.DEPRECATED_VIEW_TYPE, {
+					viewType: rootView.type,
+				}, "/sap.ui5/rootView/type");
+			}
 		}
 
 		// Detect deprecated view type in routing.config:
@@ -110,8 +116,23 @@ export default class ManifestLinter {
 
 		// Detect deprecations in routing.targets:
 		const targets = routing?.targets;
+		const oldToNewTargetPropsMap = {
+			viewName: "name",
+			viewId: "id",
+			viewLevel: "level",
+			viewPath: "path",
+		};
 		if (targets) {
 			for (const [key, target] of Object.entries(targets)) {
+				for (const [oldProp, newProp] of Object.entries(oldToNewTargetPropsMap)) {
+					if (target[oldProp] && !target[newProp]) {
+						this.#reporter?.addMessage(MESSAGE.NO_RENAMED_MANIFEST_PROPERTY, {
+							propName: oldProp,
+							newName: newProp,
+						}, `/sap.ui5/routing/targets/${key}/${oldProp}`);
+					}
+				}
+
 				// Check if name starts with module and viewType is defined:
 				const name = target.name ?? target.viewName;
 				if (name && (name as string).startsWith("module:")) {
@@ -135,6 +156,8 @@ export default class ManifestLinter {
 		if (resources?.js) {
 			const key = "/sap.ui5/resources/js";
 			let fix;
+			const messageId = isManifest2 ?
+				MESSAGE.NO_REMOVED_MANIFEST_PROPERTY : MESSAGE.DEPRECATED_MANIFEST_JS_RESOURCES;
 
 			if (!resources.js.length) {
 				// If there are no js resources, we can remove the whole array and
@@ -147,9 +170,7 @@ export default class ManifestLinter {
 				});
 			}
 
-			this.#reporter?.addMessage(
-				MESSAGE.DEPRECATED_MANIFEST_JS_RESOURCES, {} as never, key, fix
-			);
+			this.#reporter?.addMessage(messageId, {} as never, key, fix);
 		}
 
 		const modelKeys: string[] = (models && Object.keys(models)) ?? [];
