@@ -132,27 +132,117 @@
 					"viewName": "Main"
 				},
 				"myXML": {
-          			"name": "module:myapp/views/MyXML",
+					"name": "module:myapp/views/MyXML",
 					"viewType": "XML"
-        		},
+				},
 				"myHTML": {
-          			"name": "MyHTML",
+					"name": "MyHTML",
 					"viewType": "HTML"
-        		},
+				},
 				"myJS": {
-          			"name": "MyJS",
+					"name": "MyJS",
 					"viewType": "JS"
-        		},
+				},
 				"myTemplate": {
-          			"name": "MyTemplate",
+					"name": "MyTemplate",
 					"viewType": "Template"
-        		},
+				},
 				"deprecatedProperties": {
-          			"viewName": "Deprecated",
+					"viewName": "Deprecated",
 					"viewId": "deprecated",
 					"viewLevel": 1,
 					"viewType": "XML"
-        		}
+				},
+				"allNewPropsXML": {
+					"name": "AllNewXML",
+					"id": "allNewXMLId",
+					"path": "all/new/xml/path",
+					"level": 1,
+					"type": "View",
+					"viewType": "XML"
+				},
+				"allNewPropsHTML": {
+					"name": "AllNewHTML",
+					"id": "allNewHTMLId",
+					"path": "all/new/html/path",
+					"level": 2,
+					"type": "View",
+					"viewType": "HTML"
+				},
+				"allNewPropsJS": {
+					"name": "AllNewJS",
+					"id": "allNewJSId",
+					"path": "all/new/js/path",
+					"level": 3,
+					"type": "View",
+					"viewType": "JS"
+				},
+				"allNewPropsTemplate": {
+					"name": "AllNewTemplate",
+					"id": "allNewTemplateId",
+					"path": "all/new/template/path",
+					"level": 4,
+					"type": "View",
+					"viewType": "Template"
+				},
+				"onlyName": {
+					"name": "OnlyName"
+				},
+				"onlyId": {
+					"id": "OnlyId"
+				},
+				"onlyPath": {
+					"path": "Only/Path"
+				},
+				"onlyLevel": {
+					"level": 5
+				},
+				"onlyTypeView": {
+					"type": "View"
+				},
+				"onlyTypeComponent": {
+					"type": "Component"
+				},
+				"onlyViewTypeXML": {
+					"viewType": "XML"
+				},
+				"onlyViewTypeHTML": {
+					"viewType": "HTML"
+				},
+				"onlyViewTypeJS": {
+					"viewType": "JS"
+				},
+				"onlyViewTypeTemplate": {
+					"viewType": "Template"
+				},
+				"mixedNameId": {
+					"name": "MixedNameId",
+					"id": "MixedId"
+				},
+				"mixedNamePath": {
+					"name": "MixedNamePath",
+					"path": "Mixed/Path"
+				},
+				"mixedIdPathLevel": {
+					"id": "MixedIdPathLevel",
+					"path": "Mixed/Id/Path/Level",
+					"level": 6
+				},
+				"mixedAllButType": {
+					"name": "MixedAllButType",
+					"id": "MixedAllButTypeId",
+					"path": "Mixed/All/But/Type",
+					"level": 7,
+					"viewType": "XML"
+				},
+				"mixedAllButViewType": {
+					"name": "MixedAllButViewType",
+					"id": "MixedAllButViewTypeId",
+					"path": "Mixed/All/But/ViewType",
+					"level": 8,
+					"type": "View"
+				},
+				"emptyTarget": {}
 			}
 		}
 	}
