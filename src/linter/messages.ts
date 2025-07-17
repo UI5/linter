@@ -728,7 +728,7 @@ export const MESSAGE_INFO = {
 		ruleId: RULES["no-renamed-manifest-property"],
 
 		message: ({propName, newName}: {propName: string; newName: string}) =>
-			`Property '${propName}' has been renamed to '${newName}' in manifest version 2`,
+			`Property '${propName}' has been renamed to '${newName}' in Manifest Version 2`,
 		details: ({propName, newName}: {propName: string; newName: string}) =>
 			`Rename property '${propName}' to '${newName}' and follow the migration guide ` +
 			`{@link topic:be0cf40f61184b358b5faedaec98b2da Manifest (Descriptor for Applications, ` +
