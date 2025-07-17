@@ -134,7 +134,7 @@ Manifest Version 2 lacks several properties of earlier versions, which do not ma
 
 ## no-renamed-manifest-property
 
-In manifest version 2, some of the properties are renamed, so the new names must be adjusted to match the schema.
+Manifest Version 2 renames several properties of earlier versions. Their names must be adjusted to match the new schema.
 
 ## no-legacy-ui5-version-in-manifest-2
 
