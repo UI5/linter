@@ -142,4 +142,4 @@ Checks the `minUI5Version` property in `manifest.json` for legacy UI5 versions, 
 
 ## no-incorrect-manifest-property-value
 
-Checks whether property `type` is explicitly set to `View` in manifest version 2 when `sap.ui5/routing/config/type` is not omitted or set to `View`.
+In Manifest Version 2, checks whether the `type` property is explicitly set to `View` when `sap.ui5/routing/config/type` is not omitted or set to `View`.
