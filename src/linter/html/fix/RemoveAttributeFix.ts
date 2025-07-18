@@ -24,8 +24,8 @@ export default class RemoveAttributeFix extends HtmlFix {
 		}
 		return {
 			action: ChangeAction.DELETE,
-			start: this.startPos,
-			end: this.endPos,
+			start: this.startPos, // TODO: add logic to remove any whitespaces prefixed
+			end: this.endPos + 1, // +1 to include the closing quote of the attribute value,
 		};
 	}
 }
