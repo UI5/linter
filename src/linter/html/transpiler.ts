@@ -153,11 +153,12 @@ function lintBootstrapAttributes(tag: SaxTag, report: HtmlReporter) {
 		if (!attrCollection.has(attributeName)) {
 			attrCollection.set(attributeName, {attr, position: attrCollection.size});
 		} else {
-			// Duplicate attribute found - report it
+			// Duplicate attribute found - report it and create autofix;
+			const fix = new RemoveAttributeFix(attr);
 			report.addMessage(MESSAGE.DUPLICATE_BOOTSTRAP_PARAM, {
 				name: attributeName,
 				value: attr.value.value,
-			}, attr.name);
+			}, attr.name, fix);
 		}
 	}
 
