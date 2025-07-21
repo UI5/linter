@@ -99,7 +99,9 @@ export default class ManifestLinter {
 			if (isManifest2 && ["XML", "JS"].includes(rootView.type) && rootView.viewName.startsWith("module:")) {
 				// In manifest v2 there's a new default value handling.
 				// Property is no longer required in case value is "XML" or "JS" if view name starts with "module:"
-				this.#reporter?.addMessage(MESSAGE.NO_REMOVED_MANIFEST_PROPERTY, {} as never, "/sap.ui5/rootView/type");
+				this.#reporter?.addMessage(MESSAGE.NO_REMOVED_MANIFEST_PROPERTY,
+					{propName: "type"},
+					"/sap.ui5/rootView/type");
 			} else {
 				this.#reporter?.addMessage(MESSAGE.DEPRECATED_VIEW_TYPE, {
 					viewType: rootView.type,
