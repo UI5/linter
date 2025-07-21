@@ -21,7 +21,7 @@
 	- [no-removed-manifest-property](#no-removed-manifest-property)
 	- [no-renamed-manifest-property](#no-renamed-manifest-property)
 	- [no-legacy-ui5-version-in-manifest](#no-legacy-ui5-version-in-manifest)
-	- [no-incorrect-manifest-property-value](#no-incorrect-manifest-property-value)
+	- [no-incorrect-manifest-routing-config-type](#no-incorrect-manifest-routing-config-type)
 
 ## async-component-flags
 
@@ -140,6 +140,6 @@ Manifest Version 2 renames several properties of earlier versions. Their names m
 
 Checks the `sap.ui5/dependencies/minUI5Version` property in `manifest.json` for legacy UI5 versions, which must not be used.
 
-## no-incorrect-manifest-property-value
+## no-incorrect-manifest-routing-config-type
 
 In Manifest Version 2, checks whether the `type` property is explicitly set to `View` when `sap.ui5/routing/config/type` is not omitted or set to `View`.
