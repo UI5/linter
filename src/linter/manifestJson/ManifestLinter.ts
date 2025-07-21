@@ -158,9 +158,8 @@ export default class ManifestLinter {
 				}
 
 				if (configTypeView === "OtherType" && target?.type !== "View") {
-					this.#reporter?.addMessage(MESSAGE.NO_INCORRECT_MANIFEST_PROPERTY_VALUE, {
+					this.#reporter?.addMessage(MESSAGE.NO_INCORRECT_MANIFEST_ROUTING_CONFIG_TYPE, {
 						propName: `/sap.ui5/routing/targets/${key}/type`,
-						value: "View",
 					}, `/sap.ui5/routing/targets/${key}/type`);
 				} else if (configTypeView !== "OtherType" && target?.type === "View") {
 					this.#reporter?.addMessage(MESSAGE.REDUNDANT_VIEW_CONFIG_PROPERTY, {
