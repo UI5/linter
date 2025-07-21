@@ -41,22 +41,22 @@ export default class ManifestLinter {
 
 	#analyzeManifest(source: jsonSourceMapType) {
 		const manifest = source.data;
-		if ("minUI5Version" in manifest) {
+		if (manifest?.["sap.ui5"]?.dependencies?.minUI5Version) {
 			let availableVersions: string[] = [];
 
-			if (Array.isArray(manifest.minUI5Version)) {
-				availableVersions = manifest.minUI5Version as string[];
-			} else if (typeof manifest.minUI5Version === "string") {
-				availableVersions.push(manifest.minUI5Version);
+			if (Array.isArray(manifest?.["sap.ui5"]?.dependencies?.minUI5Version)) {
+				availableVersions = manifest?.["sap.ui5"]?.dependencies?.minUI5Version;
+			} else if (typeof manifest?.["sap.ui5"]?.dependencies?.minUI5Version === "string") {
+				availableVersions.push(manifest?.["sap.ui5"]?.dependencies?.minUI5Version);
 			}
 
-			// Check if any version is below 1.36
-			const isBellow136 = availableVersions.some((version) => {
+			// Check if any version is below 1.136
+			const isBelow136 = availableVersions.some((version) => {
 				const [major, minor] = version.split(".").map(Number);
 				return major === 1 && minor < 136;
 			});
 
-			if (isBellow136) {
+			if (isBelow136) {
 				this.#reporter?.addMessage(MESSAGE.NO_LEGACY_UI5_VERSION_IN_MANIFEST_2, {} as never, "/minUI5Version");
 			}
 		}

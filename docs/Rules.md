@@ -138,7 +138,7 @@ Manifest Version 2 renames several properties of earlier versions. Their names m
 
 ## no-legacy-ui5-version-in-manifest
 
-Checks the `minUI5Version` property in `manifest.json` for legacy UI5 versions, which must not be used.
+Checks the `sap.ui5/dependencies/minUI5Version` property in `manifest.json` for legacy UI5 versions, which must not be used.
 
 ## no-incorrect-manifest-property-value
 
