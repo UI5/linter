@@ -73,7 +73,8 @@ export default class ManifestLinter {
 			});
 
 			if (isBelow136) {
-				this.#reporter?.addMessage(MESSAGE.NO_LEGACY_UI5_VERSION_IN_MANIFEST, {} as never, "/minUI5Version");
+				this.#reporter?.addMessage(MESSAGE.NO_LEGACY_UI5_VERSION_IN_MANIFEST, {} as never,
+					"/sap.ui5/dependencies/minUI5Version");
 			}
 		}
 
