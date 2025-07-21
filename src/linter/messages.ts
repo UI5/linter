@@ -21,7 +21,7 @@ export const RULES = {
 	"no-outdated-manifest-version": "no-outdated-manifest-version",
 	"no-removed-manifest-property": "no-removed-manifest-property",
 	"no-renamed-manifest-property": "no-renamed-manifest-property",
-	"no-legacy-ui5-version-in-manifest-2": "no-legacy-ui5-version-in-manifest-2",
+	"no-legacy-ui5-version-in-manifest": "no-legacy-ui5-version-in-manifest",
 	"no-incorrect-manifest-property-value": "no-incorrect-manifest-property-value",
 } as const;
 
@@ -704,7 +704,7 @@ export const MESSAGE_INFO = {
 
 	[MESSAGE.NO_LEGACY_UI5_VERSION_IN_MANIFEST_2]: {
 		severity: LintMessageSeverity.Error,
-		ruleId: RULES["no-legacy-ui5-version-in-manifest-2"],
+		ruleId: RULES["no-legacy-ui5-version-in-manifest"],
 
 		message: () => "Use a legacy-free UI5 version in manifest.json.",
 		details: () =>
