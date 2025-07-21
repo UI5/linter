@@ -20,7 +20,7 @@
 	- [no-outdated-manifest-version](#no-outdated-manifest-version)
 	- [no-removed-manifest-property](#no-removed-manifest-property)
 	- [no-renamed-manifest-property](#no-renamed-manifest-property)
-	- [no-legacy-ui5-version-in-manifest-2](#no-legacy-ui5-version-in-manifest-2)
+	- [no-legacy-ui5-version-in-manifest](#no-legacy-ui5-version-in-manifest)
 	- [no-incorrect-manifest-property-value](#no-incorrect-manifest-property-value)
 
 ## async-component-flags
@@ -136,7 +136,7 @@ Manifest Version 2 lacks several properties of earlier versions, which do not ma
 
 Manifest Version 2 renames several properties of earlier versions. Their names must be adjusted to match the new schema.
 
-## no-legacy-ui5-version-in-manifest-2
+## no-legacy-ui5-version-in-manifest
 
 Checks the `minUI5Version` property in `manifest.json` for legacy UI5 versions, which must not be used.
 
