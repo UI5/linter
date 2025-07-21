@@ -12,6 +12,7 @@ import jsonMap from "json-source-map";
 import LinterContext from "../LinterContext.js";
 import {deprecatedLibraries, deprecatedComponents} from "../../utils/deprecations.js";
 import {MESSAGE} from "../messages.js";
+import semver from "semver";
 
 interface locType {
 	line: number;
@@ -68,24 +69,23 @@ export default class ManifestLinter {
 
 			// Check if any version is below 1.136
 			const isBelow136 = availableVersions.some((version) => {
-				const [major, minor] = version.split(".").map(Number);
-				return major === 1 && minor < 136;
+				return semver.lt(version, "1.136.0");
 			});
 
 			if (isBelow136) {
-				this.#reporter?.addMessage(MESSAGE.NO_LEGACY_UI5_VERSION_IN_MANIFEST_2, {} as never, "/minUI5Version");
+				this.#reporter?.addMessage(MESSAGE.NO_LEGACY_UI5_VERSION_IN_MANIFEST, {} as never, "/minUI5Version");
 			}
 		}
 
 		if (manifest?._version?.startsWith("2.")) {
-			this.#analyzeManifest_1(manifest, true);
+			this.#validatePropertiesForManifestVersion(manifest, true);
 		} else {
-			this.#analyzeManifest_1(manifest);
+			this.#validatePropertiesForManifestVersion(manifest);
 			this.#reporter?.addMessage(MESSAGE.NO_OUTDATED_MANIFEST_VERSION, {} as never, "/_version");
 		}
 	}
 
-	#analyzeManifest_1(manifest: SAPJSONSchemaForWebApplicationManifestFile, isManifest2 = false) {
+	#validatePropertiesForManifestVersion(manifest: SAPJSONSchemaForWebApplicationManifestFile, isManifest2 = false) {
 		const {resources, models, dependencies, rootView, routing} =
 			(manifest["sap.ui5"] ?? {} as JSONSchemaForSAPUI5Namespace);
 		const {dataSources} = (manifest["sap.app"] ?? {} as JSONSchemaForSAPAPPNamespace);
