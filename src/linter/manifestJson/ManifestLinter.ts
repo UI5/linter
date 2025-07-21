@@ -115,7 +115,9 @@ export default class ManifestLinter {
 			if (isManifest2 && ["XML", "JS"].includes(rootView.type) && rootView.viewName.startsWith("module:")) {
 				// In manifest v2 there's a new default value handling.
 				// Property is no longer required in case value is "XML" or "JS" if view name starts with "module:"
-				this.#reporter?.addMessage(MESSAGE.NO_REMOVED_MANIFEST_PROPERTY, {} as never, "/sap.ui5/rootView/type");
+				this.#reporter?.addMessage(MESSAGE.NO_REMOVED_MANIFEST_PROPERTY,
+					{propName: "type"},
+					"/sap.ui5/rootView/type");
 			} else {
 				this.#reporter?.addMessage(MESSAGE.DEPRECATED_VIEW_TYPE, {
 					viewType: rootView.type,
@@ -191,7 +193,9 @@ export default class ManifestLinter {
 				// the application has to adjust their code base to load the module in a
 				// sap.ui.define call e.g. in the Component.js, manifest can not be migrated
 				// as long as code is not adjusted
-				this.#reporter?.addMessage(MESSAGE.NO_REMOVED_MANIFEST_PROPERTY, {} as never, "/sap.ui5/resources/js");
+				this.#reporter?.addMessage(MESSAGE.NO_REMOVED_MANIFEST_PROPERTY, {
+					propName: "/sap.ui5/resources/js",
+				}, "/sap.ui5/resources/js");
 			} else {
 				this.#reporter?.addMessage(MESSAGE.DEPRECATED_MANIFEST_JS_RESOURCES, "/sap.ui5/resources/js");
 			}
