@@ -1,16 +1,21 @@
-import {Attribute, PositionDetail} from "sax-wasm";
+import {PositionDetail} from "sax-wasm";
 import {ChangeAction, ChangeSet} from "../../../autofix/autofix.js";
 import {HtmlFix} from "./HtmlFix.js";
 import {ToPositionCallback} from "../../ui5Types/fix/XmlEnabledFix.js";
+
+export interface RemovalPosInfo {
+	startPos: PositionDetail;
+	endPos: PositionDetail;
+}
 
 export default class RemoveAttributeFix extends HtmlFix {
 	private startPositionDetail: PositionDetail;
 	private endPositionDetail: PositionDetail;
 
-	constructor(attribute: Attribute) {
+	constructor(removalPosInfo: RemovalPosInfo) {
 		super();
-		this.startPositionDetail = attribute.name.start;
-		this.endPositionDetail = attribute.value.end;
+		this.startPositionDetail = removalPosInfo.startPos;
+		this.endPositionDetail = removalPosInfo.endPos;
 	}
 
 	calculateSourceCodeRange(toPosition: ToPositionCallback) {
@@ -24,8 +29,8 @@ export default class RemoveAttributeFix extends HtmlFix {
 		}
 		return {
 			action: ChangeAction.DELETE,
-			start: this.startPos, // TODO: add logic to remove any whitespaces prefixed
-			end: this.endPos + 1, // +1 to include the closing quote of the attribute value,
+			start: this.startPos,
+			end: this.endPos,
 		};
 	}
 }
