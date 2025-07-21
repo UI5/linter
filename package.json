@@ -67,6 +67,7 @@
 	},
 	"exports": {
 		".": "./lib/index.js",
+		"./Ui5TypeInfoMatcher": "./lib/linter/ui5Types/Ui5TypeInfoMatcher.js",
 		"./package.json": "./package.json"
 	},
 	"dependencies": {
