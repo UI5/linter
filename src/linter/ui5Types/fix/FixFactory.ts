@@ -4,7 +4,6 @@ import CallExpressionFix, {CallExpressionFixParams} from "./CallExpressionFix.js
 import AccessExpressionFix, {AccessExpressionFixParams} from "./AccessExpressionFix.js";
 import type Ui5TypeInfoMatcher from "../Ui5TypeInfoMatcher.js";
 import {getModuleTypeInfo, Ui5TypeInfo, Ui5TypeInfoKind} from "../Ui5TypeInfo.js";
-import getJqueryFixInfo, {JqueryFixInfo} from "./getJqueryFixInfo.js";
 import {AmbientModuleCache} from "../AmbientModuleCache.js";
 import getGlobalFixInfo, {GlobalFixInfo} from "./getGlobalFixInfo.js";
 import CallExpressionGeneratorFix, {CallExpressionGeneratorFixParams} from "./CallExpressionGeneratorFix.js";
@@ -14,6 +13,7 @@ import PropertyAssignmentGeneratorFix, {
 	PropertyAssignmentGeneratorFixParams,
 } from "./PropertyAssignmentGeneratorFix.js";
 import ObsoleteImportFix, {ObsoleteImportFixParams} from "./ObsoleteImportFix.js";
+import {JqueryTypeInfo} from "../getJqueryTypeInfo.js";
 
 const AUTOFIX_COLLECTIONS = [
 	"sapUiCoreFixes",
@@ -73,33 +73,26 @@ export default class FixFactory {
 		return fixCallback(ui5TypeInfo);
 	}
 
-	getJqueryFixInfo(node: ts.Node): JqueryFixInfo | undefined {
-		if (!ts.isPropertyAccessExpression(node) && !ts.isElementAccessExpression(node)) {
-			// Only PropertyAccessExpressions are supported for jQuery fixes
-			return;
-		}
-		const fixInfo = getJqueryFixInfo(node);
-		if (!fixInfo) {
-			return;
-		}
-		let {ui5TypeInfo, relevantNode} = fixInfo;
-
+	getJqueryTypeInfoForFix(
+		node: ts.AccessExpression | ts.CallExpression, ui5TypeInfo: Ui5TypeInfo
+	): JqueryTypeInfo | undefined {
 		const filter = this.collections.get("jquery")!;
 
+		// Search up the AST for a node matching with a fix
 		while (!filter.match(ui5TypeInfo)) {
 			if (ui5TypeInfo.kind === Ui5TypeInfoKind.Module || !ui5TypeInfo.parent) {
 				// We reached the module type info, but it does not match the filter
 				return;
 			}
 			ui5TypeInfo = ui5TypeInfo.parent;
-			if (ts.isCallExpression(relevantNode)) {
-				relevantNode = relevantNode.expression as ts.AccessExpression;
+			if (ts.isCallExpression(node)) {
+				node = node.expression as ts.AccessExpression;
 			}
-			relevantNode = relevantNode.expression as ts.AccessExpression;
+			node = node.expression as ts.AccessExpression;
 		}
 		return {
 			ui5TypeInfo,
-			relevantNode,
+			node,
 		};
 	}
 

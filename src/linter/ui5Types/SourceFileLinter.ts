@@ -37,6 +37,7 @@ import FixFactory from "./fix/FixFactory.js";
 import Fix, {FixHelpers} from "./fix/Fix.js";
 import GlobalFix from "./fix/GlobalFix.js";
 import {JSONSchemaForSAPUI5Namespace} from "../../manifest.js";
+import getJqueryTypeInfo from "./getJqueryTypeInfo.js";
 
 const log = getLogger("linter:ui5Types:SourceFileLinter");
 
@@ -1460,13 +1461,20 @@ export default class SourceFileLinter {
 			namespace = extractNamespace(node);
 		}
 		if (this.isSymbolOfJquerySapType(deprecationInfo.symbol)) {
+			const typeInfo = getJqueryTypeInfo(node);
+			let ui5TypeInfo;
+			let fix;
+			if (typeInfo) {
+				ui5TypeInfo = typeInfo.ui5TypeInfo;
+				fix = this.getJqueryFix(typeInfo.node, typeInfo.ui5TypeInfo);
+			}
 			this.#reporter.addMessage(MESSAGE.DEPRECATED_API_ACCESS, {
 				apiName: namespace ?? "jQuery.sap",
 				details: deprecationInfo.messageDetails,
 			}, {
 				node,
-				ui5TypeInfo: deprecationInfo.ui5TypeInfo,
-				fix: this.getJqueryFix(node),
+				ui5TypeInfo,
+				fix,
 			});
 		} else {
 			this.#reporter.addMessage(MESSAGE.DEPRECATED_PROPERTY, {
@@ -1839,22 +1847,18 @@ export default class SourceFileLinter {
 		}
 	}
 
-	getJqueryFix(node: ts.Node): Fix | undefined {
-		if (!this.fixFactory) {
+	getJqueryFix(
+		node: ts.AccessExpression | ts.CallExpression, ui5TypeInfo: Ui5TypeInfo | undefined
+	): Fix | undefined {
+		if (!this.fixFactory || !ui5TypeInfo) {
 			return;
 		}
-		const fixInfo = this.fixFactory.getJqueryFixInfo(node);
+		const fixInfo = this.fixFactory.getJqueryTypeInfoForFix(node, ui5TypeInfo);
 		if (!fixInfo) {
 			return;
 		}
-		const {relevantNode, ui5TypeInfo} = fixInfo;
-		const fix = this.fixFactory.getFix(relevantNode, ui5TypeInfo);
-		if (fix) {
-			const position = this.#reporter.getPositionsForNode(relevantNode);
-			if (fix.visitLinterNode(relevantNode, position.start, this.fixHelpers)) {
-				return fix;
-			}
-		}
+
+		return this.getFix(fixInfo.node, fixInfo.ui5TypeInfo);
 	}
 
 	getGlobalFix(node: ts.CallExpression | ts.AccessExpression): Fix | undefined {

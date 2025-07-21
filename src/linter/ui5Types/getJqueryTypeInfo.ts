@@ -1,12 +1,16 @@
 import ts from "typescript";
-import {Ui5ModuleTypeInfo, Ui5NamespaceTypeInfo, Ui5TypeInfo, Ui5TypeInfoKind} from "../Ui5TypeInfo.js";
+import {Ui5ModuleTypeInfo, Ui5NamespaceTypeInfo, Ui5TypeInfo, Ui5TypeInfoKind} from "./Ui5TypeInfo.js";
 
-export interface JqueryFixInfo {
+export interface JqueryTypeInfo {
+	node: ts.AccessExpression | ts.CallExpression;
 	ui5TypeInfo: Ui5TypeInfo;
-	relevantNode: ts.AccessExpression | ts.CallExpression;
 }
 
-export default function getJqueryFixInfo(node: ts.AccessExpression): JqueryFixInfo | undefined {
+export default function getJqueryTypeInfo(node: ts.Node): JqueryTypeInfo | undefined {
+	if (!ts.isPropertyAccessExpression(node) && !ts.isElementAccessExpression(node)) {
+		// Only PropertyAccessExpressions are supported for jQuery fixes
+		return;
+	}
 	const parts: string[] = [];
 	let scanNode: ts.Node = node;
 
@@ -56,6 +60,6 @@ export default function getJqueryFixInfo(node: ts.AccessExpression): JqueryFixIn
 	}
 	return {
 		ui5TypeInfo: mockedTypeInfo ?? moduleType,
-		relevantNode,
+		node: relevantNode,
 	};
 }

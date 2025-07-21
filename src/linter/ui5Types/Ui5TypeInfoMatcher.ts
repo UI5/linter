@@ -1,4 +1,13 @@
-import {BaseUi5TypeInfo, Ui5ModuleTypeInfo, Ui5TypeInfo, Ui5TypeInfoKind} from "./Ui5TypeInfo.js";
+import {BaseUi5TypeInfo, Ui5ModuleTypeInfo, Ui5NamespaceTypeInfo, Ui5TypeInfo, Ui5TypeInfoKind} from "./Ui5TypeInfo.js";
+
+// Re-export selected interfaces as public API
+export {
+	Ui5TypeInfoKind,
+};
+
+export type {
+	Ui5TypeInfo, BaseUi5TypeInfo, Ui5ModuleTypeInfo, Ui5NamespaceTypeInfo,
+};
 
 interface Node<T> extends BaseUi5TypeInfo {
 	name: string;
