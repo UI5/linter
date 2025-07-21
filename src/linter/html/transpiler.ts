@@ -8,7 +8,7 @@ import {Attribute, Tag as SaxTag} from "sax-wasm";
 import {deprecatedLibraries, deprecatedThemes} from "../../utils/deprecations.js";
 import RenameAttributeFix from "./fix/RenameAttributeFix.js";
 import AnimationModeFix from "./fix/AnimationModeFix.js";
-import RemoveAttributeFix from "./fix/RemoveAttributeFix.js";
+import RemoveAttributeFix, {RemovalPosInfo} from "./fix/RemoveAttributeFix.js";
 
 export default async function transpileHtml(
 	resourcePath: ResourcePath, contentStream: ReadStream, context: LinterContext
@@ -129,10 +129,10 @@ const aliasToAttr = new Map([
 ]);
 
 function lintBootstrapAttributes(tag: SaxTag, report: HtmlReporter) {
-	const attrCollection = new Map<string, {attr: Attribute; position: number}>();
+	const attrCollection = new Map<string, {attr: Attribute; arrayPos: number; removalPosInfo: RemovalPosInfo}>();
 
 	// Loop through the raw attributes of the bootstrap tag:
-	for (const attr of tag.attributes) {
+	for (const [i, attr] of tag.attributes.entries()) {
 		// Check for renamed attributes (or aliases):
 		let attributeName = attr.name.value.toLowerCase();
 		if (oldToNewAttr.has(attributeName)) {
@@ -149,12 +149,35 @@ function lintBootstrapAttributes(tag: SaxTag, report: HtmlReporter) {
 			attributeName = aliasToAttr.get(attributeName)!;
 		}
 
+		// This will prepare the start and end pos of the removal.
+		// If there is a previous attribute, we need to remove
+		// the current attribute and all whitespace until the previous attribute.
+		// This is needed to ensure there are no empty lines or whitespaces left after removal.
+		const removalPosInfo = (() => {
+			const previousAttr = i > 0 ? tag.attributes[i - 1] : undefined;
+			const startPos = previousAttr ?
+					{
+						line: previousAttr.value.end.line,
+						character: previousAttr.value.end.character + 1,
+					} :
+					{
+						line: attr.name.start.line,
+						character: attr.name.start.character,
+					};
+			const endPos = {
+				line: attr.value.end.line,
+				character: attr.value.end.character + 1, // +1 to include the closing quote
+			};
+			return {startPos, endPos};
+		})();
+
 		// Collect the attribute and its position for duplicate handling
 		if (!attrCollection.has(attributeName)) {
-			attrCollection.set(attributeName, {attr, position: attrCollection.size});
+			attrCollection.set(attributeName, {attr, arrayPos: attrCollection.size, removalPosInfo});
 		} else {
-			// Duplicate attribute found - report it and create autofix;
-			const fix = new RemoveAttributeFix(attr);
+			// Duplicate attribute found - report it and create autofix:
+			const fix = new RemoveAttributeFix(removalPosInfo);
+
 			report.addMessage(MESSAGE.DUPLICATE_BOOTSTRAP_PARAM, {
 				name: attributeName,
 				value: attr.value.value,
@@ -162,9 +185,8 @@ function lintBootstrapAttributes(tag: SaxTag, report: HtmlReporter) {
 		}
 	}
 
-	// Loop through the collected attributes:
-	for (const [name, {attr}] of attrCollection) {
-		// Run Checks on existing attributes:
+	// Loop through the collected attributes & run checks on them:
+	for (const [name, {attr, removalPosInfo}] of attrCollection) {
 		switch (name) {
 			case "data-sap-ui-theme":
 				checkThemeAttr(attr, report);
@@ -185,7 +207,7 @@ function lintBootstrapAttributes(tag: SaxTag, report: HtmlReporter) {
 				checkOnInitAttr(attr, report);
 				break;
 			case "data-sap-ui-binding-syntax":
-				checkBindingSyntaxAttr(attr, report, attrCollection.get("data-sap-ui-compat-version"));
+				checkBindingSyntaxAttr(attr, report, removalPosInfo, attrCollection.get("data-sap-ui-compat-version"));
 				break;
 			case "data-sap-ui-origin-info":
 				checkOriginInfoAttr(attr, report);
@@ -275,11 +297,15 @@ function checkOriginInfoAttr(attr: Attribute, report: HtmlReporter) {
 	}
 }
 
-function checkBindingSyntaxAttr(attr: Attribute, report: HtmlReporter,
-	compatVersionAttr?: {attr: Attribute; position: number}) {
+function checkBindingSyntaxAttr(
+	attr: Attribute,
+	report: HtmlReporter,
+	removalPosInfo: RemovalPosInfo,
+	compatVersionAttr?: {attr: Attribute; arrayPos: number}
+) {
 	// Check compat-version=edge and create fix to remove binding syntax attributes:
 	if (compatVersionAttr && compatVersionAttr.attr.value.value.toLowerCase() === "edge") {
-		const fix = new RemoveAttributeFix(attr);
+		const fix = new RemoveAttributeFix(removalPosInfo);
 		report.addMessage(MESSAGE.REDUNDANT_BOOTSTRAP_PARAM, {
 			name: attr.name.value,
 			messageDetails: "Only 'complex' is supported with UI5 2.x and automatically" +
