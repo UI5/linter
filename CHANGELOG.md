@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.17.0](https://github.com/UI5/linter/compare/v1.16.1...v1.17.0) (2025-07-22)
+
+
+### Features
+
+* Add html linter output ([8f0d631](https://github.com/UI5/linter/commit/8f0d63190d189df695c2124d6cefc1d0ad10c87b))
+* **binding:** Add detection for composite bindings (parts) in code ([#762](https://github.com/UI5/linter/issues/762)) ([9702009](https://github.com/UI5/linter/commit/970200900833a635e53c9ef7ccb2ef57774d240f))
+* Export 'Ui5TypeInfoMatcher' module ([ccae857](https://github.com/UI5/linter/commit/ccae857ae7dfac2ad3fc01ec17bfabee9215b213))
+
+
+### Bug Fixes
+
+* **autofix:** Do not add cyclic deps in framework modules ([a22b117](https://github.com/UI5/linter/commit/a22b11707079b830c0c4c87c6a3cc2361d5e07eb))
+
+
+### Dependencies
+
+* Bump @sapui5/types from 1.136.2 to 1.136.3 ([c2a03bf](https://github.com/UI5/linter/commit/c2a03bf55c39b7d436fc5550f88db851ad53fdf8))
+* Bump sax-wasm from 3.0.6 to 3.0.8 ([733b6b3](https://github.com/UI5/linter/commit/733b6b3998efed2258a77dad5e6207c59d9d8d80))
+
 ## [1.16.1](https://github.com/UI5/linter/compare/v1.16.0...v1.16.1) (2025-07-08)
 
 
