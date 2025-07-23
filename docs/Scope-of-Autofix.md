@@ -34,7 +34,7 @@ This document lists APIs that are not replaced or can't be replaced automaticall
 
 ## jQuery.sap APIs
 
-- [**jQuery.sap.act**](https://ui5.sap.com/1.136.3/#/api/jQuery.sap.act%23overview) - Successor module is private, see [#563](https://github.com/UI5/linter/issues/563#issuecomment-2813018032)
+- [**jQuery.sap.act**](https://ui5.sap.com/1.136/#/api/jQuery.sap.act%23overview) - Successor module is private, see [#563](https://github.com/UI5/linter/issues/563#issuecomment-2813018032)
 - [**jQuery.sap.getObject**](https://ui5.sap.com/1.136/#/api/jQuery.sap%23methods/jQuery.sap.getObject) - No direct replacement, see [#529](https://github.com/UI5/linter/issues/529#issuecomment-2866088014)
 - [**jQuery.sap.getUriParameters**](https://ui5.sap.com/1.136/#/api/jQuery.sap%23methods/jQuery.sap.getUriParameters) - No direct replacement, see [#530](https://github.com/UI5/linter/issues/530)
 - [**jQuery.sap.isSpecialKey**](https://ui5.sap.com/1.136/#/api/jQuery.sap%23methods/jQuery.sap.isSpecialKey) - No direct replacement, see [#543](https://github.com/UI5/linter/issues/543#issuecomment-2865991534)
@@ -119,10 +119,10 @@ Many methods on the Core API (accessed via either the `sap/ui/core/Core` module 
 
 ## Core Configuration APIs (See [#620](https://github.com/UI5/linter/issues/620))
 
-Some methods on the Configuration API (accessed via either the  `sap/ui/core/Configuration` module import or via `sap.ui.getCore().getConfiguration()`) cannot be replaced automatically:
+Some methods on the Configuration API (accessed via either the `sap/ui/core/Configuration` module import or via `sap.ui.getCore().getConfiguration()`) cannot be replaced automatically:
 
 - [**Configuration.applySettings**](https://ui5.sap.com/1.136/#/api/sap.ui.core.Configuration%23methods/sap.ui.core.Configuration.applySettings) - No direct replacement
-- [**Configuration.getAnimation**](https://ui5.sap.com/1.136/#/api/sap.ui.core.Configuration%23methods/sap.ui.core.Configuration.getAnimation) - Currently not implemented, see [#620](https://github.com/UI5/linter/issues/620)
+- [**Configuration.getAnimation**](https://ui5.sap.com/1.136/#/api/sap.ui.core.Configuration%23methods/sap.ui.core.Configuration.getAnimation) - Currently not implemented, see [#620](https://github.com/UI5/linter/issues/620#issuecomment-2839292646)
 - [**Configuration.getAppCacheBuster**](https://ui5.sap.com/1.136/#/api/sap.ui.core.Configuration%23methods/sap.ui.core.Configuration.getAppCacheBuster) - No replacement
 - [**Configuration.getAppCacheBusterMode**](https://ui5.sap.com/1.136/#/api/sap.ui.core.Configuration%23methods/sap.ui.core.Configuration.getAppCacheBusterMode) - No replacement
 - [**Configuration.getApplication**](https://ui5.sap.com/1.136/#/api/sap.ui.core.Configuration%23methods/sap.ui.core.Configuration.getApplication) - Concept has been discarded
