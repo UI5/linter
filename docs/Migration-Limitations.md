@@ -1,6 +1,6 @@
 # Autofix Migration Limitations
 
-This document lists APIs that are not migrated or can't be migrated automatically by the UI5 linter. These APIs require manual migration or special handling.
+This document lists APIs that are not migrated or can't be migrated automatically by the UI5 linter at this time. These APIs require manual migration or special handling.
 
 > **Note:** This list is not exhaustive; there are more APIs that are currently not migrated automatically. This document provides examples of common APIs that require manual migration.
 
@@ -27,8 +27,8 @@ This document lists APIs that are not migrated or can't be migrated automaticall
 
 ## General Limitations
 
-- **Change from sync to async APIs** - Requires restructuring code flow, which cannot be done automatically
-- **Complex API replacements** - Some APIs require complex replacements with multiple lines of code
+- **Change from sync to async APIs** - Requires restructuring code flow (often affecting multiple files), which cannot be done automatically
+- **Complex API replacements** - Some APIs require complex replacements with multiple API calls and new local variables, this is currently not supported
 - **Context-dependent migrations** - Some migrations depend on how the API is used in the broader context
 - **Return value usage** - Some APIs have different return values in their replacements, making migration impossible if the return value is used
 
@@ -57,7 +57,7 @@ This document lists APIs that are not migrated or can't be migrated automaticall
 
 ## Core APIs (See [#619](https://github.com/UI5/linter/issues/619))
 
-Many methods on the Core API (`sap/ui/core/Core` / `sap.ui.getCore()`) cannot be migrated automatically:
+Many methods on the Core API (accessed via either the `sap/ui/core/Core` module import or via `sap.ui.getCore()`) cannot be migrated automatically:
 
 ### Template APIs
 - [**Core#getTemplate**](https://ui5.sap.com/1.136/#/api/sap.ui.core.Core%23methods/getTemplate) - Concept has been discarded
@@ -119,7 +119,7 @@ Many methods on the Core API (`sap/ui/core/Core` / `sap.ui.getCore()`) cannot be
 
 ## Core Configuration APIs (See [#620](https://github.com/UI5/linter/issues/620))
 
-Some methods on the Configuration API (`sap.ui.getCore().getConfiguration()` / `sap/ui/core/Configuration`) cannot be migrated automatically:
+Some methods on the Configuration API (accessed via either the  `sap/ui/core/Configuration` module import or via `sap.ui.getCore().getConfiguration()`) cannot be migrated automatically:
 
 - [**Configuration.applySettings**](https://ui5.sap.com/1.136/#/api/sap.ui.core.Configuration%23methods/sap.ui.core.Configuration.applySettings) - No direct replacement
 - [**Configuration.getAnimation**](https://ui5.sap.com/1.136/#/api/sap.ui.core.Configuration%23methods/sap.ui.core.Configuration.getAnimation) - Currently not implemented, see [#620](https://github.com/UI5/linter/issues/620)
@@ -143,7 +143,7 @@ Some methods on the Configuration API (`sap.ui.getCore().getConfiguration()` / `
 
 ## Sync to Async API Changes
 
-The UI5 linter cannot automatically migrate APIs that change from synchronous to asynchronous. This is a general limitation as it would require restructuring the code flow. Examples include:
+Currently, UI5 linter cannot automatically migrate APIs that execute synchronously if their replacement would execute asynchronously (i.e. returns a promise). This is a general limitation as it would require restructuring the code flow. Examples include:
 
 ### Library Loading
 
@@ -163,7 +163,7 @@ The UI5 linter cannot automatically migrate APIs that change from synchronous to
   - Not migrated if any argument is a boolean with value true (which would make it return a promise)
   - Synchronous resource bundle loading cannot be automatically migrated to asynchronous
 
-### Other Async APIs
+### Other APIs
 
 - **Component creation**: `sap.ui.component()` → `Component.create()`
 - **View creation**: `sap.ui.view()` → `View.create()`
