@@ -1,11 +1,11 @@
-# Autofix Migration Limitations
+# Scope of Autofix
 
-This document lists APIs that are not migrated or can't be migrated automatically by the UI5 linter at this time. These APIs require manual migration or special handling.
+This document lists APIs that are not replaced or can't be replaced automatically by the UI5 linter at this time. These APIs require manual modification or special handling.
 
-> **Note:** This list is not exhaustive; there are more APIs that are currently not migrated automatically. This document provides examples of common APIs that require manual migration.
+> **Note:** This list is not exhaustive; there are more APIs that are currently not replaced automatically. This document provides examples of common APIs that require manual modification.
 
-- [Autofix Migration Limitations](#autofix-migration-limitations)
-	- [General Limitations](#general-limitations)
+- [Scope of Autofix](#scope-of-autofix)
+	- [General Restrictions](#general-restrictions)
 	- [jQuery.sap APIs](#jquerysap-apis)
 	- [jQuery Plugins](#jquery-plugins)
 	- [Global API Usage](#global-api-usage)
@@ -25,12 +25,12 @@ This document lists APIs that are not migrated or can't be migrated automaticall
 		- [Resource Bundle Loading](#resource-bundle-loading)
 		- [Other Async APIs](#other-async-apis)
 
-## General Limitations
+## General Restrictions
 
 - **Change from sync to async APIs** - Requires restructuring code flow (often affecting multiple files), which cannot be done automatically
 - **Complex API replacements** - Some APIs require complex replacements with multiple API calls and new local variables, this is currently not supported
-- **Context-dependent migrations** - Some migrations depend on how the API is used in the broader context
-- **Return value usage** - Some APIs have different return values in their replacements, making migration impossible if the return value is used
+- **Context-dependent replacements** - Some replacements depend on how the API is used in the broader context
+- **Return value usage** - Some return types or values differ, making automatic replacements impossible if the return value is used
 
 ## jQuery.sap APIs
 
@@ -48,8 +48,8 @@ This document lists APIs that are not migrated or can't be migrated automaticall
 
 ## Global API Usage
 
-- **Assignments to global variables** - Cannot be migrated automatically
-- **`delete` expressions on globals** - Cannot be migrated automatically, see [#668](https://github.com/UI5/linter/issues/668)
+- **Assignments to global variables** - Cannot be replaced automatically
+- **`delete` expressions on globals** - Cannot be replaced automatically, see [#668](https://github.com/UI5/linter/issues/668)
 
 ## Module Imports
 
@@ -57,7 +57,7 @@ This document lists APIs that are not migrated or can't be migrated automaticall
 
 ## Core APIs (See [#619](https://github.com/UI5/linter/issues/619))
 
-Many methods on the Core API (accessed via either the `sap/ui/core/Core` module import or via `sap.ui.getCore()`) cannot be migrated automatically:
+Many methods on the Core API (accessed via either the `sap/ui/core/Core` module import or via `sap.ui.getCore()`) cannot be replaced automatically:
 
 ### Template APIs
 - [**Core#getTemplate**](https://ui5.sap.com/1.136/#/api/sap.ui.core.Core%23methods/getTemplate) - Concept has been discarded
@@ -97,7 +97,7 @@ Many methods on the Core API (accessed via either the `sap/ui/core/Core` module 
 - [**Core#getApplication**](https://ui5.sap.com/1.136/#/api/sap.ui.core.Core%23methods/getApplication) - Concept has been discarded
 - [**Core#getRootComponent**](https://ui5.sap.com/1.136/#/api/sap.ui.core.Core%23methods/getRootComponent) - No direct replacement
 - [**Core#getLoadedLibraries**](https://ui5.sap.com/1.136/#/api/sap.ui.core.Core%23methods/getLoadedLibraries) - No direct replacement
-- [**Core#getMessageManager**](https://ui5.sap.com/1.136/#/api/sap.ui.core.Core%23methods/getMessageManager) - Different return types, manual migration necessary
+- [**Core#getMessageManager**](https://ui5.sap.com/1.136/#/api/sap.ui.core.Core%23methods/getMessageManager) - Different return types, manual modification necessary
 - [**Core#createUIArea**](https://ui5.sap.com/1.136/#/api/sap.ui.core.Core%23methods/createUIArea) - No direct replacement
 - [**Core#getUIArea**](https://ui5.sap.com/1.136/#/api/sap.ui.core.Core%23methods/getUIArea) - Cannot determine whether the static UIArea is requested
 - [**Core#getUIDirty**](https://ui5.sap.com/1.136/#/api/sap.ui.core.Core%23methods/getUIDirty) - Concept has been discarded
@@ -107,7 +107,7 @@ Many methods on the Core API (accessed via either the `sap/ui/core/Core` module 
 - [**Core#includeLibraryTheme**](https://ui5.sap.com/1.136/#/api/sap.ui.core.Core%23methods/includeLibraryTheme) - No replacement
 - [**Core#isInitialized**](https://ui5.sap.com/1.136/#/api/sap.ui.core.Core%23methods/isInitialized) - Use [Core#ready](https://ui5.sap.com/1.136/#/api/sap.ui.core.Core%23methods/ready) instead
 - [**Core#isLocked**](https://ui5.sap.com/1.136/#/api/sap.ui.core.Core%23methods/isLocked) - Concept has been discarded
-- [**Core#isThemeApplied**](https://ui5.sap.com/1.136/#/api/sap.ui.core.Core%23methods/isThemeApplied) - Developers should migrate to the theme-applied event
+- [**Core#isThemeApplied**](https://ui5.sap.com/1.136/#/api/sap.ui.core.Core%23methods/isThemeApplied) - Developers should replace with theme-applied event
 - [**Core#lock**](https://ui5.sap.com/1.136/#/api/sap.ui.core.Core%23methods/lock) - Concept has been discarded
 - [**Core#registerPlugin**](https://ui5.sap.com/1.136/#/api/sap.ui.core.Core%23methods/registerPlugin) - Concept has been discarded
 - [**Core#setRoot**](https://ui5.sap.com/1.136/#/api/sap.ui.core.Core%23methods/setRoot) - No direct replacement
@@ -119,7 +119,7 @@ Many methods on the Core API (accessed via either the `sap/ui/core/Core` module 
 
 ## Core Configuration APIs (See [#620](https://github.com/UI5/linter/issues/620))
 
-Some methods on the Configuration API (accessed via either the  `sap/ui/core/Configuration` module import or via `sap.ui.getCore().getConfiguration()`) cannot be migrated automatically:
+Some methods on the Configuration API (accessed via either the  `sap/ui/core/Configuration` module import or via `sap.ui.getCore().getConfiguration()`) cannot be replaced automatically:
 
 - [**Configuration.applySettings**](https://ui5.sap.com/1.136/#/api/sap.ui.core.Configuration%23methods/sap.ui.core.Configuration.applySettings) - No direct replacement
 - [**Configuration.getAnimation**](https://ui5.sap.com/1.136/#/api/sap.ui.core.Configuration%23methods/sap.ui.core.Configuration.getAnimation) - Currently not implemented, see [#620](https://github.com/UI5/linter/issues/620)
@@ -143,25 +143,25 @@ Some methods on the Configuration API (accessed via either the  `sap/ui/core/Con
 
 ## Sync to Async API Changes
 
-Currently, UI5 linter cannot automatically migrate APIs that execute synchronously if their replacement would execute asynchronously (i.e. returns a promise). This is a general limitation as it would require restructuring the code flow. Examples include:
+Currently, UI5 linter cannot automatically replace APIs that execute synchronously if their replacement would execute asynchronously (i.e. returns a promise). This is a general restriction as it would require restructuring the code flow. Examples include:
 
 ### Library Loading
 
 - [**Core#loadLibrary**](https://ui5.sap.com/1.136/#/api/sap.ui.core.Core%23methods/loadLibrary)
-  - Only migrated to `sap/ui/core/Lib.load()` if `async: true` is explicitly specified
-  - Synchronous library loading cannot be automatically migrated
+  - Only replaced with `sap/ui/core/Lib.load()` if `async: true` is explicitly specified
+  - Synchronous library loading cannot be automatically replaced
 
 ### Component Creation
 
 - [**Core#createComponent**](https://ui5.sap.com/1.136/#/api/sap.ui.core.Core%23methods/createComponent)
-  - Only migrated to `sap/ui/core/Component.create()` if `async: true` is explicitly specified
-  - Synchronous component creation cannot be automatically migrated
+  - Only replaced with `sap/ui/core/Component.create()` if `async: true` is explicitly specified
+  - Synchronous component creation cannot be automatically replaced
 
 ### Resource Bundle Loading
 
 - [**Core#getLibraryResourceBundle**](https://ui5.sap.com/1.136/#/api/sap.ui.core.Core%23methods/getLibraryResourceBundle)
-  - Not migrated if any argument is a boolean with value true (which would make it return a promise)
-  - Synchronous resource bundle loading cannot be automatically migrated to asynchronous
+  - Not replaced if any argument is a boolean with value true (which would make it return a promise)
+  - Synchronous resource bundle loading cannot be automatically replaced with asynchronous
 
 ### Other APIs
 
