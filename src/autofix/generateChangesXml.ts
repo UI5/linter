@@ -96,7 +96,7 @@ export default async function generateChangesXml(
 	}
 }
 
-function toPosition(position: Position, lines: string[]) {
+export function toPosition(position: Position, lines: string[]) {
 	let pos: number;
 	if (position.line === 0) {
 		pos = position.character;
