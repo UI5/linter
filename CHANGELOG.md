@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.17.1](https://github.com/UI5/linter/compare/v1.17.0...v1.17.1) (2025-07-25)
+
+
+### Dependencies
+
+* Bump sax-wasm from 3.0.8 to 3.0.9 ([4b45c03](https://github.com/UI5/linter/commit/4b45c0336ded3c53057a918deeb9c2b5044ffd3e))
+
 ## [1.17.0](https://github.com/UI5/linter/compare/v1.16.1...v1.17.0) (2025-07-22)
 
 
