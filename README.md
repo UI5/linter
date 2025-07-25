@@ -184,7 +184,7 @@ Currently, issues of the following rules are fixable:
   - Usages of the deprecated `synchronizationMode` property on `sap/ui/model/odata/v4/ODataModel` are removed (in JS files)
   - Usages of the deprecated `minWidth` property on `sap/ui/layout/form/SimpleForm` are removed (in JS and XML files)
 
-After applying fixes, the linter runs another pass to detect any remaining issues. Not all findings may be fixable, so those issues may need to be addressed manually.  
+After applying fixes, the linter runs another pass to detect any remaining issues. Not all findings may be fixable, so those issues may need to be addressed manually. See [Scope of Autofix](./docs/Scope-of-Autofix.md) for examples of APIs that cannot be migrated automatically. Note that this list is not exhaustive; there are more APIs that are currently not supported by the Autofix.
 
 ##### Dry Run Mode
 To preview the results without modifying any files, set the UI5LINT_FIX_DRY_RUN environment variable:
