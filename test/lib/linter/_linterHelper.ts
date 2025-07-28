@@ -174,7 +174,7 @@ function testDefinition(
 		const res = await lintFile({
 			rootDir: fixturesPath,
 			namespace,
-			filePatterns: filePaths,
+			filePatterns: filePaths.map((fileName) => path.join(...fileName.split("/"))),
 			coverage: true,
 			details: true,
 			fix,
