@@ -96,14 +96,14 @@ export default class ManifestLinter {
 		});
 
 		// Detect deprecated type of rootView:
-		if (typeof rootView === "object" && rootView.type && deprecatedViewTypes.includes(rootView.type)) {
-			if (isManifest2 && ["XML", "JS"].includes(rootView.type) && rootView.viewName.startsWith("module:")) {
-				// In manifest v2 there's a new default value handling.
+		if (typeof rootView === "object" && rootView.type) {
+			if (["XML", "JS"].includes(rootView.type) && rootView.viewName.startsWith("module:")) {
 				// Property is no longer required in case value is "XML" or "JS" if view name starts with "module:"
 				this.#reporter?.addMessage(MESSAGE.NO_REMOVED_MANIFEST_PROPERTY,
 					{propName: "type"},
 					"/sap.ui5/rootView/type");
-			} else {
+			}
+			if (deprecatedViewTypes.includes(rootView.type)) {
 				this.#reporter?.addMessage(MESSAGE.DEPRECATED_VIEW_TYPE, {
 					viewType: rootView.type,
 				}, "/sap.ui5/rootView/type");
