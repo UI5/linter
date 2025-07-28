@@ -22,7 +22,6 @@ export const RULES = {
 	"no-removed-manifest-property": "no-removed-manifest-property",
 	"no-renamed-manifest-property": "no-renamed-manifest-property",
 	"no-legacy-ui5-version-in-manifest": "no-legacy-ui5-version-in-manifest",
-	"no-incorrect-manifest-routing-config-type": "no-incorrect-manifest-routing-config-type",
 } as const;
 
 export enum LintMessageSeverity {
@@ -68,7 +67,6 @@ export enum MESSAGE {
 	NO_EXPORTED_VALUES_BY_LIB,
 	NO_GLOBALS,
 	NO_ICON_POOL_RENDERER,
-	NO_INCORRECT_MANIFEST_ROUTING_CONFIG_TYPE,
 	NO_LEGACY_TEMPLATE_REQUIRE_SYNTAX,
 	NO_LEGACY_UI5_VERSION_IN_MANIFEST,
 	NO_ODATA_GLOBALS,
@@ -734,19 +732,6 @@ export const MESSAGE_INFO = {
 			`Rename property '${propName}' to '${newName}' and follow the migration guide ` +
 			`{@link topic:be0cf40f61184b358b5faedaec98b2da#loiobe0cf40f61184b358b5faedaec98b2da/section_manifest2 ` +
 			`Manifest Version 2}`,
-	},
-
-	[MESSAGE.NO_INCORRECT_MANIFEST_ROUTING_CONFIG_TYPE]: {
-		severity: LintMessageSeverity.Warning,
-		ruleId: RULES["no-incorrect-manifest-routing-config-type"],
-
-		message: ({propName}: {propName: string}) =>
-			`Check if '${propName}' is set to 'View'`,
-		details: () =>
-			`Property 'type' must be explicitly set to 'View' in Manifest Version 2 ` +
-			`if 'sap.ui5/routing/config/type' is not omitted or set to 'View'. ` +
-			`See {@link topic:be0cf40f61184b358b5faedaec98b2da Manifest (Descriptor for Applications, ` +
-			`Components, and Libraries)}`,
 	},
 
 } as const;
