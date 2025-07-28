@@ -166,6 +166,9 @@ function testDefinition(
 		defineTest = defineTest.only as typeof test;
 		testName = fileName.slice(5);
 	}
+
+	testName = testName.replace(/\\/g, "/");
+
 	// Executing linting in parallel might lead to OOM errors in the CI
 	// Therefore always use serial
 	defineTest(`General: ${testName}`, async (t) => {
