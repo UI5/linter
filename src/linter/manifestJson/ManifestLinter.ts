@@ -126,10 +126,7 @@ export default class ManifestLinter {
 			viewPath: "path",
 		};
 		if (targets) {
-			let configTypeView: "View" | "OtherType" | undefined = undefined;
-			if (routing?.config?.type) {
-				configTypeView = routing.config.type === "View" ? "View" : "OtherType";
-			}
+			const configTypeView = routing?.config?.type as string | undefined;
 
 			for (const [key, target] of Object.entries(targets)) {
 				for (const [oldProp, newProp] of Object.entries(oldToNewTargetPropsMap)) {
@@ -141,11 +138,7 @@ export default class ManifestLinter {
 					}
 				}
 
-				if (configTypeView === "OtherType" && target?.type !== "View") {
-					this.#reporter?.addMessage(MESSAGE.NO_INCORRECT_MANIFEST_ROUTING_CONFIG_TYPE, {
-						propName: `/sap.ui5/routing/targets/${key}/type`,
-					}, `/sap.ui5/routing/targets/${key}/type`);
-				} else if (configTypeView !== "OtherType" && target?.type === "View") {
+				if (["View", undefined].includes(configTypeView) && target?.type === "View") {
 					this.#reporter?.addMessage(MESSAGE.REDUNDANT_VIEW_CONFIG_PROPERTY, {
 						propertyName: "type",
 					}, `/sap.ui5/routing/targets/${key}/type`);
