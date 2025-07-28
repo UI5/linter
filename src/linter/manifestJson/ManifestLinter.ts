@@ -73,7 +73,7 @@ export default class ManifestLinter {
 			});
 
 			if (isBelow136) {
-				this.#reporter?.addMessage(MESSAGE.NO_LEGACY_UI5_VERSION_IN_MANIFEST, {} as never,
+				this.#reporter?.addMessage(MESSAGE.NO_LEGACY_UI5_VERSION_IN_MANIFEST,
 					"/sap.ui5/dependencies/minUI5Version");
 			}
 		}
@@ -82,7 +82,7 @@ export default class ManifestLinter {
 			this.#validatePropertiesForManifestVersion(manifest, true);
 		} else {
 			this.#validatePropertiesForManifestVersion(manifest);
-			this.#reporter?.addMessage(MESSAGE.NO_OUTDATED_MANIFEST_VERSION, {} as never, "/_version");
+			this.#reporter?.addMessage(MESSAGE.NO_OUTDATED_MANIFEST_VERSION, "/_version");
 		}
 	}
 
