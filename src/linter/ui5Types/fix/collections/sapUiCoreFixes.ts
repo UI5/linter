@@ -610,3 +610,11 @@ t.declareModule("sap/ui/model/odata/v4/ODataModel", [
 		]),
 	]),
 ]);
+
+t.declareModule("sap/ui/base/Object", [
+	t.class("BaseObject", [
+		t.staticMethod("isA", accessExpressionFix({
+			propertyAccess: "isObjectA",
+		})),
+	]),
+]);
