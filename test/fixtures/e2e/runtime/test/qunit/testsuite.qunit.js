@@ -14,6 +14,7 @@ sap.ui.define(() => {
 		tests: {
 			"Configuration": {},
 			"Globals": {},
+			"sap.ui.base.Object": {},
 			"jQuery.sap.charToUpperCase": {},
 			"jQuery.sap.endsWith": {},
 			"jQuery.sap.extend": {},
