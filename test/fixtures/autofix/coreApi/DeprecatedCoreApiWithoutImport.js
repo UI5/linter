@@ -84,4 +84,14 @@ sap.ui.define([], function() {
 
 	globalCore.notifyContentDensityChanged();
 	sap.ui.getCore().notifyContentDensityChanged();
+	
+	var globalBaseObject = sap.ui.base.Object;
+	var Button = new sap.m.Button({
+		text: "Button",
+		press: function() {
+			console.log("Button pressed");
+		}
+	});
+	sap.ui.base.Object.isA(Button, "sap.m.Button");
+	globalBaseObject.isA(Button, "sap.m.Button");
 });
