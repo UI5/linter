@@ -134,12 +134,14 @@ export default class ManifestLinter {
 			const configTypeView = routing?.config?.type as string | undefined;
 
 			for (const [key, target] of Object.entries(targets)) {
-				for (const [oldProp, newProp] of Object.entries(oldToNewTargetPropsMap)) {
-					if (target[oldProp] && !target[newProp]) {
-						this.#reporter?.addMessage(MESSAGE.NO_RENAMED_MANIFEST_PROPERTY, {
-							propName: oldProp,
-							newName: newProp,
-						}, `/sap.ui5/routing/targets/${key}/${oldProp}`);
+				if (isManifest2) {
+					for (const [oldProp, newProp] of Object.entries(oldToNewTargetPropsMap)) {
+						if (target[oldProp] && !target[newProp]) {
+							this.#reporter?.addMessage(MESSAGE.NO_RENAMED_MANIFEST_PROPERTY, {
+								propName: oldProp,
+								newName: newProp,
+							}, `/sap.ui5/routing/targets/${key}/${oldProp}`);
+						}
 					}
 				}
 
