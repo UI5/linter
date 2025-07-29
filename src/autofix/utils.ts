@@ -60,6 +60,7 @@ export function collectIdentifiers(node: ts.Node) {
 	ts.forEachChild(node, collect);
 	return identifiers;
 }
+
 interface FixRange {
 	start: number;
 	end: number;
