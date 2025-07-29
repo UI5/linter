@@ -211,6 +211,8 @@ export function getPropertyAssignmentsInObjectLiteralExpression(
 	return properties;
 }
 
+const JS_KEYWORDS_TO_AVOID = new Set(["object"]);
+
 export function resolveUniqueName(inputName: string, existingIdentifiers?: Set<string>): string {
 	const parts = inputName.split("/");
 	const identifier = parts[parts.length - 1];
@@ -227,7 +229,9 @@ export function resolveUniqueName(inputName: string, existingIdentifiers?: Set<s
 	}
 
 	name = name ?? camelize(identifier);
-	if (existingIdentifiers?.has(name) || !isValidIdentifierName(name)) {
+	if (existingIdentifiers?.has(name) ||
+		!isValidIdentifierName(name) ||
+		JS_KEYWORDS_TO_AVOID.has(name.toLowerCase())) {
 		name = getUniqueName(Array.from(existingIdentifiers ?? []), inputName, "/");
 	}
 	return name;
