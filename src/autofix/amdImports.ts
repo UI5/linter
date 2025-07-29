@@ -5,6 +5,7 @@ import {ChangeAction, ChangeSet, ExistingModuleDeclarationInfo} from "./autofix.
 import {getPropertyNameText} from "../linter/ui5Types/utils/utils.js";
 import {RequireExpression} from "../linter/ui5Types/amdTranspiler/parseRequire.js";
 import {ModuleDeclaration} from "../linter/ui5Types/amdTranspiler/parseModuleDeclaration.js";
+import {ensureNonConflictingIdentifier} from "./utils.js";
 
 const log = getLogger("linter:autofix");
 const LINE_LENGTH_LIMIT = 200;
@@ -75,7 +76,7 @@ export function getDependencies(moduleDeclaration: ModuleDeclaration | RequireEx
 			if (!param) {
 				identifier = NO_PARAM_FOR_DEPENDENCY;
 			} else if (ts.isIdentifier(param.name)) {
-				identifier = param.name.text;
+				identifier = ensureNonConflictingIdentifier(param.name.text, dependencyText);
 			} else {
 				// Some sort of binding pattern, e.g. ({foo, bar}) => { or ([foo, bar]) => {
 				identifier = UNSUPPORTED_PARAM_FOR_DEPENDENCY;

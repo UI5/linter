@@ -61,6 +61,20 @@ export function collectIdentifiers(node: ts.Node) {
 	return identifiers;
 }
 
+const RESERVED_JS_KEYWORDS = new Set(["Object"]);
+export function ensureNonConflictingIdentifier(identifier: string, moduleName?: string): string {
+	if (!RESERVED_JS_KEYWORDS.has(identifier)) {
+		return identifier;
+	}
+
+	if (moduleName) {
+		return moduleName.split("/")
+			.map((part, i) => i === 0 ? part.toLowerCase() : part[0].toUpperCase() + part.slice(1)).join("")
+	} else {
+		return `${identifier}Module0`;
+	}
+}
+
 interface FixRange {
 	start: number;
 	end: number;
