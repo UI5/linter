@@ -51,7 +51,6 @@ const reservedJSLanguageKeywords = [
 	"while",
 	"with",
 	"yield",
-	"object",
 ];
 const sapReservedKeywords = ["sap"];
 const reservedNativeTypes = Object.keys(globals.builtin);
@@ -85,7 +84,7 @@ const alreadyExists = function (
 export const isValidIdentifierName = function (sName: string) {
 	return (
 		rAllowedStartCharacter.test(sName) &&
-		!reservedJSLanguageKeywords.includes(sName.toLowerCase())
+		!reservedJSLanguageKeywords.includes(sName)
 	);
 };
 
