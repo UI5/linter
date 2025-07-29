@@ -69,7 +69,7 @@ export default class ManifestLinter {
 
 			// Check if any version is below 1.136
 			const isBelow136 = availableVersions.some((version) => {
-				return semver.lt(version, "1.136.0");
+				return semver.valid(version) && semver.lt(version, "1.136.0");
 			});
 
 			if (isBelow136) {
