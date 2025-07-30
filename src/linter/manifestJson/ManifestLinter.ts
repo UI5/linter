@@ -147,7 +147,7 @@ export default class ManifestLinter {
 			viewPath: "path",
 		};
 		if (targets) {
-			const configTypeView = routing?.config?.type as string | undefined;
+			const configType = routing?.config?.type as string | undefined;
 
 			for (const [key, target] of Object.entries(targets)) {
 				if (isManifest2) {
@@ -159,12 +159,18 @@ export default class ManifestLinter {
 							}, `/sap.ui5/routing/targets/${key}/${oldProp}`);
 						}
 					}
-				}
 
-				if (["View", undefined].includes(configTypeView) && target?.type === "View") {
-					this.#reporter?.addMessage(MESSAGE.REDUNDANT_VIEW_CONFIG_PROPERTY, {
-						propertyName: "type",
-					}, `/sap.ui5/routing/targets/${key}/type`);
+					if (configType === undefined && target?.type === undefined) {
+						// Type must be defined somewhere, either in routing.config or in every target.type
+						this.#reporter?.addMessage(MESSAGE.NO_MISSING_MANIFEST_CONFIGURATION, {
+							propertyPath: `/sap.ui5/routing/targets/${key}/type`,
+						}, `/sap.ui5/routing/targets/${key}/type`);
+					} else if (configType === "View" && target?.type === "View") {
+						// When routing.config.type is "View" setting target.type "View" is redundant,
+						this.#reporter?.addMessage(MESSAGE.REDUNDANT_VIEW_CONFIG_PROPERTY, {
+							propertyName: "type",
+						}, `/sap.ui5/routing/targets/${key}/type`);
+					}
 				}
 
 				// Check if name starts with module and viewType is defined:

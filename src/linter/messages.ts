@@ -24,6 +24,7 @@ export const RULES = {
 	"no-removed-manifest-property": "no-removed-manifest-property",
 	"no-renamed-manifest-property": "no-renamed-manifest-property",
 	"no-legacy-ui5-version-in-manifest": "no-legacy-ui5-version-in-manifest",
+	"no-missing-manifest-configuration": "no-missing-manifest-configuration",
 } as const;
 
 export enum LintMessageSeverity {
@@ -72,6 +73,7 @@ export enum MESSAGE {
 	NO_LEGACY_TEMPLATE_REQUIRE_SYNTAX,
 	NO_LEGACY_UI5_VERSION_IN_MANIFEST,
 	NO_ODATA_GLOBALS,
+	NO_MISSING_MANIFEST_CONFIGURATION,
 	NO_OUTDATED_MANIFEST_VERSION,
 	NO_REMOVED_MANIFEST_PROPERTY,
 	NO_RENAMED_MANIFEST_PROPERTY,
@@ -732,6 +734,18 @@ export const MESSAGE_INFO = {
 			`Property '${propName}' has been renamed to '${newName}' in Manifest Version 2`,
 		details: ({propName, newName}: {propName: string; newName: string}) =>
 			`Rename property '${propName}' to '${newName}' and follow the migration guide ` +
+			`{@link topic:be0cf40f61184b358b5faedaec98b2da#loiobe0cf40f61184b358b5faedaec98b2da/section_manifest2 ` +
+			`Manifest Version 2}`,
+	},
+
+	[MESSAGE.NO_MISSING_MANIFEST_CONFIGURATION]: {
+		severity: LintMessageSeverity.Error,
+		ruleId: RULES["no-missing-manifest-configuration"],
+
+		message: ({propertyPath}: {propertyPath: string}) =>
+			`The ${propertyPath} is required but is missing in the manifest.json`,
+		details: ({propertyPath}: {propertyPath: string}) =>
+			`Add property '${propertyPath}' and follow the migration guide ` +
 			`{@link topic:be0cf40f61184b358b5faedaec98b2da#loiobe0cf40f61184b358b5faedaec98b2da/section_manifest2 ` +
 			`Manifest Version 2}`,
 	},
