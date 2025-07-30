@@ -19,6 +19,7 @@
 	- [unsupported-api-usage](#unsupported-api-usage)
 	- [no-outdated-manifest-version](#no-outdated-manifest-version)
 	- [no-removed-manifest-property](#no-removed-manifest-property)
+	- [no-missing-manifest-configuration](#no-missing-manifest-configuration)
 	- [no-renamed-manifest-property](#no-renamed-manifest-property)
 	- [no-legacy-ui5-version-in-manifest](#no-legacy-ui5-version-in-manifest)
 	- [no-incorrect-manifest-routing-config-type](#no-incorrect-manifest-routing-config-type)
@@ -131,6 +132,10 @@ Legacy-free UI5 requires Manifest Version 2. This test checks the `_version` pro
 ## no-removed-manifest-property
 
 Manifest Version 2 lacks several properties of earlier versions, which do not match anymore to the new schema. They must be omitted.
+
+## no-missing-manifest-configuration
+
+Some properties are required in manifest.json and must not be omitted.
 
 ## no-renamed-manifest-property
 
