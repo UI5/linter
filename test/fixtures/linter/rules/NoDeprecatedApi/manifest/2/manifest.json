@@ -110,7 +110,6 @@
 			"config": {
 				"routerClass": "sap.m.routing.Router",
 				"viewType": "HTML",
-				"type": "HTML",
 				"viewPath": "com.ui5.troublesome.app.view",
 				"viewLevel": 1,
 				"viewId": "deprecated",
