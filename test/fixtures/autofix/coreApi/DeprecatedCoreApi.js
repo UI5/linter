@@ -1,9 +1,9 @@
-sap.ui.define(["sap/ui/core/Core",], function(CoreRenamed) {
+sap.ui.define(["sap/ui/core/Core", "sap/ui/base/Object", "sap/m/Button",], function (CoreRenamed, BaseObject, Button) {
 	const async = true;
 	const asyncFalse = false;
 	const asyncTrue = true;
-	
-	
+
+
 	CoreRenamed.applyTheme("themeName");
 	CoreRenamed.applyTheme("customTheme", "find/my/theme/here"); // Should not be autofixed if there is a 2nd argument
 	CoreRenamed.applyTheme("customTheme", undefined); // Can be migrated when the 2nd argument is undefined
@@ -84,4 +84,12 @@ sap.ui.define(["sap/ui/core/Core",], function(CoreRenamed) {
 	CoreRenamed.loadLibrary("sap.ui.core"); // async omitted (not autofixable)
 
 	CoreRenamed.notifyContentDensityChanged();
+
+	var Button = new Button({
+		text: "Button",
+		press: function () {
+			console.log("Button pressed");
+		}
+	});
+	BaseObject.isA(Button, "sap.m.Button");
 });

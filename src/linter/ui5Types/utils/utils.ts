@@ -1,5 +1,5 @@
 import ts from "typescript";
-import {getUniqueName} from "./UniqueNameCreator.js";
+import {alreadyExists, getUniqueName, isValidIdentifierName} from "./UniqueNameCreator.js";
 import {getUi5TypeInfoFromSymbol} from "../Ui5TypeInfo.js";
 import Ui5TypeInfoMatcher from "../Ui5TypeInfoMatcher.js";
 
@@ -227,8 +227,8 @@ export function resolveUniqueName(inputName: string, existingIdentifiers?: Set<s
 	}
 
 	name = name ?? camelize(identifier);
-	if (existingIdentifiers?.has(name)) {
-		name = getUniqueName(Array.from(existingIdentifiers ?? []), inputName, "/");
+	if (!isValidIdentifierName(name) || alreadyExists(existingIdentifiers, name)) {
+		name = getUniqueName(existingIdentifiers, inputName, "/");
 	}
 	return name;
 }

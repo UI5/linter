@@ -154,6 +154,16 @@ export default class Ui5TypeInfoMatcher<ValueType> {
 		});
 	}
 
+	staticMethod(name: string, children?: Node<ValueType>[] | ValueType, value?: ValueType): Node<ValueType> {
+		return this.createNode(Ui5TypeInfoKind.StaticMethod, name, children, value);
+	}
+
+	staticMethods(names: string[], children?: Node<ValueType>[] | ValueType, value?: ValueType): Node<ValueType>[] {
+		return names.map((name) => {
+			return this.createNode(Ui5TypeInfoKind.StaticMethod, name, children, value);
+		});
+	}
+
 	property(name: string, children?: Node<ValueType>[] | ValueType, value?: ValueType): Node<ValueType> {
 		return this.createNode(Ui5TypeInfoKind.Property, name, children, value);
 	}
