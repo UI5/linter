@@ -64,16 +64,16 @@ const isLowerCase = function (sChar: string) {
  * @param usedNames
  * @param sName
  */
-const alreadyExists = function (
-	usedNames: string[],
+export const alreadyExists = function (
+	usedNames: Set<string> | undefined,
 	sName: string,
 	additionalCheck?: (arg: string) => boolean
 ): boolean {
-	return !!(
-		usedNames.includes(sName) ||
+	return (
+		!!usedNames?.has(sName) ||
 		sapReservedKeywords.includes(sName) ||
 		reservedNativeTypes.includes(sName) ||
-		additionalCheck?.(sName)
+		!!additionalCheck?.(sName)
 	);
 };
 
@@ -112,7 +112,7 @@ const replaceInvalidCharacters = function (sName: string) {
  * @returns unique name which is neither reserved nor taken
  */
 export const getUniqueName = function (
-	usedNames: string[],
+	usedNames: Set<string> | undefined,
 	sName: string | string[],
 	splitCharacter = ".",
 	additionalCheck?: (arg: string) => boolean
