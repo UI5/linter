@@ -97,7 +97,7 @@ export default class ManifestLinter {
 		});
 
 		// Detect deprecated type of rootView:
-		if (typeof rootView === "object" && rootView.type) {
+		if (typeof rootView === "object") {
 			// - In Manifest 1 the "type" value was "XML", "HTML", "JS" or "JSON".
 			// - In Manifest 2 "type" value has been renamed to "viewType" and it is always
 			//   "XML" as the other types have been deprecated. The "type" property now
@@ -110,14 +110,7 @@ export default class ManifestLinter {
 				}
 			}
 
-			const viewType = rootView.viewType as string | undefined ?? rootView.type;
-			if (["XML", "JS"].includes(viewType) && rootView.viewName.startsWith("module:")) {
-				// Property is no longer required in case value is "XML" if view name starts with "module:"
-				this.#reporter?.addMessage(MESSAGE.NO_REMOVED_MANIFEST_PROPERTY,
-					{propName: "type"},
-					(rootView.viewType ? "/sap.ui5/rootView/viewType" : "/sap.ui5/rootView/type"));
-			}
-
+			const viewType = rootView.viewType as string ?? rootView.type ?? "";
 			if (deprecatedViewTypes.includes(viewType)) {
 				this.#reporter?.addMessage(MESSAGE.DEPRECATED_VIEW_TYPE, {
 					viewType: viewType,
