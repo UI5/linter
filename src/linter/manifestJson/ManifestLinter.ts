@@ -113,32 +113,19 @@ export default class ManifestLinter {
 		});
 
 		// Detect deprecated type of rootView:
-		if (typeof rootView === "object") {
-			// - In Manifest 1 the "type" value was "XML", "HTML", "JS" or "JSON".
-			// - In Manifest 2 "type" value has been renamed to "viewType" and it is always
-			//   "XML" as the other types have been deprecated. The "type" property now
-			//   holds values "View" and "Component".
-			if (isManifest2) {
-				if (rootView.type && !["View", "Component"].includes(rootView.type)) {
-					this.#reporter?.addMessage(MESSAGE.NO_RENAMED_MANIFEST_PROPERTY,
-						{propName: "type", newName: "viewType"},
-						"/sap.ui5/rootView/type");
-				}
-			}
-
-			const viewType = rootView.viewType as string ?? rootView.type ?? "";
-			if (deprecatedViewTypes.includes(viewType)) {
-				this.#reporter?.addMessage(MESSAGE.DEPRECATED_VIEW_TYPE, {
-					viewType: viewType,
-				}, (rootView.viewType ? "/sap.ui5/rootView/viewType" : "/sap.ui5/rootView/type"));
-			}
+		if (typeof rootView === "object" && rootView.type && deprecatedViewTypes.includes(rootView.type)) {
+			this.#reporter?.addMessage(MESSAGE.DEPRECATED_VIEW_TYPE, {
+				viewType: rootView.type,
+			}, "/sap.ui5/rootView/type");
 		}
 
 		// Detect deprecated view type in routing.config:
-		if (routing?.config && routing.config.viewType && deprecatedViewTypes.includes(routing.config.viewType)) {
+		const viewType = routing?.config?.viewType as string ?? routing?.config?.type;
+		if (viewType && deprecatedViewTypes.includes(viewType)) {
 			this.#reporter?.addMessage(MESSAGE.DEPRECATED_VIEW_TYPE, {
-				viewType: routing.config.viewType,
-			}, "/sap.ui5/routing/config/viewType");
+				viewType: viewType,
+			},
+			(routing?.config?.viewType ? "/sap.ui5/routing/config/viewType" : "/sap.ui5/routing/config/type"));
 		}
 
 		// Detect deprecations in routing.targets:
