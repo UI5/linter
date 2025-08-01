@@ -60,7 +60,7 @@
 				"sinon": "^21.0.0",
 				"tsx": "^4.20.3",
 				"typescript-eslint": "^8.38.0",
-				"ui5-test-runner": "^5.9.0",
+				"ui5-test-runner": "^5.9.1",
 				"yauzl-promise": "^4.0.0"
 			},
 			"engines": {
@@ -18468,9 +18468,9 @@
 			}
 		},
 		"node_modules/ui5-test-runner": {
-			"version": "5.9.0",
-			"resolved": "https://registry.npmjs.org/ui5-test-runner/-/ui5-test-runner-5.9.0.tgz",
-			"integrity": "sha512-HaUwavTnszgZgoii5PvtmFu/fQ7giCkEh9H9XgT9qqUgPSS60oKhQX3vAzRzTxngbqbUdHSgdizejf6JtRrrxQ==",
+			"version": "5.9.1",
+			"resolved": "https://registry.npmjs.org/ui5-test-runner/-/ui5-test-runner-5.9.1.tgz",
+			"integrity": "sha512-OJV0Q1oPREFgVVuvCJtK70Rpp3NOxUCRzqui1HHbxjmk7Q+iSoRY3jD3Nhhl3sIRe6D6cvwm1LnpRP6NUwc9vQ==",
 			"dev": true,
 			"license": "MIT",
 			"dependencies": {
