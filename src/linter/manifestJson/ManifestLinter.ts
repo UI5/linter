@@ -104,12 +104,10 @@ export default class ManifestLinter {
 		}
 
 		// Detect deprecated view type in routing.config:
-		const viewType = routing?.config?.viewType as string ?? routing?.config?.type;
-		if (viewType && deprecatedViewTypes.includes(viewType)) {
+		if (routing?.config?.viewType && deprecatedViewTypes.includes(routing.config.viewType)) {
 			this.#reporter?.addMessage(MESSAGE.DEPRECATED_VIEW_TYPE, {
-				viewType: viewType,
-			},
-			(routing?.config?.viewType ? "/sap.ui5/routing/config/viewType" : "/sap.ui5/routing/config/type"));
+				viewType: routing.config.viewType,
+			}, "/sap.ui5/routing/config/viewType");
 		}
 
 		// Detect deprecations in routing.targets:
