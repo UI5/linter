@@ -376,45 +376,11 @@ async function autofixHtml(
 ): Promise<void> {
 	for (const resource of htmlResources) {
 		const resourcePath = resource.getPath();
-		// TODO: HTML can be parsed as XML, but it is not strictly XML compliant
-		// const existingHtmlError = await getXmlErrorForFile(await resource.getString());
-		// if (existingHtmlError) {
-		// 	log.verbose(`Skipping autofix for '${resourcePath}'. Syntax error reported in original source file:\n` +
-		// 		`[${existingHtmlError.line}:${existingHtmlError.col}] ${existingHtmlError.msg}`);
-		// 	continue;
-		// }
 
 		const newContent = await applyFixesHtml(resource, messages.get(resourcePath)!);
 		if (!newContent) {
 			continue;
 		}
-
-		// Check for errors after applying fixes
-		// TODO: HTML can be parsed as XML, but it is not strictly XML compliant
-		// const newHtmlError = await getXmlErrorForFile(newContent);
-		// if (newHtmlError) {
-		// 	const message = `Syntax error after applying autofix for '${resourcePath}'. ` +
-		// 		`This is likely a UI5 linter internal issue. Please check the verbose log. ` +
-		// 		`Please report this using the bug report template: ` +
-		// 		`https://github.com/UI5/linter/issues/new?template=bug-report.md`;
-		// 	const error = `Reported error (${newHtmlError.line}:${newHtmlError.col}): ${newHtmlError.msg}`;
-		// 	log.verbose(message);
-		// 	log.verbose(error);
-		// 	const contentWithMarkers = newContent.split("\n");
-		// 	if (newHtmlError.line !== undefined && newHtmlError.col !== undefined) {
-		// 		const line = newHtmlError.line - 1;
-		// 		// Insert line below the finding and mark the character
-		// 		const lineContent = contentWithMarkers[line];
-		// 		// Count number of tabs until the character
-		// 		const tabCount = lineContent.slice(0, newHtmlError.col).split("\t").length - 1;
-		// 		const leadingTabs = "\t".repeat(tabCount);
-		// 		const markerLine = line + 1;
-		// 		contentWithMarkers.splice(markerLine, 0, leadingTabs + " ".repeat(newHtmlError.col - tabCount) + "^");
-		// 	}
-		// 	log.verbose(resourcePath + ":\n" + contentWithMarkers.join("\n"));
-		// 	context.addLintingMessage(resourcePath, MESSAGE.AUTOFIX_ERROR, {message});
-		// 	continue;
-		// }
 
 		log.verbose(`Autofix applied to ${resourcePath}`);
 		res.set(resourcePath, newContent);
