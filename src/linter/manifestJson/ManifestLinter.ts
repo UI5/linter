@@ -135,7 +135,7 @@ export default class ManifestLinter {
 			viewPath: "path",
 		};
 
-		if (isManifest2 && routing?.config) {
+		if (routing?.config) {
 			for (const [oldProp, newProp] of Object.entries(oldToNewTargetPropsMap)) {
 				if (routing.config[oldProp] && !routing.config[newProp]) {
 					this.#reporter?.addMessage(MESSAGE.NO_RENAMED_MANIFEST_PROPERTY, {
@@ -153,22 +153,20 @@ export default class ManifestLinter {
 			for (const [key, target] of Object.entries(targets)) {
 				targetsType.push((target.type === undefined) ? key : null);
 
-				if (isManifest2) {
-					for (const [oldProp, newProp] of Object.entries(oldToNewTargetPropsMap)) {
-						if (target[oldProp] && !target[newProp]) {
-							this.#reporter?.addMessage(MESSAGE.NO_RENAMED_MANIFEST_PROPERTY, {
-								propName: oldProp,
-								newName: newProp,
-							}, `/sap.ui5/routing/targets/${key}/${oldProp}`);
-						}
+				for (const [oldProp, newProp] of Object.entries(oldToNewTargetPropsMap)) {
+					if (target[oldProp] && !target[newProp]) {
+						this.#reporter?.addMessage(MESSAGE.NO_RENAMED_MANIFEST_PROPERTY, {
+							propName: oldProp,
+							newName: newProp,
+						}, `/sap.ui5/routing/targets/${key}/${oldProp}`);
 					}
+				}
 
-					if (configType === "View" && target?.type === "View") {
-						// When routing.config.type is "View" setting target.type "View" is redundant,
-						this.#reporter?.addMessage(MESSAGE.REDUNDANT_VIEW_CONFIG_PROPERTY, {
-							propertyName: "type",
-						}, `/sap.ui5/routing/targets/${key}/type`);
-					}
+				if (configType === "View" && target?.type === "View") {
+					// When routing.config.type is "View" setting target.type "View" is redundant,
+					this.#reporter?.addMessage(MESSAGE.REDUNDANT_VIEW_CONFIG_PROPERTY, {
+						propertyName: "type",
+					}, `/sap.ui5/routing/targets/${key}/type`);
 				}
 
 				// Check if name starts with module and viewType is defined:
