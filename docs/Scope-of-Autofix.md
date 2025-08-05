@@ -23,10 +23,11 @@ This document lists APIs that are not replaced or can't be replaced automaticall
 		- [Library Loading](#library-loading)
 		- [Component Creation](#component-creation)
 		- [Resource Bundle Loading](#resource-bundle-loading)
-		- [Other Async APIs](#other-async-apis)
+		- [Other APIs](#other-apis)
 
 ## General Restrictions
 
+- **Code outside of `sap.ui.define`/`sap.ui.require`** - Most fixes require a new module import, which cannot be added automatically if the code is not inside a `sap.ui.define` or `sap.ui.require` block
 - **Change from sync to async APIs** - Requires restructuring code flow (often affecting multiple files), which cannot be done automatically
 - **Complex API replacements** - Some APIs require complex replacements with multiple API calls and new local variables, this is currently not supported
 - **Context-dependent replacements** - Some replacements depend on how the API is used in the broader context
