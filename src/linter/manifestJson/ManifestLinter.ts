@@ -148,8 +148,11 @@ export default class ManifestLinter {
 
 		if (targets) {
 			const configType = routing?.config?.type as string | undefined;
+			const targetsType = [];
 
 			for (const [key, target] of Object.entries(targets)) {
+				targetsType.push((target.type === undefined) ? key : null);
+
 				if (isManifest2) {
 					for (const [oldProp, newProp] of Object.entries(oldToNewTargetPropsMap)) {
 						if (target[oldProp] && !target[newProp]) {
@@ -160,12 +163,7 @@ export default class ManifestLinter {
 						}
 					}
 
-					if (configType === undefined && target?.type === undefined) {
-						// Type must be defined somewhere, either in routing.config or in every target.type
-						this.#reporter?.addMessage(MESSAGE.NO_MISSING_MANIFEST_CONFIGURATION, {
-							propertyPath: `/sap.ui5/routing/targets/${key}/type`,
-						}, `/sap.ui5/routing/targets/${key}/type`);
-					} else if (configType === "View" && target?.type === "View") {
+					if (configType === "View" && target?.type === "View") {
 						// When routing.config.type is "View" setting target.type "View" is redundant,
 						this.#reporter?.addMessage(MESSAGE.REDUNDANT_VIEW_CONFIG_PROPERTY, {
 							propertyName: "type",
@@ -189,6 +187,23 @@ export default class ManifestLinter {
 					this.#reporter?.addMessage(MESSAGE.DEPRECATED_VIEW_TYPE, {
 						viewType: target.viewType,
 					}, `${pathToViewObject}/viewType`);
+				}
+			}
+
+			// "type" must be defined somewhere, either in routing.config or in every target.type
+			if (configType === undefined && targetsType.length) {
+				const hasTargetsWithTypes = targetsType.some((key) => key === null);
+
+				if (hasTargetsWithTypes) {
+					targetsType.filter((key) => key !== null).forEach((key) => {
+						this.#reporter?.addMessage(MESSAGE.NO_MISSING_MANIFEST_TARGET_TYPE, {
+							propertyPath: `/sap.ui5/routing/targets/${key}/type`,
+						}, `/sap.ui5/routing/targets/${key}`);
+					});
+				} else {
+					this.#reporter?.addMessage(MESSAGE.NO_MISSING_MANIFEST_TARGET_TYPE, {
+						propertyPath: `/sap.ui5/routing/config/type`,
+					}, `/sap.ui5/routing/config`);
 				}
 			}
 		}
