@@ -7,7 +7,7 @@ import {getLogger} from "@ui5/logger";
 import {MESSAGE} from "../messages.js";
 import {loadApiExtract, ApiExtract} from "../../utils/ApiExtract.js";
 import ControllerByIdInfo from "./ControllerByIdInfo.js";
-import {parseXml, initSaxWasm} from "../../utils/xmlParser.js";
+import {parseXml} from "../../utils/xmlParser.js";
 
 const log = getLogger("linter:xmlTemplate:transpiler");
 
@@ -40,10 +40,7 @@ async function init() {
 	}
 	const taskEnd = taskStart("XML Transpiler initialization");
 
-	return initializing = Promise.all([
-		loadApiExtract(),
-		initSaxWasm(),
-	]).then(([apiExtractRes]) => {
+	return initializing = loadApiExtract().then((apiExtractRes) => {
 		apiExtract = apiExtractRes;
 		taskEnd();
 	});
