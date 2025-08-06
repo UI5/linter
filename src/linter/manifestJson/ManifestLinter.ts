@@ -43,6 +43,11 @@ export default class ManifestLinter {
 
 	// eslint-disable-next-line @typescript-eslint/require-await
 	async lint() {
+		// Only lint manifest.json files and skip manifest.appdescr_variant, for example
+		if (!this.#resourcePath.includes("manifest.json")) {
+			return;
+		}
+
 		try {
 			const source = this.#parseManifest(this.#content);
 			this.#reporter = new ManifestReporter(this.#resourcePath, this.#context, source);
