@@ -146,13 +146,13 @@ export default class ManifestLinter {
 							}, `/sap.ui5/routing/targets/${key}/${oldProp}`);
 						}
 					}
+				}
 
-					if (configType === "View" && target?.type === "View") {
-						// When routing.config.type is "View" setting target.type "View" is redundant,
-						this.#reporter?.addMessage(MESSAGE.REDUNDANT_VIEW_CONFIG_PROPERTY, {
-							propertyName: "type",
-						}, `/sap.ui5/routing/targets/${key}/type`);
-					}
+				if (configType === "View" && target?.type === "View") {
+					// When routing.config.type is "View" setting target.type "View" is redundant,
+					this.#reporter?.addMessage(MESSAGE.REDUNDANT_VIEW_CONFIG_PROPERTY, {
+						propertyName: "type",
+					}, `/sap.ui5/routing/targets/${key}/type`);
 				}
 
 				// Check if name starts with module and viewType is defined:

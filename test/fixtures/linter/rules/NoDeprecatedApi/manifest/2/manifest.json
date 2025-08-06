@@ -115,7 +115,8 @@
 				"viewId": "deprecated",
 				"controlId": "app",
 				"controlAggregation": "pages",
-				"async": true
+				"async": true,
+				"type": "View"
 			},
 			"routes": [
 				{
@@ -127,7 +128,8 @@
 			"targets": {
 				"main": {
 					"viewId": "main",
-					"viewName": "Main"
+					"viewName": "Main",
+					"type": "View"
 				},
 				"myXML": {
 					"name": "module:myapp/views/MyXML",
