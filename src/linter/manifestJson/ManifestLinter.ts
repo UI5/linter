@@ -133,9 +133,12 @@ export default class ManifestLinter {
 		if (targets) {
 			const configType = routing?.config?.type as string | undefined;
 			const targetsType = [];
+			let hasNewPropTargetNames = false;
 
 			for (const [key, target] of Object.entries(targets)) {
 				targetsType.push((target.type === undefined) ? key : null);
+				hasNewPropTargetNames = hasNewPropTargetNames ||
+					Object.values(oldToNewTargetPropsMap).some((newProp) => newProp in target);
 
 				if (isManifest2) {
 					for (const [oldProp, newProp] of Object.entries(oldToNewTargetPropsMap)) {
@@ -175,10 +178,15 @@ export default class ManifestLinter {
 			}
 
 			// "type" must be defined somewhere, either in routing.config or in every target.type
-			if (configType === undefined && targetsType.length) {
+			// OR
+			// if the new property names are used, ensure that the "type" is set
+			// (either by defaulting it in "sap.ui5"/"routing"/"config" or by specifying it in the target)
+			if (configType === undefined && (hasNewPropTargetNames || targetsType.length)) {
 				const hasTargetsWithTypes = targetsType.some((key) => key === null);
 
 				if (hasTargetsWithTypes) {
+					// Some of the targets have type, so we need to filter the ones without a "type"
+					// and report only them
 					targetsType.filter((key) => key !== null).forEach((key) => {
 						this.#reporter?.addMessage(MESSAGE.NO_MISSING_MANIFEST_TARGET_TYPE, {
 							propertyPath: `/sap.ui5/routing/targets/${key}/type`,
