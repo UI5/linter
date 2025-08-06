@@ -3,6 +3,10 @@ import {ChangeAction, ChangeSet} from "../../../autofix/autofix.js";
 import {HtmlFix} from "./HtmlFix.js";
 import {ToPositionCallback} from "../../ui5Types/fix/XmlEnabledFix.js";
 
+/**
+ * Special fix to change the animation mode attribute in HTML tags.
+ * @param attribute The animation mode attribute to be fixed.
+ */
 export default class AnimationModeFix extends HtmlFix {
 	private nameStartPositionDetail: PositionDetail;
 	private nameEndPositionDetail: PositionDetail;
@@ -42,7 +46,8 @@ export default class AnimationModeFix extends HtmlFix {
 			throw new Error("Required positions are not defined");
 		}
 
-		// Replace the attribute name
+		// This will replace the legacy attribute name
+		// to "data-sap-ui-animation-mode":
 		const nameChange: ChangeSet = {
 			action: ChangeAction.REPLACE,
 			start: this.nameStartPos,
@@ -50,7 +55,8 @@ export default class AnimationModeFix extends HtmlFix {
 			value: "data-sap-ui-animation-mode",
 		};
 
-		// Replace the attribute value
+		// This will replace the value of the animation mode attribute
+		// to "full" or "minimal" based on the old value:
 		const newValue = AnimationModeFix.getAnimationModeValue(this.oldValue);
 		const valueChange: ChangeSet = {
 			action: ChangeAction.REPLACE,

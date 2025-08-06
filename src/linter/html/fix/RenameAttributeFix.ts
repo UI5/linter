@@ -3,6 +3,11 @@ import {ChangeAction, ChangeSet} from "../../../autofix/autofix.js";
 import {HtmlFix} from "./HtmlFix.js";
 import {ToPositionCallback} from "../../ui5Types/fix/XmlEnabledFix.js";
 
+/**
+ * Fix to rename the identifier of an attribute in an HTML tag.
+ * @param attribute The identifier to be renamed.
+ * @param newName The new identifier for the attribute.
+ */
 export default class RenameAttributeFix extends HtmlFix {
 	private startPositionDetail: PositionDetail;
 	private endPositionDetail: PositionDetail;

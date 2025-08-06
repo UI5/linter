@@ -4,6 +4,7 @@ import {HtmlFix} from "./HtmlFix.js";
 import {ToPositionCallback} from "../../ui5Types/fix/XmlEnabledFix.js";
 
 /**
+ * Fix to remove an attribute from an HTML tag.
  * @param tag The surrounding tag from which the attribute should be removed.
  * @param attr The attribute to be removed.
  */
@@ -23,8 +24,8 @@ export default class RemoveAttributeFix extends HtmlFix {
 		// If there is a previous attribute, we need to remove
 		// the current attribute and all whitespace until the previous attribute.
 		// This is needed to ensure there are no empty lines or whitespaces left after removal.
-		const i = tag.attributes.indexOf(attr);
-		const previousAttr = i > 0 ? tag.attributes[i - 1] : undefined;
+		const attrIndex = tag.attributes.indexOf(attr);
+		const previousAttr = attrIndex > 0 ? tag.attributes[attrIndex - 1] : undefined;
 		const startPos = previousAttr ?
 				{
 					line: previousAttr.value.end.line,
