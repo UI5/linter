@@ -6,6 +6,7 @@ import {MessageArgs} from "./MessageArgs.js";
 import ts from "typescript";
 import {Ui5TypeInfo} from "./ui5Types/Ui5TypeInfo.js";
 import Fix from "./ui5Types/fix/Fix.js";
+import {SourceFileMessageOptions} from "./ui5Types/SourceFileReporter.js";
 
 export type FilePattern = string; // glob patterns
 export type FilePath = string; // Platform-dependent path
