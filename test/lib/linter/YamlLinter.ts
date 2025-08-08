@@ -361,3 +361,38 @@ test("Test YamlLinter report with empty ui5.yaml", async (t) => {
 	// Test returned messages
 	t.is(messages.length, 0, "0 messages should be reported");
 });
+
+test("Test YamlLinter error catching", async (t) => {
+	// Invalid YAML content that will cause parsing to fail
+	const resourceContent = `
+specVersion: '3.0'
+metadata:
+  name: test-app
+type: application
+framework:
+  name: OpenUI5
+  version: "1.121.0"
+  libraries:
+    - name: sap.m
+    - name: sap.ui.core
+    - invalid: [unclosed array
+`;
+
+	const resourcePath = "/ui5.yaml";
+	const projectPath = "test.yamllinter";
+	const context = new LinterContext({rootDir: projectPath});
+	const linter = new YamlLinter(resourcePath, resourceContent, context);
+	await linter.lint();
+
+	const {messages} = context.generateLintResult("/ui5.yaml");
+
+	// Test that the parsing error was caught and reported
+	t.is(messages.length, 1, "A parsing error message should be reported");
+	t.is(messages[0].ruleId, "parsing-error", "RuleId should be parsing-error");
+
+	// Test that the message contains the actual error that was caught
+	t.true(messages[0].message.includes("Cannot read properties of undefined"),
+		"Message should contain the parsing error"
+	);
+	t.is(messages[0].fatal, true, "Parsing error should be marked as fatal");
+});
