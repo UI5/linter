@@ -9,6 +9,7 @@ import {RequireExpression} from "../linter/ui5Types/amdTranspiler/parseRequire.j
 import generateChangesJs from "./generateChangesJs.js";
 import generateChangesXml from "./generateChangesXml.js";
 import {getFactoryBody} from "./amdImports.js";
+import generateChangesHtml from "./generateChangesHtml.js";
 
 const log = getLogger("linter:autofix");
 
@@ -184,6 +185,8 @@ export default async function ({
 	const messages = new Map<string, RawLintMessage[]>();
 	const xmlResources: Resource[] = [];
 	const jsResources: Resource[] = [];
+	const htmlResources: Resource[] = [];
+
 	for (const [_, autofixResource] of autofixResources) {
 		const fixMessages = autofixResource.messages.filter((msg) => msg.fix);
 		if (!fixMessages.length) {
@@ -191,8 +194,11 @@ export default async function ({
 			continue;
 		}
 		messages.set(autofixResource.resource.getPath(), fixMessages);
-		if (autofixResource.resource.getPath().endsWith(".xml")) {
+		const resourcePath = autofixResource.resource.getPath();
+		if (resourcePath.endsWith(".xml")) {
 			xmlResources.push(autofixResource.resource);
+		} else if (resourcePath.endsWith(".html")) {
+			htmlResources.push(autofixResource.resource);
 		} else {
 			jsResources.push(autofixResource.resource);
 		}
@@ -206,6 +212,10 @@ export default async function ({
 	if (xmlResources.length) {
 		log.verbose(`Applying autofixes for ${xmlResources.length} XML resources`);
 		await autofixXml(xmlResources, messages, context, res);
+	}
+	if (htmlResources.length) {
+		log.verbose(`Applying autofixes for ${htmlResources.length} HTML resources`);
+		await autofixHtml(htmlResources, messages, context, res);
 	}
 
 	return res;
@@ -358,6 +368,39 @@ async function autofixXml(
 		}
 		res.set(resourcePath, newContent);
 	}
+}
+
+async function autofixHtml(
+	htmlResources: Resource[], messages: Map<ResourcePath, RawLintMessage[]>, context: LinterContext,
+	res: AutofixResult
+): Promise<void> {
+	for (const resource of htmlResources) {
+		const resourcePath = resource.getPath();
+
+		const newContent = await applyFixesHtml(resource, messages.get(resourcePath)!);
+		if (!newContent) {
+			continue;
+		}
+
+		log.verbose(`Autofix applied to ${resourcePath}`);
+		res.set(resourcePath, newContent);
+	}
+}
+
+async function applyFixesHtml(
+	resource: Resource,
+	messages: RawLintMessage[]
+): Promise<string | undefined> {
+	const content = await resource.getString();
+	const changeSet: ChangeSet[] = [];
+
+	generateChangesHtml(messages, changeSet, content);
+
+	if (changeSet.length === 0) {
+		return undefined;
+	}
+
+	return applyChanges(content, changeSet);
 }
 
 function applyFixesJs(
