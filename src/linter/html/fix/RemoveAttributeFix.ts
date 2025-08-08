@@ -19,6 +19,7 @@ export default class RemoveAttributeFix extends HtmlFix {
 		this.endPositionDetail = endPos;
 	}
 
+	// TODO: Handle unquoted values correctly
 	calculateRemovalPositions(tag: SaxTag, attr: Attribute): {startPos: PositionDetail; endPos: PositionDetail} {
 		// This will prepare the start and end pos of the removal.
 		// If there is a previous attribute, we need to remove
@@ -29,7 +30,7 @@ export default class RemoveAttributeFix extends HtmlFix {
 		const startPos = previousAttr ?
 				{
 					line: previousAttr.value.end.line,
-					character: previousAttr.value.end.character + 1,
+					character: previousAttr.value.end.character + 1, // TODO: +1 depending on value being quoted or not
 				} :
 				{
 					line: attr.name.start.line,
@@ -37,7 +38,7 @@ export default class RemoveAttributeFix extends HtmlFix {
 				};
 		const endPos = {
 			line: attr.value.end.line,
-			character: attr.value.end.character + 1, // +1 to include the closing quote
+			character: attr.value.end.character + 1, // TODO: +1 depending on value being quoted or not
 		};
 		return {startPos, endPos};
 	}

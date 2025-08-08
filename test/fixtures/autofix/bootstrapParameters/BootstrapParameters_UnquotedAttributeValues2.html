@@ -1,0 +1,27 @@
+<!Doctype HTML>
+<html>
+<head>
+	<title>Duplicated attributes should be removed (values without quotes)</title>
+	<script id='sap-ui-bootstrap'
+		type='text/javascript'
+		src='resources/sap-ui-core.js'
+		data-sap-ui-animation-mode='full'
+		data-sap-ui-animation-mode='minimal'
+		data-sap-ui-theme=sap_horizon
+		data-sap-ui-theme=sap_fiori_3
+		data-sap-ui-async=true
+		data-sap-ui-async='false'
+		data-sap-ui-compat-version='edge'
+		data-sap-ui-compat-version=1.18
+		data-sap-ui-libs=sap.m data-sap-ui-libs='sap.ui.commons'
+		attr=abc attr='def' ignore=xyz
+		attr2=abc attr2='def'ignore2=xyz
+		attr3='abc' attr3=def ignore3=xyz
+		attr4='abc'attr4=def ignore4=xyz
+		attr5='abc'attr5='def'ignore5=xyz
+		attr6='abc'ignore6=xyz attr6='def'>
+	</script>
+</head>
+<body class='sapUiBody'>
+</body>
+</html>
