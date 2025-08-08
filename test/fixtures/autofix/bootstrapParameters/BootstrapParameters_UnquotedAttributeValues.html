@@ -1,7 +1,7 @@
 <!Doctype HTML>
 <html>
 <head>
-	<title>Sample index.html with Duplicate Attribute (only first should be kept & every other should be removed) - unquoted version</title>
+	<title>Duplicated attributes should be removed (values without quotes)</title>
 	<script id="sap-ui-bootstrap"
 		type="text/javascript"
 		src="resources/sap-ui-core.js"
@@ -14,7 +14,12 @@
 		data-sap-ui-compat-version="edge"
 		data-sap-ui-compat-version=1.18
 		data-sap-ui-libs=sap.m data-sap-ui-libs="sap.ui.commons"
-		data-sap-ui-loglevel="INFO" data-sap-ui-loglevel=WARNING>
+		attr=abc attr="def" ignore=xyz
+		attr2=abc attr2="def"ignore2=xyz
+		attr3="abc" attr3=def ignore3=xyz
+		attr4="abc"attr4=def ignore4=xyz
+		attr5="abc"attr5="def"ignore5=xyz
+		attr6="abc"ignore6=xyz attr6="def">
 	</script>
 </head>
 <body class="sapUiBody">
