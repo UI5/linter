@@ -4,8 +4,8 @@ import {ToPositionCallback} from "../../ui5Types/fix/XmlEnabledFix.js";
 import {PositionInfo} from "../../LinterContext.js";
 
 export abstract class HtmlFix extends Fix {
-	protected startPos: number | undefined;
-	protected endPos: number | undefined;
+	startPos: number | undefined;
+	endPos: number | undefined;
 
 	visitLinterNode(_node: ts.Node, _sourcePosition: PositionInfo, _helpers: FixHelpers): boolean {
 		// HTML fixes don't use the linter node
