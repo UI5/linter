@@ -337,6 +337,7 @@ async function autofixXml(
 				`[${existingXmlError.line}:${existingXmlError.col}] ${existingXmlError.msg}`);
 			continue;
 		}
+		log.verbose(`Applying autofix for ${resourcePath}`);
 		const newContent = await applyFixesXml(resource, messages.get(resourcePath)!);
 		if (!newContent) {
 			continue;
@@ -366,6 +367,7 @@ async function autofixXml(
 			context.addLintingMessage(resourcePath, MESSAGE.AUTOFIX_ERROR, {message});
 			continue;
 		}
+		log.verbose(`Autofix applied to ${resourcePath}`);
 		res.set(resourcePath, newContent);
 	}
 }
@@ -377,6 +379,7 @@ async function autofixHtml(
 	for (const resource of htmlResources) {
 		const resourcePath = resource.getPath();
 
+		log.verbose(`Applying autofix for ${resourcePath}`);
 		const newContent = await applyFixesHtml(resource, messages.get(resourcePath)!);
 		if (!newContent) {
 			continue;
@@ -385,22 +388,6 @@ async function autofixHtml(
 		log.verbose(`Autofix applied to ${resourcePath}`);
 		res.set(resourcePath, newContent);
 	}
-}
-
-async function applyFixesHtml(
-	resource: Resource,
-	messages: RawLintMessage[]
-): Promise<string | undefined> {
-	const content = await resource.getString();
-	const changeSet: ChangeSet[] = [];
-
-	generateChangesHtml(messages, changeSet, content);
-
-	if (changeSet.length === 0) {
-		return undefined;
-	}
-
-	return applyChanges(content, changeSet);
 }
 
 function applyFixesJs(
@@ -430,6 +417,22 @@ async function applyFixesXml(
 	if (changeSet.length === 0) {
 		return undefined;
 	}
+	return applyChanges(content, changeSet);
+}
+
+async function applyFixesHtml(
+	resource: Resource,
+	messages: RawLintMessage[]
+): Promise<string | undefined> {
+	const content = await resource.getString();
+	const changeSet: ChangeSet[] = [];
+
+	generateChangesHtml(messages, changeSet, content);
+
+	if (changeSet.length === 0) {
+		return undefined;
+	}
+
 	return applyChanges(content, changeSet);
 }
 
