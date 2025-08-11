@@ -15,6 +15,7 @@ import {Tag as SaxTag, Text as SaxText} from "sax-wasm";
 import EventHandlerResolver from "./lib/EventHandlerResolver.js";
 import BindingParser from "../binding/lib/BindingParser.js";
 import {extractDirective} from "../../utils/xmlParser.js";
+import EventHandlersFix from "../ui5Types/fix/EventHandlersFix.js";
 const log = getLogger("linter:xmlTemplate:Parser");
 
 export type Namespace = string;
@@ -70,7 +71,7 @@ export interface FragmentDefinitionDeclaration extends NodeDeclaration {
 // 	kind: NodeKind.Template
 // }
 
-interface AttributeDeclaration {
+export interface AttributeDeclaration {
 	name: string;
 	value: string;
 	localNamespace?: string;
@@ -682,10 +683,19 @@ export default class Parser {
 							// without also it.
 							// Note that this could also be a global function reference, but we can't distinguish
 							// that here.
+							const generateFix = () => {
+								const fix = new EventHandlersFix();
+
+								if (fix.visitLinterNode(prop, position)) {
+									return fix;
+								}
+							};
 							this.#context.addLintingMessage(
 								this.#resourcePath, MESSAGE.NO_AMBIGUOUS_EVENT_HANDLER, {
 									eventHandler: functionName,
-								}, position
+								}, position, {
+									fix: generateFix(),
+								}
 							);
 						} else {
 							this.#context.addLintingMessage(this.#resourcePath, MESSAGE.NO_GLOBALS, {
