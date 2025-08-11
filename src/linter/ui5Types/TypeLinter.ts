@@ -183,7 +183,10 @@ export default class TypeLinter {
 		}
 		typeCheckDone();
 
-		this.#sharedLanguageService.release();
+		// sharedLanguageService is also needed for some autofixes i.e.
+		// checks controllers for existence of certain methods
+		// The release will happen in lintWorkspace after autofixes have been applied
+		// this.#sharedLanguageService.release();
 
 		this.addMessagesToContext();
 

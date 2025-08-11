@@ -24,6 +24,7 @@ export interface AutofixOptions {
 	namespace?: string;
 	resources: Map<ResourcePath, AutofixResource>;
 	context: LinterContext;
+	sharedLanguageService: SharedLanguageService;
 }
 
 export type AutofixResult = Map<ResourcePath, string>;
@@ -164,7 +165,7 @@ export default async function ({
 	rootDir: _unused1,
 	namespace: _unused2,
 	resources: autofixResources,
-	context,
+	context, sharedLanguageService,
 }: AutofixOptions): Promise<AutofixResult> {
 	const messages = new Map<string, RawLintMessage[]>();
 	const xmlResources: Resource[] = [];
@@ -199,6 +200,10 @@ export default async function ({
 	if (xmlResources.length) {
 		log.verbose(`Applying autofixes for ${xmlResources.length} XML resources`);
 		await autofixXml(xmlResources, messages, context, res);
+	}
+	if (htmlResources.length) {
+		log.verbose(`Applying autofixes for ${htmlResources.length} HTML resources`);
+		await autofixHtml(htmlResources, messages, context, res);
 	}
 	if (htmlResources.length) {
 		log.verbose(`Applying autofixes for ${htmlResources.length} HTML resources`);
@@ -316,7 +321,7 @@ async function autofixJs(
 
 async function autofixXml(
 	xmlResources: Resource[], messages: Map<ResourcePath, RawLintMessage[]>, context: LinterContext,
-	res: AutofixResult
+	res: AutofixResult, sharedLanguageService: SharedLanguageService
 ): Promise<void> {
 	for (const resource of xmlResources) {
 		const resourcePath = resource.getPath();
@@ -454,11 +459,12 @@ function applyFixesJs(
 
 async function applyFixesXml(
 	resource: Resource,
-	messages: RawLintMessage[]
+	messages: RawLintMessage[],
+	sharedLanguageService: SharedLanguageService
 ): Promise<string | undefined> {
 	const content = await resource.getString();
 	const changeSet: ChangeSet[] = [];
-	await generateChangesXml(messages, changeSet, content, resource);
+	await generateChangesXml(messages, changeSet, content, resource, sharedLanguageService);
 
 	if (changeSet.length === 0) {
 		return undefined;
