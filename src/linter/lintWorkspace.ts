@@ -51,6 +51,8 @@ export default async function lintWorkspace(
 		}
 		lastContext = autofixContext;
 	}
+
+	sharedLanguageService.release(); // Release here as it is needed in autofix
 	return lastContext.generateLintResults();
 }
 
@@ -94,7 +96,7 @@ async function runAutofix(
 		rootDir: options.rootDir,
 		namespace: options.namespace,
 		resources: autofixResources,
-		context,
+		context, sharedLanguageService,
 	});
 
 	doneAutofix();

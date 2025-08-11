@@ -15,6 +15,7 @@ import {Tag as SaxTag, Text as SaxText} from "sax-wasm";
 import EventHandlerResolver from "./lib/EventHandlerResolver.js";
 import BindingParser from "../binding/lib/BindingParser.js";
 import {extractDirective} from "../../utils/xmlParser.js";
+import EventHandlersFix from "../ui5Types/fix/EventHandlersFix.js";
 import {
 	AggregationDeclaration,
 	AttributeDeclaration,
@@ -30,6 +31,7 @@ import {
 	RequireExpression,
 } from "./xmlNodes.js";
 const log = getLogger("linter:xmlTemplate:Parser");
+
 
 const XHTML_NAMESPACE = "http://www.w3.org/1999/xhtml";
 const SVG_NAMESPACE = "http://www.w3.org/2000/svg";
@@ -623,11 +625,19 @@ export default class Parser {
 							// without also it.
 							// Note that this could also be a global function reference, but we can't distinguish
 							// that here.
+							const generateFix = () => {
+								const fix = new EventHandlersFix();
+
+								if (fix.visitLinterNode(prop, position)) {
+									return fix;
+								}
+							};
 							this.#context.addLintingMessage(
 								this.#resourcePath, {
 									id: MESSAGE.NO_AMBIGUOUS_EVENT_HANDLER,
 									args: {eventHandler: functionName},
 									position,
+									fix: generateFix(),
 								}
 							);
 						} else {

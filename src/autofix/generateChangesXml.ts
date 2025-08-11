@@ -6,6 +6,7 @@ import XmlEnabledFix from "../linter/ui5Types/fix/XmlEnabledFix.js";
 import {RawLintMessage} from "../linter/LinterContext.js";
 import {ChangeSet} from "../utils/textChanges.js";
 import {removeConflictingFixes} from "./utils.js";
+import SharedLanguageService from "../linter/ui5Types/SharedLanguageService.js";
 // import {getLogger} from "@ui5/logger";
 
 // const log = getLogger("linter:autofix:generateChangesXml");
@@ -18,7 +19,7 @@ interface NodeSearchInfo {
 
 export default async function generateChangesXml(
 	messages: RawLintMessage[],
-	changeSets: ChangeSet[], content: string, resource: Resource) {
+	changeSets: ChangeSet[], content: string, resource: Resource, sharedLanguageService: SharedLanguageService) {
 	const lines = content.split("\n");
 
 	const nodeSearchInfo = new Set<NodeSearchInfo>();
@@ -61,7 +62,7 @@ export default async function generateChangesXml(
 				for (const {position, fix, xmlEventTypes} of nodeSearchInfo) {
 					if (xmlEventTypes.includes(SaxEventType.OpenTag)) {
 						if (data.openStart.line === position.line && data.openStart.character === position.character) {
-							fix.visitAutofixXmlNode(data, toPositionCallback);
+							fix.visitAutofixXmlNode(data, toPositionCallback, sharedLanguageService);
 						}
 					}
 				}
@@ -71,7 +72,7 @@ export default async function generateChangesXml(
 				const {position, fix, xmlEventTypes} = nodeInfo;
 				if (xmlEventTypes.includes(event)) {
 					if (data.name.start.line === position.line && data.name.start.character === position.character &&
-						fix.visitAutofixXmlNode(data, toPositionCallback)) {
+						fix.visitAutofixXmlNode(data, toPositionCallback, sharedLanguageService)) {
 						matchedFixes.add(fix);
 						nodeSearchInfo.delete(nodeInfo);
 					}
