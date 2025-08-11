@@ -121,6 +121,11 @@ async function runAutofix(
 			// fix: false,
 		};
 		const autofixContext = context;
+
+		// Reset to refresh sharedLanguageService after fixes have been applied
+		// It would be reinstantiated in TypeLinter
+		sharedLanguageService.release();
+
 		context = await runLintWorkspace(
 			workspace, filePathsWorkspace, optionsAfterFix, config, patternsMatch,
 			libraryDependencies, sharedLanguageService
