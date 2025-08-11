@@ -9,6 +9,12 @@
 
 	<!-- Local event handler (nested) -->
 	<Button press="eventHandlers.onPressFancyButton" /> <!-- Autofix -->
+	
+	<!-- Local event handler (Inherited: BaseController) -->
+	<Button press="onBaseControllerHandler" /> <!-- Autofix -->
+	
+	<!-- Not a real event handler, but an existing method in sap.ui.mvc.Controller (Inherited: sap.ui.mvc.Controller) -->
+	<Button press="byId" /> <!-- Autofix -->
 
 	<!-- Local event handler (with arguments) -->
 	<Button press="onPressFancyButton(0, ${i18n>LABEL_ALL}, $controller.foo.bar, $event)" /> <!-- Autofix -->
