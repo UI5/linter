@@ -207,7 +207,7 @@ export default async function ({
 	}
 	if (xmlResources.length) {
 		log.verbose(`Applying autofixes for ${xmlResources.length} XML resources`);
-		await autofixXml(xmlResources, messages, context, res, workspace, sharedLanguageService);
+		await autofixXml(xmlResources, messages, context, res, sharedLanguageService);
 	}
 
 	return res;
