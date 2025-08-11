@@ -268,9 +268,7 @@ async function autofixJs(
 		} catch (err) {
 			if (err instanceof Error) {
 				log.verbose(`Error while applying autofix to ${resourcePath}: ${err}`);
-				if (err instanceof Error) {
-					log.verbose(`Call stack: ${err.stack}`);
-				}
+				log.verbose(`Call stack: ${err.stack}`);
 				context.addLintingMessage(resourcePath, MESSAGE.AUTOFIX_ERROR, {message: err.message});
 				continue;
 			}
@@ -380,13 +378,22 @@ async function autofixHtml(
 		const resourcePath = resource.getPath();
 
 		log.verbose(`Applying autofix for ${resourcePath}`);
-		const newContent = await applyFixesHtml(resource, messages.get(resourcePath)!);
-		if (!newContent) {
-			continue;
+		let newContent;
+		try {
+			newContent = await applyFixesHtml(resource, messages.get(resourcePath)!);
+		} catch (err) {
+			if (err instanceof Error) {
+				log.verbose(`Error while applying autofix to ${resourcePath}: ${err}`);
+				log.verbose(`Call stack: ${err.stack}`);
+				context.addLintingMessage(resourcePath, MESSAGE.AUTOFIX_ERROR, {message: err.message});
+				continue;
+			}
+			throw err;
 		}
-
-		log.verbose(`Autofix applied to ${resourcePath}`);
-		res.set(resourcePath, newContent);
+		if (newContent !== undefined) {
+			log.verbose(`Autofix applied to ${resourcePath}`);
+			res.set(resourcePath, newContent);
+		}
 	}
 }
 
