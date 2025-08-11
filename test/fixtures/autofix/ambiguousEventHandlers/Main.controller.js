@@ -1,7 +1,7 @@
-sap.ui.define(["./BaseController"], function (BaseController) {
+sap.ui.define(["./Base.controller"], function (BaseController) {
 	"use strict";
 
-	return BaseController.extend("ui5.walkthrougth.controller.Main", {
+	return BaseController.extend("ui5.walkthrough.controller.Main", {
 		eventHandlers: {
 			onPressFancyButton: this.onPressFancyButton,
 		},
