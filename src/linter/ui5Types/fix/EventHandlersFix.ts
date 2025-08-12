@@ -1,6 +1,6 @@
 import ts, {Program} from "typescript";
 import {ChangeAction, ChangeSet} from "../../../autofix/autofix.js";
-import {PositionInfo} from "../../LinterContext.js";
+import LinterContext, {PositionInfo} from "../../LinterContext.js";
 import {Attribute, Position, SaxEventType} from "sax-wasm";
 import XmlEnabledFix from "./XmlEnabledFix.js";
 import type {AttributeDeclaration} from "../../xmlTemplate/Parser.js";
@@ -35,6 +35,7 @@ export default class EventHandlersFix extends XmlEnabledFix {
 
 	methodExistsInController(
 		controllerName: string,
+		context: LinterContext,
 		methodName: string,
 		tsProgram?: Program,
 		checker?: ts.TypeChecker
@@ -50,7 +51,12 @@ export default class EventHandlersFix extends XmlEnabledFix {
 			return ts.forEachChild(node, findClassDeclaration);
 		};
 
-		const sourceFile = tsProgram.getSourceFile(controllerName);
+		const sourceFile = tsProgram.getSourceFiles().find((sourceFile) => {
+			if (sourceFile.fileName.endsWith(".js")) {
+				const metadata = context.getMetadata(sourceFile.fileName);
+				return metadata.namespace && metadata.namespace === controllerName;
+			}
+		});
 
 		if (!sourceFile) {
 			return false;
@@ -80,18 +86,19 @@ export default class EventHandlersFix extends XmlEnabledFix {
 	visitAutofixXmlNode(
 		node: Attribute,
 		toPosition: (pos: Position) => number,
-		sharedLanguageService?: SharedLanguageService
+		xmlHelpers: {
+			controllerName: string;
+			sharedLanguageService: SharedLanguageService;
+			context: LinterContext;
+		}
 	) {
+		const {controllerName, context, sharedLanguageService} = xmlHelpers;
 		const program = sharedLanguageService?.getProgram();
 		const checker = program?.getTypeChecker();
 
-		// TODO:
-		// 1. Extract module name from XMLView
-		// 2. Find corresponding JS controller for each XMLView
-
 		const methodName = node.value.value.split("(")[0]; // If method with args, take just the name
 		const isAvailableMethod = this.methodExistsInController(
-			"/ambiguousEventHandlers/Main.controller.js", methodName, program, checker);
+			controllerName, context, methodName, program, checker);
 
 		if (isAvailableMethod) {
 			this.methodName = node.value.value;
