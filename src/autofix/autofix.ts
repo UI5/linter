@@ -329,7 +329,7 @@ async function autofixXml(
 				`[${existingXmlError.line}:${existingXmlError.col}] ${existingXmlError.msg}`);
 			continue;
 		}
-		const newContent = await applyFixesXml(resource, messages.get(resourcePath)!, sharedLanguageService);
+		const newContent = await applyFixesXml(resource, messages.get(resourcePath)!, context, sharedLanguageService);
 		if (!newContent) {
 			continue;
 		}
@@ -381,11 +381,12 @@ function applyFixesJs(
 async function applyFixesXml(
 	resource: Resource,
 	messages: RawLintMessage[],
+	context: LinterContext,
 	sharedLanguageService: SharedLanguageService
 ): Promise<string | undefined> {
 	const content = await resource.getString();
 	const changeSet: ChangeSet[] = [];
-	await generateChangesXml(messages, changeSet, content, resource, sharedLanguageService);
+	await generateChangesXml(messages, changeSet, content, resource, context, sharedLanguageService);
 
 	if (changeSet.length === 0) {
 		return undefined;
