@@ -3,7 +3,7 @@ import {Attribute, Position, SaxEventType, Tag} from "sax-wasm";
 import {parseXml} from "../utils/xmlParser.js";
 import Fix from "../linter/ui5Types/fix/Fix.js";
 import XmlEnabledFix from "../linter/ui5Types/fix/XmlEnabledFix.js";
-import {RawLintMessage} from "../linter/LinterContext.js";
+import LinterContext, {RawLintMessage} from "../linter/LinterContext.js";
 import {ChangeSet} from "../utils/textChanges.js";
 import {removeConflictingFixes} from "./utils.js";
 import SharedLanguageService from "../linter/ui5Types/SharedLanguageService.js";
@@ -19,7 +19,8 @@ interface NodeSearchInfo {
 
 export default async function generateChangesXml(
 	messages: RawLintMessage[],
-	changeSets: ChangeSet[], content: string, resource: Resource, sharedLanguageService: SharedLanguageService) {
+	changeSets: ChangeSet[], content: string, resource: Resource,
+	context: LinterContext, sharedLanguageService: SharedLanguageService) {
 	const lines = content.split("\n");
 
 	const nodeSearchInfo = new Set<NodeSearchInfo>();
@@ -56,23 +57,30 @@ export default async function generateChangesXml(
 	};
 
 	const matchedFixes = new Set<Fix>();
+	const xmlHelpers: Record<string, unknown> = {
+		context, sharedLanguageService,
+	};
 	await parseXml(resource.getStream(), (event, data) => {
 		if (data instanceof Tag) {
 			if (event === SaxEventType.OpenTag) {
 				for (const {position, fix, xmlEventTypes} of nodeSearchInfo) {
 					if (xmlEventTypes.includes(SaxEventType.OpenTag)) {
 						if (data.openStart.line === position.line && data.openStart.character === position.character) {
-							fix.visitAutofixXmlNode(data, toPositionCallback, sharedLanguageService);
+							fix.visitAutofixXmlNode(data, toPositionCallback, xmlHelpers);
 						}
 					}
 				}
 			}
 		} else if (data instanceof Attribute) {
+			if (data.name.value === "controllerName") {
+				xmlHelpers.controllerName = data.value.value;
+			}
+
 			for (const nodeInfo of nodeSearchInfo) {
 				const {position, fix, xmlEventTypes} = nodeInfo;
 				if (xmlEventTypes.includes(event)) {
 					if (data.name.start.line === position.line && data.name.start.character === position.character &&
-						fix.visitAutofixXmlNode(data, toPositionCallback, sharedLanguageService)) {
+						fix.visitAutofixXmlNode(data, toPositionCallback, xmlHelpers)) {
 						matchedFixes.add(fix);
 						nodeSearchInfo.delete(nodeInfo);
 					}
