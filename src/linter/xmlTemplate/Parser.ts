@@ -698,10 +698,19 @@ export default class Parser {
 								}
 							);
 						} else {
+							const generateFix = () => {
+								const fix = new EventHandlersFix();
+
+								if (fix.visitLinterNode(prop, position)) {
+									return fix;
+								}
+							};
 							this.#context.addLintingMessage(this.#resourcePath, MESSAGE.NO_GLOBALS, {
 								variableName,
 								namespace: functionName,
-							}, position);
+							}, position, {
+								fix: generateFix(),
+							});
 						}
 					});
 
