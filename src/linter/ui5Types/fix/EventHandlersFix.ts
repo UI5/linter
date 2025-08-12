@@ -86,7 +86,6 @@ export default class EventHandlersFix extends XmlEnabledFix {
 		const checker = program?.getTypeChecker();
 
 		// TODO:
-		// 0. Handle cases like press="eventHandlers.onPressFancyButton"
 		// 1. Extract module name from XMLView
 		// 2. Find corresponding JS controller for each XMLView
 
