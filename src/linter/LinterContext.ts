@@ -114,6 +114,7 @@ export interface LintMetadata {
 	transformedImports: Map<string, Set<string>>;
 	xmlCompiledResource: string;
 	jsToXmlPosMapping: {pos: ts.LineAndCharacter; originalPath: string};
+	namespace: string | undefined; // Namespace of the resource, if applicable
 }
 
 export default class LinterContext {

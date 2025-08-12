@@ -111,7 +111,8 @@ function transform(
 			if (matchPropertyAccessExpression(node.expression, "sap.ui.define")) {
 				try {
 					const moduleDeclaration = parseModuleDeclaration(node.arguments, checker);
-					const moduleDefinition = moduleDeclarationToDefinition(moduleDeclaration, sourceFile, nodeFactory);
+					const moduleDefinition =
+						moduleDeclarationToDefinition(moduleDeclaration, sourceFile, nodeFactory, metadata);
 					moduleDefinitions.push(moduleDefinition);
 					if (moduleDefinition.imports.length) {
 						moduleDefinition.imports.forEach((importStatement) =>
@@ -186,7 +187,7 @@ function transform(
 				// For now, only rewrite extend calls in expressions and variable statements
 				if (variableStatement || ts.isExpressionStatement(node.parent)) {
 					try {
-						const classDeclaration = rewriteExtendCall(nodeFactory, node, undefined, className);
+						const classDeclaration = rewriteExtendCall(nodeFactory, node, metadata, undefined, className);
 						if (classDeclaration) {
 							if (variableStatement) {
 								if (variableStatement.declarationList.declarations.length > 1) {
