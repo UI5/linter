@@ -619,19 +619,20 @@ export default class Parser {
 						if (!variableName) {
 							return;
 						}
+
+						const generateFix = () => {
+							const fix = new EventHandlersFix();
+
+							if (fix.visitLinterNode(prop, position)) {
+								return fix;
+							}
+						};
 						if (!functionName.includes(".")) {
 							// If the event handler does not include a dot, it is most likely a reference to the
 							// controller which should be prefixed with a leading dot, but works in UI5 1.x runtime
 							// without also it.
 							// Note that this could also be a global function reference, but we can't distinguish
 							// that here.
-							const generateFix = () => {
-								const fix = new EventHandlersFix();
-
-								if (fix.visitLinterNode(prop, position)) {
-									return fix;
-								}
-							};
 							this.#context.addLintingMessage(
 								this.#resourcePath, {
 									id: MESSAGE.NO_AMBIGUOUS_EVENT_HANDLER,
