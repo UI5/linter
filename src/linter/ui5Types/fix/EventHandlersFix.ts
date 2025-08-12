@@ -58,9 +58,20 @@ export default class EventHandlersFix extends XmlEnabledFix {
 
 		const classDeclaration = findClassDeclaration(sourceFile);
 		let classType;
-		if (classDeclaration) {
+		// If it's an "eventHandler" object in the controller
+		const methodNameChunks = methodName.split(".");
+		let curName = methodNameChunks.shift();
+		if (classDeclaration && curName) {
 			classType = checker.getTypeAtLocation(classDeclaration);
-			return !!classType.getProperty(methodName);
+			let curType = classType.getProperty(curName);
+
+			while (methodNameChunks.length && curType) {
+				curName = methodNameChunks.shift();
+				const aaa = checker.getTypeOfSymbolAtLocation(curType, classDeclaration);
+				curType = aaa.getProperty(curName ?? "");
+			}
+
+			return !!curType;
 		}
 
 		return false;
@@ -75,6 +86,7 @@ export default class EventHandlersFix extends XmlEnabledFix {
 		const checker = program?.getTypeChecker();
 
 		// TODO:
+		// 0. Handle cases like press="eventHandlers.onPressFancyButton"
 		// 1. Extract module name from XMLView
 		// 2. Find corresponding JS controller for each XMLView
 

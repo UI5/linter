@@ -9,7 +9,13 @@
 
 	<!-- Local event handler (nested) -->
 	<Button press="eventHandlers.onPressFancyButton" /> <!-- Autofix -->
-	
+
+	<!-- Local event handler (nested, inherited) -->
+	<Button press="baseEventHandlers.oneLevelDeeper.onPressButton" /> <!-- Autofix -->
+
+	<!-- Local NON-existing event handler (nested) -->
+	<Button press="eventHandlers.onPressFancyButtonNonExisting" /> <!-- Do not Autofix: non existent event -->
+
 	<!-- Local event handler (Inherited: BaseController) -->
 	<Button press="onBaseControllerHandler" /> <!-- Autofix -->
 	
