@@ -52,7 +52,8 @@ export default class EventHandlersFix extends XmlEnabledFix {
 		};
 
 		const sourceFile = tsProgram.getSourceFiles().find((sourceFile) => {
-			if (sourceFile.fileName.endsWith(".js")) {
+			if (sourceFile.fileName.endsWith(".js") ||
+				(sourceFile.fileName.endsWith(".ts") && !sourceFile.fileName.endsWith(".d.ts"))) {
 				const metadata = context.getMetadata(sourceFile.fileName);
 				return metadata.namespace && metadata.namespace === controllerName;
 			}
