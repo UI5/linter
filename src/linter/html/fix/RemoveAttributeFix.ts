@@ -54,10 +54,11 @@ export default class RemoveAttributeFix extends HtmlFix {
 		const previousAttr = attrIndex > 0 ? tag.attributes[attrIndex - 1] : undefined;
 
 		if (!previousAttr) {
-			// TODO: refactor (= attribute is first in tag)
+			// TODO: add different handlings for all attribute types
+
 			startPos = {
-				line: attr.name.start.line,
-				character: attr.name.start.character,
+				line: tag.openStart.line,
+				character: tag.openStart.character + tag.name.length + 1,
 			};
 			endPos = {
 				line: attr.value.end.line,
