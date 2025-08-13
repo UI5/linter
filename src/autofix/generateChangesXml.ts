@@ -20,7 +20,7 @@ interface NodeSearchInfo {
 export default async function generateChangesXml(
 	messages: RawLintMessage[],
 	changeSets: ChangeSet[], content: string, resource: Resource,
-	context: LinterContext, sharedLanguageService: SharedLanguageService) {
+	context: LinterContext, sharedLanguageService?: SharedLanguageService) {
 	const lines = content.split("\n");
 
 	const nodeSearchInfo = new Set<NodeSearchInfo>();
