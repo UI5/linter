@@ -1,7 +1,7 @@
 <!Doctype HTML>
 <html>
 <head>
-	<title>Duplicated attributes should be removed (values without quotes)</title>
+	<title>Duplicated attributes should be removed (test values without quotes)</title>
 	<script id='sap-ui-bootstrap'
 		type='text/javascript'
 		src='resources/sap-ui-core.js'
@@ -19,7 +19,11 @@
 		attr3='abc' attr3=def ignore3=xyz
 		attr4='abc'attr4=def ignore4=xyz
 		attr5='abc'attr5='def'ignore5=xyz
-		attr6='abc'ignore6=xyz attr6='def'>
+		attr6='abc'ignore6=xyz attr6='def'
+		doubleAndSingleQuoted='edge'
+		doubleAndSingleQuoted="1.18"
+		doubleAndSingleQuoted2="edge"
+		doubleAndSingleQuoted2='1.18'>
 	</script>
 </head>
 <body class='sapUiBody'>
