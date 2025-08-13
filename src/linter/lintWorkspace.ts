@@ -33,6 +33,7 @@ export default async function lintWorkspace(
 		workspace, filePathsWorkspace, options, config, patternsMatch, libraryDependencies, sharedLanguageService
 	);
 	if (!options.fix) {
+		sharedLanguageService.release();
 		return lintContext.generateLintResults();
 	}
 
