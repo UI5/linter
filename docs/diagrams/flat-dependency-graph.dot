@@ -1,0 +1,475 @@
+strict digraph "dependency-cruiser output"{
+    rankdir="LR" splines="true" overlap="false" nodesep="0.16" ranksep="0.18" fontname="Helvetica-bold" fontsize="9" style="rounded,bold,filled" fillcolor="#ffffff" compound="true"
+    node [shape="box" style="rounded, filled" height="0.2" color="black" fillcolor="#ffffcc" fontcolor="black" fontname="Helvetica" fontsize="9"]
+    edge [arrowhead="normal" arrowsize="0.6" penwidth="2.0" color="#00000033" fontname="Helvetica" fontsize="9"]
+
+    "src/autofix/amdImports.ts" [label=<src/autofix/<BR/><B>amdImports.ts</B>> tooltip="amdImports.ts" URL="https://github.com/UI5/linter/blob/main/src/autofix/amdImports.ts" fillcolor="#ddfeff"]
+    "src/autofix/amdImports.ts" -> "src/linter/ui5Types/amdTranspiler/parseModuleDeclaration.ts"
+    "src/autofix/amdImports.ts" -> "src/linter/ui5Types/amdTranspiler/parseRequire.ts"
+    "src/autofix/amdImports.ts" -> "src/linter/ui5Types/utils/utils.ts"
+    "src/autofix/amdImports.ts" -> "src/autofix/autofix.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/autofix/autofix.ts" [label=<src/autofix/<BR/><B>autofix.ts</B>> tooltip="autofix.ts" URL="https://github.com/UI5/linter/blob/main/src/autofix/autofix.ts" fillcolor="#ddfeff"]
+    "src/autofix/autofix.ts" -> "src/linter/LinterContext.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/autofix/autofix.ts" -> "src/linter/messages.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/autofix/autofix.ts" -> "src/linter/ui5Types/amdTranspiler/parseModuleDeclaration.ts"
+    "src/autofix/autofix.ts" -> "src/linter/ui5Types/amdTranspiler/parseRequire.ts"
+    "src/autofix/autofix.ts" -> "src/autofix/amdImports.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/autofix/autofix.ts" -> "src/autofix/generateChangesJs.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/autofix/autofix.ts" -> "src/autofix/generateChangesXml.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/autofix/generateChangesJs.ts" [label=<src/autofix/<BR/><B>generateChangesJs.ts</B>> tooltip="generateChangesJs.ts" URL="https://github.com/UI5/linter/blob/main/src/autofix/generateChangesJs.ts" fillcolor="#ddfeff"]
+    "src/autofix/generateChangesJs.ts" -> "src/linter/LinterContext.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" penwidth="1.0" fontcolor="orange" color="orange"]
+    "src/autofix/generateChangesJs.ts" -> "src/linter/ui5Types/amdTranspiler/parseModuleDeclaration.ts"
+    "src/autofix/generateChangesJs.ts" -> "src/linter/ui5Types/amdTranspiler/parseRequire.ts"
+    "src/autofix/generateChangesJs.ts" -> "src/linter/ui5Types/fix/Fix.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/autofix/generateChangesJs.ts" -> "src/linter/ui5Types/utils/utils.ts"
+    "src/autofix/generateChangesJs.ts" -> "src/autofix/amdImports.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/autofix/generateChangesJs.ts" -> "src/autofix/autofix.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/autofix/generateChangesJs.ts" -> "src/autofix/utils.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/autofix/generateChangesXml.ts" [label=<src/autofix/<BR/><B>generateChangesXml.ts</B>> tooltip="generateChangesXml.ts" URL="https://github.com/UI5/linter/blob/main/src/autofix/generateChangesXml.ts" fillcolor="#ddfeff"]
+    "src/autofix/generateChangesXml.ts" -> "src/linter/LinterContext.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/autofix/generateChangesXml.ts" -> "src/linter/ui5Types/fix/Fix.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/autofix/generateChangesXml.ts" -> "src/linter/ui5Types/fix/XmlEnabledFix.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/autofix/generateChangesXml.ts" -> "src/utils/xmlParser.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/autofix/generateChangesXml.ts" -> "src/autofix/autofix.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/autofix/generateChangesXml.ts" -> "src/autofix/utils.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/autofix/utils.ts" [label=<src/autofix/<BR/><B>utils.ts</B>> tooltip="utils.ts" URL="https://github.com/UI5/linter/blob/main/src/autofix/utils.ts" fillcolor="#ddfeff"]
+    "src/autofix/utils.ts" -> "src/linter/ui5Types/fix/Fix.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/cli.ts" [label=<src/<BR/><B>cli.ts</B>> tooltip="cli.ts" URL="https://github.com/UI5/linter/blob/main/src/cli.ts" fillcolor="#ddfeff"]
+    "src/cli.ts" -> "src/cli/base.ts"
+    "src/cli.ts" -> "src/cli/version.ts"
+    "src/cli/base.ts" [label=<src/cli/<BR/><B>base.ts</B>> tooltip="base.ts" URL="https://github.com/UI5/linter/blob/main/src/cli/base.ts" fillcolor="#ddfeff"]
+    "src/cli/base.ts" -> "src/formatter/coverage.ts"
+    "src/cli/base.ts" -> "src/formatter/html.ts"
+    "src/cli/base.ts" -> "src/formatter/json.ts"
+    "src/cli/base.ts" -> "src/formatter/markdown.ts"
+    "src/cli/base.ts" -> "src/formatter/text.ts"
+    "src/cli/base.ts" -> "src/index.ts"
+    "src/cli/base.ts" -> "src/linter/messages.ts"
+    "src/cli/base.ts" -> "src/cli/middlewares/base.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/cli/base.ts" -> "src/cli/utils/profile.ts" [style="dashed"]
+    "src/cli/base.ts" -> "src/cli/version.ts"
+    "src/cli/middlewares/base.ts" [label=<src/cli/middlewares/<BR/><B>base.ts</B>> tooltip="base.ts" URL="https://github.com/UI5/linter/blob/main/src/cli/middlewares/base.ts" fillcolor="#ddfeff"]
+    "src/cli/middlewares/base.ts" -> "src/cli/base.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" penwidth="1.0" fontcolor="orange" color="orange"]
+    "src/cli/middlewares/base.ts" -> "src/cli/middlewares/logger.ts"
+    "src/cli/middlewares/base.ts" -> "src/cli/middlewares/updateNotifier.ts"
+    "src/cli/middlewares/logger.ts" [label=<src/cli/middlewares/<BR/><B>logger.ts</B>> tooltip="logger.ts" URL="https://github.com/UI5/linter/blob/main/src/cli/middlewares/logger.ts" fillcolor="#ddfeff"]
+    "src/cli/middlewares/logger.ts" -> "src/cli/version.ts"
+    "src/cli/middlewares/updateNotifier.ts" [label=<src/cli/middlewares/<BR/><B>updateNotifier.ts</B>> tooltip="updateNotifier.ts" URL="https://github.com/UI5/linter/blob/main/src/cli/middlewares/updateNotifier.ts" fillcolor="#ddfeff"]
+    "src/cli/utils/profile.ts" [label=<src/cli/utils/<BR/><B>profile.ts</B>> tooltip="profile.ts" URL="https://github.com/UI5/linter/blob/main/src/cli/utils/profile.ts" fillcolor="#ddfeff"]
+    "src/cli/version.ts" [label=<src/cli/<BR/><B>version.ts</B>> tooltip="version.ts" URL="https://github.com/UI5/linter/blob/main/src/cli/version.ts" fillcolor="#ddfeff"]
+    "src/formatter/coverage.ts" [label=<src/formatter/<BR/><B>coverage.ts</B>> tooltip="coverage.ts" URL="https://github.com/UI5/linter/blob/main/src/formatter/coverage.ts" fillcolor="#ddfeff"]
+    "src/formatter/coverage.ts" -> "src/linter/LinterContext.ts"
+    "src/formatter/coverage.ts" -> "src/linter/messages.ts"
+    "src/formatter/html.ts" [label=<src/formatter/<BR/><B>html.ts</B>> tooltip="html.ts" URL="https://github.com/UI5/linter/blob/main/src/formatter/html.ts" fillcolor="#ddfeff"]
+    "src/formatter/html.ts" -> "src/linter/LinterContext.ts"
+    "src/formatter/html.ts" -> "src/linter/messages.ts"
+    "src/formatter/html.ts" -> "src/formatter/lib/encodeXML.ts"
+    "src/formatter/json.ts" [label=<src/formatter/<BR/><B>json.ts</B>> tooltip="json.ts" URL="https://github.com/UI5/linter/blob/main/src/formatter/json.ts" fillcolor="#ddfeff"]
+    "src/formatter/json.ts" -> "src/linter/LinterContext.ts"
+    "src/formatter/lib/encodeXML.ts" [label=<src/formatter/lib/<BR/><B>encodeXML.ts</B>> tooltip="encodeXML.ts" URL="https://github.com/UI5/linter/blob/main/src/formatter/lib/encodeXML.ts" fillcolor="#ddfeff"]
+    "src/formatter/lib/resolveLinks.ts" [label=<src/formatter/lib/<BR/><B>resolveLinks.ts</B>> tooltip="resolveLinks.ts" URL="https://github.com/UI5/linter/blob/main/src/formatter/lib/resolveLinks.ts" fillcolor="#ddfeff"]
+    "src/formatter/markdown.ts" [label=<src/formatter/<BR/><B>markdown.ts</B>> tooltip="markdown.ts" URL="https://github.com/UI5/linter/blob/main/src/formatter/markdown.ts" fillcolor="#ddfeff"]
+    "src/formatter/markdown.ts" -> "src/linter/LinterContext.ts"
+    "src/formatter/markdown.ts" -> "src/linter/messages.ts"
+    "src/formatter/text.ts" [label=<src/formatter/<BR/><B>text.ts</B>> tooltip="text.ts" URL="https://github.com/UI5/linter/blob/main/src/formatter/text.ts" fillcolor="#ddfeff"]
+    "src/formatter/text.ts" -> "src/linter/LinterContext.ts"
+    "src/formatter/text.ts" -> "src/linter/messages.ts"
+    "src/index.ts" [label=<src/<BR/><B>index.ts</B>> tooltip="index.ts" URL="https://github.com/UI5/linter/blob/main/src/index.ts" fillcolor="#ddfeff"]
+    "src/index.ts" -> "src/linter/linter.ts"
+    "src/index.ts" -> "src/linter/LinterContext.ts" [arrowhead="onormal" penwidth="1.0"]
+    "src/index.ts" -> "src/linter/ui5Types/SharedLanguageService.ts"
+    "src/linter/LinterContext.ts" [label=<src/linter/<BR/><B>LinterContext.ts</B>> tooltip="LinterContext.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/LinterContext.ts" fillcolor="#ddfeff"]
+    "src/linter/LinterContext.ts" -> "src/formatter/lib/resolveLinks.ts"
+    "src/linter/LinterContext.ts" -> "src/linter/MessageArgs.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/linter/LinterContext.ts" -> "src/linter/messages.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/linter/LinterContext.ts" -> "src/linter/ui5Types/fix/Fix.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/linter/LinterContext.ts" -> "src/linter/ui5Types/Ui5TypeInfo.ts"
+    "src/linter/MessageArgs.ts" [label=<src/linter/<BR/><B>MessageArgs.ts</B>> tooltip="MessageArgs.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/MessageArgs.ts" fillcolor="#ddfeff"]
+    "src/linter/MessageArgs.ts" -> "src/linter/messages.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" penwidth="1.0" fontcolor="orange" color="orange"]
+    "src/linter/binding/BindingLinter.ts" [label=<src/linter/binding/<BR/><B>BindingLinter.ts</B>> tooltip="BindingLinter.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/binding/BindingLinter.ts" fillcolor="#ddfeff"]
+    "src/linter/binding/BindingLinter.ts" -> "src/linter/LinterContext.ts"
+    "src/linter/binding/BindingLinter.ts" -> "src/linter/messages.ts"
+    "src/linter/binding/BindingLinter.ts" -> "src/linter/xmlTemplate/Parser.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/linter/binding/BindingLinter.ts" -> "src/linter/binding/lib/BindingParser.js"
+    "src/linter/binding/lib/BindingMode.js" [label=<src/linter/binding/lib/<BR/><B>BindingMode.js</B>> tooltip="BindingMode.js" URL="https://github.com/UI5/linter/blob/main/src/linter/binding/lib/BindingMode.js" ]
+    "src/linter/binding/lib/BindingParser.d.ts" [label=<src/linter/binding/lib/<BR/><B>BindingParser.d.ts</B>> tooltip="BindingParser.d.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/binding/lib/BindingParser.d.ts" fillcolor="#ccffcc"]
+    "src/linter/binding/lib/BindingParser.js" [label=<src/linter/binding/lib/<BR/><B>BindingParser.js</B>> tooltip="BindingParser.js" URL="https://github.com/UI5/linter/blob/main/src/linter/binding/lib/BindingParser.js" ]
+    "src/linter/binding/lib/BindingParser.js" -> "src/linter/xmlTemplate/lib/JSTokenizer.js"
+    "src/linter/binding/lib/BindingParser.js" -> "src/linter/binding/lib/BindingMode.js"
+    "src/linter/binding/lib/BindingParser.js" -> "src/linter/binding/lib/ExpressionParser.js"
+    "src/linter/binding/lib/BindingParser.js" [label=<src/linter/binding/lib/<BR/><B>BindingParser.js</B>> tooltip="BindingParser.js" URL="https://github.com/UI5/linter/blob/main/src/linter/binding/lib/BindingParser.js" ]
+    "src/linter/binding/lib/ExpressionParser.js" [label=<src/linter/binding/lib/<BR/><B>ExpressionParser.js</B>> tooltip="ExpressionParser.js" URL="https://github.com/UI5/linter/blob/main/src/linter/binding/lib/ExpressionParser.js" ]
+    "src/linter/binding/lib/ExpressionParser.js" -> "src/linter/xmlTemplate/lib/JSTokenizer.js"
+    "src/linter/binding/lib/ExpressionParser.js" -> "src/linter/binding/lib/strings/escapeRegExp.js"
+    "src/linter/binding/lib/ExpressionParser.js" -> "src/linter/binding/lib/util/deepEqual.js"
+    "src/linter/binding/lib/ExpressionParser.js" [label=<src/linter/binding/lib/<BR/><B>ExpressionParser.js</B>> tooltip="ExpressionParser.js" URL="https://github.com/UI5/linter/blob/main/src/linter/binding/lib/ExpressionParser.js" ]
+    "src/linter/binding/lib/strings/escapeRegExp.js" [label=<src/linter/binding/lib/strings/<BR/><B>escapeRegExp.js</B>> tooltip="escapeRegExp.js" URL="https://github.com/UI5/linter/blob/main/src/linter/binding/lib/strings/escapeRegExp.js" ]
+    "src/linter/binding/lib/strings/escapeRegExp.js" [label=<src/linter/binding/lib/strings/<BR/><B>escapeRegExp.js</B>> tooltip="escapeRegExp.js" URL="https://github.com/UI5/linter/blob/main/src/linter/binding/lib/strings/escapeRegExp.js" ]
+    "src/linter/binding/lib/util/deepEqual.js" [label=<src/linter/binding/lib/util/<BR/><B>deepEqual.js</B>> tooltip="deepEqual.js" URL="https://github.com/UI5/linter/blob/main/src/linter/binding/lib/util/deepEqual.js" ]
+    "src/linter/binding/lib/util/deepEqual.js" [label=<src/linter/binding/lib/util/<BR/><B>deepEqual.js</B>> tooltip="deepEqual.js" URL="https://github.com/UI5/linter/blob/main/src/linter/binding/lib/util/deepEqual.js" ]
+    "src/linter/dotLibrary/DotLibraryLinter.ts" [label=<src/linter/dotLibrary/<BR/><B>DotLibraryLinter.ts</B>> tooltip="DotLibraryLinter.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/dotLibrary/DotLibraryLinter.ts" fillcolor="#ddfeff"]
+    "src/linter/dotLibrary/DotLibraryLinter.ts" -> "src/utils/deprecations.ts"
+    "src/linter/dotLibrary/DotLibraryLinter.ts" -> "src/utils/xmlParser.ts"
+    "src/linter/dotLibrary/DotLibraryLinter.ts" -> "src/linter/LinterContext.ts"
+    "src/linter/dotLibrary/DotLibraryLinter.ts" -> "src/linter/messages.ts"
+    "src/linter/dotLibrary/linter.ts" [label=<src/linter/dotLibrary/<BR/><B>linter.ts</B>> tooltip="linter.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/dotLibrary/linter.ts" fillcolor="#ddfeff"]
+    "src/linter/dotLibrary/linter.ts" -> "src/linter/LinterContext.ts"
+    "src/linter/dotLibrary/linter.ts" -> "src/linter/dotLibrary/DotLibraryLinter.ts"
+    "src/linter/fileTypes/linter.ts" [label=<src/linter/fileTypes/<BR/><B>linter.ts</B>> tooltip="linter.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/fileTypes/linter.ts" fillcolor="#ddfeff"]
+    "src/linter/fileTypes/linter.ts" -> "src/linter/LinterContext.ts"
+    "src/linter/fileTypes/linter.ts" -> "src/linter/messages.ts"
+    "src/linter/html/HtmlReporter.ts" [label=<src/linter/html/<BR/><B>HtmlReporter.ts</B>> tooltip="HtmlReporter.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/html/HtmlReporter.ts" fillcolor="#ddfeff"]
+    "src/linter/html/HtmlReporter.ts" -> "src/utils/xmlParser.ts"
+    "src/linter/html/HtmlReporter.ts" -> "src/linter/LinterContext.ts"
+    "src/linter/html/HtmlReporter.ts" -> "src/linter/MessageArgs.ts"
+    "src/linter/html/HtmlReporter.ts" -> "src/linter/messages.ts"
+    "src/linter/html/linter.ts" [label=<src/linter/html/<BR/><B>linter.ts</B>> tooltip="linter.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/html/linter.ts" fillcolor="#ddfeff"]
+    "src/linter/html/linter.ts" -> "src/linter/LinterContext.ts"
+    "src/linter/html/linter.ts" -> "src/linter/html/transpiler.ts"
+    "src/linter/html/parser.ts" [label=<src/linter/html/<BR/><B>parser.ts</B>> tooltip="parser.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/html/parser.ts" fillcolor="#ddfeff"]
+    "src/linter/html/parser.ts" -> "src/utils/xmlParser.ts"
+    "src/linter/html/parser.ts" -> "src/linter/LinterContext.ts"
+    "src/linter/html/transpiler.ts" [label=<src/linter/html/<BR/><B>transpiler.ts</B>> tooltip="transpiler.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/html/transpiler.ts" fillcolor="#ddfeff"]
+    "src/linter/html/transpiler.ts" -> "src/utils/deprecations.ts"
+    "src/linter/html/transpiler.ts" -> "src/utils/perf.ts"
+    "src/linter/html/transpiler.ts" -> "src/linter/LinterContext.ts"
+    "src/linter/html/transpiler.ts" -> "src/linter/messages.ts"
+    "src/linter/html/transpiler.ts" -> "src/linter/html/HtmlReporter.ts"
+    "src/linter/html/transpiler.ts" -> "src/linter/html/parser.ts"
+    "src/linter/lintWorkspace.ts" [label=<src/linter/<BR/><B>lintWorkspace.ts</B>> tooltip="lintWorkspace.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/lintWorkspace.ts" fillcolor="#ddfeff"]
+    "src/linter/lintWorkspace.ts" -> "src/autofix/autofix.ts"
+    "src/linter/lintWorkspace.ts" -> "src/manifest.ts"
+    "src/linter/lintWorkspace.ts" -> "src/utils/ConfigManager.ts"
+    "src/linter/lintWorkspace.ts" -> "src/utils/perf.ts"
+    "src/linter/lintWorkspace.ts" -> "src/utils/virtualPathToFilePath.ts"
+    "src/linter/lintWorkspace.ts" -> "src/linter/dotLibrary/linter.ts"
+    "src/linter/lintWorkspace.ts" -> "src/linter/fileTypes/linter.ts"
+    "src/linter/lintWorkspace.ts" -> "src/linter/html/linter.ts"
+    "src/linter/lintWorkspace.ts" -> "src/linter/linter.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/linter/lintWorkspace.ts" -> "src/linter/LinterContext.ts"
+    "src/linter/lintWorkspace.ts" -> "src/linter/manifestJson/linter.ts"
+    "src/linter/lintWorkspace.ts" -> "src/linter/messages.ts"
+    "src/linter/lintWorkspace.ts" -> "src/linter/ui5Types/SharedLanguageService.ts" [arrowhead="onormal" penwidth="1.0"]
+    "src/linter/lintWorkspace.ts" -> "src/linter/ui5Types/TypeLinter.ts"
+    "src/linter/lintWorkspace.ts" -> "src/linter/xmlTemplate/linter.ts"
+    "src/linter/lintWorkspace.ts" -> "src/linter/yaml/linter.ts"
+    "src/linter/linter.ts" [label=<src/linter/<BR/><B>linter.ts</B>> tooltip="linter.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/linter.ts" fillcolor="#ddfeff"]
+    "src/linter/linter.ts" -> "src/utils/ConfigManager.ts"
+    "src/linter/linter.ts" -> "src/utils/perf.ts"
+    "src/linter/linter.ts" -> "src/utils/virtualPathToFilePath.ts"
+    "src/linter/linter.ts" -> "src/linter/LinterContext.ts"
+    "src/linter/linter.ts" -> "src/linter/lintWorkspace.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/linter/linter.ts" -> "src/linter/ui5Types/SharedLanguageService.ts" [arrowhead="onormal" penwidth="1.0"]
+    "src/linter/manifestJson/ManifestLinter.ts" [label=<src/linter/manifestJson/<BR/><B>ManifestLinter.ts</B>> tooltip="ManifestLinter.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/manifestJson/ManifestLinter.ts" fillcolor="#ddfeff"]
+    "src/linter/manifestJson/ManifestLinter.ts" -> "src/utils/deprecations.ts"
+    "src/linter/manifestJson/ManifestLinter.ts" -> "src/linter/LinterContext.ts"
+    "src/linter/manifestJson/ManifestLinter.ts" -> "src/linter/messages.ts"
+    "src/linter/manifestJson/ManifestLinter.ts" -> "src/linter/manifestJson/ManifestReporter.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/linter/manifestJson/ManifestReporter.ts" [label=<src/linter/manifestJson/<BR/><B>ManifestReporter.ts</B>> tooltip="ManifestReporter.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/manifestJson/ManifestReporter.ts" fillcolor="#ddfeff"]
+    "src/linter/manifestJson/ManifestReporter.ts" -> "src/linter/LinterContext.ts"
+    "src/linter/manifestJson/ManifestReporter.ts" -> "src/linter/MessageArgs.ts"
+    "src/linter/manifestJson/ManifestReporter.ts" -> "src/linter/messages.ts"
+    "src/linter/manifestJson/ManifestReporter.ts" -> "src/linter/manifestJson/ManifestLinter.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" penwidth="1.0" fontcolor="orange" color="orange"]
+    "src/linter/manifestJson/linter.ts" [label=<src/linter/manifestJson/<BR/><B>linter.ts</B>> tooltip="linter.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/manifestJson/linter.ts" fillcolor="#ddfeff"]
+    "src/linter/manifestJson/linter.ts" -> "src/utils/perf.ts"
+    "src/linter/manifestJson/linter.ts" -> "src/linter/LinterContext.ts"
+    "src/linter/manifestJson/linter.ts" -> "src/linter/manifestJson/ManifestLinter.ts"
+    "src/linter/messages.ts" [label=<src/linter/<BR/><B>messages.ts</B>> tooltip="messages.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/messages.ts" fillcolor="#ddfeff"]
+    "src/linter/messages.ts" -> "src/linter/ui5Types/fix/GlobalFix.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/linter/ui5Types/AmbientModuleCache.ts" [label=<src/linter/ui5Types/<BR/><B>AmbientModuleCache.ts</B>> tooltip="AmbientModuleCache.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/ui5Types/AmbientModuleCache.ts" fillcolor="#ddfeff"]
+    "src/linter/ui5Types/AmbientModuleCache.ts" -> "src/linter/ui5Types/utils/utils.ts"
+    "src/linter/ui5Types/DocumentRegistryProxy.ts" [label=<src/linter/ui5Types/<BR/><B>DocumentRegistryProxy.ts</B>> tooltip="DocumentRegistryProxy.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/ui5Types/DocumentRegistryProxy.ts" fillcolor="#ddfeff"]
+    "src/linter/ui5Types/DocumentRegistryProxy.ts" -> "src/linter/ui5Types/LanguageServiceHostProxy.ts"
+    "src/linter/ui5Types/LanguageServiceHostProxy.ts" [label=<src/linter/ui5Types/<BR/><B>LanguageServiceHostProxy.ts</B>> tooltip="LanguageServiceHostProxy.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/ui5Types/LanguageServiceHostProxy.ts" fillcolor="#ddfeff"]
+    "src/linter/ui5Types/LanguageServiceHostProxy.ts" -> "src/linter/xmlTemplate/linter.ts"
+    "src/linter/ui5Types/SharedLanguageService.ts" [label=<src/linter/ui5Types/<BR/><B>SharedLanguageService.ts</B>> tooltip="SharedLanguageService.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/ui5Types/SharedLanguageService.ts" fillcolor="#ddfeff"]
+    "src/linter/ui5Types/SharedLanguageService.ts" -> "src/linter/ui5Types/DocumentRegistryProxy.ts"
+    "src/linter/ui5Types/SharedLanguageService.ts" -> "src/linter/ui5Types/LanguageServiceHostProxy.ts"
+    "src/linter/ui5Types/SourceFileLinter.ts" [label=<src/linter/ui5Types/<BR/><B>SourceFileLinter.ts</B>> tooltip="SourceFileLinter.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/ui5Types/SourceFileLinter.ts" fillcolor="#ddfeff"]
+    "src/linter/ui5Types/SourceFileLinter.ts" -> "src/manifest.ts"
+    "src/linter/ui5Types/SourceFileLinter.ts" -> "src/utils/ApiExtract.ts" [arrowhead="onormal" penwidth="1.0"]
+    "src/linter/ui5Types/SourceFileLinter.ts" -> "src/utils/deprecations.ts"
+    "src/linter/ui5Types/SourceFileLinter.ts" -> "src/utils/nodePosition.ts"
+    "src/linter/ui5Types/SourceFileLinter.ts" -> "src/utils/perf.ts"
+    "src/linter/ui5Types/SourceFileLinter.ts" -> "src/linter/binding/BindingLinter.ts"
+    "src/linter/ui5Types/SourceFileLinter.ts" -> "src/linter/LinterContext.ts"
+    "src/linter/ui5Types/SourceFileLinter.ts" -> "src/linter/messages.ts"
+    "src/linter/ui5Types/SourceFileLinter.ts" -> "src/linter/xmlTemplate/Parser.ts"
+    "src/linter/ui5Types/SourceFileLinter.ts" -> "src/linter/ui5Types/AmbientModuleCache.ts" [arrowhead="onormal" penwidth="1.0"]
+    "src/linter/ui5Types/SourceFileLinter.ts" -> "src/linter/ui5Types/asyncComponentFlags.ts"
+    "src/linter/ui5Types/SourceFileLinter.ts" -> "src/linter/ui5Types/directives.ts"
+    "src/linter/ui5Types/SourceFileLinter.ts" -> "src/linter/ui5Types/fix/Fix.ts"
+    "src/linter/ui5Types/SourceFileLinter.ts" -> "src/linter/ui5Types/fix/FixFactory.ts"
+    "src/linter/ui5Types/SourceFileLinter.ts" -> "src/linter/ui5Types/fix/GlobalFix.ts"
+    "src/linter/ui5Types/SourceFileLinter.ts" -> "src/linter/ui5Types/getJqueryTypeInfo.ts"
+    "src/linter/ui5Types/SourceFileLinter.ts" -> "src/linter/ui5Types/SourceFileReporter.ts"
+    "src/linter/ui5Types/SourceFileLinter.ts" -> "src/linter/ui5Types/TypeLinter.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" penwidth="1.0" fontcolor="orange" color="orange"]
+    "src/linter/ui5Types/SourceFileLinter.ts" -> "src/linter/ui5Types/Ui5TypeInfo.ts"
+    "src/linter/ui5Types/SourceFileLinter.ts" -> "src/linter/ui5Types/utils/utils.ts"
+    "src/linter/ui5Types/SourceFileReporter.ts" [label=<src/linter/ui5Types/<BR/><B>SourceFileReporter.ts</B>> tooltip="SourceFileReporter.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/ui5Types/SourceFileReporter.ts" fillcolor="#ddfeff"]
+    "src/linter/ui5Types/SourceFileReporter.ts" -> "src/formatter/lib/resolveLinks.ts"
+    "src/linter/ui5Types/SourceFileReporter.ts" -> "src/utils/nodePosition.ts"
+    "src/linter/ui5Types/SourceFileReporter.ts" -> "src/linter/LinterContext.ts"
+    "src/linter/ui5Types/SourceFileReporter.ts" -> "src/linter/MessageArgs.ts"
+    "src/linter/ui5Types/SourceFileReporter.ts" -> "src/linter/messages.ts"
+    "src/linter/ui5Types/SourceFileReporter.ts" -> "src/linter/ui5Types/fix/Fix.ts"
+    "src/linter/ui5Types/SourceFileReporter.ts" -> "src/linter/ui5Types/Ui5TypeInfo.ts"
+    "src/linter/ui5Types/TypeLinter.ts" [label=<src/linter/ui5Types/<BR/><B>TypeLinter.ts</B>> tooltip="TypeLinter.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/ui5Types/TypeLinter.ts" fillcolor="#ddfeff"]
+    "src/linter/ui5Types/TypeLinter.ts" -> "src/manifest.ts"
+    "src/linter/ui5Types/TypeLinter.ts" -> "src/utils/ApiExtract.ts"
+    "src/linter/ui5Types/TypeLinter.ts" -> "src/utils/perf.ts"
+    "src/linter/ui5Types/TypeLinter.ts" -> "src/linter/LinterContext.ts"
+    "src/linter/ui5Types/TypeLinter.ts" -> "src/linter/xmlTemplate/linter.ts"
+    "src/linter/ui5Types/TypeLinter.ts" -> "src/linter/ui5Types/AmbientModuleCache.ts"
+    "src/linter/ui5Types/TypeLinter.ts" -> "src/linter/ui5Types/fix/FixFactory.ts" [style="dashed"]
+    "src/linter/ui5Types/TypeLinter.ts" -> "src/linter/ui5Types/fix/FixFactory.ts" [arrowhead="onormal" penwidth="1.0"]
+    "src/linter/ui5Types/TypeLinter.ts" -> "src/linter/ui5Types/host.ts"
+    "src/linter/ui5Types/TypeLinter.ts" -> "src/linter/ui5Types/SharedLanguageService.ts" [arrowhead="onormal" penwidth="1.0"]
+    "src/linter/ui5Types/TypeLinter.ts" -> "src/linter/ui5Types/SourceFileLinter.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/linter/ui5Types/TypeLinter.ts" -> "src/linter/ui5Types/SourceFileReporter.ts"
+    "src/linter/ui5Types/Ui5TypeInfo.ts" [label=<src/linter/ui5Types/<BR/><B>Ui5TypeInfo.ts</B>> tooltip="Ui5TypeInfo.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/ui5Types/Ui5TypeInfo.ts" fillcolor="#ddfeff"]
+    "src/linter/ui5Types/Ui5TypeInfo.ts" -> "src/utils/ApiExtract.ts" [arrowhead="onormal" penwidth="1.0"]
+    "src/linter/ui5Types/Ui5TypeInfo.ts" -> "src/linter/ui5Types/utils/utils.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/linter/ui5Types/Ui5TypeInfoMatcher.ts" [label=<src/linter/ui5Types/<BR/><B>Ui5TypeInfoMatcher.ts</B>> tooltip="Ui5TypeInfoMatcher.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/ui5Types/Ui5TypeInfoMatcher.ts" fillcolor="#ddfeff"]
+    "src/linter/ui5Types/Ui5TypeInfoMatcher.ts" -> "src/linter/ui5Types/Ui5TypeInfo.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/linter/ui5Types/amdTranspiler/insertNodesInParent.ts" [label=<src/linter/ui5Types/amdTranspiler/<BR/><B>insertNodesInParent.ts</B>> tooltip="insertNodesInParent.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/ui5Types/amdTranspiler/insertNodesInParent.ts" fillcolor="#ddfeff"]
+    "src/linter/ui5Types/amdTranspiler/moduleDeclarationToDefinition.ts" [label=<src/linter/ui5Types/amdTranspiler/<BR/><B>moduleDeclarationToDefinition.ts</B>> tooltip="moduleDeclarationToDefinition.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/ui5Types/amdTranspiler/moduleDeclarationToDefinition.ts" fillcolor="#ddfeff"]
+    "src/linter/ui5Types/amdTranspiler/moduleDeclarationToDefinition.ts" -> "src/linter/ui5Types/utils/utils.ts"
+    "src/linter/ui5Types/amdTranspiler/moduleDeclarationToDefinition.ts" -> "src/linter/ui5Types/amdTranspiler/parseModuleDeclaration.ts"
+    "src/linter/ui5Types/amdTranspiler/moduleDeclarationToDefinition.ts" -> "src/linter/ui5Types/amdTranspiler/pruneNode.ts"
+    "src/linter/ui5Types/amdTranspiler/moduleDeclarationToDefinition.ts" -> "src/linter/ui5Types/amdTranspiler/rewriteExtendCall.ts"
+    "src/linter/ui5Types/amdTranspiler/moduleDeclarationToDefinition.ts" -> "src/linter/ui5Types/amdTranspiler/util.ts"
+    "src/linter/ui5Types/amdTranspiler/parseModuleDeclaration.ts" [label=<src/linter/ui5Types/amdTranspiler/<BR/><B>parseModuleDeclaration.ts</B>> tooltip="parseModuleDeclaration.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/ui5Types/amdTranspiler/parseModuleDeclaration.ts" fillcolor="#ddfeff"]
+    "src/linter/ui5Types/amdTranspiler/parseModuleDeclaration.ts" -> "src/linter/ui5Types/amdTranspiler/util.ts"
+    "src/linter/ui5Types/amdTranspiler/parseRequire.ts" [label=<src/linter/ui5Types/amdTranspiler/<BR/><B>parseRequire.ts</B>> tooltip="parseRequire.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/ui5Types/amdTranspiler/parseRequire.ts" fillcolor="#ddfeff"]
+    "src/linter/ui5Types/amdTranspiler/parseRequire.ts" -> "src/linter/ui5Types/amdTranspiler/util.ts"
+    "src/linter/ui5Types/amdTranspiler/pruneNode.ts" [label=<src/linter/ui5Types/amdTranspiler/<BR/><B>pruneNode.ts</B>> tooltip="pruneNode.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/ui5Types/amdTranspiler/pruneNode.ts" fillcolor="#ddfeff"]
+    "src/linter/ui5Types/amdTranspiler/pruneNode.ts" -> "src/linter/ui5Types/amdTranspiler/util.ts"
+    "src/linter/ui5Types/amdTranspiler/replaceNodeInParent.ts" [label=<src/linter/ui5Types/amdTranspiler/<BR/><B>replaceNodeInParent.ts</B>> tooltip="replaceNodeInParent.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/ui5Types/amdTranspiler/replaceNodeInParent.ts" fillcolor="#ddfeff"]
+    "src/linter/ui5Types/amdTranspiler/replaceNodeInParent.ts" -> "src/linter/ui5Types/amdTranspiler/util.ts"
+    "src/linter/ui5Types/amdTranspiler/requireExpressionToTransformation.ts" [label=<src/linter/ui5Types/amdTranspiler/<BR/><B>requireExpressionToTransformation.ts</B>> tooltip="requireExpressionToTransformation.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/ui5Types/amdTranspiler/requireExpressionToTransformation.ts" fillcolor="#ddfeff"]
+    "src/linter/ui5Types/amdTranspiler/requireExpressionToTransformation.ts" -> "src/linter/ui5Types/utils/utils.ts"
+    "src/linter/ui5Types/amdTranspiler/requireExpressionToTransformation.ts" -> "src/linter/ui5Types/amdTranspiler/parseRequire.ts"
+    "src/linter/ui5Types/amdTranspiler/requireExpressionToTransformation.ts" -> "src/linter/ui5Types/amdTranspiler/util.ts"
+    "src/linter/ui5Types/amdTranspiler/rewriteExtendCall.ts" [label=<src/linter/ui5Types/amdTranspiler/<BR/><B>rewriteExtendCall.ts</B>> tooltip="rewriteExtendCall.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/ui5Types/amdTranspiler/rewriteExtendCall.ts" fillcolor="#ddfeff"]
+    "src/linter/ui5Types/amdTranspiler/rewriteExtendCall.ts" -> "src/linter/ui5Types/utils/utils.ts"
+    "src/linter/ui5Types/amdTranspiler/rewriteExtendCall.ts" -> "src/linter/ui5Types/amdTranspiler/util.ts"
+    "src/linter/ui5Types/amdTranspiler/transpiler.ts" [label=<src/linter/ui5Types/amdTranspiler/<BR/><B>transpiler.ts</B>> tooltip="transpiler.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/ui5Types/amdTranspiler/transpiler.ts" fillcolor="#ddfeff"]
+    "src/linter/ui5Types/amdTranspiler/transpiler.ts" -> "src/utils/perf.ts"
+    "src/linter/ui5Types/amdTranspiler/transpiler.ts" -> "src/linter/LinterContext.ts"
+    "src/linter/ui5Types/amdTranspiler/transpiler.ts" -> "src/linter/ui5Types/amdTranspiler/tsTransformer.ts"
+    "src/linter/ui5Types/amdTranspiler/transpiler.ts" -> "src/linter/ui5Types/amdTranspiler/util.ts"
+    "src/linter/ui5Types/amdTranspiler/tsTransformer.ts" [label=<src/linter/ui5Types/amdTranspiler/<BR/><B>tsTransformer.ts</B>> tooltip="tsTransformer.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/ui5Types/amdTranspiler/tsTransformer.ts" fillcolor="#ddfeff"]
+    "src/linter/ui5Types/amdTranspiler/tsTransformer.ts" -> "src/linter/LinterContext.ts"
+    "src/linter/ui5Types/amdTranspiler/tsTransformer.ts" -> "src/linter/ui5Types/directives.ts"
+    "src/linter/ui5Types/amdTranspiler/tsTransformer.ts" -> "src/linter/ui5Types/amdTranspiler/insertNodesInParent.ts"
+    "src/linter/ui5Types/amdTranspiler/tsTransformer.ts" -> "src/linter/ui5Types/amdTranspiler/moduleDeclarationToDefinition.ts"
+    "src/linter/ui5Types/amdTranspiler/tsTransformer.ts" -> "src/linter/ui5Types/amdTranspiler/parseModuleDeclaration.ts"
+    "src/linter/ui5Types/amdTranspiler/tsTransformer.ts" -> "src/linter/ui5Types/amdTranspiler/parseRequire.ts"
+    "src/linter/ui5Types/amdTranspiler/tsTransformer.ts" -> "src/linter/ui5Types/amdTranspiler/pruneNode.ts"
+    "src/linter/ui5Types/amdTranspiler/tsTransformer.ts" -> "src/linter/ui5Types/amdTranspiler/replaceNodeInParent.ts"
+    "src/linter/ui5Types/amdTranspiler/tsTransformer.ts" -> "src/linter/ui5Types/amdTranspiler/requireExpressionToTransformation.ts"
+    "src/linter/ui5Types/amdTranspiler/tsTransformer.ts" -> "src/linter/ui5Types/amdTranspiler/rewriteExtendCall.ts"
+    "src/linter/ui5Types/amdTranspiler/tsTransformer.ts" -> "src/linter/ui5Types/amdTranspiler/util.ts"
+    "src/linter/ui5Types/amdTranspiler/util.ts" [label=<src/linter/ui5Types/amdTranspiler/<BR/><B>util.ts</B>> tooltip="util.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/ui5Types/amdTranspiler/util.ts" fillcolor="#ddfeff"]
+    "src/linter/ui5Types/asyncComponentFlags.ts" [label=<src/linter/ui5Types/<BR/><B>asyncComponentFlags.ts</B>> tooltip="asyncComponentFlags.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/ui5Types/asyncComponentFlags.ts" fillcolor="#ddfeff"]
+    "src/linter/ui5Types/asyncComponentFlags.ts" -> "src/manifest.ts" [arrowhead="onormal" penwidth="1.0"]
+    "src/linter/ui5Types/asyncComponentFlags.ts" -> "src/linter/LinterContext.ts"
+    "src/linter/ui5Types/asyncComponentFlags.ts" -> "src/linter/manifestJson/ManifestLinter.ts" [arrowhead="onormal" penwidth="1.0"]
+    "src/linter/ui5Types/asyncComponentFlags.ts" -> "src/linter/messages.ts"
+    "src/linter/ui5Types/asyncComponentFlags.ts" -> "src/linter/ui5Types/SourceFileReporter.ts" [arrowhead="onormal" penwidth="1.0"]
+    "src/linter/ui5Types/asyncComponentFlags.ts" -> "src/linter/ui5Types/utils/utils.ts"
+    "src/linter/ui5Types/directives.ts" [label=<src/linter/ui5Types/<BR/><B>directives.ts</B>> tooltip="directives.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/ui5Types/directives.ts" fillcolor="#ddfeff"]
+    "src/linter/ui5Types/directives.ts" -> "src/linter/LinterContext.ts"
+    "src/linter/ui5Types/fix/AccessExpressionBaseFix.ts" [label=<src/linter/ui5Types/fix/<BR/><B>AccessExpressionBaseFix.ts</B>> tooltip="AccessExpressionBaseFix.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/ui5Types/fix/AccessExpressionBaseFix.ts" fillcolor="#ddfeff"]
+    "src/linter/ui5Types/fix/AccessExpressionBaseFix.ts" -> "src/linter/LinterContext.ts"
+    "src/linter/ui5Types/fix/AccessExpressionBaseFix.ts" -> "src/linter/ui5Types/Ui5TypeInfo.ts"
+    "src/linter/ui5Types/fix/AccessExpressionBaseFix.ts" -> "src/linter/ui5Types/utils/utils.ts"
+    "src/linter/ui5Types/fix/AccessExpressionBaseFix.ts" -> "src/linter/ui5Types/fix/BaseFix.ts"
+    "src/linter/ui5Types/fix/AccessExpressionBaseFix.ts" -> "src/linter/ui5Types/fix/Fix.ts"
+    "src/linter/ui5Types/fix/AccessExpressionFix.ts" [label=<src/linter/ui5Types/fix/<BR/><B>AccessExpressionFix.ts</B>> tooltip="AccessExpressionFix.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/ui5Types/fix/AccessExpressionFix.ts" fillcolor="#ddfeff"]
+    "src/linter/ui5Types/fix/AccessExpressionFix.ts" -> "src/autofix/autofix.ts"
+    "src/linter/ui5Types/fix/AccessExpressionFix.ts" -> "src/linter/ui5Types/Ui5TypeInfo.ts"
+    "src/linter/ui5Types/fix/AccessExpressionFix.ts" -> "src/linter/ui5Types/fix/AccessExpressionBaseFix.ts"
+    "src/linter/ui5Types/fix/AccessExpressionFix.ts" -> "src/linter/ui5Types/fix/BaseFix.ts"
+    "src/linter/ui5Types/fix/AccessExpressionGeneratorFix.ts" [label=<src/linter/ui5Types/fix/<BR/><B>AccessExpressionGeneratorFix.ts</B>> tooltip="AccessExpressionGeneratorFix.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/ui5Types/fix/AccessExpressionGeneratorFix.ts" fillcolor="#ddfeff"]
+    "src/linter/ui5Types/fix/AccessExpressionGeneratorFix.ts" -> "src/autofix/autofix.ts"
+    "src/linter/ui5Types/fix/AccessExpressionGeneratorFix.ts" -> "src/linter/ui5Types/Ui5TypeInfo.ts"
+    "src/linter/ui5Types/fix/AccessExpressionGeneratorFix.ts" -> "src/linter/ui5Types/fix/AccessExpressionBaseFix.ts"
+    "src/linter/ui5Types/fix/BaseFix.ts" [label=<src/linter/ui5Types/fix/<BR/><B>BaseFix.ts</B>> tooltip="BaseFix.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/ui5Types/fix/BaseFix.ts" fillcolor="#ddfeff"]
+    "src/linter/ui5Types/fix/BaseFix.ts" -> "src/linter/LinterContext.ts"
+    "src/linter/ui5Types/fix/BaseFix.ts" -> "src/linter/ui5Types/Ui5TypeInfo.ts"
+    "src/linter/ui5Types/fix/BaseFix.ts" -> "src/linter/ui5Types/fix/Fix.ts"
+    "src/linter/ui5Types/fix/CallExpressionBaseFix.ts" [label=<src/linter/ui5Types/fix/<BR/><B>CallExpressionBaseFix.ts</B>> tooltip="CallExpressionBaseFix.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/ui5Types/fix/CallExpressionBaseFix.ts" fillcolor="#ddfeff"]
+    "src/linter/ui5Types/fix/CallExpressionBaseFix.ts" -> "src/linter/LinterContext.ts"
+    "src/linter/ui5Types/fix/CallExpressionBaseFix.ts" -> "src/linter/ui5Types/Ui5TypeInfo.ts"
+    "src/linter/ui5Types/fix/CallExpressionBaseFix.ts" -> "src/linter/ui5Types/utils/utils.ts"
+    "src/linter/ui5Types/fix/CallExpressionBaseFix.ts" -> "src/linter/ui5Types/fix/BaseFix.ts"
+    "src/linter/ui5Types/fix/CallExpressionBaseFix.ts" -> "src/linter/ui5Types/fix/Fix.ts"
+    "src/linter/ui5Types/fix/CallExpressionFix.ts" [label=<src/linter/ui5Types/fix/<BR/><B>CallExpressionFix.ts</B>> tooltip="CallExpressionFix.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/ui5Types/fix/CallExpressionFix.ts" fillcolor="#ddfeff"]
+    "src/linter/ui5Types/fix/CallExpressionFix.ts" -> "src/autofix/autofix.ts"
+    "src/linter/ui5Types/fix/CallExpressionFix.ts" -> "src/linter/ui5Types/Ui5TypeInfo.ts"
+    "src/linter/ui5Types/fix/CallExpressionFix.ts" -> "src/linter/ui5Types/fix/BaseFix.ts"
+    "src/linter/ui5Types/fix/CallExpressionFix.ts" -> "src/linter/ui5Types/fix/CallExpressionBaseFix.ts"
+    "src/linter/ui5Types/fix/CallExpressionGeneratorFix.ts" [label=<src/linter/ui5Types/fix/<BR/><B>CallExpressionGeneratorFix.ts</B>> tooltip="CallExpressionGeneratorFix.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/ui5Types/fix/CallExpressionGeneratorFix.ts" fillcolor="#ddfeff"]
+    "src/linter/ui5Types/fix/CallExpressionGeneratorFix.ts" -> "src/autofix/autofix.ts"
+    "src/linter/ui5Types/fix/CallExpressionGeneratorFix.ts" -> "src/linter/LinterContext.ts"
+    "src/linter/ui5Types/fix/CallExpressionGeneratorFix.ts" -> "src/linter/ui5Types/Ui5TypeInfo.ts"
+    "src/linter/ui5Types/fix/CallExpressionGeneratorFix.ts" -> "src/linter/ui5Types/fix/CallExpressionBaseFix.ts"
+    "src/linter/ui5Types/fix/CallExpressionGeneratorFix.ts" -> "src/linter/ui5Types/fix/Fix.ts"
+    "src/linter/ui5Types/fix/Fix.ts" [label=<src/linter/ui5Types/fix/<BR/><B>Fix.ts</B>> tooltip="Fix.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/ui5Types/fix/Fix.ts" fillcolor="#ddfeff"]
+    "src/linter/ui5Types/fix/Fix.ts" -> "src/autofix/autofix.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/linter/ui5Types/fix/Fix.ts" -> "src/manifest.ts"
+    "src/linter/ui5Types/fix/Fix.ts" -> "src/linter/LinterContext.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/linter/ui5Types/fix/FixFactory.ts" [label=<src/linter/ui5Types/fix/<BR/><B>FixFactory.ts</B>> tooltip="FixFactory.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/ui5Types/fix/FixFactory.ts" fillcolor="#ddfeff"]
+    "src/linter/ui5Types/fix/FixFactory.ts" -> "src/linter/ui5Types/AmbientModuleCache.ts"
+    "src/linter/ui5Types/fix/FixFactory.ts" -> "src/linter/ui5Types/getJqueryTypeInfo.ts"
+    "src/linter/ui5Types/fix/FixFactory.ts" -> "src/linter/ui5Types/Ui5TypeInfo.ts"
+    "src/linter/ui5Types/fix/FixFactory.ts" -> "src/linter/ui5Types/Ui5TypeInfoMatcher.ts" [arrowhead="onormal" penwidth="1.0"]
+    "src/linter/ui5Types/fix/FixFactory.ts" -> "src/linter/ui5Types/fix/AccessExpressionFix.ts"
+    "src/linter/ui5Types/fix/FixFactory.ts" -> "src/linter/ui5Types/fix/AccessExpressionGeneratorFix.ts"
+    "src/linter/ui5Types/fix/FixFactory.ts" -> "src/linter/ui5Types/fix/CallExpressionFix.ts"
+    "src/linter/ui5Types/fix/FixFactory.ts" -> "src/linter/ui5Types/fix/CallExpressionGeneratorFix.ts"
+    "src/linter/ui5Types/fix/FixFactory.ts" -> "src/linter/ui5Types/fix/Fix.ts"
+    "src/linter/ui5Types/fix/FixFactory.ts" -> "src/linter/ui5Types/fix/getGlobalFixInfo.ts"
+    "src/linter/ui5Types/fix/FixFactory.ts" -> "src/linter/ui5Types/fix/ObsoleteImportFix.ts"
+    "src/linter/ui5Types/fix/FixFactory.ts" -> "src/linter/ui5Types/fix/PropertyAssignmentFix.ts"
+    "src/linter/ui5Types/fix/FixFactory.ts" -> "src/linter/ui5Types/fix/PropertyAssignmentGeneratorFix.ts"
+    "src/linter/ui5Types/fix/GlobalFix.ts" [label=<src/linter/ui5Types/fix/<BR/><B>GlobalFix.ts</B>> tooltip="GlobalFix.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/ui5Types/fix/GlobalFix.ts" fillcolor="#ddfeff"]
+    "src/linter/ui5Types/fix/GlobalFix.ts" -> "src/autofix/autofix.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/linter/ui5Types/fix/GlobalFix.ts" -> "src/linter/LinterContext.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/linter/ui5Types/fix/GlobalFix.ts" -> "src/linter/ui5Types/utils/utils.ts"
+    "src/linter/ui5Types/fix/GlobalFix.ts" -> "src/linter/ui5Types/fix/Fix.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/linter/ui5Types/fix/ObsoleteImportFix.ts" [label=<src/linter/ui5Types/fix/<BR/><B>ObsoleteImportFix.ts</B>> tooltip="ObsoleteImportFix.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/ui5Types/fix/ObsoleteImportFix.ts" fillcolor="#ddfeff"]
+    "src/linter/ui5Types/fix/ObsoleteImportFix.ts" -> "src/linter/LinterContext.ts"
+    "src/linter/ui5Types/fix/ObsoleteImportFix.ts" -> "src/linter/ui5Types/fix/Fix.ts"
+    "src/linter/ui5Types/fix/PropertyAssignmentBaseFix.ts" [label=<src/linter/ui5Types/fix/<BR/><B>PropertyAssignmentBaseFix.ts</B>> tooltip="PropertyAssignmentBaseFix.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/ui5Types/fix/PropertyAssignmentBaseFix.ts" fillcolor="#ddfeff"]
+    "src/linter/ui5Types/fix/PropertyAssignmentBaseFix.ts" -> "src/autofix/autofix.ts"
+    "src/linter/ui5Types/fix/PropertyAssignmentBaseFix.ts" -> "src/linter/LinterContext.ts"
+    "src/linter/ui5Types/fix/PropertyAssignmentBaseFix.ts" -> "src/linter/ui5Types/fix/Fix.ts"
+    "src/linter/ui5Types/fix/PropertyAssignmentBaseFix.ts" -> "src/linter/ui5Types/fix/XmlEnabledFix.ts"
+    "src/linter/ui5Types/fix/PropertyAssignmentFix.ts" [label=<src/linter/ui5Types/fix/<BR/><B>PropertyAssignmentFix.ts</B>> tooltip="PropertyAssignmentFix.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/ui5Types/fix/PropertyAssignmentFix.ts" fillcolor="#ddfeff"]
+    "src/linter/ui5Types/fix/PropertyAssignmentFix.ts" -> "src/autofix/autofix.ts"
+    "src/linter/ui5Types/fix/PropertyAssignmentFix.ts" -> "src/linter/LinterContext.ts"
+    "src/linter/ui5Types/fix/PropertyAssignmentFix.ts" -> "src/linter/ui5Types/utils/utils.ts"
+    "src/linter/ui5Types/fix/PropertyAssignmentFix.ts" -> "src/linter/ui5Types/fix/Fix.ts"
+    "src/linter/ui5Types/fix/PropertyAssignmentFix.ts" -> "src/linter/ui5Types/fix/PropertyAssignmentBaseFix.ts"
+    "src/linter/ui5Types/fix/PropertyAssignmentGeneratorFix.ts" [label=<src/linter/ui5Types/fix/<BR/><B>PropertyAssignmentGeneratorFix.ts</B>> tooltip="PropertyAssignmentGeneratorFix.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/ui5Types/fix/PropertyAssignmentGeneratorFix.ts" fillcolor="#ddfeff"]
+    "src/linter/ui5Types/fix/PropertyAssignmentGeneratorFix.ts" -> "src/autofix/autofix.ts"
+    "src/linter/ui5Types/fix/PropertyAssignmentGeneratorFix.ts" -> "src/linter/LinterContext.ts"
+    "src/linter/ui5Types/fix/PropertyAssignmentGeneratorFix.ts" -> "src/linter/ui5Types/fix/Fix.ts"
+    "src/linter/ui5Types/fix/PropertyAssignmentGeneratorFix.ts" -> "src/linter/ui5Types/fix/PropertyAssignmentBaseFix.ts"
+    "src/linter/ui5Types/fix/XmlEnabledFix.ts" [label=<src/linter/ui5Types/fix/<BR/><B>XmlEnabledFix.ts</B>> tooltip="XmlEnabledFix.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/ui5Types/fix/XmlEnabledFix.ts" fillcolor="#ddfeff"]
+    "src/linter/ui5Types/fix/XmlEnabledFix.ts" -> "src/linter/ui5Types/fix/Fix.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/linter/ui5Types/fix/collections/globalFixes.ts" [label=<src/linter/ui5Types/fix/collections/<BR/><B>globalFixes.ts</B>> tooltip="globalFixes.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/ui5Types/fix/collections/globalFixes.ts" fillcolor="#ddfeff"]
+    "src/linter/ui5Types/fix/collections/globalFixes.ts" -> "src/linter/ui5Types/Ui5TypeInfoMatcher.ts"
+    "src/linter/ui5Types/fix/collections/globalFixes.ts" -> "src/linter/ui5Types/fix/BaseFix.ts"
+    "src/linter/ui5Types/fix/collections/globalFixes.ts" -> "src/linter/ui5Types/fix/FixFactory.ts"
+    "src/linter/ui5Types/fix/collections/jqueryFixes.ts" [label=<src/linter/ui5Types/fix/collections/<BR/><B>jqueryFixes.ts</B>> tooltip="jqueryFixes.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/ui5Types/fix/collections/jqueryFixes.ts" fillcolor="#ddfeff"]
+    "src/linter/ui5Types/fix/collections/jqueryFixes.ts" -> "src/autofix/autofix.ts"
+    "src/linter/ui5Types/fix/collections/jqueryFixes.ts" -> "src/linter/LinterContext.ts"
+    "src/linter/ui5Types/fix/collections/jqueryFixes.ts" -> "src/linter/ui5Types/Ui5TypeInfo.ts"
+    "src/linter/ui5Types/fix/collections/jqueryFixes.ts" -> "src/linter/ui5Types/Ui5TypeInfoMatcher.ts"
+    "src/linter/ui5Types/fix/collections/jqueryFixes.ts" -> "src/linter/ui5Types/fix/BaseFix.ts"
+    "src/linter/ui5Types/fix/collections/jqueryFixes.ts" -> "src/linter/ui5Types/fix/CallExpressionFix.ts"
+    "src/linter/ui5Types/fix/collections/jqueryFixes.ts" -> "src/linter/ui5Types/fix/Fix.ts"
+    "src/linter/ui5Types/fix/collections/jqueryFixes.ts" -> "src/linter/ui5Types/fix/FixFactory.ts"
+    "src/linter/ui5Types/fix/collections/sapMFixes.ts" [label=<src/linter/ui5Types/fix/collections/<BR/><B>sapMFixes.ts</B>> tooltip="sapMFixes.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/ui5Types/fix/collections/sapMFixes.ts" fillcolor="#ddfeff"]
+    "src/linter/ui5Types/fix/collections/sapMFixes.ts" -> "src/linter/ui5Types/Ui5TypeInfoMatcher.ts"
+    "src/linter/ui5Types/fix/collections/sapMFixes.ts" -> "src/linter/ui5Types/fix/BaseFix.ts"
+    "src/linter/ui5Types/fix/collections/sapMFixes.ts" -> "src/linter/ui5Types/fix/FixFactory.ts"
+    "src/linter/ui5Types/fix/collections/sapUiCompFixes.ts" [label=<src/linter/ui5Types/fix/collections/<BR/><B>sapUiCompFixes.ts</B>> tooltip="sapUiCompFixes.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/ui5Types/fix/collections/sapUiCompFixes.ts" fillcolor="#ddfeff"]
+    "src/linter/ui5Types/fix/collections/sapUiCompFixes.ts" -> "src/linter/ui5Types/Ui5TypeInfoMatcher.ts"
+    "src/linter/ui5Types/fix/collections/sapUiCompFixes.ts" -> "src/linter/ui5Types/fix/FixFactory.ts"
+    "src/linter/ui5Types/fix/collections/sapUiCoreFixes.ts" [label=<src/linter/ui5Types/fix/collections/<BR/><B>sapUiCoreFixes.ts</B>> tooltip="sapUiCoreFixes.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/ui5Types/fix/collections/sapUiCoreFixes.ts" fillcolor="#ddfeff"]
+    "src/linter/ui5Types/fix/collections/sapUiCoreFixes.ts" -> "src/linter/ui5Types/Ui5TypeInfoMatcher.ts"
+    "src/linter/ui5Types/fix/collections/sapUiCoreFixes.ts" -> "src/linter/ui5Types/fix/BaseFix.ts"
+    "src/linter/ui5Types/fix/collections/sapUiCoreFixes.ts" -> "src/linter/ui5Types/fix/FixFactory.ts"
+    "src/linter/ui5Types/fix/collections/sapUiLayoutFixes.ts" [label=<src/linter/ui5Types/fix/collections/<BR/><B>sapUiLayoutFixes.ts</B>> tooltip="sapUiLayoutFixes.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/ui5Types/fix/collections/sapUiLayoutFixes.ts" fillcolor="#ddfeff"]
+    "src/linter/ui5Types/fix/collections/sapUiLayoutFixes.ts" -> "src/linter/ui5Types/Ui5TypeInfoMatcher.ts"
+    "src/linter/ui5Types/fix/collections/sapUiLayoutFixes.ts" -> "src/linter/ui5Types/utils/utils.ts"
+    "src/linter/ui5Types/fix/collections/sapUiLayoutFixes.ts" -> "src/linter/ui5Types/fix/FixFactory.ts"
+    "src/linter/ui5Types/fix/getGlobalFixInfo.ts" [label=<src/linter/ui5Types/fix/<BR/><B>getGlobalFixInfo.ts</B>> tooltip="getGlobalFixInfo.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/ui5Types/fix/getGlobalFixInfo.ts" fillcolor="#ddfeff"]
+    "src/linter/ui5Types/fix/getGlobalFixInfo.ts" -> "src/linter/ui5Types/AmbientModuleCache.ts"
+    "src/linter/ui5Types/fix/getGlobalFixInfo.ts" -> "src/linter/ui5Types/utils/utils.ts"
+    "src/linter/ui5Types/getJqueryTypeInfo.ts" [label=<src/linter/ui5Types/<BR/><B>getJqueryTypeInfo.ts</B>> tooltip="getJqueryTypeInfo.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/ui5Types/getJqueryTypeInfo.ts" fillcolor="#ddfeff"]
+    "src/linter/ui5Types/getJqueryTypeInfo.ts" -> "src/linter/ui5Types/Ui5TypeInfo.ts"
+    "src/linter/ui5Types/host.ts" [label=<src/linter/ui5Types/<BR/><B>host.ts</B>> tooltip="host.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/ui5Types/host.ts" fillcolor="#ddfeff"]
+    "src/linter/ui5Types/host.ts" -> "src/manifest.ts"
+    "src/linter/ui5Types/host.ts" -> "src/linter/LinterContext.ts"
+    "src/linter/ui5Types/host.ts" -> "src/linter/ui5Types/amdTranspiler/transpiler.ts"
+    "src/linter/ui5Types/utils/UniqueNameCreator.ts" [label=<src/linter/ui5Types/utils/<BR/><B>UniqueNameCreator.ts</B>> tooltip="UniqueNameCreator.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/ui5Types/utils/UniqueNameCreator.ts" fillcolor="#ddfeff"]
+    "src/linter/ui5Types/utils/utils.ts" [label=<src/linter/ui5Types/utils/<BR/><B>utils.ts</B>> tooltip="utils.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/ui5Types/utils/utils.ts" fillcolor="#ddfeff"]
+    "src/linter/ui5Types/utils/utils.ts" -> "src/linter/ui5Types/Ui5TypeInfo.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/linter/ui5Types/utils/utils.ts" -> "src/linter/ui5Types/Ui5TypeInfoMatcher.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/linter/ui5Types/utils/utils.ts" -> "src/linter/ui5Types/utils/UniqueNameCreator.ts"
+    "src/linter/xmlTemplate/ControllerByIdInfo.ts" [label=<src/linter/xmlTemplate/<BR/><B>ControllerByIdInfo.ts</B>> tooltip="ControllerByIdInfo.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/xmlTemplate/ControllerByIdInfo.ts" fillcolor="#ddfeff"]
+    "src/linter/xmlTemplate/Parser.ts" [label=<src/linter/xmlTemplate/<BR/><B>Parser.ts</B>> tooltip="Parser.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/xmlTemplate/Parser.ts" fillcolor="#ddfeff"]
+    "src/linter/xmlTemplate/Parser.ts" -> "src/utils/ApiExtract.ts"
+    "src/linter/xmlTemplate/Parser.ts" -> "src/utils/xmlParser.ts"
+    "src/linter/xmlTemplate/Parser.ts" -> "src/linter/binding/BindingLinter.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/linter/xmlTemplate/Parser.ts" -> "src/linter/binding/lib/BindingParser.js"
+    "src/linter/xmlTemplate/Parser.ts" -> "src/linter/LinterContext.ts"
+    "src/linter/xmlTemplate/Parser.ts" -> "src/linter/messages.ts"
+    "src/linter/xmlTemplate/Parser.ts" -> "src/linter/xmlTemplate/ControllerByIdInfo.ts"
+    "src/linter/xmlTemplate/Parser.ts" -> "src/linter/xmlTemplate/generator/AbstractGenerator.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/linter/xmlTemplate/Parser.ts" -> "src/linter/xmlTemplate/generator/FragmentGenerator.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/linter/xmlTemplate/Parser.ts" -> "src/linter/xmlTemplate/generator/ViewGenerator.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/linter/xmlTemplate/Parser.ts" -> "src/linter/xmlTemplate/lib/EventHandlerResolver.js"
+    "src/linter/xmlTemplate/Parser.ts" -> "src/linter/xmlTemplate/lib/JSTokenizer.js"
+    "src/linter/xmlTemplate/generator/AbstractGenerator.ts" [label=<src/linter/xmlTemplate/generator/<BR/><B>AbstractGenerator.ts</B>> tooltip="AbstractGenerator.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/xmlTemplate/generator/AbstractGenerator.ts" fillcolor="#ddfeff"]
+    "src/linter/xmlTemplate/generator/AbstractGenerator.ts" -> "src/linter/ui5Types/utils/utils.ts"
+    "src/linter/xmlTemplate/generator/AbstractGenerator.ts" -> "src/linter/xmlTemplate/ControllerByIdInfo.ts"
+    "src/linter/xmlTemplate/generator/AbstractGenerator.ts" -> "src/linter/xmlTemplate/Parser.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/linter/xmlTemplate/generator/AbstractGenerator.ts" -> "src/linter/xmlTemplate/generator/Writer.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/linter/xmlTemplate/generator/ControllerByIdDtsGenerator.ts" [label=<src/linter/xmlTemplate/generator/<BR/><B>ControllerByIdDtsGenerator.ts</B>> tooltip="ControllerByIdDtsGenerator.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/xmlTemplate/generator/ControllerByIdDtsGenerator.ts" fillcolor="#ddfeff"]
+    "src/linter/xmlTemplate/generator/ControllerByIdDtsGenerator.ts" -> "src/linter/xmlTemplate/ControllerByIdInfo.ts"
+    "src/linter/xmlTemplate/generator/FragmentGenerator.ts" [label=<src/linter/xmlTemplate/generator/<BR/><B>FragmentGenerator.ts</B>> tooltip="FragmentGenerator.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/xmlTemplate/generator/FragmentGenerator.ts" fillcolor="#ddfeff"]
+    "src/linter/xmlTemplate/generator/FragmentGenerator.ts" -> "src/linter/xmlTemplate/Parser.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/linter/xmlTemplate/generator/FragmentGenerator.ts" -> "src/linter/xmlTemplate/generator/AbstractGenerator.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/linter/xmlTemplate/generator/ViewGenerator.ts" [label=<src/linter/xmlTemplate/generator/<BR/><B>ViewGenerator.ts</B>> tooltip="ViewGenerator.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/xmlTemplate/generator/ViewGenerator.ts" fillcolor="#ddfeff"]
+    "src/linter/xmlTemplate/generator/ViewGenerator.ts" -> "src/linter/xmlTemplate/Parser.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/linter/xmlTemplate/generator/ViewGenerator.ts" -> "src/linter/xmlTemplate/generator/AbstractGenerator.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/linter/xmlTemplate/generator/Writer.ts" [label=<src/linter/xmlTemplate/generator/<BR/><B>Writer.ts</B>> tooltip="Writer.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/xmlTemplate/generator/Writer.ts" fillcolor="#ddfeff"]
+    "src/linter/xmlTemplate/generator/Writer.ts" -> "src/linter/xmlTemplate/Parser.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/linter/xmlTemplate/lib/EventHandlerResolver.d.ts" [label=<src/linter/xmlTemplate/lib/<BR/><B>EventHandlerResolver.d.ts</B>> tooltip="EventHandlerResolver.d.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/xmlTemplate/lib/EventHandlerResolver.d.ts" fillcolor="#ccffcc"]
+    "src/linter/xmlTemplate/lib/EventHandlerResolver.js" [label=<src/linter/xmlTemplate/lib/<BR/><B>EventHandlerResolver.js</B>> tooltip="EventHandlerResolver.js" URL="https://github.com/UI5/linter/blob/main/src/linter/xmlTemplate/lib/EventHandlerResolver.js" ]
+    "src/linter/xmlTemplate/lib/EventHandlerResolver.js" -> "src/linter/xmlTemplate/lib/JSTokenizer.js"
+    "src/linter/xmlTemplate/lib/EventHandlerResolver.js" [label=<src/linter/xmlTemplate/lib/<BR/><B>EventHandlerResolver.js</B>> tooltip="EventHandlerResolver.js" URL="https://github.com/UI5/linter/blob/main/src/linter/xmlTemplate/lib/EventHandlerResolver.js" ]
+    "src/linter/xmlTemplate/lib/JSTokenizer.d.ts" [label=<src/linter/xmlTemplate/lib/<BR/><B>JSTokenizer.d.ts</B>> tooltip="JSTokenizer.d.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/xmlTemplate/lib/JSTokenizer.d.ts" fillcolor="#ccffcc"]
+    "src/linter/xmlTemplate/lib/JSTokenizer.js" [label=<src/linter/xmlTemplate/lib/<BR/><B>JSTokenizer.js</B>> tooltip="JSTokenizer.js" URL="https://github.com/UI5/linter/blob/main/src/linter/xmlTemplate/lib/JSTokenizer.js" ]
+    "src/linter/xmlTemplate/lib/JSTokenizer.js" [label=<src/linter/xmlTemplate/lib/<BR/><B>JSTokenizer.js</B>> tooltip="JSTokenizer.js" URL="https://github.com/UI5/linter/blob/main/src/linter/xmlTemplate/lib/JSTokenizer.js" ]
+    "src/linter/xmlTemplate/linter.ts" [label=<src/linter/xmlTemplate/<BR/><B>linter.ts</B>> tooltip="linter.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/xmlTemplate/linter.ts" fillcolor="#ddfeff"]
+    "src/linter/xmlTemplate/linter.ts" -> "src/linter/LinterContext.ts"
+    "src/linter/xmlTemplate/linter.ts" -> "src/linter/xmlTemplate/ControllerByIdInfo.ts"
+    "src/linter/xmlTemplate/linter.ts" -> "src/linter/xmlTemplate/generator/ControllerByIdDtsGenerator.ts"
+    "src/linter/xmlTemplate/linter.ts" -> "src/linter/xmlTemplate/transpiler.ts"
+    "src/linter/xmlTemplate/transpiler.ts" [label=<src/linter/xmlTemplate/<BR/><B>transpiler.ts</B>> tooltip="transpiler.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/xmlTemplate/transpiler.ts" fillcolor="#ddfeff"]
+    "src/linter/xmlTemplate/transpiler.ts" -> "src/utils/ApiExtract.ts"
+    "src/linter/xmlTemplate/transpiler.ts" -> "src/utils/perf.ts"
+    "src/linter/xmlTemplate/transpiler.ts" -> "src/utils/xmlParser.ts"
+    "src/linter/xmlTemplate/transpiler.ts" -> "src/linter/LinterContext.ts"
+    "src/linter/xmlTemplate/transpiler.ts" -> "src/linter/messages.ts"
+    "src/linter/xmlTemplate/transpiler.ts" -> "src/linter/xmlTemplate/ControllerByIdInfo.ts"
+    "src/linter/xmlTemplate/transpiler.ts" -> "src/linter/xmlTemplate/Parser.ts"
+    "src/linter/yaml/YamlLinter.ts" [label=<src/linter/yaml/<BR/><B>YamlLinter.ts</B>> tooltip="YamlLinter.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/yaml/YamlLinter.ts" fillcolor="#ddfeff"]
+    "src/linter/yaml/YamlLinter.ts" -> "src/utils/deprecations.ts"
+    "src/linter/yaml/YamlLinter.ts" -> "src/linter/LinterContext.ts"
+    "src/linter/yaml/YamlLinter.ts" -> "src/linter/messages.ts"
+    "src/linter/yaml/linter.ts" [label=<src/linter/yaml/<BR/><B>linter.ts</B>> tooltip="linter.ts" URL="https://github.com/UI5/linter/blob/main/src/linter/yaml/linter.ts" fillcolor="#ddfeff"]
+    "src/linter/yaml/linter.ts" -> "src/linter/LinterContext.ts"
+    "src/linter/yaml/linter.ts" -> "src/linter/yaml/YamlLinter.ts"
+    "src/manifest.ts" [label=<src/<BR/><B>manifest.ts</B>> tooltip="manifest.ts" URL="https://github.com/UI5/linter/blob/main/src/manifest.ts" fillcolor="#ddfeff"]
+    "src/untyped.d.ts" [label=<src/<BR/><B>untyped.d.ts</B>> tooltip="untyped.d.ts" URL="https://github.com/UI5/linter/blob/main/src/untyped.d.ts" fillcolor="#ccffcc"]
+    "src/utils/ApiExtract.ts" [label=<src/utils/<BR/><B>ApiExtract.ts</B>> tooltip="ApiExtract.ts" URL="https://github.com/UI5/linter/blob/main/src/utils/ApiExtract.ts" fillcolor="#ddfeff"]
+    "src/utils/ConfigManager.ts" [label=<src/utils/<BR/><B>ConfigManager.ts</B>> tooltip="ConfigManager.ts" URL="https://github.com/UI5/linter/blob/main/src/utils/ConfigManager.ts" fillcolor="#ddfeff"]
+    "src/utils/ConfigManager.ts" -> "src/linter/LinterContext.ts"
+    "src/utils/deprecations.ts" [label=<src/utils/<BR/><B>deprecations.ts</B>> tooltip="deprecations.ts" URL="https://github.com/UI5/linter/blob/main/src/utils/deprecations.ts" fillcolor="#ddfeff"]
+    "src/utils/nodePosition.ts" [label=<src/utils/<BR/><B>nodePosition.ts</B>> tooltip="nodePosition.ts" URL="https://github.com/UI5/linter/blob/main/src/utils/nodePosition.ts" fillcolor="#ddfeff"]
+    "src/utils/nodePosition.ts" -> "src/linter/LinterContext.ts" [arrowhead="onormal" penwidth="1.0"]
+    "src/utils/perf.ts" [label=<src/utils/<BR/><B>perf.ts</B>> tooltip="perf.ts" URL="https://github.com/UI5/linter/blob/main/src/utils/perf.ts" fillcolor="#ddfeff"]
+    "src/utils/virtualPathToFilePath.ts" [label=<src/utils/<BR/><B>virtualPathToFilePath.ts</B>> tooltip="virtualPathToFilePath.ts" URL="https://github.com/UI5/linter/blob/main/src/utils/virtualPathToFilePath.ts" fillcolor="#ddfeff"]
+    "src/utils/virtualPathToFilePath.ts" -> "src/linter/LinterContext.ts" [arrowhead="onormal" penwidth="1.0"]
+    "src/utils/xmlParser.ts" [label=<src/utils/<BR/><B>xmlParser.ts</B>> tooltip="xmlParser.ts" URL="https://github.com/UI5/linter/blob/main/src/utils/xmlParser.ts" fillcolor="#ddfeff"]
+    "src/utils/xmlParser.ts" -> "src/linter/LinterContext.ts" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+}

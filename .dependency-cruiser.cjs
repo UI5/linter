@@ -218,6 +218,8 @@ module.exports = {
 
 		includeOnly: ["^src/", "^bin/"],
 
+		prefix: "https://github.com/UI5/linter/blob/main/",
+
 		moduleSystems: ["cjs", "es6"],
 
 		tsPreCompilationDeps: true,

@@ -3,26 +3,26 @@ strict digraph "dependency-cruiser output"{
     node [shape="box" style="rounded, filled" height="0.2" color="black" fillcolor="#ffffcc" fontcolor="black" fontname="Helvetica" fontsize="9"]
     edge [arrowhead="normal" arrowsize="0.6" penwidth="2.0" color="#00000033" fontname="Helvetica" fontsize="9"]
 
-    subgraph "cluster_src" {label="src" "src/autofix" [label=<autofix> tooltip="autofix" URL="src/autofix" shape="box3d"] }
+    subgraph "cluster_src" {label="src" "src/autofix" [label=<autofix> tooltip="autofix" URL="https://github.com/UI5/linter/blob/main/src/autofix" shape="box3d"] }
     "src/autofix" -> "src/linter"
     "src/autofix" -> "src/utils" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
-    subgraph "cluster_src" {label="src" "src/cli" [label=<cli> tooltip="cli" URL="src/cli" shape="box3d"] }
+    subgraph "cluster_src" {label="src" "src/cli" [label=<cli> tooltip="cli" URL="https://github.com/UI5/linter/blob/main/src/cli" shape="box3d"] }
     "src/cli" -> "src/formatter"
     "src/cli" -> "src/index.ts"
     "src/cli" -> "src/linter"
-    subgraph "cluster_src" {label="src" "src/cli.ts" [label=<cli.ts> tooltip="cli.ts" URL="src/cli.ts" fillcolor="#ddfeff"] }
+    subgraph "cluster_src" {label="src" "src/cli.ts" [label=<cli.ts> tooltip="cli.ts" URL="https://github.com/UI5/linter/blob/main/src/cli.ts" fillcolor="#ddfeff"] }
     "src/cli.ts" -> "src/cli"
-    subgraph "cluster_src" {label="src" "src/formatter" [label=<formatter> tooltip="formatter" URL="src/formatter" shape="box3d"] }
+    subgraph "cluster_src" {label="src" "src/formatter" [label=<formatter> tooltip="formatter" URL="https://github.com/UI5/linter/blob/main/src/formatter" shape="box3d"] }
     "src/formatter" -> "src/linter"
-    subgraph "cluster_src" {label="src" "src/index.ts" [label=<index.ts> tooltip="index.ts" URL="src/index.ts" fillcolor="#ddfeff"] }
+    subgraph "cluster_src" {label="src" "src/index.ts" [label=<index.ts> tooltip="index.ts" URL="https://github.com/UI5/linter/blob/main/src/index.ts" fillcolor="#ddfeff"] }
     "src/index.ts" -> "src/linter"
-    subgraph "cluster_src" {label="src" "src/linter" [label=<linter> tooltip="linter" URL="src/linter" shape="box3d"] }
+    subgraph "cluster_src" {label="src" "src/linter" [label=<linter> tooltip="linter" URL="https://github.com/UI5/linter/blob/main/src/linter" shape="box3d"] }
     "src/linter" -> "src/utils" [arrowhead="onormal" penwidth="1.0"]
     "src/linter" -> "src/formatter"
     "src/linter" -> "src/autofix" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
     "src/linter" -> "src/manifest.ts"
-    subgraph "cluster_src" {label="src" "src/manifest.ts" [label=<manifest.ts> tooltip="manifest.ts" URL="src/manifest.ts" fillcolor="#ddfeff"] }
-    subgraph "cluster_src" {label="src" "src/untyped.d.ts" [label=<untyped.d.ts> tooltip="untyped.d.ts" URL="src/untyped.d.ts" fillcolor="#ccffcc"] }
-    subgraph "cluster_src" {label="src" "src/utils" [label=<utils> tooltip="utils" URL="src/utils" shape="box3d"] }
+    subgraph "cluster_src" {label="src" "src/manifest.ts" [label=<manifest.ts> tooltip="manifest.ts" URL="https://github.com/UI5/linter/blob/main/src/manifest.ts" fillcolor="#ddfeff"] }
+    subgraph "cluster_src" {label="src" "src/untyped.d.ts" [label=<untyped.d.ts> tooltip="untyped.d.ts" URL="https://github.com/UI5/linter/blob/main/src/untyped.d.ts" fillcolor="#ccffcc"] }
+    subgraph "cluster_src" {label="src" "src/utils" [label=<utils> tooltip="utils" URL="https://github.com/UI5/linter/blob/main/src/utils" shape="box3d"] }
     "src/utils" -> "src/linter" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
 }

@@ -1,16 +1,17 @@
 #!/usr/bin/env node
 /* eslint-disable no-console */
-import {execFile, exec} from "node:child_process";
+import {execFile, spawn} from "node:child_process";
 import {promisify} from "node:util";
 import path from "node:path";
 import fs from "node:fs/promises";
+import {createReadStream, createWriteStream} from "node:fs";
+import {pipeline} from "node:stream/promises";
 
-// Promisify exec functions
+// Promisify exec function
 const execFilePromise = promisify(execFile);
-const execPromise = promisify(exec);
 
 // Define task types
-type DiagramTask = "high-level" | "folder-level" | "detailed";
+type DiagramTask = "high-level" | "folder-level" | "detailed" | "flat";
 
 // Define file paths
 const DIAGRAMS_DIR = path.join(process.cwd(), "docs", "diagrams");
@@ -25,6 +26,10 @@ const FOLDER_LEVEL_HTML = path.join(DIAGRAMS_DIR, "folder-level-dependency-graph
 const DETAILED_DOT = path.join(DIAGRAMS_DIR, "dependency-graph.dot");
 const DETAILED_SVG = path.join(DIAGRAMS_DIR, "dependency-graph.svg");
 const DETAILED_HTML = path.join(DIAGRAMS_DIR, "dependency-graph.html");
+
+const FLAT_DOT = path.join(DIAGRAMS_DIR, "flat-dependency-graph.dot");
+const FLAT_SVG = path.join(DIAGRAMS_DIR, "flat-dependency-graph.svg");
+const FLAT_HTML = path.join(DIAGRAMS_DIR, "flat-dependency-graph.html");
 
 /**
  * Ensures the diagrams directory exists
@@ -54,26 +59,21 @@ async function runDotCommand(inputFile: string, outputFile: string): Promise<voi
 		await fs.access(inputFile);
 
 		const dotArgs = [
-			"-Kdot",
-			"-Grankdir=LR",
-			"-Gnodesep=0.3",
-			"-Granksep=0.6",
-			"-Gsplines=true",
-			"-Nshape=box",
-			"-Nstyle=filled",
-			"-Nfillcolor=\"#f8f9fb\"",
-			"-Ncolor=\"#d0d7de\"",
-			"-Nfontname=\"DejaVu Sans\"",
-			"-Ecolor=\"#b6bec7\"",
-			"-Epenwidth=1",
-			"-Tsvg",
+			"-T", "svg",
 			relativeInputFile,
 			"-o",
 			relativeOutputFile,
 		];
 
 		// Use Docker to run the dot command
-		await execPromise(`docker run --rm -v "${process.cwd()}":/work -w /work nshine/dot dot ${dotArgs.join(" ")}`);
+		await execFilePromise("docker", [
+			"run", "--rm",
+			"-v", `${process.cwd()}` + ":/work",
+			"-w", "/work",
+			"nshine/dot",
+			"dot",
+			...dotArgs,
+		]);
 		console.log("Generated SVG:", outputFile);
 	} catch (error) {
 		console.error("Error running dot command:", error);
@@ -88,47 +88,57 @@ async function runDotCommand(inputFile: string, outputFile: string): Promise<voi
  */
 async function convertSvgToHtml(svgFile: string, htmlFile: string): Promise<void> {
 	try {
-		// Read the SVG file
-		const svgContent = await fs.readFile(svgFile, "utf-8");
+		// Verify the SVG file exists before processing
+		await fs.access(svgFile);
 
-		// Create a simple HTML wrapper for the SVG
-		const htmlContent = [
-			"<!DOCTYPE html>",
-			"<html lang=\"en\">",
-			"<head>",
-			"  <meta charset=\"UTF-8\">",
-			"  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">",
-			"  <title>Dependency Graph</title>",
-			"  <style>",
-			"    body {",
-			"      font-family: 'DejaVu Sans', Arial, sans-serif;",
-			"      margin: 0;",
-			"      padding: 20px;",
-			"      background-color: #f8f9fb;",
-			"    }",
-			"    .container {",
-			"      max-width: 100%;",
-			"      overflow: auto;",
-			"    }",
-			"    svg {",
-			"      max-width: 100%;",
-			"      height: auto;",
-			"    }",
-			"  </style>",
-			"</head>",
-			"<body>",
-			"  <div class=\"container\">",
-			svgContent,
-			"  </div>",
-			"</body>",
-			"</html>",
-		].join("\n");
+		// Create a writable stream for the output HTML file
+		const outputStream = createWriteStream(htmlFile);
 
-		// Write the HTML file
-		await fs.writeFile(htmlFile, htmlContent, "utf-8");
+		// Spawn the depcruise-wrap-stream-in-html process
+		const child = spawn("npx", ["depcruise-wrap-stream-in-html"], {
+			stdio: ["pipe", "pipe", "inherit"],
+		});
+
+		// Create a promise that resolves when the process exits
+		const processExit = new Promise<number>((resolve, reject) => {
+			// Set up error handling for the child process
+			child.on("error", (err) => {
+				reject(new Error(`Failed to spawn depcruise-wrap-stream-in-html: ${err.message}`));
+			});
+			child.on("close", (code, signal) => {
+				if (signal) {
+					reject(new Error(
+						`Process terminated with signal ${signal} while converting ${svgFile} to ${htmlFile}`
+					));
+				} else {
+					resolve(code ?? 0);
+				}
+			});
+		});
+
+		// Pipe the SVG file directly to the child process
+		const inputStream = createReadStream(svgFile);
+
+		// Connect the streams: SVG file -> child process -> HTML file
+		await Promise.all([
+			pipeline(inputStream, child.stdin).catch((err: Error) => {
+				throw new Error(`Error piping SVG to process: ${err.message}`);
+			}),
+			pipeline(child.stdout, outputStream).catch((err: Error) => {
+				throw new Error(`Error piping process output to HTML file: ${err.message}`);
+			}),
+			processExit.then((code) => {
+				if (code !== 0) {
+					throw new Error(
+						`depcruise-wrap-stream-in-html exited with code ${code} while processing ${svgFile}`
+					);
+				}
+			}),
+		]);
+
 		console.log("Generated HTML:", htmlFile);
 	} catch (error) {
-		console.error("Error converting SVG to HTML:", error);
+		console.error(`Error converting SVG to HTML (${svgFile} -> ${htmlFile}):`, error);
 		throw error;
 	}
 }
@@ -143,9 +153,7 @@ async function generateHighLevelDiagram(): Promise<void> {
 		// Generate dot file with high-level options
 		const {stdout: highLevelOutput} = await execFilePromise("npx", [
 			"dependency-cruiser",
-			"--output-type", "dot",
-			"--collapse", "node_modules",
-			"--collapse", "^(src/[^/]+)", // Collapse to top-level folders in src
+			"--output-type", "archi",
 			"src",
 		]);
 		await fs.writeFile(HIGH_LEVEL_DOT, highLevelOutput);
@@ -219,11 +227,36 @@ async function generateDetailedDiagram(): Promise<void> {
 	}
 }
 
+async function generateFlatDiagram(): Promise<void> {
+	try {
+		console.log("Generating flat diagram...");
+
+		// Generate dot file (same as diagram:dot script)
+		const {stdout: flatOutput} = await execFilePromise("npx", [
+			"dependency-cruiser",
+			"--output-type", "flat",
+			"src",
+		]);
+		await fs.writeFile(FLAT_DOT, flatOutput);
+
+		console.log("Generated dot file:", FLAT_DOT);
+
+		// Convert dot to SVG
+		await runDotCommand(FLAT_DOT, FLAT_SVG);
+
+		// Convert SVG to HTML
+		await convertSvgToHtml(FLAT_SVG, FLAT_HTML);
+	} catch (error) {
+		console.error("Error generating flat diagram:", error);
+		throw error;
+	}
+}
+
 /**
  * Main function to run the specified tasks
  * @param tasks - Array of tasks to run
  */
-async function generateDiagrams(tasks: DiagramTask[] = ["high-level", "folder-level", "detailed"]): Promise<void> {
+async function generateDiagrams(tasks: DiagramTask[] = ["high-level", "folder-level", "detailed", "flat"]): Promise<void> {
 	try {
 		await ensureDiagramsDir();
 
@@ -238,6 +271,9 @@ async function generateDiagrams(tasks: DiagramTask[] = ["high-level", "folder-le
 					break;
 				case "detailed":
 					await generateDetailedDiagram();
+					break;
+				case "flat":
+					await generateFlatDiagram();
 					break;
 				default:
 					console.warn("Unknown task:", task);
@@ -264,7 +300,7 @@ async function main(): Promise<void> {
 		} else {
 			// Filter valid tasks
 			const validTasks = args.filter((arg): arg is DiagramTask => {
-				const isValid = ["high-level", "folder-level", "detailed"].includes(arg);
+				const isValid = ["high-level", "folder-level", "detailed", "flat"].includes(arg);
 				if (!isValid) {
 					console.warn("Ignoring unknown task:", arg);
 				}
@@ -272,7 +308,7 @@ async function main(): Promise<void> {
 			});
 
 			if (validTasks.length === 0) {
-				console.error("No valid tasks specified. Available tasks: high-level, folder-level, detailed");
+				console.error("No valid tasks specified. Available tasks: high-level, folder-level, detailed, flat");
 				process.exit(1);
 			}
 
@@ -285,4 +321,4 @@ async function main(): Promise<void> {
 }
 
 // Run the script
-void main();
+await main();
