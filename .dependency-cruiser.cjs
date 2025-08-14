@@ -227,7 +227,7 @@ module.exports = {
 		/* Which modules to exclusively include (array of regular expressions in strings)
 		   dependency-cruiser will skip everything not matching this pattern
 		*/
-		// includeOnly : [''],
+		includeOnly: ["^src/"],
 
 		/* List of module systems to cruise.
 		   When left out dependency-cruiser will fall back to the list of _all_
@@ -238,8 +238,7 @@ module.exports = {
 		   As in practice only commonjs ('cjs') and ecmascript modules ('es6')
 		   are widely used, you can limit the moduleSystems to those.
 	 	*/
-
-		// moduleSystems: ['cjs', 'es6'],
+		moduleSystems: ["cjs", "es6"],
 
 		/*
 		   false: don't look at JSDoc imports (the default)
@@ -341,7 +340,7 @@ module.exports = {
 			   the extensions you actually use (e.g. [".js", ".jsx"]). This can speed
 			   up module resolution, which is the most expensive step.
 			*/
-			// extensions: [".js", ".jsx", ".ts", ".tsx", ".d.ts"],
+			extensions: [".ts", ".tsx", ".js", ".jsx", ".mjs", ".cjs", ".json"],
 			/* What to consider a 'main' field in package.json */
 			mainFields: ["module", "main", "types", "typings"],
 			/* A list of alias fields in package.jsons
@@ -361,7 +360,7 @@ module.exports = {
 		   See https://github.com/sverweij/dependency-cruiser/blob/main/doc/options-reference.md#skipanalysisnotinrules
 		   for details
 		*/
-		skipAnalysisNotInRules: true,
+		// skipAnalysisNotInRules: true,
 
 		reporterOptions: {
 			dot: {
@@ -370,7 +369,7 @@ module.exports = {
 				   collapses everything in node_modules to one folder deep so you see
 				   the external modules, but their innards.
 				*/
-				collapsePattern: "node_modules/(?:@[^/]+/[^/]+|[^/]+)",
+				// collapsePattern: "node_modules/(?:@[^/]+/[^/]+|[^/]+)",
 
 				/* Options to tweak the appearance of your graph.See
 				   https://github.com/sverweij/dependency-cruiser/blob/main/doc/options-reference.md#reporteroptions
