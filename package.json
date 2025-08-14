@@ -51,7 +51,11 @@
 		"unit-debug": "ava debug",
 		"unit-update-snapshots": "ava --update-snapshots",
 		"unit-watch": "ava --watch",
-		"update-sapui5-types": "tsx scripts/update-sapui5-types.ts"
+		"update-sapui5-types": "tsx scripts/update-sapui5-types.ts",
+		"diagram:dot": "mkdir -p docs/diagrams && dependency-cruiser --config ./.dependency-cruiser.cjs --output-type dot src > docs/diagrams/dependency-graph.dot",
+		"diagram:svg": "docker run --rm -v \"$PWD\":/work -w /work nshine/dot dot -Kdot -Grankdir=LR -Gnodesep=0.3 -Granksep=0.6 -Gsplines=true -Nshape=box -Nstyle=filled -Nfillcolor=\"#f8f9fb\" -Ncolor=\"#d0d7de\" -Nfontname=\"DejaVu Sans\" -Ecolor=\"#b6bec7\" -Epenwidth=1 -Tsvg docs/diagrams/dependency-graph.dot -o docs/diagrams/dependency-graph.svg",
+		"diagram:deps": "npm run diagram:dot && npm run diagram:svg",
+		"diagram:open": "open docs/diagrams/dependency-graph.svg"
 	},
 	"files": [
 		"CHANGELOG.md",
