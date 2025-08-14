@@ -109,6 +109,7 @@
 		"@ui5/cli": "^4.0.23",
 		"ava": "^6.4.1",
 		"depcheck": "^1.4.7",
+		"dependency-cruiser": "^17.0.1",
 		"eslint": "^9.33.0",
 		"eslint-plugin-ava": "^15.1.0",
 		"esmock": "^2.7.1",
