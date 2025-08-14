@@ -1,0 +1,109 @@
+strict digraph "dependency-cruiser output"{
+    rankdir="LR" splines="true" overlap="false" nodesep="0.16" ranksep="0.18" fontname="Helvetica-bold" fontsize="9" style="rounded,bold,filled" fillcolor="#ffffff" compound="true"
+    node [shape="box" style="rounded, filled" height="0.2" color="black" fillcolor="#ffffcc" fontcolor="black" fontname="Helvetica" fontsize="9"]
+    edge [arrowhead="normal" arrowsize="0.6" penwidth="2.0" color="#00000033" fontname="Helvetica" fontsize="9"]
+
+    "src" [label=<src> tooltip="src" URL="src" fillcolor="#ccffcc" shape="box3d"]
+    "src" -> "src/cli"
+    "src" -> "src/linter"
+    "src" -> "src/linter/ui5Types"
+    subgraph "cluster_src" {label="src" "src" [width="0.05" shape="point" style="invis"] "src/autofix" [label=<autofix> tooltip="autofix" URL="src/autofix" shape="box3d"] }
+    "src/autofix" -> "src/linter/ui5Types/amdTranspiler"
+    "src/autofix" -> "src/linter/ui5Types/utils"
+    "src/autofix" -> "src/linter" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/autofix" -> "src/linter/ui5Types/fix" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/autofix" -> "src/utils" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    subgraph "cluster_src" {label="src" "src" [width="0.05" shape="point" style="invis"] "src/cli" [label=<cli> tooltip="cli" URL="src/cli" shape="box3d"] }
+    "src/cli" -> "src/formatter"
+    "src/cli" -> "src"
+    "src/cli" -> "src/linter"
+    "src/cli" -> "src/cli/middlewares" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/cli" -> "src/cli/utils" [style="dashed"]
+    subgraph "cluster_src" {label="src" "src" [width="0.05" shape="point" style="invis"] subgraph "cluster_src/cli" {label="cli" "src/cli" [width="0.05" shape="point" style="invis"] "src/cli/middlewares" [label=<middlewares> tooltip="middlewares" URL="src/cli/middlewares" shape="box3d"] } }
+    "src/cli/middlewares" -> "src/cli" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" penwidth="1.0" fontcolor="orange" color="orange"]
+    subgraph "cluster_src" {label="src" "src" [width="0.05" shape="point" style="invis"] subgraph "cluster_src/cli" {label="cli" "src/cli" [width="0.05" shape="point" style="invis"] "src/cli/utils" [label=<utils> tooltip="utils" URL="src/cli/utils" shape="box3d"] } }
+    subgraph "cluster_src" {label="src" "src" [width="0.05" shape="point" style="invis"] "src/formatter" [label=<formatter> tooltip="formatter" URL="src/formatter" shape="box3d"] }
+    "src/formatter" -> "src/linter"
+    "src/formatter" -> "src/formatter/lib"
+    subgraph "cluster_src" {label="src" "src" [width="0.05" shape="point" style="invis"] subgraph "cluster_src/formatter" {label="formatter" "src/formatter" [width="0.05" shape="point" style="invis"] "src/formatter/lib" [label=<lib> tooltip="lib" URL="src/formatter/lib" shape="box3d"] } }
+    subgraph "cluster_src" {label="src" "src" [width="0.05" shape="point" style="invis"] "src/linter" [label=<linter> tooltip="linter" URL="src/linter" shape="box3d"] }
+    "src/linter" -> "src/formatter/lib"
+    "src/linter" -> "src/linter/ui5Types/fix" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/linter" -> "src/linter/ui5Types"
+    "src/linter" -> "src/utils"
+    "src/linter" -> "src/autofix"
+    "src/linter" -> "src"
+    "src/linter" -> "src/linter/dotLibrary"
+    "src/linter" -> "src/linter/fileTypes"
+    "src/linter" -> "src/linter/html"
+    "src/linter" -> "src/linter/manifestJson"
+    "src/linter" -> "src/linter/xmlTemplate"
+    "src/linter" -> "src/linter/yaml"
+    subgraph "cluster_src" {label="src" "src" [width="0.05" shape="point" style="invis"] subgraph "cluster_src/linter" {label="linter" "src/linter" [width="0.05" shape="point" style="invis"] "src/linter/binding" [label=<binding> tooltip="binding" URL="src/linter/binding" shape="box3d"] } }
+    "src/linter/binding" -> "src/linter"
+    "src/linter/binding" -> "src/linter/xmlTemplate" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/linter/binding" -> "src/linter/binding/lib"
+    subgraph "cluster_src" {label="src" "src" [width="0.05" shape="point" style="invis"] subgraph "cluster_src/linter" {label="linter" "src/linter" [width="0.05" shape="point" style="invis"] subgraph "cluster_src/linter/binding" {label="binding" "src/linter/binding" [width="0.05" shape="point" style="invis"] "src/linter/binding/lib" [label=<lib> tooltip="lib" URL="src/linter/binding/lib" shape="box3d"] } } }
+    "src/linter/binding/lib" -> "src/linter/xmlTemplate/lib"
+    "src/linter/binding/lib" -> "src/linter/binding/lib/strings"
+    "src/linter/binding/lib" -> "src/linter/binding/lib/util"
+    subgraph "cluster_src" {label="src" "src" [width="0.05" shape="point" style="invis"] subgraph "cluster_src/linter" {label="linter" "src/linter" [width="0.05" shape="point" style="invis"] subgraph "cluster_src/linter/binding" {label="binding" "src/linter/binding" [width="0.05" shape="point" style="invis"] subgraph "cluster_src/linter/binding/lib" {label="lib" "src/linter/binding/lib" [width="0.05" shape="point" style="invis"] "src/linter/binding/lib/strings" [label=<strings> tooltip="strings" URL="src/linter/binding/lib/strings" shape="box3d"] } } } }
+    subgraph "cluster_src" {label="src" "src" [width="0.05" shape="point" style="invis"] subgraph "cluster_src/linter" {label="linter" "src/linter" [width="0.05" shape="point" style="invis"] subgraph "cluster_src/linter/binding" {label="binding" "src/linter/binding" [width="0.05" shape="point" style="invis"] subgraph "cluster_src/linter/binding/lib" {label="lib" "src/linter/binding/lib" [width="0.05" shape="point" style="invis"] "src/linter/binding/lib/util" [label=<util> tooltip="util" URL="src/linter/binding/lib/util" shape="box3d"] } } } }
+    subgraph "cluster_src" {label="src" "src" [width="0.05" shape="point" style="invis"] subgraph "cluster_src/linter" {label="linter" "src/linter" [width="0.05" shape="point" style="invis"] "src/linter/dotLibrary" [label=<dotLibrary> tooltip="dotLibrary" URL="src/linter/dotLibrary" shape="box3d"] } }
+    "src/linter/dotLibrary" -> "src/linter"
+    "src/linter/dotLibrary" -> "src/utils"
+    subgraph "cluster_src" {label="src" "src" [width="0.05" shape="point" style="invis"] subgraph "cluster_src/linter" {label="linter" "src/linter" [width="0.05" shape="point" style="invis"] "src/linter/fileTypes" [label=<fileTypes> tooltip="fileTypes" URL="src/linter/fileTypes" shape="box3d"] } }
+    "src/linter/fileTypes" -> "src/linter"
+    subgraph "cluster_src" {label="src" "src" [width="0.05" shape="point" style="invis"] subgraph "cluster_src/linter" {label="linter" "src/linter" [width="0.05" shape="point" style="invis"] "src/linter/html" [label=<html> tooltip="html" URL="src/linter/html" shape="box3d"] } }
+    "src/linter/html" -> "src/linter"
+    "src/linter/html" -> "src/utils"
+    subgraph "cluster_src" {label="src" "src" [width="0.05" shape="point" style="invis"] subgraph "cluster_src/linter" {label="linter" "src/linter" [width="0.05" shape="point" style="invis"] "src/linter/manifestJson" [label=<manifestJson> tooltip="manifestJson" URL="src/linter/manifestJson" shape="box3d"] } }
+    "src/linter/manifestJson" -> "src/utils"
+    "src/linter/manifestJson" -> "src/linter"
+    subgraph "cluster_src" {label="src" "src" [width="0.05" shape="point" style="invis"] subgraph "cluster_src/linter" {label="linter" "src/linter" [width="0.05" shape="point" style="invis"] "src/linter/ui5Types" [label=<ui5Types> tooltip="ui5Types" URL="src/linter/ui5Types" shape="box3d"] } }
+    "src/linter/ui5Types" -> "src/utils" [arrowhead="onormal" penwidth="1.0"]
+    "src/linter/ui5Types" -> "src/linter/ui5Types/utils" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/linter/ui5Types" -> "src/linter/xmlTemplate"
+    "src/linter/ui5Types" -> "src"
+    "src/linter/ui5Types" -> "src/linter"
+    "src/linter/ui5Types" -> "src/linter/ui5Types/fix" [style="dashed"]
+    "src/linter/ui5Types" -> "src/linter/ui5Types/amdTranspiler"
+    "src/linter/ui5Types" -> "src/linter/binding"
+    "src/linter/ui5Types" -> "src/linter/manifestJson" [arrowhead="onormal" penwidth="1.0"]
+    "src/linter/ui5Types" -> "src/formatter/lib"
+    subgraph "cluster_src" {label="src" "src" [width="0.05" shape="point" style="invis"] subgraph "cluster_src/linter" {label="linter" "src/linter" [width="0.05" shape="point" style="invis"] subgraph "cluster_src/linter/ui5Types" {label="ui5Types" "src/linter/ui5Types" [width="0.05" shape="point" style="invis"] "src/linter/ui5Types/amdTranspiler" [label=<amdTranspiler> tooltip="amdTranspiler" URL="src/linter/ui5Types/amdTranspiler" shape="box3d"] } } }
+    "src/linter/ui5Types/amdTranspiler" -> "src/utils"
+    "src/linter/ui5Types/amdTranspiler" -> "src/linter"
+    "src/linter/ui5Types/amdTranspiler" -> "src/linter/ui5Types"
+    "src/linter/ui5Types/amdTranspiler" -> "src/linter/ui5Types/utils"
+    subgraph "cluster_src" {label="src" "src" [width="0.05" shape="point" style="invis"] subgraph "cluster_src/linter" {label="linter" "src/linter" [width="0.05" shape="point" style="invis"] subgraph "cluster_src/linter/ui5Types" {label="ui5Types" "src/linter/ui5Types" [width="0.05" shape="point" style="invis"] "src/linter/ui5Types/fix" [label=<fix> tooltip="fix" URL="src/linter/ui5Types/fix" shape="box3d"] } } }
+    "src/linter/ui5Types/fix" -> "src/autofix" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/linter/ui5Types/fix" -> "src/linter" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/linter/ui5Types/fix" -> "src/linter/ui5Types/utils"
+    "src/linter/ui5Types/fix" -> "src"
+    "src/linter/ui5Types/fix" -> "src/linter/ui5Types"
+    subgraph "cluster_src" {label="src" "src" [width="0.05" shape="point" style="invis"] subgraph "cluster_src/linter" {label="linter" "src/linter" [width="0.05" shape="point" style="invis"] subgraph "cluster_src/linter/ui5Types" {label="ui5Types" "src/linter/ui5Types" [width="0.05" shape="point" style="invis"] subgraph "cluster_src/linter/ui5Types/fix" {label="fix" "src/linter/ui5Types/fix" [width="0.05" shape="point" style="invis"] "src/linter/ui5Types/fix/collections" [label=<collections> tooltip="collections" URL="src/linter/ui5Types/fix/collections" shape="box3d"] } } } }
+    "src/linter/ui5Types/fix/collections" -> "src/linter/ui5Types"
+    "src/linter/ui5Types/fix/collections" -> "src/linter/ui5Types/fix"
+    "src/linter/ui5Types/fix/collections" -> "src/autofix"
+    "src/linter/ui5Types/fix/collections" -> "src/linter"
+    "src/linter/ui5Types/fix/collections" -> "src/linter/ui5Types/utils"
+    subgraph "cluster_src" {label="src" "src" [width="0.05" shape="point" style="invis"] subgraph "cluster_src/linter" {label="linter" "src/linter" [width="0.05" shape="point" style="invis"] subgraph "cluster_src/linter/ui5Types" {label="ui5Types" "src/linter/ui5Types" [width="0.05" shape="point" style="invis"] "src/linter/ui5Types/utils" [label=<utils> tooltip="utils" URL="src/linter/ui5Types/utils" shape="box3d"] } } }
+    "src/linter/ui5Types/utils" -> "src/linter/ui5Types" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    subgraph "cluster_src" {label="src" "src" [width="0.05" shape="point" style="invis"] subgraph "cluster_src/linter" {label="linter" "src/linter" [width="0.05" shape="point" style="invis"] "src/linter/xmlTemplate" [label=<xmlTemplate> tooltip="xmlTemplate" URL="src/linter/xmlTemplate" shape="box3d"] } }
+    "src/linter/xmlTemplate" -> "src/linter"
+    "src/linter/xmlTemplate" -> "src/linter/xmlTemplate/generator"
+    "src/linter/xmlTemplate" -> "src/utils"
+    "src/linter/xmlTemplate" -> "src/linter/binding" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+    "src/linter/xmlTemplate" -> "src/linter/binding/lib"
+    "src/linter/xmlTemplate" -> "src/linter/xmlTemplate/lib"
+    subgraph "cluster_src" {label="src" "src" [width="0.05" shape="point" style="invis"] subgraph "cluster_src/linter" {label="linter" "src/linter" [width="0.05" shape="point" style="invis"] subgraph "cluster_src/linter/xmlTemplate" {label="xmlTemplate" "src/linter/xmlTemplate" [width="0.05" shape="point" style="invis"] "src/linter/xmlTemplate/generator" [label=<generator> tooltip="generator" URL="src/linter/xmlTemplate/generator" shape="box3d"] } } }
+    "src/linter/xmlTemplate/generator" -> "src/linter/xmlTemplate"
+    "src/linter/xmlTemplate/generator" -> "src/linter/ui5Types/utils"
+    subgraph "cluster_src" {label="src" "src" [width="0.05" shape="point" style="invis"] subgraph "cluster_src/linter" {label="linter" "src/linter" [width="0.05" shape="point" style="invis"] subgraph "cluster_src/linter/xmlTemplate" {label="xmlTemplate" "src/linter/xmlTemplate" [width="0.05" shape="point" style="invis"] "src/linter/xmlTemplate/lib" [label=<lib> tooltip="lib" URL="src/linter/xmlTemplate/lib" shape="box3d"] } } }
+    subgraph "cluster_src" {label="src" "src" [width="0.05" shape="point" style="invis"] subgraph "cluster_src/linter" {label="linter" "src/linter" [width="0.05" shape="point" style="invis"] "src/linter/yaml" [label=<yaml> tooltip="yaml" URL="src/linter/yaml" shape="box3d"] } }
+    "src/linter/yaml" -> "src/linter"
+    "src/linter/yaml" -> "src/utils"
+    subgraph "cluster_src" {label="src" "src" [width="0.05" shape="point" style="invis"] "src/utils" [label=<utils> tooltip="utils" URL="src/utils" shape="box3d"] }
+    "src/utils" -> "src/linter" [xlabel="no-circular" tooltip="no-circular" arrowhead="normalnoneodot" fontcolor="orange" color="orange"]
+}
