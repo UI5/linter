@@ -111,7 +111,8 @@ function transform(
 			if (matchPropertyAccessExpression(node.expression, "sap.ui.define")) {
 				try {
 					const moduleDeclaration = parseModuleDeclaration(node.arguments, checker);
-					const moduleDefinition = moduleDeclarationToDefinition(moduleDeclaration, sourceFile, nodeFactory);
+					const moduleDefinition =
+						moduleDeclarationToDefinition(moduleDeclaration, sourceFile, nodeFactory);
 					moduleDefinitions.push(moduleDefinition);
 					if (moduleDefinition.imports.length) {
 						moduleDefinition.imports.forEach((importStatement) =>
