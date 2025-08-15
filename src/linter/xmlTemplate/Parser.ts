@@ -345,6 +345,11 @@ export default class Parser {
 		}
 	}
 
+	// Every View has just one controllerName that is defined in the root tag
+	// This is used later to determine the context for event handlers.
+	// It is certain that if present, controllerName will be firstly collected because of the nature of SAX parsing.
+	// Note: It's only uncertain how the attributes in the root tag would be ordered.
+	_controllerName: string | undefined;
 	_handleUi5LibraryNamespace(
 		moduleName: string, namespace: Namespace, attributes: Map<string, AttributeDeclaration>,
 		tag: SaxTag
@@ -352,6 +357,9 @@ export default class Parser {
 		const controlProperties = new Set<PropertyDeclaration>();
 		const customDataElements: ControlDeclaration[] = [];
 		attributes.forEach((attr) => {
+			if (attr.name === "controllerName") {
+				this._controllerName = attr.value;
+			}
 			if (attr.localNamespace) {
 				// Resolve namespace
 				const resolvedNamespace = this._resolveNamespace(attr.localNamespace);
@@ -620,8 +628,8 @@ export default class Parser {
 							return;
 						}
 
-						const generateFix = () => {
-							const fix = new EventHandlersFix();
+						const generateFix = (functionName: string) => {
+							const fix = new EventHandlersFix(functionName, this._controllerName);
 
 							if (fix.visitLinterNode(prop, position)) {
 								return fix;
@@ -638,7 +646,7 @@ export default class Parser {
 									id: MESSAGE.NO_AMBIGUOUS_EVENT_HANDLER,
 									args: {eventHandler: functionName},
 									position,
-									fix: generateFix(),
+									fix: generateFix(functionName),
 								}
 							);
 						} else {
@@ -653,7 +661,7 @@ export default class Parser {
 								id: MESSAGE.NO_GLOBALS,
 								args: {variableName, namespace: functionName},
 								position,
-								fix: generateFix(),
+								fix: generateFix(functionName),
 							});
 						}
 					});
