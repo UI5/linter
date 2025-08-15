@@ -699,13 +699,19 @@ function replaceInClassDeclaration(
 				`${ts.SyntaxKind[substitute.kind]} at ${toPosStr(node)}`);
 		}
 		const heritageClauses = replaceNodeInArray(original, substitute, node.heritageClauses);
-		return nodeFactory.updateClassDeclaration(
+		const updated = nodeFactory.updateClassDeclaration(
 			node,
 			node.modifiers,
 			node.name,
 			node.typeParameters,
 			heritageClauses,
 			node.members);
+		// Preserve synthetic comments (e.g., injected JSDoc @namespace)
+		const leading = ts.getSyntheticLeadingComments(node);
+		if (leading) ts.setSyntheticLeadingComments(updated, leading);
+		const trailing = ts.getSyntheticTrailingComments(node);
+		if (trailing) ts.setSyntheticTrailingComments(updated, trailing);
+		return updated;
 	} else if (node.members.includes(original as ts.ClassElement)) {
 		if (!ts.isClassElement(substitute)) {
 			throw new UnsupportedModuleError(
@@ -713,13 +719,19 @@ function replaceInClassDeclaration(
 				`${ts.SyntaxKind[substitute.kind]} at ${toPosStr(node)}`);
 		}
 		const members = replaceNodeInArray(original, substitute, node.members);
-		return nodeFactory.updateClassDeclaration(
+		const updated = nodeFactory.updateClassDeclaration(
 			node,
 			node.modifiers,
 			node.name,
 			node.typeParameters,
 			node.heritageClauses,
 			members);
+		// Preserve synthetic comments (e.g., injected JSDoc @namespace)
+		const leading = ts.getSyntheticLeadingComments(node);
+		if (leading) ts.setSyntheticLeadingComments(updated, leading);
+		const trailing = ts.getSyntheticTrailingComments(node);
+		if (trailing) ts.setSyntheticTrailingComments(updated, trailing);
+		return updated;
 	} else {
 		throw new UnsupportedModuleError(
 			`Unexpected child node for ClassDeclaration replacement: ${ts.SyntaxKind[original.kind]} at ` +

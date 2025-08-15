@@ -313,14 +313,22 @@ function createDefaultExport(factory: ts.NodeFactory, node: ts.Node): ts.Stateme
 		case SyntaxKind.PropertyAccessExpression:
 		case SyntaxKind.NewExpression:
 			return factory.createExportAssignment(undefined, undefined, node as ts.Expression);
-		case SyntaxKind.ClassDeclaration:
-			return factory.updateClassDeclaration(
-				(node as ts.ClassDeclaration),
+		case SyntaxKind.ClassDeclaration: {
+			const originalClass = node as ts.ClassDeclaration;
+			const updatedClass = factory.updateClassDeclaration(
+				originalClass,
 				exportModifiers,
-				(node as ts.ClassDeclaration).name,
-				(node as ts.ClassDeclaration).typeParameters,
-				(node as ts.ClassDeclaration).heritageClauses,
-				(node as ts.ClassDeclaration).members);
+				originalClass.name,
+				originalClass.typeParameters,
+				originalClass.heritageClauses,
+				originalClass.members);
+			// Preserve synthetic comments (e.g., injected JSDoc @namespace)
+			const leading = ts.getSyntheticLeadingComments(originalClass);
+			if (leading) ts.setSyntheticLeadingComments(updatedClass, leading);
+			const trailing = ts.getSyntheticTrailingComments(originalClass);
+			if (trailing) ts.setSyntheticTrailingComments(updatedClass, trailing);
+			return updatedClass;
+		}
 		case SyntaxKind.FunctionDeclaration:
 			return factory.updateFunctionDeclaration(
 				(node as ts.FunctionDeclaration),
