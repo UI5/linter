@@ -265,15 +265,7 @@ function transform(
 			const comments = getCommentsFromNode(lastFactoryBlockChild);
 			comments.leading.forEach((comment) => {
 				commentRemovals.push(comment);
-				const commentText = getCommentText(comment, sourceFile);
-				if (!(comment.kind === ts.SyntaxKind.MultiLineCommentTrivia && commentText.startsWith("*"))) {
-					// For now, do not move JSDoc comments as they might contribute invalid type information
-					// to the TypeScript type checker.
-					// Instead, the comments will be removed completely.
-					const lastStatement = processedSourceFile.statements[processedSourceFile.statements.length - 1];
-					ts.addSyntheticTrailingComment(
-						lastStatement, comment.kind, commentText, comment.hasTrailingNewLine);
-				}
+				// Drop all original comments at end of factory block; do not re-attach
 			});
 		}
 
@@ -310,45 +302,15 @@ function transform(
 		};
 	}
 
-	function getCommentText(comment: ts.CommentRange, sourceFile?: ts.SourceFile): string {
-		const sourceText = sourceFile?.getFullText() ?? fullSourceText;
-		const fullCommentText = sourceText.substring(comment.pos, comment.end);
-		if (comment.kind === ts.SyntaxKind.SingleLineCommentTrivia) {
-			// Remove leading "//"
-			return fullCommentText.replace(/^\/\//, "");
-		} else if (comment.kind === ts.SyntaxKind.MultiLineCommentTrivia) {
-			// Remove leading "/*" and trailing "*/"
-			return fullCommentText.replace(/^\/\*/, "").replace(/\*\/$/, "");
-		} else {
-			return fullCommentText;
-		}
-	}
-
 	function moveCommentsToNode(from: ts.Node, to: ts.Node, sourceFile?: ts.SourceFile) {
-		// Note: Moving synthetic comments becomes relevant when a newly created node is replaced with another new node.
-		// Currently this doesn't seem to be the case, but in future it might be.
-		ts.moveSyntheticComments(to, from);
-
 		const comments = getCommentsFromNode(from, sourceFile);
 		comments.leading.forEach((comment) => {
 			commentRemovals.push(comment);
-			const commentText = getCommentText(comment, sourceFile);
-			if (!(comment.kind === ts.SyntaxKind.MultiLineCommentTrivia && commentText.startsWith("*"))) {
-				// For now, do not move JSDoc comments as they might contribute invalid type information
-				// to the TypeScript type checker.
-				// Instead, the comments will be removed completely.
-				ts.addSyntheticLeadingComment(to, comment.kind, commentText, comment.hasTrailingNewLine);
-			}
+			// Intentionally do not re-attach any original leading comments
 		});
 		comments.trailing.forEach((comment) => {
 			commentRemovals.push(comment);
-			const commentText = getCommentText(comment, sourceFile);
-			if (!(comment.kind === ts.SyntaxKind.MultiLineCommentTrivia && commentText.startsWith("*"))) {
-				// For now, do not move JSDoc comments as they might contribute invalid type information
-				// to the TypeScript type checker.
-				// Instead, the comments will be removed completely.
-				ts.addSyntheticTrailingComment(to, comment.kind, commentText, comment.hasTrailingNewLine);
-			}
+			// Intentionally do not re-attach any original trailing comments
 		});
 	}
 

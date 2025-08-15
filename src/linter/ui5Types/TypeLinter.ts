@@ -112,6 +112,17 @@ export default class TypeLinter {
 		const messageDetails = this.#context.getIncludeMessageDetails();
 		const typeCheckDone = taskStart("Linting all transpiled resources");
 		for (const sourceFile of program.getSourceFiles()) {
+			if ((!sourceFile.fileName.endsWith(".d.ts") && sourceFile.fileName.endsWith(".ts")) ||
+				sourceFile.fileName.endsWith(".js")) {
+				const jsdocComments = parseJSDocComments(sourceFile);
+				const namespaceNode = jsdocComments.find(
+					(comment) => comment.tags.some((tag) => tag.tagName.text === "namespace")
+				)?.tags.find((tag) => tag.tagName.text === "namespace");
+				if (namespaceNode && typeof namespaceNode.comment === "string") {
+					const metadata = this.#context.getMetadata(sourceFile.fileName);
+					metadata.namespace = namespaceNode.comment.trim();
+				}
+			}
 			if (sourceFile.isDeclarationFile || !pathsToLint.includes(sourceFile.fileName)) {
 				continue;
 			}

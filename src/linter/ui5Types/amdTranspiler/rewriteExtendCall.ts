@@ -21,8 +21,9 @@ export default function rewriteExtendCall(nodeFactory: ts.NodeFactory,
 	}
 	const [extractedClassName, body] = extractInfoFromArguments(nodeFactory, callExp);
 	className ??= nodeFactory.createUniqueName(extractedClassName);
+	const fullyQuantifiedClassName = callExp?.arguments?.[0];
 
-	return nodeFactory.createClassDeclaration(modifiers,
+	const classDecl = nodeFactory.createClassDeclaration(modifiers,
 		className,
 		undefined,
 		[nodeFactory.createHeritageClause(
@@ -32,6 +33,13 @@ export default function rewriteExtendCall(nodeFactory: ts.NodeFactory,
 			)]
 		)],
 		body);
+
+	// Prepend JSDoc with @namespace fullyQuantifiedClassName
+	if (fullyQuantifiedClassName && ts.isStringLiteralLike(fullyQuantifiedClassName)) {
+		const jsDoc = `*\n * @namespace ${fullyQuantifiedClassName.text}\n `;
+		ts.addSyntheticLeadingComment(classDecl, ts.SyntaxKind.MultiLineCommentTrivia, jsDoc, true);
+	}
+	return classDecl;
 }
 
 function extractInfoFromArguments(
