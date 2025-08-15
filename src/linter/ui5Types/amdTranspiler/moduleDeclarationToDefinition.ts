@@ -5,7 +5,6 @@ import rewriteExtendCall, {UnsupportedExtendCall} from "./rewriteExtendCall.js";
 import {UnsupportedModuleError, toPosStr} from "./util.js";
 import pruneNode from "./pruneNode.js";
 import {resolveUniqueName} from "../utils/utils.js";
-import {type LintMetadata} from "../../LinterContext.js";
 const {SyntaxKind} = ts;
 
 const log = getLogger("linter:ui5Types:amdTranspiler:moduleDeclarationToDefinition");
@@ -19,11 +18,11 @@ export interface ModuleDefinition {
 }
 
 export default function (
-	moduleDeclaration: ModuleDeclaration, sourceFile: ts.SourceFile, nodeFactory: ts.NodeFactory, metadata: LintMetadata
+	moduleDeclaration: ModuleDeclaration, sourceFile: ts.SourceFile, nodeFactory: ts.NodeFactory
 ): ModuleDefinition {
 	const {imports, identifiers: importIdentifiers} = collectImports(moduleDeclaration, nodeFactory);
 	const {body, oldFactoryBlock, moveComments} =
-		getModuleBody(moduleDeclaration, sourceFile, nodeFactory, importIdentifiers, metadata);
+		getModuleBody(moduleDeclaration, sourceFile, nodeFactory, importIdentifiers);
 	/* Ignore module name and export flag for now */
 	return {
 		imports,
@@ -135,8 +134,7 @@ function getModuleBody(
 	moduleDeclaration: ModuleDeclaration,
 	sourceFile: ts.SourceFile,
 	nodeFactory: ts.NodeFactory,
-	importIdentifiers: ts.Identifier[],
-	metadata: LintMetadata
+	importIdentifiers: ts.Identifier[]
 ): {body: ts.Statement[]; oldFactoryBlock?: ts.Block; moveComments: [ts.Node, ts.Node][]} {
 	if (!moduleDeclaration.factory) {
 		return {body: [], moveComments: []};
@@ -188,7 +186,7 @@ function getModuleBody(
 							let classDeclaration: ts.ClassDeclaration | undefined;
 							try {
 								classDeclaration = rewriteExtendCall(nodeFactory,
-									node.expression, metadata, [
+									node.expression, [
 										nodeFactory.createToken(ts.SyntaxKind.ExportKeyword),
 										nodeFactory.createToken(ts.SyntaxKind.DefaultKeyword),
 									]);
@@ -228,7 +226,7 @@ function getModuleBody(
 			let classDeclaration: ts.ClassDeclaration | undefined;
 			try {
 				classDeclaration = rewriteExtendCall(nodeFactory,
-					moduleDeclaration.factory.body, metadata, [
+					moduleDeclaration.factory.body, [
 						nodeFactory.createToken(ts.SyntaxKind.ExportKeyword),
 						nodeFactory.createToken(ts.SyntaxKind.DefaultKeyword),
 					]);

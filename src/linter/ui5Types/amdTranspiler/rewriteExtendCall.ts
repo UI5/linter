@@ -1,7 +1,6 @@
 import ts from "typescript";
 import {toPosStr} from "./util.js";
 import {getPropertyNameText} from "../utils/utils.js";
-import {type LintMetadata} from "../../LinterContext.js";
 
 export class UnsupportedExtendCall extends Error {
 	constructor(message: string) {
@@ -14,7 +13,7 @@ export class UnsupportedExtendCall extends Error {
  * Rewrite a UI5-typical `Class.extend("MyClass", {})` CallExpression to a ClassDeclaration
  */
 export default function rewriteExtendCall(nodeFactory: ts.NodeFactory,
-	callExp: ts.CallExpression, metadata: LintMetadata, modifiers?: ts.ModifierLike[],
+	callExp: ts.CallExpression, modifiers?: ts.ModifierLike[],
 	className?: string | ts.Identifier): ts.ClassDeclaration | undefined {
 	if (!(ts.isPropertyAccessExpression(callExp.expression) && ts.isIdentifier(callExp.expression.name) &&
 		callExp.expression.name.text === "extend")) {

@@ -112,7 +112,7 @@ function transform(
 				try {
 					const moduleDeclaration = parseModuleDeclaration(node.arguments, checker);
 					const moduleDefinition =
-						moduleDeclarationToDefinition(moduleDeclaration, sourceFile, nodeFactory, metadata);
+						moduleDeclarationToDefinition(moduleDeclaration, sourceFile, nodeFactory);
 					moduleDefinitions.push(moduleDefinition);
 					if (moduleDefinition.imports.length) {
 						moduleDefinition.imports.forEach((importStatement) =>
@@ -187,7 +187,7 @@ function transform(
 				// For now, only rewrite extend calls in expressions and variable statements
 				if (variableStatement || ts.isExpressionStatement(node.parent)) {
 					try {
-						const classDeclaration = rewriteExtendCall(nodeFactory, node, metadata, undefined, className);
+						const classDeclaration = rewriteExtendCall(nodeFactory, node, undefined, className);
 						if (classDeclaration) {
 							if (variableStatement) {
 								if (variableStatement.declarationList.declarations.length > 1) {
