@@ -113,7 +113,8 @@ export default class TypeLinter {
 		const messageDetails = this.#context.getIncludeMessageDetails();
 		const typeCheckDone = taskStart("Linting all transpiled resources");
 		for (const sourceFile of program.getSourceFiles()) {
-			if (!sourceFile.fileName.endsWith(".d.ts") && sourceFile.fileName.endsWith(".ts")) {
+			if ((!sourceFile.fileName.endsWith(".d.ts") && sourceFile.fileName.endsWith(".ts")) ||
+				sourceFile.fileName.endsWith(".js")) {
 				const jsdocComments = parseJSDocComments(sourceFile);
 				const namespaceNode = jsdocComments.find(
 					(comment) => comment.tags.some((tag) => tag.tagName.text === "namespace")
@@ -194,9 +195,8 @@ export default class TypeLinter {
 		}
 		typeCheckDone();
 
-		// sharedLanguageService is also needed for some autofixes i.e.
-		// checks controllers for existence of certain methods
-		// The release will happen in lintWorkspace after autofixes have been applied
+		// TODO!
+
 		// this.#sharedLanguageService.release();
 
 		this.addMessagesToContext();
