@@ -9,6 +9,7 @@ import {RequireExpression} from "../linter/ui5Types/amdTranspiler/parseRequire.j
 import generateChangesJs from "./generateChangesJs.js";
 import generateChangesXml from "./generateChangesXml.js";
 import {getFactoryBody} from "./amdImports.js";
+import type SharedLanguageService from "../linter/ui5Types/SharedLanguageService.js";
 
 const log = getLogger("linter:autofix");
 
@@ -22,6 +23,7 @@ export interface AutofixOptions {
 	namespace?: string;
 	resources: Map<ResourcePath, AutofixResource>;
 	context: LinterContext;
+	sharedLanguageService?: SharedLanguageService;
 }
 
 export enum ChangeAction {
@@ -179,7 +181,7 @@ export default async function ({
 	rootDir: _unused1,
 	namespace: _unused2,
 	resources: autofixResources,
-	context,
+	context, sharedLanguageService,
 }: AutofixOptions): Promise<AutofixResult> {
 	const messages = new Map<string, RawLintMessage[]>();
 	const xmlResources: Resource[] = [];
@@ -205,7 +207,7 @@ export default async function ({
 	}
 	if (xmlResources.length) {
 		log.verbose(`Applying autofixes for ${xmlResources.length} XML resources`);
-		await autofixXml(xmlResources, messages, context, res);
+		await autofixXml(xmlResources, messages, context, res, sharedLanguageService);
 	}
 
 	return res;
@@ -317,7 +319,7 @@ async function autofixJs(
 
 async function autofixXml(
 	xmlResources: Resource[], messages: Map<ResourcePath, RawLintMessage[]>, context: LinterContext,
-	res: AutofixResult
+	res: AutofixResult, sharedLanguageService?: SharedLanguageService
 ): Promise<void> {
 	for (const resource of xmlResources) {
 		const resourcePath = resource.getPath();
@@ -327,7 +329,7 @@ async function autofixXml(
 				`[${existingXmlError.line}:${existingXmlError.col}] ${existingXmlError.msg}`);
 			continue;
 		}
-		const newContent = await applyFixesXml(resource, messages.get(resourcePath)!);
+		const newContent = await applyFixesXml(resource, messages.get(resourcePath)!, context, sharedLanguageService);
 		if (!newContent) {
 			continue;
 		}
@@ -378,11 +380,13 @@ function applyFixesJs(
 
 async function applyFixesXml(
 	resource: Resource,
-	messages: RawLintMessage[]
+	messages: RawLintMessage[],
+	context: LinterContext,
+	sharedLanguageService?: SharedLanguageService
 ): Promise<string | undefined> {
 	const content = await resource.getString();
 	const changeSet: ChangeSet[] = [];
-	await generateChangesXml(messages, changeSet, content, resource);
+	await generateChangesXml(messages, changeSet, content, resource, context, sharedLanguageService);
 
 	if (changeSet.length === 0) {
 		return undefined;

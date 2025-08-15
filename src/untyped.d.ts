@@ -72,6 +72,7 @@ declare module "@ui5/fs" {
 	interface Resource {
 		getBuffer: () => Promise<Buffer>;
 		getString: () => Promise<string>;
+		setString: (content: string) => void;
 		getStream: () => import("node:fs").ReadStream;
 		getName: () => string;
 		getPath: () => ResourcePath;

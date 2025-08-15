@@ -6,6 +6,7 @@ import {MessageArgs} from "./MessageArgs.js";
 import ts from "typescript";
 import {Ui5TypeInfo} from "./ui5Types/Ui5TypeInfo.js";
 import Fix from "./ui5Types/fix/Fix.js";
+import {SourceFileMessageOptions} from "./ui5Types/SourceFileReporter.js";
 
 export type FilePattern = string; // glob patterns
 export type FilePath = string; // Platform-dependent path
@@ -113,6 +114,7 @@ export interface LintMetadata {
 	transformedImports: Map<string, Set<string>>;
 	xmlCompiledResource: string;
 	jsToXmlPosMapping: {pos: ts.LineAndCharacter; originalPath: string};
+	namespace: string | undefined; // Namespace of the resource, if applicable
 }
 
 export default class LinterContext {
@@ -193,9 +195,11 @@ export default class LinterContext {
 	}
 
 	addLintingMessage<M extends MESSAGE>(
-		resourcePath: ResourcePath, id: M, args: MessageArgs[M], position?: PositionInfo
+		resourcePath: ResourcePath, id: M, args: MessageArgs[M],
+		position?: PositionInfo, options?: SourceFileMessageOptions
 	): void {
-		this.getRawLintingMessages(resourcePath).push({id, args, position});
+		const {ui5TypeInfo, fix} = options ?? {};
+		this.getRawLintingMessages(resourcePath).push({id, args, position, fix, ui5TypeInfo});
 	}
 
 	addLintingMessages<M extends MESSAGE>(

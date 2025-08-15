@@ -1,0 +1,43 @@
+<mvc:View xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:core="sap.ui.core"
+	controllerName="ui5.walkthrough.controller.MissingController">
+
+	<!-- Local event handler -->
+	<Button press="onPressFancyButton" /> <!-- Autofix -->
+
+	<!-- Local event handler -->
+	<Button press="onPressFancyButtonArrow" /> <!-- Autofix -->
+
+	<!-- Local event handler (nested) -->
+	<Button press="eventHandlers.onPressFancyButton" /> <!-- Autofix -->
+
+	<!-- Local event handler (nested, inherited) -->
+	<Button press="baseEventHandlers.oneLevelDeeper.onPressButton" /> <!-- Autofix -->
+
+	<!-- Local NON-existing event handler (nested) -->
+	<Button press="eventHandlers.onPressFancyButtonNonExisting" /> <!-- Do not Autofix: non existent event -->
+
+	<!-- Local event handler (Inherited: BaseController) -->
+	<Button press="onBaseControllerHandler" /> <!-- Autofix -->
+	
+	<!-- Not a real event handler, but an existing method in sap.ui.mvc.Controller (Inherited: sap.ui.mvc.Controller) -->
+	<Button press="byId" /> <!-- Autofix -->
+
+	<!-- Local event handler (with arguments) -->
+	<Button press="onPressFancyButton(0, ${i18n>LABEL_ALL}, $controller.foo.bar, $event)" /> <!-- Autofix -->
+
+	<!-- Unknown to the controller event handler -->
+	<Button press="onUnknownHandler" /> <!-- Should not be autofixed -->
+
+	<!-- Command Execution -->
+	<Button press="cmd:Save" /> <!-- Should not be autofixed -->
+
+	<!-- Empty event handler -->
+	<Button press="" /> <!-- Should not be autofixed -->
+
+	<!-- Usage of event handler imported via core:require helper -->
+	<Button core:require='{ "MyHelper": "ui5/walkthrougth/utils/MyHelper" }' press="MyHelper.onPressFancyButton" /> <!-- Should not be autofixed -->
+
+	<!-- Usage of event handler function imported via core:require -->
+	<Button core:require='{ "doSomething": "ui5/walkthrougth/utils/doSomething" }' press="doSomething" /> <!-- Should not be autofixed -->
+
+</mvc:View>
