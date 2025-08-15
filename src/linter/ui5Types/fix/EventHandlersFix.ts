@@ -11,15 +11,19 @@ export default class EventHandlersFix extends XmlEnabledFix {
 	protected startPos: number | undefined;
 	protected endPos: number | undefined;
 	protected trailingCommaPos: number | undefined;
-	protected methodName: string | undefined;
+	private fullMethodSignature: string | undefined;
 
-	constructor() {
+	constructor(
+		private methodName: string,
+		private controllerName?: string
+	) {
 		super();
 	}
 
 	visitLinterNode(_node: ts.Node | AttributeDeclaration, sourcePosition: PositionInfo) {
 		this.sourcePosition = sourcePosition;
-		return true;
+		// If controller name is not present we cannot determine which is the actual controller, so skip further checks
+		return !!this.controllerName;
 	}
 
 	getNodeSearchParameters() {
@@ -34,9 +38,7 @@ export default class EventHandlersFix extends XmlEnabledFix {
 	}
 
 	methodExistsInController(
-		controllerName: string,
 		context: LinterContext,
-		methodName: string,
 		tsProgram?: Program,
 		checker?: ts.TypeChecker
 	) {
@@ -55,7 +57,7 @@ export default class EventHandlersFix extends XmlEnabledFix {
 			if (sourceFile.fileName.endsWith(".js") ||
 				(sourceFile.fileName.endsWith(".ts") && !sourceFile.fileName.endsWith(".d.ts"))) {
 				const metadata = context.getMetadata(sourceFile.fileName);
-				return metadata.namespace && metadata.namespace === controllerName;
+				return metadata.namespace && metadata.namespace === this.controllerName;
 			}
 		});
 
@@ -66,7 +68,7 @@ export default class EventHandlersFix extends XmlEnabledFix {
 		const classDeclaration = findClassDeclaration(sourceFile);
 		let classType;
 		// If it's an "eventHandler" object in the controller
-		const methodNameChunks = methodName.split(".");
+		const methodNameChunks = this.methodName.split(".");
 		let curName = methodNameChunks.shift();
 		if (classDeclaration && curName) {
 			classType = checker.getTypeAtLocation(classDeclaration);
@@ -74,8 +76,8 @@ export default class EventHandlersFix extends XmlEnabledFix {
 
 			while (methodNameChunks.length && curType) {
 				curName = methodNameChunks.shift();
-				const aaa = checker.getTypeOfSymbolAtLocation(curType, classDeclaration);
-				curType = aaa.getProperty(curName ?? "");
+				const symbolType = checker.getTypeOfSymbolAtLocation(curType, classDeclaration);
+				curType = symbolType.getProperty(curName ?? "");
 			}
 
 			return !!curType;
@@ -88,21 +90,18 @@ export default class EventHandlersFix extends XmlEnabledFix {
 		node: Attribute,
 		toPosition: (pos: Position) => number,
 		xmlHelpers: {
-			controllerName: string;
 			sharedLanguageService: SharedLanguageService;
 			context: LinterContext;
 		}
 	) {
-		const {controllerName, context, sharedLanguageService} = xmlHelpers;
+		const {context, sharedLanguageService} = xmlHelpers;
 		const program = sharedLanguageService?.getProgram();
 		const checker = program?.getTypeChecker();
 
-		const methodName = node.value.value.split("(")[0]; // If method with args, take just the name
-		const isAvailableMethod = this.methodExistsInController(
-			controllerName, context, methodName, program, checker);
+		const isAvailableMethod = this.methodExistsInController(context, program, checker);
 
 		if (isAvailableMethod) {
-			this.methodName = node.value.value;
+			this.fullMethodSignature = node.value.value;
 			this.startPos = toPosition(node.value.start);
 			this.endPos = toPosition(node.value.end);
 		}
@@ -126,12 +125,12 @@ export default class EventHandlersFix extends XmlEnabledFix {
 	}
 
 	generateChanges(): ChangeSet | ChangeSet[] | undefined {
-		if (this.methodName) {
+		if (this.fullMethodSignature) {
 			return {
 				action: ChangeAction.REPLACE,
 				start: this.startPos!,
 				end: this.endPos!,
-				value: `.${this.methodName}`,
+				value: `.${this.fullMethodSignature}`,
 			};
 		}
 	}
