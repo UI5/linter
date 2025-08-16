@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.18.0](https://github.com/UI5/linter/compare/v1.17.0...v1.18.0) (2025-08-06)
+
+
+### Features
+
+* Offer autofix for deprecated sap/ui/base/Object.isA API ([#796](https://github.com/UI5/linter/issues/796)) ([315e334](https://github.com/UI5/linter/commit/315e334b5ac342a7fecb4d352e20f46e1db7250b))
+
+
+### Dependencies
+
+* Bump chalk from 5.4.1 to 5.5.0 ([33450ad](https://github.com/UI5/linter/commit/33450ad102b94025dd1ba4e9ba272e190086d8e8))
+* Bump sax-wasm from 3.0.10 to 3.0.11 ([d4025d8](https://github.com/UI5/linter/commit/d4025d8ef32c04f65e2a8c2a7e2630f3c079abdd))
+* Bump sax-wasm from 3.0.8 to 3.0.9 ([4b45c03](https://github.com/UI5/linter/commit/4b45c0336ded3c53057a918deeb9c2b5044ffd3e))
+* Bump sax-wasm from 3.0.9 to 3.0.10 ([9c11249](https://github.com/UI5/linter/commit/9c112496f0df53b1e6973bf3df32b1876fc12c1a))
+
 ## [1.17.0](https://github.com/UI5/linter/compare/v1.16.1...v1.17.0) (2025-07-22)
 
 
