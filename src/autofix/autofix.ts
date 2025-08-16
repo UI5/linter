@@ -9,6 +9,7 @@ import {RequireExpression} from "../linter/ui5Types/amdTranspiler/parseRequire.j
 import generateChangesJs from "./generateChangesJs.js";
 import generateChangesXml from "./generateChangesXml.js";
 import {getFactoryBody} from "./amdImports.js";
+import generateChangesHtml from "./generateChangesHtml.js";
 
 const log = getLogger("linter:autofix");
 
@@ -184,6 +185,8 @@ export default async function ({
 	const messages = new Map<string, RawLintMessage[]>();
 	const xmlResources: Resource[] = [];
 	const jsResources: Resource[] = [];
+	const htmlResources: Resource[] = [];
+
 	for (const [_, autofixResource] of autofixResources) {
 		const fixMessages = autofixResource.messages.filter((msg) => msg.fix);
 		if (!fixMessages.length) {
@@ -191,8 +194,11 @@ export default async function ({
 			continue;
 		}
 		messages.set(autofixResource.resource.getPath(), fixMessages);
-		if (autofixResource.resource.getPath().endsWith(".xml")) {
+		const resourcePath = autofixResource.resource.getPath();
+		if (resourcePath.endsWith(".xml")) {
 			xmlResources.push(autofixResource.resource);
+		} else if (resourcePath.endsWith(".html")) {
+			htmlResources.push(autofixResource.resource);
 		} else {
 			jsResources.push(autofixResource.resource);
 		}
@@ -206,6 +212,10 @@ export default async function ({
 	if (xmlResources.length) {
 		log.verbose(`Applying autofixes for ${xmlResources.length} XML resources`);
 		await autofixXml(xmlResources, messages, context, res);
+	}
+	if (htmlResources.length) {
+		log.verbose(`Applying autofixes for ${htmlResources.length} HTML resources`);
+		await autofixHtml(htmlResources, messages, context, res);
 	}
 
 	return res;
@@ -258,9 +268,7 @@ async function autofixJs(
 		} catch (err) {
 			if (err instanceof Error) {
 				log.verbose(`Error while applying autofix to ${resourcePath}: ${err}`);
-				if (err instanceof Error) {
-					log.verbose(`Call stack: ${err.stack}`);
-				}
+				log.verbose(`Call stack: ${err.stack}`);
 				context.addLintingMessage(resourcePath, MESSAGE.AUTOFIX_ERROR, {message: err.message});
 				continue;
 			}
@@ -327,6 +335,7 @@ async function autofixXml(
 				`[${existingXmlError.line}:${existingXmlError.col}] ${existingXmlError.msg}`);
 			continue;
 		}
+		log.verbose(`Applying autofix for ${resourcePath}`);
 		const newContent = await applyFixesXml(resource, messages.get(resourcePath)!);
 		if (!newContent) {
 			continue;
@@ -356,7 +365,35 @@ async function autofixXml(
 			context.addLintingMessage(resourcePath, MESSAGE.AUTOFIX_ERROR, {message});
 			continue;
 		}
+		log.verbose(`Autofix applied to ${resourcePath}`);
 		res.set(resourcePath, newContent);
+	}
+}
+
+async function autofixHtml(
+	htmlResources: Resource[], messages: Map<ResourcePath, RawLintMessage[]>, context: LinterContext,
+	res: AutofixResult
+): Promise<void> {
+	for (const resource of htmlResources) {
+		const resourcePath = resource.getPath();
+
+		log.verbose(`Applying autofix for ${resourcePath}`);
+		let newContent;
+		try {
+			newContent = await applyFixesHtml(resource, messages.get(resourcePath)!);
+		} catch (err) {
+			if (err instanceof Error) {
+				log.verbose(`Error while applying autofix to ${resourcePath}: ${err}`);
+				log.verbose(`Call stack: ${err.stack}`);
+				context.addLintingMessage(resourcePath, MESSAGE.AUTOFIX_ERROR, {message: err.message});
+				continue;
+			}
+			throw err;
+		}
+		if (newContent !== undefined) {
+			log.verbose(`Autofix applied to ${resourcePath}`);
+			res.set(resourcePath, newContent);
+		}
 	}
 }
 
@@ -387,6 +424,22 @@ async function applyFixesXml(
 	if (changeSet.length === 0) {
 		return undefined;
 	}
+	return applyChanges(content, changeSet);
+}
+
+async function applyFixesHtml(
+	resource: Resource,
+	messages: RawLintMessage[]
+): Promise<string | undefined> {
+	const content = await resource.getString();
+	const changeSet: ChangeSet[] = [];
+
+	generateChangesHtml(messages, changeSet, content);
+
+	if (changeSet.length === 0) {
+		return undefined;
+	}
+
 	return applyChanges(content, changeSet);
 }
 

@@ -1,4 +1,4 @@
-import type {ReadStream} from "node:fs";
+import {Readable} from "node:stream";
 import {SaxEventType, Tag as SaxTag, Text as SaxText} from "sax-wasm";
 import {extractDirective, parseXml} from "../../utils/xmlParser.js";
 import {Directive} from "../LinterContext.js";
@@ -45,7 +45,7 @@ function parseComment(comment: SaxText, directives: Set<Directive>) {
 	}
 }
 
-export async function extractHTMLTags(contentStream: ReadStream) {
+export async function extractHTMLTags(contentStream: Readable) {
 	const extractedTags: ExtractedTags = {
 		scriptTags: [],
 		stylesheetLinkTags: [],

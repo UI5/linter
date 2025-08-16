@@ -1,4 +1,4 @@
-import type {ReadStream} from "node:fs";
+import {Readable} from "node:stream";
 import {SaxEventType, SAXParser, Tag, Text} from "sax-wasm";
 import {finished} from "node:stream/promises";
 import fs from "node:fs/promises";
@@ -61,7 +61,7 @@ export async function initSaxWasm() {
 }
 
 export async function parseXml(
-	contentStream: ReadStream, parseHandler: typeof SAXParser.prototype.eventHandler,
+	contentStream: Readable, parseHandler: typeof SAXParser.prototype.eventHandler,
 	events: number = SaxEventType.CloseTag | SaxEventType.OpenTag | SaxEventType.Comment) {
 	const saxWasmBuffer = await initSaxWasm();
 	const saxParser = new SAXParser(events);
