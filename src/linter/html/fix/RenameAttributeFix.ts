@@ -1,4 +1,4 @@
-import {Attribute, PositionDetail} from "sax-wasm";
+import {Attribute, AttributeType, PositionDetail} from "sax-wasm";
 import {ChangeAction, ChangeSet} from "../../../autofix/autofix.js";
 import {HtmlFix} from "./HtmlFix.js";
 import {ToPositionCallback} from "../../ui5Types/fix/XmlEnabledFix.js";
@@ -16,6 +16,16 @@ export default class RenameAttributeFix extends HtmlFix {
 		super();
 		this.startPositionDetail = attribute.name.start;
 		this.endPositionDetail = attribute.name.end;
+
+		// This if statement is a workaround for edge cases
+		// since sax-wasm parses wrong positions for NoValue single-character attributes.
+		// TODO: Remove once it's fixed.
+		if (attribute.type === AttributeType.NoValue && attribute.name.value.length === 1) {
+			this.endPositionDetail = {
+				line: attribute.name.start.line,
+				character: attribute.name.start.character + 1,
+			};
+		}
 	}
 
 	calculateSourceCodeRange(toPosition: ToPositionCallback) {

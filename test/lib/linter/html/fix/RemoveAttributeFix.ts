@@ -391,3 +391,59 @@ test("Remove Unquoted Attributes with special whitespace from HTML tag", async (
 	t.truthy(result);
 	t.is(Array.from(result.values())[0], expectedOutput, "Autofix output should match expected output");
 });
+
+test("Remove NoValue Single Character Attributes from HTML tag", async (t) => {
+	// This tests the handling of edge cases where attributes have no value and are single characters:
+	const input = `<!Doctype HTML>
+<html>
+<head>
+	<script remove-me
+		keep="me"
+		remove-me-2
+		2keep="me"
+		,
+		,
+		.
+		3keep="me">
+	</script>
+</head>
+<body>
+</body>
+</html>`;
+
+	const expectedOutput = `<!Doctype HTML>
+<html>
+<head>
+	<script
+		keep="me"
+		2keep="me"
+		3keep="me">
+	</script>
+</head>
+<body>
+</body>
+</html>`;
+
+	// ----- Parse and select attribute -----
+	const extractedTags = await _extractTagsFromString(input);
+	const scriptTag = extractedTags.scriptTags[0];
+	const attroToRemove1 = scriptTag.attributes[0];
+	const attroToRemove2 = scriptTag.attributes[2];
+	const attroToRemove3 = scriptTag.attributes[4];
+	const attroToRemove4 = scriptTag.attributes[5];
+	const attroToRemove5 = scriptTag.attributes[6];
+
+	// ----- Create fix -----
+	const fix1 = new RemoveAttributeFix(scriptTag, attroToRemove1);
+	const fix2 = new RemoveAttributeFix(scriptTag, attroToRemove2);
+	const fix3 = new RemoveAttributeFix(scriptTag, attroToRemove3);
+	const fix4 = new RemoveAttributeFix(scriptTag, attroToRemove4);
+	const fix5 = new RemoveAttributeFix(scriptTag, attroToRemove5);
+
+	// ----- Run Autofix -----
+	const result = await _runAutofix([fix1, fix2, fix3, fix4, fix5], input, t.context);
+
+	// ----- Compare Autofix output with expected output -----
+	t.truthy(result);
+	t.is(Array.from(result.values())[0], expectedOutput, "Autofix output should match expected output");
+});

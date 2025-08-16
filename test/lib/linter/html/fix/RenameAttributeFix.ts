@@ -406,3 +406,63 @@ test("Rename Unquoted Attributes with special whitespace from HTML tag", async (
 	t.truthy(result);
 	t.is(Array.from(result.values())[0], expectedOutput, "Autofix output should match expected output");
 });
+
+test("Rename NoValue Single Character Attributes from HTML tag", async (t) => {
+	// This tests the handling of edge cases where attributes have no value and are single characters:
+	const input = `<!Doctype HTML>
+<html>
+<head>
+	<script rename-me
+		keep="me"
+		rename-me-2
+		2keep="me"
+		,
+		,
+		.
+		3keep="me">
+	</script>
+</head>
+<body>
+</body>
+</html>`;
+
+	const expectedOutput = `<!Doctype HTML>
+<html>
+<head>
+	<script i-was-renamed
+		keep="me"
+		i-was-renamed-2
+		2keep="me"
+		i-was-renamed-3
+		i-was-renamed-4
+		i-was-renamed-5
+		3keep="me">
+	</script>
+</head>
+<body>
+</body>
+</html>`;
+
+	// ----- Parse and select attribute -----
+	const extractedTags = await _extractTagsFromString(input);
+	const scriptTag = extractedTags.scriptTags[0];
+	const attroToRename1 = scriptTag.attributes[0];
+	const attroToRename2 = scriptTag.attributes[2];
+	const attroToRename3 = scriptTag.attributes[4];
+	const attroToRename4 = scriptTag.attributes[5];
+	const attroToRename5 = scriptTag.attributes[6];
+
+	// ----- Create fix -----
+	const fix1 = new RenameAttributeFix(attroToRename1, "i-was-renamed");
+	const fix2 = new RenameAttributeFix(attroToRename2, "i-was-renamed-2");
+	const fix3 = new RenameAttributeFix(attroToRename3, "i-was-renamed-3");
+	const fix4 = new RenameAttributeFix(attroToRename4, "i-was-renamed-4");
+	const fix5 = new RenameAttributeFix(attroToRename5, "i-was-renamed-5");
+
+	// ----- Run Autofix -----
+	const result = await _runAutofix([fix1, fix2, fix3, fix4, fix5], input, t.context);
+
+	// ----- Compare Autofix output with expected output -----
+	t.truthy(result);
+	t.is(Array.from(result.values())[0], expectedOutput, "Autofix output should match expected output");
+});
