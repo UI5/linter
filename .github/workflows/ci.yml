@@ -15,7 +15,7 @@ jobs:
     name: General checks, tests and coverage reporting
     runs-on: ubuntu-24.04
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - name: Use Node.js 20.11.0
       uses: actions/setup-node@v4.0.2
       with:
