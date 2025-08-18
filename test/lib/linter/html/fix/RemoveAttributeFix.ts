@@ -447,3 +447,96 @@ test("Remove NoValue Single Character Attributes from HTML tag", async (t) => {
 	t.truthy(result);
 	t.is(Array.from(result.values())[0], expectedOutput, "Autofix output should match expected output");
 });
+
+test("Remove Attributes without spacing from HTML tag (1)", async (t) => {
+	// This tests a valid edge case:
+	const input = `<!Doctype HTML>
+<html>
+<head>
+	<script remove="me"keep="me">
+	</script>
+</head>
+<body>
+</body>
+</html>`;
+
+	const expectedOutput = `<!Doctype HTML>
+<html>
+<head>
+	<script keep="me">
+	</script>
+</head>
+<body>
+</body>
+</html>`;
+
+	// ----- Parse and select attribute -----
+	const extractedTags = await _extractTagsFromString(input);
+	const scriptTag = extractedTags.scriptTags[0];
+	const attroToRemove1 = scriptTag.attributes[0];
+
+	// ----- Create fix -----
+	const fix1 = new RemoveAttributeFix(scriptTag, attroToRemove1);
+
+	// ----- Run Autofix -----
+	const result = await _runAutofix([fix1], input, t.context);
+
+	// ----- Compare Autofix output with expected output -----
+	t.truthy(result);
+	t.is(Array.from(result.values())[0], expectedOutput, "Autofix output should match expected output");
+});
+
+test("Remove Attributes without spacing from HTML tag (2)", async (t) => {
+	/* This tests a valid edge case:
+
+	First attribute is NoValue or NoQuotes,
+	Second attribute is SingleQuoted or DoubleQuoted,
+	Third attribute could be anything,
+	and there is no spacing between the Second and Third attribute. */
+	const input = `<!Doctype HTML>
+<html>
+<head>
+	<script attr=abc attr="def"keep="me"
+		attr2 attr2="def"2keep="me"
+		attr3   attr3="def"3keep="me"
+		x x="def"4keep="me">
+	</script>
+</head>
+<body>
+</body>
+</html>`;
+
+	const expectedOutput = `<!Doctype HTML>
+<html>
+<head>
+	<script attr=abc keep="me"
+		attr2 2keep="me"
+		attr3 3keep="me"
+		x 4keep="me">
+	</script>
+</head>
+<body>
+</body>
+</html>`;
+
+	// ----- Parse and select attribute -----
+	const extractedTags = await _extractTagsFromString(input);
+	const scriptTag = extractedTags.scriptTags[0];
+	const attroToRemove1 = scriptTag.attributes[1]; // attr="def"
+	const attroToRemove2 = scriptTag.attributes[4]; // attr2="def"
+	const attroToRemove3 = scriptTag.attributes[7]; // attr3="def"
+	const attroToRemove4 = scriptTag.attributes[10]; // attr3="def"
+
+	// ----- Create fix -----
+	const fix1 = new RemoveAttributeFix(scriptTag, attroToRemove1);
+	const fix2 = new RemoveAttributeFix(scriptTag, attroToRemove2);
+	const fix3 = new RemoveAttributeFix(scriptTag, attroToRemove3);
+	const fix4 = new RemoveAttributeFix(scriptTag, attroToRemove4);
+
+	// ----- Run Autofix -----
+	const result = await _runAutofix([fix1, fix2, fix3, fix4], input, t.context);
+
+	// ----- Compare Autofix output with expected output -----
+	t.truthy(result);
+	t.is(Array.from(result.values())[0], expectedOutput, "Autofix output should match expected output");
+});

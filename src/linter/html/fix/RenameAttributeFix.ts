@@ -19,7 +19,7 @@ export default class RenameAttributeFix extends HtmlFix {
 
 		// This if statement is a workaround for edge cases
 		// since sax-wasm parses wrong positions for NoValue single-character attributes.
-		// TODO: Remove once it's fixed.
+		// TODO: Remove once it's fixed (https://github.com/justinwilaby/sax-wasm/issues/139).
 		if (attribute.type === AttributeType.NoValue && attribute.name.value.length === 1) {
 			this.endPositionDetail = {
 				line: attribute.name.start.line,

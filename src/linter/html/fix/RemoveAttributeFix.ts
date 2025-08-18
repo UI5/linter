@@ -19,8 +19,10 @@ export default class RemoveAttributeFix extends HtmlFix {
 		this.endPositionDetail = endPos;
 	}
 
-	// This will prepare the start and end pos of the removal.
-	// This is needed to ensure there are no empty lines or whitespaces left after removal.
+	/**
+	 * This will prepare the start and end pos of the removal.
+	 * This is needed to ensure there are no empty lines or whitespaces left after removal.
+	 */
 	calculateRemovalPositions(tag: SaxTag, attr: Attribute): {startPos: PositionDetail; endPos: PositionDetail} {
 		let startPos, endPos: PositionDetail | undefined;
 
@@ -38,17 +40,17 @@ export default class RemoveAttributeFix extends HtmlFix {
 			// If there is a previous attribute, we remove the current attribute
 			// and all whitespace until the previous attribute.
 			switch (previousAttr.type) {
-				case AttributeType.NoQuotes:
-					startPos = {
-						line: previousAttr.value.end.line,
-						character: previousAttr.value.end.character,
-					};
-					break;
 				case AttributeType.SingleQuoted:
 				case AttributeType.DoubleQuoted:
 					startPos = {
 						line: previousAttr.value.end.line,
 						character: previousAttr.value.end.character + 1,
+					};
+					break;
+				case AttributeType.NoQuotes:
+					startPos = {
+						line: previousAttr.value.end.line,
+						character: previousAttr.value.end.character,
 					};
 					break;
 				case AttributeType.NoValue:
@@ -60,17 +62,17 @@ export default class RemoveAttributeFix extends HtmlFix {
 			}
 		}
 		switch (attr.type) {
-			case AttributeType.NoQuotes:
-				endPos = {
-					line: attr.value.end.line,
-					character: attr.value.end.character,
-				};
-				break;
 			case AttributeType.SingleQuoted:
 			case AttributeType.DoubleQuoted:
 				endPos = {
 					line: attr.value.end.line,
 					character: attr.value.end.character + 1,
+				};
+				break;
+			case AttributeType.NoQuotes:
+				endPos = {
+					line: attr.value.end.line,
+					character: attr.value.end.character,
 				};
 				break;
 			case AttributeType.NoValue:
@@ -83,7 +85,7 @@ export default class RemoveAttributeFix extends HtmlFix {
 
 		// These two if statements are a workaround for edge cases
 		// since sax-wasm parses wrong positions for NoValue single-character attributes.
-		// TODO: Remove once it's fixed.
+		// TODO: Remove once it's fixed (https://github.com/justinwilaby/sax-wasm/issues/139).
 		if (previousAttr && previousAttr.type === AttributeType.NoValue && previousAttr.name.value.length === 1) {
 			startPos = {
 				line: previousAttr.name.start.line,
@@ -95,6 +97,12 @@ export default class RemoveAttributeFix extends HtmlFix {
 				line: attr.name.start.line,
 				character: attr.name.start.character + 1,
 			};
+		}
+
+		// Edge case: no space w/ NoValues or NoQuotes
+		const edgeCaseStartPos = this._handleEdgeCase(tag, attrIndex);
+		if (edgeCaseStartPos) {
+			startPos = edgeCaseStartPos;
 		}
 
 		if (!startPos) {
@@ -120,5 +128,42 @@ export default class RemoveAttributeFix extends HtmlFix {
 			start: this.startPos,
 			end: this.endPos,
 		};
+	}
+
+	_handleEdgeCase(tag: SaxTag, attrIndex: number): PositionDetail | undefined {
+		// Edge Case 1: attr=abc attr="def"ignore=xyz
+		// --> attr=abc ignore=xyz
+		// Edge Case 2: attr attr="def"ignore=xyz
+		// --> attr ignore=xyz
+		const attr = tag.attributes[attrIndex];
+		const previousAttr = attrIndex > 0 ? tag.attributes[attrIndex - 1] : undefined;
+		const subsequentAttr = tag.attributes[attrIndex + 1];
+
+		if (!subsequentAttr) {
+			return undefined;
+		}
+		if (subsequentAttr.name.end.line != attr.value.end.line) {
+			return undefined;
+		}
+		if (subsequentAttr.name.start.character != attr.value.end.character + 1) {
+			return undefined;
+		}
+
+		if (!previousAttr) {
+			return {
+				line: tag.openStart.line,
+				character: tag.openStart.character + tag.name.length + 2,
+			};
+		} else if (previousAttr.type === AttributeType.NoValue) {
+			return {
+				line: previousAttr.name.end.line,
+				character: previousAttr.name.end.character + 1,
+			};
+		} else if (previousAttr.type === AttributeType.NoQuotes) {
+			return {
+				line: previousAttr.value.end.line,
+				character: previousAttr.value.end.character + 1,
+			};
+		}
 	}
 }
