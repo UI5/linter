@@ -122,7 +122,7 @@ export default class TypeLinter {
 				)?.tags.find((tag) => tag.tagName.text === "namespace");
 				if (namespaceNode && typeof namespaceNode.comment === "string") {
 					const metadata = this.#context.getMetadata(sourceFile.fileName);
-					metadata.namespace = namespaceNode.comment.trim();
+					metadata.fullyQuantifiedControllerName = namespaceNode.comment.trim();
 				}
 			}
 			if (sourceFile.isDeclarationFile || !pathsToLint.includes(sourceFile.fileName)) {
