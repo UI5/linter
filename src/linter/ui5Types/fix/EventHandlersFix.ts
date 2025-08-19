@@ -4,7 +4,6 @@ import LinterContext, {PositionInfo} from "../../LinterContext.js";
 import {Attribute, Position, SaxEventType} from "sax-wasm";
 import XmlEnabledFix from "./XmlEnabledFix.js";
 import type {AttributeDeclaration} from "../../xmlTemplate/Parser.js";
-import SharedLanguageService from "../SharedLanguageService.js";
 
 export default class EventHandlersFix extends XmlEnabledFix {
 	protected sourcePosition: PositionInfo | undefined;
@@ -12,7 +11,7 @@ export default class EventHandlersFix extends XmlEnabledFix {
 	protected endPos: number | undefined;
 	protected trailingCommaPos: number | undefined;
 	private fullMethodSignature: string | undefined;
-	private hasAvailableController: boolean = false;
+	private hasAvailableController = false;
 
 	constructor(
 		private methodName: string,
