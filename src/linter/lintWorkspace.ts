@@ -95,7 +95,7 @@ async function runAutofix(
 		rootDir: options.rootDir,
 		namespace: options.namespace,
 		resources: autofixResources,
-		context, sharedLanguageService,
+		context,
 	});
 
 	doneAutofix();

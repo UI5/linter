@@ -1,4 +1,4 @@
-import ts, {LanguageServiceMode, SourceFile} from "typescript";
+import ts, {SourceFile} from "typescript";
 import {FileContents, createVirtualLanguageServiceHost} from "./host.js";
 import SourceFileLinter from "./SourceFileLinter.js";
 import {taskStart} from "../../utils/perf.js";

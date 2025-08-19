@@ -23,7 +23,6 @@ export interface AutofixOptions {
 	namespace?: string;
 	resources: Map<ResourcePath, AutofixResource>;
 	context: LinterContext;
-	sharedLanguageService?: SharedLanguageService;
 }
 
 export type AutofixResult = Map<ResourcePath, string>;
@@ -152,7 +151,7 @@ export default async function ({
 	rootDir: _unused1,
 	namespace: _unused2,
 	resources: autofixResources,
-	context, sharedLanguageService,
+	context,
 }: AutofixOptions): Promise<AutofixResult> {
 	const messages = new Map<string, RawLintMessage[]>();
 	const xmlResources: Resource[] = [];
@@ -301,7 +300,7 @@ async function autofixJs(
 
 async function autofixXml(
 	xmlResources: Resource[], messages: Map<ResourcePath, RawLintMessage[]>, context: LinterContext,
-	res: AutofixResult, sharedLanguageService?: SharedLanguageService
+	res: AutofixResult
 ): Promise<void> {
 	for (const resource of xmlResources) {
 		const resourcePath = resource.getPath();
@@ -391,13 +390,11 @@ function applyFixesJs(
 
 async function applyFixesXml(
 	resource: Resource,
-	messages: RawLintMessage[],
-	context: LinterContext,
-	sharedLanguageService?: SharedLanguageService
+	messages: RawLintMessage[]
 ): Promise<string | undefined> {
 	const content = await resource.getString();
 	const changeSet: ChangeSet[] = [];
-	await generateChangesXml(messages, changeSet, content, resource, context, sharedLanguageService);
+	await generateChangesXml(messages, changeSet, content, resource);
 
 	if (changeSet.length === 0) {
 		return undefined;
