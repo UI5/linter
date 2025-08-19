@@ -1,4 +1,4 @@
-import ts, {SourceFile} from "typescript";
+import ts, {LanguageServiceMode, SourceFile} from "typescript";
 import {FileContents, createVirtualLanguageServiceHost} from "./host.js";
 import SourceFileLinter from "./SourceFileLinter.js";
 import {taskStart} from "../../utils/perf.js";
@@ -15,6 +15,7 @@ import {AmbientModuleCache} from "./AmbientModuleCache.js";
 import {JSONSchemaForSAPUI5Namespace} from "../../manifest.js";
 import type FixFactory from "./fix/FixFactory.js";
 import {parseJSDocComments} from "./amdTranspiler/util.js";
+import EventHandlersFix from "./fix/EventHandlersFix.js";
 
 const log = getLogger("linter:ui5Types:TypeLinter");
 
@@ -195,9 +196,22 @@ export default class TypeLinter {
 		}
 		typeCheckDone();
 
-		// TODO!
+		// Provide TS Compiler information to the XMLViews i.e. controllers, etc.
+		const rawLintResults = this.#context.generateRawLintResults();
+		for (const {filePath, rawMessages} of rawLintResults) {
+			// Process only XML files
+			if (!filePath.endsWith("xml")) {
+				continue;
+			}
 
-		// this.#sharedLanguageService.release();
+			rawMessages.forEach((message) => {
+				if (message.fix && message.fix instanceof EventHandlersFix) {
+					message.fix.methodExistsInController(this.#context, program, checker);
+				}
+			});
+		}
+
+		this.#sharedLanguageService.release();
 
 		this.addMessagesToContext();
 

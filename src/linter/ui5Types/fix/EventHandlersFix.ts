@@ -12,6 +12,7 @@ export default class EventHandlersFix extends XmlEnabledFix {
 	protected endPos: number | undefined;
 	protected trailingCommaPos: number | undefined;
 	private fullMethodSignature: string | undefined;
+	private hasAvailableController: boolean = false;
 
 	constructor(
 		private methodName: string,
@@ -41,9 +42,9 @@ export default class EventHandlersFix extends XmlEnabledFix {
 		context: LinterContext,
 		tsProgram?: Program,
 		checker?: ts.TypeChecker
-	) {
+	): void {
 		if (tsProgram === undefined || checker === undefined) {
-			return false;
+			return;
 		}
 
 		const findClassDeclaration = (node: ts.Node): ts.ClassLikeDeclaration | undefined => {
@@ -62,7 +63,7 @@ export default class EventHandlersFix extends XmlEnabledFix {
 		});
 
 		if (!sourceFile) {
-			return false;
+			return;
 		}
 
 		const classDeclaration = findClassDeclaration(sourceFile);
@@ -80,33 +81,24 @@ export default class EventHandlersFix extends XmlEnabledFix {
 				curType = symbolType.getProperty(curName ?? "");
 			}
 
-			return !!curType;
+			this.hasAvailableController = !!curType;
+			return;
 		}
 
-		return false;
+		return;
 	}
 
 	visitAutofixXmlNode(
 		node: Attribute,
-		toPosition: (pos: Position) => number,
-		xmlHelpers: {
-			sharedLanguageService: SharedLanguageService;
-			context: LinterContext;
-		}
+		toPosition: (pos: Position) => number
 	) {
-		const {context, sharedLanguageService} = xmlHelpers;
-		const program = sharedLanguageService?.getProgram();
-		const checker = program?.getTypeChecker();
-
-		const isAvailableMethod = this.methodExistsInController(context, program, checker);
-
-		if (isAvailableMethod) {
+		if (this.hasAvailableController) {
 			this.fullMethodSignature = node.value.value;
 			this.startPos = toPosition(node.value.start);
 			this.endPos = toPosition(node.value.end);
 		}
 
-		return isAvailableMethod;
+		return this.hasAvailableController;
 	}
 
 	visitAutofixNode(_node: ts.Node, _position: number, _sourceFile: ts.SourceFile) {
