@@ -164,6 +164,7 @@ test("Remove Attributes with special syntax from HTML tag", async (t) => {
 	// This tests the handling of special syntax:
 	// no-quotes = no quotes around the value
 	// no-value = no value after the attribute name
+	// empty-value = empty value inside the quotes
 	// x = single character as attribute name
 	// , = single character as attribute name with no value
 
@@ -174,8 +175,10 @@ test("Remove Attributes with special syntax from HTML tag", async (t) => {
 		keep="me"
 		no-value
 		2keep="me"
-		x="remove"
+		empty-value=""
 		3keep="me"
+		x="remove"
+		4keep="me"
 		,>
 	</script>
 </head>
@@ -189,7 +192,8 @@ test("Remove Attributes with special syntax from HTML tag", async (t) => {
 	<script
 		keep="me"
 		2keep="me"
-		3keep="me">
+		3keep="me"
+		4keep="me">
 	</script>
 </head>
 <body>
@@ -203,15 +207,17 @@ test("Remove Attributes with special syntax from HTML tag", async (t) => {
 	const attrToRemove2 = scriptTag.attributes[2];
 	const attrToRemove3 = scriptTag.attributes[4];
 	const attrToRemove4 = scriptTag.attributes[6];
+	const attrToRemove5 = scriptTag.attributes[8];
 
 	// ----- Create fix -----
 	const fix1 = new RemoveAttributeFix(scriptTag, attrToRemove1);
 	const fix2 = new RemoveAttributeFix(scriptTag, attrToRemove2);
 	const fix3 = new RemoveAttributeFix(scriptTag, attrToRemove3);
 	const fix4 = new RemoveAttributeFix(scriptTag, attrToRemove4);
+	const fix5 = new RemoveAttributeFix(scriptTag, attrToRemove5);
 
 	// ----- Run Autofix -----
-	const result = await _runAutofix([fix1, fix2, fix3, fix4], input, t.context);
+	const result = await _runAutofix([fix1, fix2, fix3, fix4, fix5], input, t.context);
 
 	// ----- Compare Autofix output with expected output -----
 	t.truthy(result);

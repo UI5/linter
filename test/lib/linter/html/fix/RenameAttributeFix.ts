@@ -165,6 +165,7 @@ test("Rename Attributes with special syntax from HTML tag", async (t) => {
 	// This tests the handling of special syntax:
 	// rename-me = no quotes around the value
 	// rename-me-2 = no value after the attribute name
+	// empty-value = empty value inside quotes
 	// x = single character as attribute name
 	// , = single character as attribute name with no value
 
@@ -175,8 +176,10 @@ test("Rename Attributes with special syntax from HTML tag", async (t) => {
 		keep="me"
 		rename-me-2
 		2keep="me"
-		x="abc"
+		empty-value=""
 		3keep="me"
+		x="abc"
+		4keep="me"
 		,>
 	</script>
 </head>
@@ -191,9 +194,11 @@ test("Rename Attributes with special syntax from HTML tag", async (t) => {
 		keep="me"
 		i-was-renamed-2
 		2keep="me"
-		i-was-renamed-3="abc"
+		i-was-renamed-3=""
 		3keep="me"
-		i-was-renamed-4>
+		i-was-renamed-4="abc"
+		4keep="me"
+		i-was-renamed-5>
 	</script>
 </head>
 <body>
@@ -207,15 +212,17 @@ test("Rename Attributes with special syntax from HTML tag", async (t) => {
 	const attroToRename2 = scriptTag.attributes[2];
 	const attroToRename3 = scriptTag.attributes[4];
 	const attroToRename4 = scriptTag.attributes[6];
+	const attroToRename5 = scriptTag.attributes[8];
 
 	// ----- Create fix -----
 	const fix1 = new RenameAttributeFix(attroToRename1, "i-was-renamed");
 	const fix2 = new RenameAttributeFix(attroToRename2, "i-was-renamed-2");
 	const fix3 = new RenameAttributeFix(attroToRename3, "i-was-renamed-3");
 	const fix4 = new RenameAttributeFix(attroToRename4, "i-was-renamed-4");
+	const fix5 = new RenameAttributeFix(attroToRename5, "i-was-renamed-5");
 
 	// ----- Run Autofix -----
-	const result = await _runAutofix([fix1, fix2, fix3, fix4], input, t.context);
+	const result = await _runAutofix([fix1, fix2, fix3, fix4, fix5], input, t.context);
 
 	// ----- Compare Autofix output with expected output -----
 	t.truthy(result);
@@ -265,7 +272,7 @@ test("Rename Attributes with surrounding whitespace from HTML tag", async (t) =>
 	t.is(Array.from(result.values())[0], expectedOutput, "Autofix output should match expected output");
 });
 
-test("Remove Attributes with special whitespace from HTML tag", async (t) => {
+test("Rename Attributes with special whitespace from HTML tag", async (t) => {
 	// This tests the handling of whitespace between attribute names and values:
 	// x & y & z are single character attributes
 	const input = `<!Doctype HTML>
