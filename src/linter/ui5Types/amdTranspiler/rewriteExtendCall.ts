@@ -21,7 +21,11 @@ export default function rewriteExtendCall(nodeFactory: ts.NodeFactory,
 	}
 	const [extractedClassName, classNamespace, body] = extractInfoFromArguments(nodeFactory, callExp);
 	className ??= nodeFactory.createUniqueName(extractedClassName);
-	const fullyQuantifiedClassName = callExp?.arguments?.[0];
+	let classNamespace: string | undefined;
+	const extendsName = callExp.arguments[0];
+	if (extendsName && ts.isStringLiteralLike(extendsName)) {
+		classNamespace = extendsName.text.split(".").slice(0, -1).join(".");
+	}
 
 	const classDecl = nodeFactory.createClassDeclaration(modifiers,
 		className,
