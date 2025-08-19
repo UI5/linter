@@ -1,6 +1,6 @@
 import ts, {Program} from "typescript";
 import {ChangeAction, ChangeSet} from "../../../autofix/autofix.js";
-import LinterContext, {PositionInfo} from "../../LinterContext.js";
+import {PositionInfo} from "../../LinterContext.js";
 import {Attribute, Position, SaxEventType} from "sax-wasm";
 import XmlEnabledFix from "./XmlEnabledFix.js";
 import type {AttributeDeclaration} from "../../xmlTemplate/Parser.js";
@@ -38,7 +38,6 @@ export default class EventHandlersFix extends XmlEnabledFix {
 	}
 
 	methodExistsInController(
-		context: LinterContext,
 		tsProgram?: Program,
 		checker?: ts.TypeChecker
 	): void {
@@ -53,20 +52,32 @@ export default class EventHandlersFix extends XmlEnabledFix {
 			return ts.forEachChild(node, findClassDeclaration);
 		};
 
-		const sourceFile = tsProgram.getSourceFiles().find((sourceFile) => {
-			if (sourceFile.fileName.endsWith(".js") ||
-				(sourceFile.fileName.endsWith(".ts") && !sourceFile.fileName.endsWith(".d.ts"))) {
-				const metadata = context.getMetadata(sourceFile.fileName);
-				return metadata.fullyQuantifiedControllerName &&
-					metadata.fullyQuantifiedControllerName === this.controllerName;
-			}
-		});
+		const sourceFiles = tsProgram.getSourceFiles().filter((sourceFile) =>
+			(!sourceFile.fileName.endsWith(".d.ts") && sourceFile.fileName.endsWith(".ts")) ||
+			sourceFile.fileName.endsWith(".js"));
 
-		if (!sourceFile) {
+		let classDeclaration: ts.ClassLikeDeclaration | undefined;
+		for (const sourceFile of sourceFiles) {
+			const curClassDeclaration = findClassDeclaration(sourceFile);
+			if (curClassDeclaration) {
+				const jsDocs = ts.getJSDocTags(curClassDeclaration);
+				const controllerNameJSDocNode = jsDocs.find((tag) => tag.tagName.text === "namespace");
+				const fullyQuantifiedControllerName =
+					controllerNameJSDocNode && typeof controllerNameJSDocNode.comment === "string" ?
+							controllerNameJSDocNode.comment.trim() :
+						undefined;
+
+				if (fullyQuantifiedControllerName === this.controllerName) {
+					classDeclaration = curClassDeclaration;
+					break;
+				}
+			}
+		}
+
+		if (!classDeclaration) {
 			return;
 		}
 
-		const classDeclaration = findClassDeclaration(sourceFile);
 		let classType;
 		// If it's an "eventHandler" object in the controller
 		const methodNameChunks = this.methodName.split(".");
