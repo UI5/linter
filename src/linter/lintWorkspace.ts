@@ -51,7 +51,6 @@ export default async function lintWorkspace(
 		}
 		lastContext = autofixContext;
 	}
-
 	return lastContext.generateLintResults();
 }
 
@@ -120,7 +119,6 @@ async function runAutofix(
 			// fix: false,
 		};
 		const autofixContext = context;
-
 		context = await runLintWorkspace(
 			workspace, filePathsWorkspace, optionsAfterFix, config, patternsMatch,
 			libraryDependencies, sharedLanguageService
