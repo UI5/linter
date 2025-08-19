@@ -1,5 +1,29 @@
 # Changelog
 
+## [1.18.0](https://github.com/UI5/linter/compare/v1.17.0...v1.18.0) (2025-08-19)
+
+
+### Features
+
+* **autofix:** Fix UI5 Bootstrap Parameters in HTML ([#779](https://github.com/UI5/linter/issues/779)) ([ee05a3a](https://github.com/UI5/linter/commit/ee05a3afc929d2667297965da5659840764b13cc))
+* Offer autofix for deprecated sap/ui/base/Object.isA API ([#796](https://github.com/UI5/linter/issues/796)) ([315e334](https://github.com/UI5/linter/commit/315e334b5ac342a7fecb4d352e20f46e1db7250b))
+
+
+### Dependencies
+
+* Bump @jridgewell/sourcemap-codec from 1.5.4 to 1.5.5 ([101e0f5](https://github.com/UI5/linter/commit/101e0f501ed240260ec5633978f19500eef33d15))
+* Bump @jridgewell/trace-mapping from 0.3.29 to 0.3.30 ([fe6638c](https://github.com/UI5/linter/commit/fe6638cb5bc147a2180848eca24a15b693542170))
+* Bump @sapui5/types from 1.136.3 to 1.136.6 ([6d295d3](https://github.com/UI5/linter/commit/6d295d3cfa6a5d213e5bf60b440cc9a463d6be24))
+* Bump chalk from 5.4.1 to 5.5.0 ([33450ad](https://github.com/UI5/linter/commit/33450ad102b94025dd1ba4e9ba272e190086d8e8))
+* Bump chalk from 5.5.0 to 5.6.0 ([94df61f](https://github.com/UI5/linter/commit/94df61f731a8564f97bc60a1e31137cce65b704f))
+* Bump sax-wasm from 3.0.10 to 3.0.11 ([d4025d8](https://github.com/UI5/linter/commit/d4025d8ef32c04f65e2a8c2a7e2630f3c079abdd))
+* Bump sax-wasm from 3.0.11 to 3.0.12 ([9eaeea3](https://github.com/UI5/linter/commit/9eaeea3c344cd3ebf4fa65573d31c71b4cb24f63))
+* Bump sax-wasm from 3.0.12 to 3.1.0 ([c34bc53](https://github.com/UI5/linter/commit/c34bc53b9db9f16200e22861412681e915ea7eb6))
+* Bump sax-wasm from 3.0.8 to 3.0.9 ([4b45c03](https://github.com/UI5/linter/commit/4b45c0336ded3c53057a918deeb9c2b5044ffd3e))
+* Bump sax-wasm from 3.0.9 to 3.0.10 ([9c11249](https://github.com/UI5/linter/commit/9c112496f0df53b1e6973bf3df32b1876fc12c1a))
+* Bump sax-wasm from 3.1.0 to 3.1.1 ([ca7cb9d](https://github.com/UI5/linter/commit/ca7cb9dda65bc7eec0dd3e4d2695af3bd758fd59))
+* Bump typescript from 5.8.3 to 5.9.2 ([d234126](https://github.com/UI5/linter/commit/d234126c7ce5e62b8713bf1f1ef057c932b0fa11))
+
 ## [1.17.0](https://github.com/UI5/linter/compare/v1.16.1...v1.17.0) (2025-07-22)
 
 
