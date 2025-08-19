@@ -14,20 +14,22 @@ export default class RemoveAttributeFix extends HtmlFix {
 
 	constructor(tag: SaxTag, attr: Attribute) {
 		super();
-		const {startPos, endPos} = this.calculateRemovalPositions(tag, attr);
+		const startPos = this._calculateStartPos(tag, attr);
+		const endPos = this._calculateEndPos(attr);
 		this.startPositionDetail = startPos;
 		this.endPositionDetail = endPos;
 	}
 
 	/**
-	 * This will prepare the start and end pos of the removal.
+	 * This will prepare the start pos of the removal.
 	 * This is needed to ensure there are no empty lines or whitespaces left after removal.
 	 */
-	calculateRemovalPositions(tag: SaxTag, attr: Attribute): {startPos: PositionDetail; endPos: PositionDetail} {
-		let startPos, endPos: PositionDetail | undefined;
+	_calculateStartPos(tag: SaxTag, attr: Attribute): PositionDetail {
+		let startPos: PositionDetail | undefined;
 
 		const attrIndex = tag.attributes.indexOf(attr);
 		const previousAttr = attrIndex > 0 ? tag.attributes[attrIndex - 1] : undefined;
+		const subsequentAttr = tag.attributes[attrIndex + 1];
 
 		if (!previousAttr) {
 			// If there is no previous attribute (attribute is first), we remove the current attribute
@@ -61,6 +63,34 @@ export default class RemoveAttributeFix extends HtmlFix {
 					break;
 			}
 		}
+
+		// This if statement is a workaround for edge cases
+		// since sax-wasm parses wrong positions for NoValue single-character attributes.
+		// TODO: Remove once it's fixed (https://github.com/justinwilaby/sax-wasm/issues/139).
+		if (previousAttr && previousAttr.type === AttributeType.NoValue && previousAttr.name.value.length === 1) {
+			startPos = {
+				line: previousAttr.name.start.line,
+				character: previousAttr.name.start.character + 1,
+			};
+		}
+
+		// Edge case: no space w/ NoValues or NoQuotes
+		const edgeCaseStart = this._getEdgeCaseStartPos(tag, previousAttr, attr, subsequentAttr);
+		if (edgeCaseStart) {
+			startPos = edgeCaseStart;
+		}
+
+		if (!startPos) {
+			throw new Error("Could not calculate start position for attribute removal");
+		}
+		return startPos;
+	}
+
+	/**
+	 * This will prepare the end pos of the removal.
+	 */
+	_calculateEndPos(attr: Attribute): PositionDetail {
+		let endPos: PositionDetail | undefined;
 		switch (attr.type) {
 			case AttributeType.SingleQuoted:
 			case AttributeType.DoubleQuoted:
@@ -83,15 +113,9 @@ export default class RemoveAttributeFix extends HtmlFix {
 				break;
 		}
 
-		// These two if statements are a workaround for edge cases
+		// This if statement is a workaround for edge cases
 		// since sax-wasm parses wrong positions for NoValue single-character attributes.
 		// TODO: Remove once it's fixed (https://github.com/justinwilaby/sax-wasm/issues/139).
-		if (previousAttr && previousAttr.type === AttributeType.NoValue && previousAttr.name.value.length === 1) {
-			startPos = {
-				line: previousAttr.name.start.line,
-				character: previousAttr.name.start.character + 1,
-			};
-		}
 		if (attr.type === AttributeType.NoValue && attr.name.value.length === 1) {
 			endPos = {
 				line: attr.name.start.line,
@@ -99,19 +123,10 @@ export default class RemoveAttributeFix extends HtmlFix {
 			};
 		}
 
-		// Edge case: no space w/ NoValues or NoQuotes
-		const edgeCaseStartPos = this._handleEdgeCase(tag, attrIndex);
-		if (edgeCaseStartPos) {
-			startPos = edgeCaseStartPos;
-		}
-
-		if (!startPos) {
-			throw new Error("Could not calculate start position for attribute removal");
-		}
 		if (!endPos) {
 			throw new Error("Could not calculate end position for attribute removal");
 		}
-		return {startPos, endPos};
+		return endPos;
 	}
 
 	calculateSourceCodeRange(toPosition: ToPositionCallback) {
@@ -130,14 +145,12 @@ export default class RemoveAttributeFix extends HtmlFix {
 		};
 	}
 
-	_handleEdgeCase(tag: SaxTag, attrIndex: number): PositionDetail | undefined {
+	_getEdgeCaseStartPos(tag: SaxTag, previousAttr: Attribute | undefined, attr: Attribute, subsequentAttr: Attribute):
+	PositionDetail | undefined {
 		// Edge Case 1: attr=abc attr="def"ignore=xyz
 		// --> attr=abc ignore=xyz
 		// Edge Case 2: attr attr="def"ignore=xyz
 		// --> attr ignore=xyz
-		const attr = tag.attributes[attrIndex];
-		const previousAttr = attrIndex > 0 ? tag.attributes[attrIndex - 1] : undefined;
-		const subsequentAttr = tag.attributes[attrIndex + 1];
 
 		if (!subsequentAttr) {
 			return undefined;
