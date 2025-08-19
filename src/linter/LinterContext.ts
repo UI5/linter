@@ -114,7 +114,6 @@ export interface LintMetadata {
 	transformedImports: Map<string, Set<string>>;
 	xmlCompiledResource: string;
 	jsToXmlPosMapping: {pos: ts.LineAndCharacter; originalPath: string};
-	fullyQuantifiedControllerName: string | undefined; // Namespace of the resource, if applicable
 }
 
 export default class LinterContext {

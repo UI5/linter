@@ -14,7 +14,6 @@ import SourceFileReporter from "./SourceFileReporter.js";
 import {AmbientModuleCache} from "./AmbientModuleCache.js";
 import {JSONSchemaForSAPUI5Namespace} from "../../manifest.js";
 import type FixFactory from "./fix/FixFactory.js";
-import {parseJSDocComments} from "./amdTranspiler/util.js";
 import EventHandlersFix from "./fix/EventHandlersFix.js";
 
 const log = getLogger("linter:ui5Types:TypeLinter");
@@ -114,17 +113,6 @@ export default class TypeLinter {
 		const messageDetails = this.#context.getIncludeMessageDetails();
 		const typeCheckDone = taskStart("Linting all transpiled resources");
 		for (const sourceFile of program.getSourceFiles()) {
-			if ((!sourceFile.fileName.endsWith(".d.ts") && sourceFile.fileName.endsWith(".ts")) ||
-				sourceFile.fileName.endsWith(".js")) {
-				const jsdocComments = parseJSDocComments(sourceFile);
-				const namespaceNode = jsdocComments.find(
-					(comment) => comment.tags.some((tag) => tag.tagName.text === "namespace")
-				)?.tags.find((tag) => tag.tagName.text === "namespace");
-				if (namespaceNode && typeof namespaceNode.comment === "string") {
-					const metadata = this.#context.getMetadata(sourceFile.fileName);
-					metadata.fullyQuantifiedControllerName = namespaceNode.comment.trim();
-				}
-			}
 			if (sourceFile.isDeclarationFile || !pathsToLint.includes(sourceFile.fileName)) {
 				continue;
 			}
@@ -206,7 +194,7 @@ export default class TypeLinter {
 
 			rawMessages.forEach((message) => {
 				if (message.fix && message.fix instanceof EventHandlersFix) {
-					message.fix.methodExistsInController(this.#context, program, checker);
+					message.fix.methodExistsInController(program, checker);
 				}
 			});
 		}
