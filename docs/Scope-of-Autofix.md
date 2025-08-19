@@ -45,12 +45,14 @@ This document lists APIs that are not replaced or can't be replaced automaticall
 
 ## jQuery Plugins
 
-- [**jQuery#control**](https://ui5.sap.com/1.136/#/api/jQuery%23methods/control) - No direct replacement, see [#578](https://github.com/UI5/linter/issues/578#issuecomment-2866034841)
+- **All deprecated jQuery plugins** - Currently not detected by the UI5 linter and therefore cannot be fixed automatically, see [#580](https://github.com/UI5/linter/issues/580#issuecomment-2784101391)
+- **Missing plugin module dependencies** - Not detected automatically, so the linter cannot add missing dependencies to the corresponding plugin modules, see [#580](https://github.com/UI5/linter/issues/580#issuecomment-2784101391)
 
 ## Global API Usage
 
 - **Assignments to global variables** - Cannot be replaced automatically
 - **`delete` expressions on globals** - Cannot be replaced automatically, see [#668](https://github.com/UI5/linter/issues/668)
+- **Third-party modules** - Usages of third-party modules (`sap/ui/thirdparty/*`) via globals (such as `jQuery`) are currently not replaced automatically
 
 ## Module Imports
 
