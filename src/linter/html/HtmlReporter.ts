@@ -50,14 +50,7 @@ export default class HtmlReporter {
 			column: startPos.character + 1,
 		};
 
-		const message = {
-			id,
-			args,
-			position,
-			fix,
-		};
-
-		this.#context.addLintingMessages(this.#resourcePath, [message]);
+		this.#context.addLintingMessage(this.#resourcePath, id, args, position, fix);
 	}
 
 	addCoverageInfo({node, message, category}: ReporterCoverageInfo) {
