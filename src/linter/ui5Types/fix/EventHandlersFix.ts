@@ -62,12 +62,14 @@ export default class EventHandlersFix extends XmlEnabledFix {
 			if (curClassDeclaration) {
 				const jsDocs = ts.getJSDocTags(curClassDeclaration);
 				const controllerNameJSDocNode = jsDocs.find((tag) => tag.tagName.text === "namespace");
-				const fullyQuantifiedControllerName =
+				const controllerNamespace =
 					controllerNameJSDocNode && typeof controllerNameJSDocNode.comment === "string" ?
 							controllerNameJSDocNode.comment.trim() :
 						undefined;
 
-				if (fullyQuantifiedControllerName === this.controllerName) {
+				const localNameMatch = /([^/]+)\.controller\.(js|ts)$/.exec(sourceFile.fileName);
+				const localName = localNameMatch ? localNameMatch[1] : undefined;
+				if (`${controllerNamespace}.${localName}` === this.controllerName) {
 					classDeclaration = curClassDeclaration;
 					break;
 				}

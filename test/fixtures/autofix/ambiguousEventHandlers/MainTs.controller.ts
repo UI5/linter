@@ -2,7 +2,7 @@ import BaseController from "./BaseTs.controller.js";
 import type Event from "sap/ui/base/Event";
 
 /**
- * @namespace ui5.walkthrough.controller.MainTs
+ * @namespace ui5.walkthrough.controller
  */
 export default class MainTs extends BaseController {
 
