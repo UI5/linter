@@ -33,7 +33,6 @@ export default async function lintWorkspace(
 		workspace, filePathsWorkspace, options, config, patternsMatch, libraryDependencies, sharedLanguageService
 	);
 	if (!options.fix) {
-		sharedLanguageService.release();
 		return lintContext.generateLintResults();
 	}
 
@@ -53,7 +52,6 @@ export default async function lintWorkspace(
 		lastContext = autofixContext;
 	}
 
-	sharedLanguageService.release(); // Release here as it is needed in autofix
 	return lastContext.generateLintResults();
 }
 
@@ -122,10 +120,6 @@ async function runAutofix(
 			// fix: false,
 		};
 		const autofixContext = context;
-
-		// Reset to refresh sharedLanguageService after fixes have been applied
-		// It would be re-instantiated in TypeLinter
-		sharedLanguageService.release();
 
 		context = await runLintWorkspace(
 			workspace, filePathsWorkspace, optionsAfterFix, config, patternsMatch,
