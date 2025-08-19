@@ -183,6 +183,7 @@ Currently, issues of the following rules are fixable:
   - Usages of the deprecated `useExportToExcel` property on `sap/ui/comp/smarttable/SmartTable` are replaced by the `enableExport` property (in JS and XML files)
   - Usages of the deprecated `synchronizationMode` property on `sap/ui/model/odata/v4/ODataModel` are removed (in JS files)
   - Usages of the deprecated `minWidth` property on `sap/ui/layout/form/SimpleForm` are removed (in JS and XML files)
+  - Usages of deprecated attributes in a UI5 bootstrap script are replaced by the corresponding recommended attributes (in HTML files)
 
 After applying fixes, the linter runs another pass to detect any remaining issues. Not all findings may be fixable, so those issues may need to be addressed manually. See [Scope of Autofix](./docs/Scope-of-Autofix.md) for examples of APIs that cannot be migrated automatically. Note that this list is not exhaustive; there are more APIs that are currently not supported by the Autofix.
 
