@@ -134,19 +134,23 @@ function lintBootstrapAttributes(tag: SaxTag, report: HtmlReporter) {
 	// Loop through the raw attributes of the bootstrap tag:
 	for (const attr of tag.attributes) {
 		// Check for renamed attributes (or aliases):
-		let attributeName = attr.name.value.toLowerCase();
+		const oldName = attr.name.value;
+		let attributeName = oldName.toLowerCase();
+
+		let newAttributeName: string | undefined;
 		if (oldToNewAttr.has(attributeName)) {
-			// Rename the attribute with new name:
-			const oldName = attr.name.value;
-			attributeName = oldToNewAttr.get(attributeName)!;
+			newAttributeName = oldToNewAttr.get(attributeName)!;
+		} else if (aliasToAttr.has(attributeName)) {
+			newAttributeName = aliasToAttr.get(attributeName)!;
+		}
+
+		if (newAttributeName) {
+			attributeName = newAttributeName;
 			const fix = new RenameAttributeFix(attr, attributeName);
 			report.addMessage(MESSAGE.SPELLING_BOOTSTRAP_PARAM, {
 				oldName: oldName,
 				newName: attributeName,
 			}, attr.name, fix);
-		} else if (aliasToAttr.has(attributeName)) {
-			// Use alias name for further checks
-			attributeName = aliasToAttr.get(attributeName)!;
 		}
 
 		// Collect the attribute and its position for duplicate handling
