@@ -185,7 +185,7 @@ function lintBootstrapAttributes(tag: SaxTag, report: HtmlReporter) {
 				checkOnInitAttr(attr, report);
 				break;
 			case "data-sap-ui-binding-syntax":
-				checkBindingSyntaxAttr(tag, attr, report, attrCollection.get("data-sap-ui-compat-version"));
+				checkBindingSyntaxAttr(tag, attr, report, attrCollection.get("data-sap-ui-compat-version")?.attr);
 				break;
 			case "data-sap-ui-origin-info":
 				checkOriginInfoAttr(attr, report);
@@ -279,33 +279,28 @@ function checkBindingSyntaxAttr(
 	tag: SaxTag,
 	attr: Attribute,
 	report: HtmlReporter,
-	compatVersionAttr?: {attr: Attribute; arrayPos: number}
+	compatVersionAttr?: Attribute
 ) {
-	// Check compat-version=edge and create fix to remove binding syntax attributes:
-	if (compatVersionAttr && compatVersionAttr.attr.value.value.toLowerCase() === "edge") {
-		const fix = new RemoveAttributeFix(tag, attr);
+	// binding-syntax="complex"
+	if (attr.value.value.toLowerCase() === "complex") {
+		// Remove binding-syntax if compat-version=edge
+		const fix = compatVersionAttr && compatVersionAttr.value.value.toLowerCase() === "edge" ?
+			new RemoveAttributeFix(tag, attr) :
+			undefined;
+
 		report.addMessage(MESSAGE.REDUNDANT_BOOTSTRAP_PARAM, {
 			name: attr.name.value,
-			messageDetails: "Only 'complex' is supported with UI5 2.x and automatically" +
-				" enforced by the UI5 runtime. Complex binding parser supports simple binding syntax " +
-				"per default.",
+			messageDetails: "Setting binding syntax to 'complex' is not necessary if " +
+				"'data-sap-ui-compat-version=\"edge\"' is set.",
 		}, attr.name, fix);
 	} else {
-		// Regular binding syntax checks:
-		if (attr.value.value.toLowerCase() === "complex") {
-			report.addMessage(MESSAGE.REDUNDANT_BOOTSTRAP_PARAM, {
-				name: attr.name.value,
-				messageDetails: "Only 'complex' is supported with UI5 2.x and automatically" +
-					" enforced by the UI5 runtime. Complex binding parser supports simple binding syntax per default.",
-			}, attr.name);
-		} else {
-			report.addMessage(MESSAGE.REDUNDANT_BOOTSTRAP_PARAM_ERROR, {
-				name: attr.name.value,
-				messageDetails: "Only 'complex' is supported with UI5 2.x and automatically" +
-					" enforced by the UI5 runtime. Check all bindings whether they will be " +
-					"misinterpreted in 2.x with binding syntax 'complex'.",
-			}, attr.name);
-		}
+		// binding-syntax="simple"
+		report.addMessage(MESSAGE.REDUNDANT_BOOTSTRAP_PARAM_ERROR, {
+			name: attr.name.value,
+			messageDetails: "Only 'complex' is supported with UI5 2.x and automatically" +
+				" enforced by the UI5 runtime. Check all bindings whether they will be " +
+				"misinterpreted in 2.x with binding syntax 'complex'.",
+		}, attr.name);
 	}
 }
 
