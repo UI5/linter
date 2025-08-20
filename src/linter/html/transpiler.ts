@@ -294,16 +294,17 @@ function checkBindingSyntaxAttr(
 
 		report.addMessage(MESSAGE.REDUNDANT_BOOTSTRAP_PARAM, {
 			name: attr.name.value,
-			messageDetails: "Setting binding syntax to 'complex' is not necessary if " +
+			messageDetails: "Defining binding syntax is not necessary if " +
 				"'data-sap-ui-compat-version=\"edge\"' is set.",
 		}, attr.name, fix);
 	} else {
 		// binding-syntax="simple"
 		report.addMessage(MESSAGE.REDUNDANT_BOOTSTRAP_PARAM_ERROR, {
 			name: attr.name.value,
-			messageDetails: "Only 'complex' is supported with UI5 2.x and automatically" +
-				" enforced by the UI5 runtime. Check all bindings whether they will be " +
-				"misinterpreted in 2.x with binding syntax 'complex'.",
+			messageDetails: "Only 'complex' is supported with UI5 2.x and automatically " +
+				"enforced by the UI5 runtime. Check all bindings whether they will be " +
+				"misinterpreted in 2.x with binding syntax 'complex'. Additionally, defining " +
+				"binding syntax is not necessary if 'data-sap-ui-compat-version=\"edge\"' is set.",
 		}, attr.name);
 	}
 }
