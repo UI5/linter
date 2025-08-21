@@ -188,7 +188,7 @@ export default class TypeLinter {
 		const rawLintResults = this.#context.generateRawLintResults();
 		for (const {filePath, rawMessages} of rawLintResults) {
 			// Process only XML files
-			if (!filePath.endsWith("xml")) {
+			if (!filePath.endsWith(".view.xml")) {
 				continue;
 			}
 
