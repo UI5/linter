@@ -148,7 +148,7 @@ async function runAutofix(
 						} else {
 							positionMatch = !msg.position && !parsingError.position;
 						}
-						return msg.args.message === parsingError.args.message && positionMatch;
+						return msg.args?.message === parsingError.args?.message && positionMatch;
 					});
 					if (!isDuplicate) {
 						context.addLintingMessage(filePath, {id: msg.id, args: parsingError.args}); // No position

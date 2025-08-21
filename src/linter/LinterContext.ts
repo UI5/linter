@@ -29,7 +29,7 @@ export interface RawLintResult {
 
 export interface RawLintMessage<M extends MESSAGE = MESSAGE> {
 	id: M;
-	args: MessageArgs[M];
+	args?: MessageArgs[M];
 	position?: PositionInfo;
 	fix?: Fix;
 	ui5TypeInfo?: Ui5TypeInfo;
@@ -238,13 +238,13 @@ export default class LinterContext {
 			severity: messageInfo.severity,
 			line: rawMessage.position ? rawMessage.position.line : undefined,
 			column: rawMessage.position ? rawMessage.position.column : undefined,
-			message: messageFunc(rawMessage.args || {}),
+			message: messageFunc(rawMessage.args ?? {} as MessageArgs[M]),
 			ui5TypeInfo: rawMessage.ui5TypeInfo,
 		};
 
 		if (this.#includeMessageDetails) {
 			const detailsFunc = messageInfo.details as (args: MessageArgs[M]) => string | undefined;
-			const messageDetails = detailsFunc(rawMessage.args || {});
+			const messageDetails = detailsFunc(rawMessage.args ?? {} as MessageArgs[M]);
 			if (messageDetails) {
 				message.messageDetails = resolveLinks(messageDetails);
 			}

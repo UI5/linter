@@ -353,7 +353,6 @@ export default class Parser {
 			this.#context.addLintingMessage(this.#resourcePath,
 				{
 					id: MESSAGE.SVG_IN_XML,
-					args: undefined as never,
 					position: {
 						line: tag.openStart.line + 1, // Add one to align with IDEs
 						column: tag.openStart.character + 1,
@@ -372,7 +371,6 @@ export default class Parser {
 			this.#context.addLintingMessage(this.#resourcePath,
 				{
 					id: MESSAGE.HTML_IN_XML,
-					args: undefined as never,
 					position: {
 						line: tag.openStart.line + 1, // Add one to align with IDEs
 						column: tag.openStart.character + 1,

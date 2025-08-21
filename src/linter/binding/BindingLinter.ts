@@ -272,7 +272,7 @@ export default class BindingLinter {
 						decl.moduleName === expectedModuleName || decl.moduleName === ODATA_EXPRESSION_ADDONS_MODULE)
 				) {
 					this.#context.addLintingMessage(
-						this.#resourcePath, {id: MESSAGE.NO_ODATA_GLOBALS, args: {} as never, position}
+						this.#resourcePath, {id: MESSAGE.NO_ODATA_GLOBALS, position}
 					);
 				}
 			}
