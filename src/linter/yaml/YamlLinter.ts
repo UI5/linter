@@ -54,7 +54,7 @@ export default class YamlLinter {
 			});
 		} catch (err) {
 			const message = err instanceof Error ? err.message : String(err);
-			this.#context.addLintingMessage(this.#resourcePath, MESSAGE.PARSING_ERROR, {message});
+			this.#context.addLintingMessage(this.#resourcePath, {id: MESSAGE.PARSING_ERROR, args: {message}});
 		}
 	}
 
@@ -71,13 +71,15 @@ export default class YamlLinter {
 				const positionInfo = getPosition(lib);
 				this.#context.addLintingMessage(
 					this.#resourcePath,
-					MESSAGE.DEPRECATED_LIBRARY,
 					{
-						libraryName,
-					},
-					{
-						line: positionInfo.start.line + offset,
-						column: positionInfo.start.column,
+						id: MESSAGE.DEPRECATED_LIBRARY,
+						args: {
+							libraryName,
+						},
+						position: {
+							line: positionInfo.start.line + offset,
+							column: positionInfo.start.column,
+						},
 					}
 				);
 			}

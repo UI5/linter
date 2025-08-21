@@ -377,9 +377,11 @@ function reportUiComponentResults({
 				const {key: posInfo} = pointers[pointerKey];
 				context.addLintingMessage(
 					resourcePath.replace(componentFileName, "manifest.json"),
-					MESSAGE.COMPONENT_REDUNDANT_ASYNC_FLAG,
-					{asyncFlagLocation: pointerKey},
-					posInfo
+					{
+						id: MESSAGE.COMPONENT_REDUNDANT_ASYNC_FLAG,
+						args: {asyncFlagLocation: pointerKey},
+						position: posInfo,
+					}
 				);
 			} else {
 				reporter.addMessage(MESSAGE.COMPONENT_REDUNDANT_ASYNC_FLAG, {

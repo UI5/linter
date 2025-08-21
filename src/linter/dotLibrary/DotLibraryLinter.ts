@@ -22,7 +22,7 @@ export default class DotLibraryLinter {
 			this.#analyzeDeprecatedLibs(dotLibraryDependencyTags);
 		} catch (err) {
 			const message = err instanceof Error ? err.message : String(err);
-			this.#context.addLintingMessage(this.#resourcePath, MESSAGE.PARSING_ERROR, {message});
+			this.#context.addLintingMessage(this.#resourcePath, {id: MESSAGE.PARSING_ERROR, args: {message}});
 		}
 	}
 
@@ -65,11 +65,13 @@ export default class DotLibraryLinter {
 			if (deprecatedLibraries.includes(libraryName)) {
 				this.#context.addLintingMessage(
 					this.#resourcePath,
-					MESSAGE.DEPRECATED_LIBRARY,
-					{libraryName},
 					{
-						line: lib.openStart.line + 1,
-						column: lib.openStart.character + 1,
+						id: MESSAGE.DEPRECATED_LIBRARY,
+						args: {libraryName},
+						position: {
+							line: lib.openStart.line + 1,
+							column: lib.openStart.character + 1,
+						},
 					}
 				);
 			}

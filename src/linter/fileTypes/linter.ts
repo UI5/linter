@@ -15,6 +15,6 @@ export default async function lintFileTypes({filePathsWorkspace, context}: Linte
 
 	potentialDeprecatedResources.forEach((resource: Resource) => {
 		const fileSuffix = resource.getPath().split(".").pop()!.toUpperCase();
-		context.addLintingMessage(resource.getPath(), MESSAGE.DEPRECATED_VIEW_TYPE, {viewType: fileSuffix});
+		context.addLintingMessage(resource.getPath(), {id: MESSAGE.DEPRECATED_VIEW_TYPE, args: {viewType: fileSuffix}});
 	});
 }

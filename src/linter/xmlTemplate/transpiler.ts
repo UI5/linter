@@ -28,7 +28,7 @@ export default async function transpileXml(
 		return res;
 	} catch (err) {
 		const message = err instanceof Error ? err.message : String(err);
-		context.addLintingMessage(resourcePath, MESSAGE.PARSING_ERROR, {message});
+		context.addLintingMessage(resourcePath, {id: MESSAGE.PARSING_ERROR, args: {message}});
 	}
 }
 

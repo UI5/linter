@@ -48,7 +48,7 @@ export default class ManifestLinter {
 			this.#analyzeManifest(source.data);
 		} catch (err) {
 			const message = err instanceof Error ? err.message : String(err);
-			this.#context.addLintingMessage(this.#resourcePath, MESSAGE.PARSING_ERROR, {message});
+			this.#context.addLintingMessage(this.#resourcePath, {id: MESSAGE.PARSING_ERROR, args: {message}});
 		}
 	}
 

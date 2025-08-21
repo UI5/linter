@@ -131,7 +131,7 @@ async function runAutofix(
 			rawMessages.forEach((msg) => {
 				if (msg.id === MESSAGE.AUTOFIX_ERROR) {
 					context.addLintingMessage(
-						filePath, msg.id, (msg as RawLintMessage<MESSAGE.AUTOFIX_ERROR>).args);
+						filePath, {id: msg.id, args: (msg as RawLintMessage<MESSAGE.AUTOFIX_ERROR>).args});
 				}
 				if (msg.id === MESSAGE.PARSING_ERROR) {
 					const parsingError = msg as RawLintMessage<MESSAGE.PARSING_ERROR>;
@@ -151,7 +151,7 @@ async function runAutofix(
 						return msg.args.message === parsingError.args.message && positionMatch;
 					});
 					if (!isDuplicate) {
-						context.addLintingMessage(filePath, msg.id, parsingError.args); // No position
+						context.addLintingMessage(filePath, {id: msg.id, args: parsingError.args}); // No position
 					}
 				}
 			});

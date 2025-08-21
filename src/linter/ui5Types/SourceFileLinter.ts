@@ -147,7 +147,8 @@ export default class SourceFileLinter {
 			if (err instanceof Error) {
 				log.verbose(`Call stack: ${err.stack}`);
 			}
-			this.typeLinter.getContext().addLintingMessage(this.resourcePath, MESSAGE.PARSING_ERROR, {message});
+			this.typeLinter.getContext().addLintingMessage(this.resourcePath,
+				{id: MESSAGE.PARSING_ERROR, args: {message}});
 		}
 	}
 

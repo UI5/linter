@@ -269,7 +269,7 @@ async function autofixJs(
 			if (err instanceof Error) {
 				log.verbose(`Error while applying autofix to ${resourcePath}: ${err}`);
 				log.verbose(`Call stack: ${err.stack}`);
-				context.addLintingMessage(resourcePath, MESSAGE.AUTOFIX_ERROR, {message: err.message});
+				context.addLintingMessage(resourcePath, {id: MESSAGE.AUTOFIX_ERROR, args: {message: err.message}});
 				continue;
 			}
 			throw err;
@@ -314,7 +314,7 @@ async function autofixJs(
 				log.verbose(message);
 				log.verbose(errors);
 				log.verbose(resourcePath + ":\n" + contentWithMarkers.join("\n"));
-				context.addLintingMessage(resourcePath, MESSAGE.AUTOFIX_ERROR, {message});
+				context.addLintingMessage(resourcePath, {id: MESSAGE.AUTOFIX_ERROR, args: {message}});
 			} else {
 				log.verbose(`Autofix applied to ${resourcePath}`);
 				res.set(resourcePath, newContent);
@@ -362,7 +362,7 @@ async function autofixXml(
 				contentWithMarkers.splice(markerLine, 0, leadingTabs + " ".repeat(newXmlError.col - tabCount) + "^");
 			}
 			log.verbose(resourcePath + ":\n" + contentWithMarkers.join("\n"));
-			context.addLintingMessage(resourcePath, MESSAGE.AUTOFIX_ERROR, {message});
+			context.addLintingMessage(resourcePath, {id: MESSAGE.AUTOFIX_ERROR, args: {message}});
 			continue;
 		}
 		log.verbose(`Autofix applied to ${resourcePath}`);
@@ -385,7 +385,7 @@ async function autofixHtml(
 			if (err instanceof Error) {
 				log.verbose(`Error while applying autofix to ${resourcePath}: ${err}`);
 				log.verbose(`Call stack: ${err.stack}`);
-				context.addLintingMessage(resourcePath, MESSAGE.AUTOFIX_ERROR, {message: err.message});
+				context.addLintingMessage(resourcePath, {id: MESSAGE.AUTOFIX_ERROR, args: {message: err.message}});
 				continue;
 			}
 			throw err;
