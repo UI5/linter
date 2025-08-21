@@ -204,10 +204,6 @@ export default async function ({
 		log.verbose(`Applying autofixes for ${htmlResources.length} HTML resources`);
 		await autofixHtml(htmlResources, messages, context, res);
 	}
-	if (htmlResources.length) {
-		log.verbose(`Applying autofixes for ${htmlResources.length} HTML resources`);
-		await autofixHtml(htmlResources, messages, context, res);
-	}
 	if (jsonResources.length) {
 		log.verbose(`Applying autofixes for ${jsonResources.length} JSON resources`);
 		await autofixJson(jsonResources, messages, context, res);
