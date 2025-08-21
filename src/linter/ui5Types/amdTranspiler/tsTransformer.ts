@@ -202,7 +202,7 @@ function transform(
 									insertNodeAfter(variableStatement, classDeclaration);
 
 									// Also: Move comments from the variable declaration to the class declaration
-									moveCommentsToNode(node.parent, classDeclaration, sourceFile);
+									addNodeCommentsForRemoval(node.parent, sourceFile);
 								} else {
 									// The variable statement only contains our class variable, so we can replace
 									// the whole statement node with the new class declaration.
@@ -251,8 +251,8 @@ function transform(
 		// Make sure to move comments from removed nodes to the new ones
 		// (e.g. when a "return" statement becomes a "export default class" statement)
 		if (moveComments) {
-			for (const [from, to] of moveComments) {
-				moveCommentsToNode(from, to);
+			for (const [from] of moveComments) {
+				addNodeCommentsForRemoval(from);
 			}
 		}
 		if (!oldFactoryBlock) {
@@ -303,7 +303,7 @@ function transform(
 		};
 	}
 
-	function moveCommentsToNode(from: ts.Node, to: ts.Node, sourceFile?: ts.SourceFile) {
+	function addNodeCommentsForRemoval(from: ts.Node, sourceFile?: ts.SourceFile) {
 		const comments = getCommentsFromNode(from, sourceFile);
 		comments.leading.forEach((comment) => {
 			commentRemovals.push(comment);
@@ -338,7 +338,7 @@ function transform(
 		if (replacements) {
 			for (const replacement of replacements) {
 				// Move comments to the new node
-				moveCommentsToNode(replacement.original, replacement.substitute);
+				addNodeCommentsForRemoval(replacement.original);
 				// Replace it
 				node = replaceNodeInParent(node, replacement, nodeFactory);
 			}
