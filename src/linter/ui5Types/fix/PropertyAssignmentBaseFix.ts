@@ -1,5 +1,5 @@
 import ts from "typescript";
-import {ChangeSet} from "../../../autofix/autofix.js";
+import {ChangeSet} from "../../../utils/textChanges.js";
 import {PositionInfo} from "../../LinterContext.js";
 import {Attribute, Position, SaxEventType} from "sax-wasm";
 import XmlEnabledFix from "./XmlEnabledFix.js";

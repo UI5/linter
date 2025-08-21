@@ -1,5 +1,4 @@
 import ts from "typescript";
-import MagicString from "magic-string";
 import {getLogger} from "@ui5/logger";
 import {Resource} from "@ui5/fs";
 import LinterContext, {RawLintMessage, ResourcePath} from "../linter/LinterContext.js";
@@ -10,6 +9,7 @@ import generateChangesJs from "./generateChangesJs.js";
 import generateChangesXml from "./generateChangesXml.js";
 import {getFactoryBody} from "./amdImports.js";
 import generateChangesHtml from "./generateChangesHtml.js";
+import {ChangeSet, applyChanges} from "../utils/textChanges.js";
 
 const log = getLogger("linter:autofix");
 
@@ -23,35 +23,6 @@ export interface AutofixOptions {
 	namespace?: string;
 	resources: Map<ResourcePath, AutofixResource>;
 	context: LinterContext;
-}
-
-export enum ChangeAction {
-	INSERT = "insert",
-	REPLACE = "replace",
-	DELETE = "delete",
-}
-
-export type ChangeSet = InsertChange | ReplaceChange | DeleteChange;
-
-interface AbstractChangeSet {
-	action: ChangeAction;
-	start: number;
-}
-
-export interface InsertChange extends AbstractChangeSet {
-	action: ChangeAction.INSERT;
-	value: string;
-}
-
-export interface ReplaceChange extends AbstractChangeSet {
-	action: ChangeAction.REPLACE;
-	end: number;
-	value: string;
-}
-
-export interface DeleteChange extends AbstractChangeSet {
-	action: ChangeAction.DELETE;
-	end: number;
 }
 
 export type AutofixResult = Map<ResourcePath, string>;
@@ -441,24 +412,4 @@ async function applyFixesHtml(
 	}
 
 	return applyChanges(content, changeSet);
-}
-
-function applyChanges(content: string, changeSet: ChangeSet[]): string {
-	changeSet.sort((a, b) => b.start - a.start);
-	const s = new MagicString(content);
-
-	for (const change of changeSet) {
-		switch (change.action) {
-			case ChangeAction.INSERT:
-				s.appendRight(change.start, change.value);
-				break;
-			case ChangeAction.REPLACE:
-				s.update(change.start, change.end, change.value);
-				break;
-			case ChangeAction.DELETE:
-				s.remove(change.start, change.end);
-				break;
-		}
-	}
-	return s.toString();
 }

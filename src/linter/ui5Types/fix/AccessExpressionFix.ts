@@ -1,5 +1,5 @@
 import ts from "typescript";
-import {ChangeAction} from "../../../autofix/autofix.js";
+import {ChangeAction} from "../../../utils/textChanges.js";
 import AccessExpressionBaseFix, {AccessExpressionBaseFixParams} from "./AccessExpressionBaseFix.js";
 import {FixScope} from "./BaseFix.js";
 import {Ui5TypeInfo} from "../Ui5TypeInfo.js";

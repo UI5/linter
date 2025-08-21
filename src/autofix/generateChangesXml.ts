@@ -4,7 +4,7 @@ import {parseXml} from "../utils/xmlParser.js";
 import Fix from "../linter/ui5Types/fix/Fix.js";
 import XmlEnabledFix from "../linter/ui5Types/fix/XmlEnabledFix.js";
 import {RawLintMessage} from "../linter/LinterContext.js";
-import {ChangeSet} from "./autofix.js";
+import {ChangeSet} from "../utils/textChanges.js";
 import {removeConflictingFixes} from "./utils.js";
 // import {getLogger} from "@ui5/logger";
 

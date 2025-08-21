@@ -1,5 +1,5 @@
 import ts from "typescript";
-import {ChangeAction, ChangeSet} from "../../../autofix/autofix.js";
+import {ChangeAction, ChangeSet} from "../../../utils/textChanges.js";
 import {PositionInfo} from "../../LinterContext.js";
 import {FixHelpers} from "./Fix.js";
 import PropertyAssignmentBaseFix from "./PropertyAssignmentBaseFix.js";
