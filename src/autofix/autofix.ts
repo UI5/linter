@@ -188,10 +188,6 @@ export default async function ({
 		log.verbose(`Applying autofixes for ${htmlResources.length} HTML resources`);
 		await autofixHtml(htmlResources, messages, context, res);
 	}
-	if (htmlResources.length) {
-		log.verbose(`Applying autofixes for ${htmlResources.length} HTML resources`);
-		await autofixHtml(htmlResources, messages, context, res);
-	}
 
 	return res;
 }
