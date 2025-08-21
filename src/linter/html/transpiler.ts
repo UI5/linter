@@ -294,7 +294,7 @@ function checkBindingSyntaxAttr(
 
 		report.addMessage(MESSAGE.REDUNDANT_BOOTSTRAP_PARAM, {
 			name: attr.name.value,
-			messageDetails: "Defining binding syntax is not necessary if " +
+			messageDetails: "Defining the binding syntax is not necessary if " +
 				"'data-sap-ui-compat-version=\"edge\"' is set.",
 		}, attr.name, fix);
 	} else {
