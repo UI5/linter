@@ -45,7 +45,7 @@ This document lists APIs that are not replaced or can't be replaced automaticall
 
 ## jQuery Plugins
 
-- **All deprecated jQuery plugins** - Currently not detected by the UI5 linter and therefore cannot be fixed automatically, see [#580](https://github.com/UI5/linter/issues/580#issuecomment-2784101391)
+- **All deprecated jQuery plugins** - Currently not detected by UI5 linter and therefore cannot be fixed automatically, see [#580](https://github.com/UI5/linter/issues/580#issuecomment-2784101391)
 - **Missing plugin module dependencies** - Not detected automatically, so the linter cannot add missing dependencies to the corresponding plugin modules, see [#580](https://github.com/UI5/linter/issues/580#issuecomment-2784101391)
 
 ## Global API Usage
