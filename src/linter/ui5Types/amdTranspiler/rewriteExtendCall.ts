@@ -19,13 +19,8 @@ export default function rewriteExtendCall(nodeFactory: ts.NodeFactory,
 		callExp.expression.name.text === "extend")) {
 		return undefined;
 	}
-	const [extractedClassName, body] = extractInfoFromArguments(nodeFactory, callExp);
+	const [extractedClassName, classNamespace, body] = extractInfoFromArguments(nodeFactory, callExp);
 	className ??= nodeFactory.createUniqueName(extractedClassName);
-	let classNamespace: string | undefined;
-	const extendsName = callExp.arguments[0];
-	if (extendsName && ts.isStringLiteralLike(extendsName)) {
-		classNamespace = extendsName.text.split(".").slice(0, -1).join(".");
-	}
 
 	const classDecl = nodeFactory.createClassDeclaration(modifiers,
 		className,
@@ -47,25 +42,29 @@ export default function rewriteExtendCall(nodeFactory: ts.NodeFactory,
 
 function extractInfoFromArguments(
 	nodeFactory: ts.NodeFactory, callExp: ts.CallExpression
-): [string, ts.ClassElement[]] {
+): [string, string | undefined, ts.ClassElement[]] {
 	const args = callExp.arguments;
 	if (args.length === 0) {
 		throw new UnsupportedExtendCall(`Missing arguments at ${toPosStr(callExp)}`);
 	}
-	const className = getClassNameFromArgument(args[0]);
+
+	const [className, classNamespace] = getClassNameFromArgument(args[0]);
 	// Class body is optional
 	const classBody: ts.ClassElement[] = args.length > 1 ? getClassBodyFromArgument(nodeFactory, args[1]) : [];
-	return [className, classBody];
+	return [className, classNamespace, classBody];
 }
 
-function getClassNameFromArgument(className: ts.Expression): string {
-	if (!ts.isStringLiteralLike(className)) {
-		throw new UnsupportedExtendCall(`Unexpected extends argument of type ${ts.SyntaxKind[className.kind]} at ` +
-			toPosStr(className));
+function getClassNameFromArgument(classNameNode: ts.Expression): [string, string | undefined] {
+	if (!ts.isStringLiteralLike(classNameNode)) {
+		throw new UnsupportedExtendCall(`Unexpected extends argument of type ${ts.SyntaxKind[classNameNode.kind]} at ` +
+			toPosStr(classNameNode));
 	}
 	// Just like OpenUI5's ObjectPath...
-	const nameSegments = className.text.split(".");
-	return nameSegments[nameSegments.length - 1];
+	const nameSegments = classNameNode.text.split(".");
+	const className = nameSegments.pop()!;
+	const classNamespace = nameSegments.join(".");
+
+	return [className, classNamespace];
 }
 
 function getClassBodyFromArgument(nodeFactory: ts.NodeFactory, classBody: ts.Expression): ts.ClassElement[] {
