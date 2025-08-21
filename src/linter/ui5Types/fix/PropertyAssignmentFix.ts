@@ -1,5 +1,5 @@
 import ts from "typescript";
-import {ChangeAction, ChangeSet} from "../../../autofix/autofix.js";
+import {ChangeAction, ChangeSet} from "../../../utils/textChanges.js";
 import {Attribute, Position} from "sax-wasm";
 import PropertyAssignmentBaseFix from "./PropertyAssignmentBaseFix.js";
 import {getPropertyAssignmentInObjectLiteralExpression} from "../utils/utils.js";

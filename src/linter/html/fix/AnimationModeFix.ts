@@ -1,5 +1,5 @@
 import {Attribute, PositionDetail} from "sax-wasm";
-import {ChangeAction, ChangeSet} from "../../../autofix/autofix.js";
+import {ChangeAction, ChangeSet} from "../../../utils/textChanges.js";
 import {HtmlFix} from "./HtmlFix.js";
 import {ToPositionCallback} from "../../ui5Types/fix/XmlEnabledFix.js";
 

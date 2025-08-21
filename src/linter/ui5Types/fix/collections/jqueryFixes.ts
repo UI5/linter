@@ -5,7 +5,7 @@ import {
 	accessExpressionFix, accessExpressionGeneratorFix, callExpressionFix, callExpressionGeneratorFix,
 } from "../FixFactory.js";
 import CallExpressionFix from "../CallExpressionFix.js";
-import {ChangeAction} from "../../../../autofix/autofix.js";
+import {ChangeAction} from "../../../../utils/textChanges.js";
 import {PositionInfo} from "../../../LinterContext.js";
 import {FixScope} from "../BaseFix.js";
 import {FixHelpers} from "../Fix.js";

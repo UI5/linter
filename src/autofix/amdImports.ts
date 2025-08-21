@@ -1,7 +1,8 @@
 import ts from "typescript";
 import path from "node:path/posix";
 import {getLogger} from "@ui5/logger";
-import {ChangeAction, ChangeSet, ExistingModuleDeclarationInfo} from "./autofix.js";
+import {ChangeAction, ChangeSet} from "../utils/textChanges.js";
+import {ExistingModuleDeclarationInfo} from "./autofix.js";
 import {getPropertyNameText} from "../linter/ui5Types/utils/utils.js";
 import {RequireExpression} from "../linter/ui5Types/amdTranspiler/parseRequire.js";
 import {ModuleDeclaration} from "../linter/ui5Types/amdTranspiler/parseModuleDeclaration.js";

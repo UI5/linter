@@ -1,6 +1,6 @@
 import {HtmlFix} from "../linter/html/fix/HtmlFix.js";
 import {RawLintMessage} from "../linter/LinterContext.js";
-import {ChangeSet} from "./autofix.js";
+import {ChangeSet} from "../utils/textChanges.js";
 import {toPosition} from "./generateChangesXml.js";
 import {Position} from "sax-wasm";
 

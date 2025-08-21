@@ -1,6 +1,6 @@
 import ts from "typescript";
 import {PositionInfo} from "../../LinterContext.js";
-import {ChangeSet} from "../../../autofix/autofix.js";
+import {ChangeSet} from "../../../utils/textChanges.js";
 import {SaxEventType} from "sax-wasm";
 import {JSONSchemaForSAPUI5Namespace} from "../../../manifest.js";
 

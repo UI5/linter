@@ -3,9 +3,9 @@ import type {RawLintMessage} from "../linter/LinterContext.js";
 import {
 	getFactoryPosition,
 	Position,
-	type ChangeSet,
 	type ExistingModuleDeclarationInfo,
 } from "./autofix.js";
+import {type ChangeSet} from "../utils/textChanges.js";
 import {
 	collectIdentifierDeclarations, collectIdentifiers, matchPropertyAccessExpression, removeConflictingFixes,
 } from "./utils.js";

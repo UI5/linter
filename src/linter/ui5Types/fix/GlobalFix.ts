@@ -1,5 +1,5 @@
 import ts from "typescript";
-import {ChangeAction} from "../../../autofix/autofix.js";
+import {ChangeAction} from "../../../utils/textChanges.js";
 import {PositionInfo} from "../../LinterContext.js";
 import Fix from "./Fix.js";
 import {isConditionalAccess} from "../utils/utils.js";
