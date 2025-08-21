@@ -303,8 +303,8 @@ function checkBindingSyntaxAttr(
 			name: attr.name.value,
 			messageDetails: "Only 'complex' is supported with UI5 2.x and automatically " +
 				"enforced by the UI5 runtime. Check all bindings whether they will be " +
-				"misinterpreted in 2.x with binding syntax 'complex'. Additionally, defining " +
-				"binding syntax is not necessary if 'data-sap-ui-compat-version=\"edge\"' is set.",
+				"misinterpreted in 2.x with binding syntax 'complex'. Also, defining " +
+				"the binding syntax is not necessary if 'data-sap-ui-compat-version=\"edge\"' is set.",
 		}, attr.name);
 	}
 }
