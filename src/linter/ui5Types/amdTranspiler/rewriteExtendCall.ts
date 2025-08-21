@@ -21,7 +21,11 @@ export default function rewriteExtendCall(nodeFactory: ts.NodeFactory,
 	}
 	const [extractedClassName, body] = extractInfoFromArguments(nodeFactory, callExp);
 	className ??= nodeFactory.createUniqueName(extractedClassName);
-	const fullyQuantifiedClassName = callExp?.arguments?.[0];
+	let classNamespace: string | undefined;
+	const extendsName = callExp.arguments[0];
+	if (extendsName && ts.isStringLiteralLike(extendsName)) {
+		classNamespace = extendsName.text.split(".").slice(0, -1).join(".");
+	}
 
 	const classDecl = nodeFactory.createClassDeclaration(modifiers,
 		className,
@@ -34,9 +38,8 @@ export default function rewriteExtendCall(nodeFactory: ts.NodeFactory,
 		)],
 		body);
 
-	// Prepend JSDoc with @namespace fullyQuantifiedClassName
-	if (fullyQuantifiedClassName && ts.isStringLiteralLike(fullyQuantifiedClassName)) {
-		const jsDoc = `*\n * @namespace ${fullyQuantifiedClassName.text}\n `;
+	if (classNamespace) {
+		const jsDoc = `*\n * @namespace ${classNamespace}\n `;
 		ts.addSyntheticLeadingComment(classDecl, ts.SyntaxKind.MultiLineCommentTrivia, jsDoc, true);
 	}
 	return classDecl;
