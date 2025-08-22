@@ -1,11 +1,12 @@
 import ts from "typescript";
 import {PositionInfo} from "../../LinterContext.js";
 import {
-	countChildNodesRecursive, findNodeRecursive, isReturnValueUsed, isSideEffectFree,
+	countChildNodesRecursive, findNodeRecursive, isReturnValueUsed,
 } from "../utils/utils.js";
 import BaseFix, {BaseFixParams} from "./BaseFix.js";
 import {FixHelpers} from "./Fix.js";
 import {Ui5TypeInfo} from "../Ui5TypeInfo.js";
+import {isSideEffectFree} from "../utils/sideEffects.js";
 
 export interface CallExpressionBaseFixParams extends BaseFixParams {
 	/**

@@ -1,6 +1,6 @@
 import LinterContext, {PositionInfo, ResourcePath} from "../LinterContext.js";
 import {MESSAGE} from "../messages.js";
-import {RequireDeclaration} from "../xmlTemplate/Parser.js";
+import {RequireDeclaration} from "../xmlTemplate/xmlNodes.js";
 import BindingParser, {
 	AggregationBindingInfo, BindingInfo, ExpressionBinding, FilterInfo, PropertyBindingInfo, SorterInfo,
 } from "./lib/BindingParser.js";

@@ -2,7 +2,7 @@ import {resolveUniqueName} from "../../ui5Types/utils/utils.js";
 import ControllerByIdInfo from "../ControllerByIdInfo.js";
 import {
 	ControlDeclaration, RequireExpression, Position,
-} from "../Parser.js";
+} from "../xmlNodes.js";
 import Writer from "./Writer.js";
 import path from "node:path/posix";
 

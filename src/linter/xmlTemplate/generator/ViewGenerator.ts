@@ -1,5 +1,5 @@
 import AbstractGenerator from "./AbstractGenerator.js";
-import {ControlDeclaration} from "../Parser.js";
+import {ControlDeclaration} from "../xmlNodes.js";
 
 export default class ViewGenerator extends AbstractGenerator {
 	writeRootControl(controlInfo: ControlDeclaration) {

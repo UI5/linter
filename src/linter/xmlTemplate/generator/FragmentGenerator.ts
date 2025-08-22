@@ -1,5 +1,5 @@
 import AbstractGenerator from "./AbstractGenerator.js";
-import {ControlDeclaration, FragmentDefinitionDeclaration, NodeKind} from "../Parser.js";
+import {ControlDeclaration, FragmentDefinitionDeclaration, NodeKind} from "../xmlNodes.js";
 
 export default class FragmentGenerator extends AbstractGenerator {
 	writeRootControl(controlInfo: ControlDeclaration | FragmentDefinitionDeclaration) {

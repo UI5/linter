@@ -12,31 +12,19 @@ import ConsoleWriter from "@ui5/logger/writers/Console";
 import {getVersion} from "./version.js";
 import {ui5lint} from "../index.js";
 import {LintMessageSeverity} from "../linter/messages.js";
-
-export interface LinterArg {
-	coverage: boolean;
-	files?: string[];
-	filePaths?: string[];
-	ignorePattern?: string[];
-	details: boolean;
-	fix: boolean;
-	format: string;
-	config?: string;
-	ui5Config?: string;
-	quiet: boolean;
-}
+import type LinterArgs from "./LinterArgs.js";
 
 // yargs type definition is missing the "middlewares" property for the CommandModule type
 interface FixedCommandModule<T, U> extends CommandModule<T, U> {
 	middlewares: MiddlewareFunction<U>[];
 }
 
-const lintCommand: FixedCommandModule<object, LinterArg> = {
+const lintCommand: FixedCommandModule<object, LinterArgs> = {
 	command: "$0 [files...]",
 	describe: "Runs linter",
 	handler: handleLint,
 	middlewares: [baseMiddleware],
-	builder: function (args: Argv<object>): Argv<LinterArg> {
+	builder: function (args: Argv<object>): Argv<LinterArgs> {
 		args.usage("Usage: $0 [files...] [options]")
 			.positional("files", {
 				describe: "List of patterns to lint",
@@ -45,7 +33,7 @@ const lintCommand: FixedCommandModule<object, LinterArg> = {
 			})
 			.coerce([
 				"files",
-			], (arg: LinterArg[]) => {
+			], (arg: LinterArgs[]) => {
 				// Yargs will also provide --files option under the hood
 				// Enforce an array type
 				if (!Array.isArray(arg)) {
@@ -121,7 +109,7 @@ const lintCommand: FixedCommandModule<object, LinterArg> = {
 			})
 			.coerce([
 				"log-level",
-			], (arg: LinterArg[]) => {
+			], (arg: LinterArgs[]) => {
 				// If an option is specified multiple times, yargs creates an array for all the values,
 				// independently of whether the option is of type "array" or "string".
 				// This is unexpected for options listed above, which should all only have only one
@@ -142,11 +130,11 @@ const lintCommand: FixedCommandModule<object, LinterArg> = {
 			.example("ui5lint --coverage",
 				"Execute ui5lint with coverage enabled");
 
-		return args as Argv<LinterArg>;
+		return args as Argv<LinterArgs>;
 	},
 };
 
-async function handleLint(argv: ArgumentsCamelCase<LinterArg>) {
+async function handleLint(argv: ArgumentsCamelCase<LinterArgs>) {
 	const {
 		files: filePatterns,
 		coverage,
