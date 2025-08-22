@@ -1,5 +1,4 @@
 import type {
-	SAPJSONSchemaForWebApplicationManifestFile,
 	JSONSchemaForSAPUI5Namespace,
 	JSONSchemaForSAPAPPNamespace,
 	Model as ManifestModel,
@@ -11,7 +10,8 @@ import {ResourcePath} from "../LinterContext.js";
 import LinterContext from "../LinterContext.js";
 import {deprecatedLibraries, deprecatedComponents} from "../../utils/deprecations.js";
 import {MESSAGE} from "../messages.js";
-import {parseManifest} from "./parser.js";
+import {jsonSourceMapType, parseManifest} from "./parser.js";
+import RemoveJsonPropertyFix from "./fix/RemoveJsonPropertyFix.js";
 
 const deprecatedViewTypes = ["JSON", "HTML", "JS", "Template"];
 
@@ -32,14 +32,15 @@ export default class ManifestLinter {
 		try {
 			const source = parseManifest(this.#content);
 			this.#reporter = new ManifestReporter(this.#resourcePath, this.#context, source);
-			this.#analyzeManifest(source.data);
+			this.#analyzeManifest(source);
 		} catch (err) {
 			const message = err instanceof Error ? err.message : String(err);
 			this.#context.addLintingMessage(this.#resourcePath, {id: MESSAGE.PARSING_ERROR, args: {message}});
 		}
 	}
 
-	#analyzeManifest(manifest: SAPJSONSchemaForWebApplicationManifestFile) {
+	#analyzeManifest(source: jsonSourceMapType) {
+		const manifest = source.data;
 		const {resources, models, dependencies, rootView, routing} =
 			(manifest["sap.ui5"] ?? {} as JSONSchemaForSAPUI5Namespace);
 		const {dataSources} = (manifest["sap.app"] ?? {} as JSONSchemaForSAPAPPNamespace);
@@ -136,10 +137,13 @@ export default class ManifestLinter {
 			}
 
 			if (curModel.type === "sap.ui.model.odata.v4.ODataModel" &&
-				curModel.settings && "synchronizationMode" in curModel.settings) {
+				curModel.settings && "synchronizationMode" in curModel.settings
+			) {
+				const key = `/sap.ui5/models/${modelKey}/settings/synchronizationMode`;
+				const fix = new RemoveJsonPropertyFix(key, source.pointers);
 				this.#reporter?.addMessage(MESSAGE.DEPRECATED_ODATA_MODEL_V4_SYNCHRONIZATION_MODE, {
 					modelName: modelKey,
-				}, `/sap.ui5/models/${modelKey}/settings/synchronizationMode`);
+				}, key, fix);
 			}
 		});
 	}

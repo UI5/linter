@@ -10,6 +10,7 @@ import generateChangesXml from "./generateChangesXml.js";
 import {getFactoryBody} from "./amdImports.js";
 import generateChangesHtml from "./generateChangesHtml.js";
 import {ChangeSet, applyChanges} from "../utils/textChanges.js";
+import generateChangesJson from "./generateChangesJson.js";
 
 const log = getLogger("linter:autofix");
 
@@ -136,6 +137,18 @@ async function getXmlErrorForFile(content: string) {
 	return validOrError.err;
 }
 
+function getJsonError(content: string): string | undefined {
+	try {
+		JSON.parse(content);
+		return; // No errors
+	} catch (err) {
+		if (err instanceof Error) {
+			return err.message;
+		}
+		return String(err);
+	}
+}
+
 export function getFactoryPosition(moduleDeclaration: ExistingModuleDeclarationInfo): {start: number; end: number} {
 	const factory = getFactoryBody(moduleDeclaration);
 	if (!factory) {
@@ -157,6 +170,7 @@ export default async function ({
 	const xmlResources: Resource[] = [];
 	const jsResources: Resource[] = [];
 	const htmlResources: Resource[] = [];
+	const jsonResources: Resource[] = [];
 
 	for (const [_, autofixResource] of autofixResources) {
 		const fixMessages = autofixResource.messages.filter((msg) => msg.fix);
@@ -170,6 +184,8 @@ export default async function ({
 			xmlResources.push(autofixResource.resource);
 		} else if (resourcePath.endsWith(".html")) {
 			htmlResources.push(autofixResource.resource);
+		} else if (resourcePath.endsWith(".json")) {
+			jsonResources.push(autofixResource.resource);
 		} else {
 			jsResources.push(autofixResource.resource);
 		}
@@ -187,6 +203,10 @@ export default async function ({
 	if (htmlResources.length) {
 		log.verbose(`Applying autofixes for ${htmlResources.length} HTML resources`);
 		await autofixHtml(htmlResources, messages, context, res);
+	}
+	if (jsonResources.length) {
+		log.verbose(`Applying autofixes for ${jsonResources.length} JSON resources`);
+		await autofixJson(jsonResources, messages, context, res);
 	}
 
 	return res;
@@ -368,6 +388,54 @@ async function autofixHtml(
 	}
 }
 
+async function autofixJson(
+	jsonResources: Resource[], messages: Map<ResourcePath, RawLintMessage[]>, context: LinterContext,
+	res: AutofixResult
+): Promise<void> {
+	for (const resource of jsonResources) {
+		const resourcePath = resource.getPath();
+
+		const existingJsonError = getJsonError(await resource.getString());
+		if (existingJsonError) {
+			log.verbose(`Skipping autofix for '${resourcePath}'. Syntax error reported in original source file:\n` +
+				`${existingJsonError}`);
+			continue;
+		}
+
+		log.verbose(`Applying autofix for ${resourcePath}`);
+		let newContent;
+		try {
+			newContent = await applyFixesJson(resource, messages.get(resourcePath)!);
+		} catch (err) {
+			if (err instanceof Error) {
+				log.verbose(`Error while applying autofix to ${resourcePath}: ${err}`);
+				log.verbose(`Call stack: ${err.stack}`);
+				context.addLintingMessage(resourcePath, {id: MESSAGE.AUTOFIX_ERROR, args: {message: err.message}});
+				continue;
+			}
+			throw err;
+		}
+		if (newContent === undefined) {
+			continue;
+		}
+		const newJsonError = getJsonError(newContent);
+		if (newJsonError) {
+			const message = `Syntax error after applying autofix for '${resourcePath}'. ` +
+				`This is likely a UI5 linter internal issue. Please check the verbose log. ` +
+				`Please report this using the bug report template: ` +
+				`https://github.com/UI5/linter/issues/new?template=bug-report.md`;
+			const error = `Reported error: ${newJsonError}`;
+			log.verbose(message);
+			log.verbose(error);
+			log.verbose(resourcePath + ":\n" + newContent);
+			context.addLintingMessage(resourcePath, {id: MESSAGE.AUTOFIX_ERROR, args: {message}});
+			continue;
+		}
+		log.verbose(`Autofix applied to ${resourcePath}`);
+		res.set(resourcePath, newContent);
+	}
+}
+
 function applyFixesJs(
 	checker: ts.TypeChecker, sourceFile: ts.SourceFile, resourcePath: ResourcePath,
 	messages: RawLintMessage[]
@@ -406,6 +474,22 @@ async function applyFixesHtml(
 	const changeSet: ChangeSet[] = [];
 
 	generateChangesHtml(messages, changeSet, content);
+
+	if (changeSet.length === 0) {
+		return undefined;
+	}
+
+	return applyChanges(content, changeSet);
+}
+
+async function applyFixesJson(
+	resource: Resource,
+	messages: RawLintMessage[]
+): Promise<string | undefined> {
+	const content = await resource.getString();
+	const changeSet: ChangeSet[] = [];
+
+	generateChangesJson(messages, changeSet);
 
 	if (changeSet.length === 0) {
 		return undefined;
