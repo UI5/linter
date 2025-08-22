@@ -18,7 +18,7 @@ interface ReporterCoverageInfo extends CoverageInfo {
 	node: ts.Node;
 }
 
-export interface SourceFileMessageOptions {
+interface SourceFileMessageOptions {
 	/**
 	 * Optional node which will be used to determine the position of the linting message.
 	 * If no node is provided, the first column of the first line of the source file will be used.
