@@ -1,9 +1,9 @@
 import ts, {Program} from "typescript";
-import {ChangeAction, ChangeSet} from "../../../autofix/autofix.js";
 import {PositionInfo} from "../../LinterContext.js";
 import {Attribute, Position, SaxEventType} from "sax-wasm";
 import XmlEnabledFix from "./XmlEnabledFix.js";
 import type {AttributeDeclaration} from "../../xmlTemplate/Parser.js";
+import {ChangeAction, ChangeSet} from "../../../utils/textChanges.js";
 
 export default class EventHandlersFix extends XmlEnabledFix {
 	protected sourcePosition: PositionInfo | undefined;
