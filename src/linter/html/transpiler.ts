@@ -134,19 +134,23 @@ function lintBootstrapAttributes(tag: SaxTag, report: HtmlReporter) {
 	// Loop through the raw attributes of the bootstrap tag:
 	for (const attr of tag.attributes) {
 		// Check for renamed attributes (or aliases):
-		let attributeName = attr.name.value.toLowerCase();
+		const oldName = attr.name.value;
+		let attributeName = oldName.toLowerCase();
+
+		let newAttributeName: string | undefined;
 		if (oldToNewAttr.has(attributeName)) {
-			// Rename the attribute with new name:
-			const oldName = attr.name.value;
-			attributeName = oldToNewAttr.get(attributeName)!;
+			newAttributeName = oldToNewAttr.get(attributeName)!;
+		} else if (aliasToAttr.has(attributeName)) {
+			newAttributeName = aliasToAttr.get(attributeName)!;
+		}
+
+		if (newAttributeName) {
+			attributeName = newAttributeName;
 			const fix = new RenameAttributeFix(attr, attributeName);
 			report.addMessage(MESSAGE.SPELLING_BOOTSTRAP_PARAM, {
 				oldName: oldName,
 				newName: attributeName,
 			}, attr.name, fix);
-		} else if (aliasToAttr.has(attributeName)) {
-			// Use alias name for further checks
-			attributeName = aliasToAttr.get(attributeName)!;
 		}
 
 		// Collect the attribute and its position for duplicate handling
@@ -185,7 +189,7 @@ function lintBootstrapAttributes(tag: SaxTag, report: HtmlReporter) {
 				checkOnInitAttr(attr, report);
 				break;
 			case "data-sap-ui-binding-syntax":
-				checkBindingSyntaxAttr(tag, attr, report, attrCollection.get("data-sap-ui-compat-version"));
+				checkBindingSyntaxAttr(tag, attr, report, attrCollection.get("data-sap-ui-compat-version")?.attr);
 				break;
 			case "data-sap-ui-origin-info":
 				checkOriginInfoAttr(attr, report);
@@ -279,33 +283,29 @@ function checkBindingSyntaxAttr(
 	tag: SaxTag,
 	attr: Attribute,
 	report: HtmlReporter,
-	compatVersionAttr?: {attr: Attribute; arrayPos: number}
+	compatVersionAttr?: Attribute
 ) {
-	// Check compat-version=edge and create fix to remove binding syntax attributes:
-	if (compatVersionAttr && compatVersionAttr.attr.value.value.toLowerCase() === "edge") {
-		const fix = new RemoveAttributeFix(tag, attr);
+	// binding-syntax="complex"
+	if (attr.value.value.toLowerCase() === "complex") {
+		// Remove binding-syntax if compat-version=edge
+		const fix = compatVersionAttr && compatVersionAttr.value.value.toLowerCase() === "edge" ?
+			new RemoveAttributeFix(tag, attr) :
+			undefined;
+
 		report.addMessage(MESSAGE.REDUNDANT_BOOTSTRAP_PARAM, {
 			name: attr.name.value,
-			messageDetails: "Only 'complex' is supported with UI5 2.x and automatically" +
-				" enforced by the UI5 runtime. Complex binding parser supports simple binding syntax " +
-				"per default.",
+			messageDetails: "Defining the binding syntax is not necessary if " +
+				"'data-sap-ui-compat-version=\"edge\"' is set.",
 		}, attr.name, fix);
 	} else {
-		// Regular binding syntax checks:
-		if (attr.value.value.toLowerCase() === "complex") {
-			report.addMessage(MESSAGE.REDUNDANT_BOOTSTRAP_PARAM, {
-				name: attr.name.value,
-				messageDetails: "Only 'complex' is supported with UI5 2.x and automatically" +
-					" enforced by the UI5 runtime. Complex binding parser supports simple binding syntax per default.",
-			}, attr.name);
-		} else {
-			report.addMessage(MESSAGE.REDUNDANT_BOOTSTRAP_PARAM_ERROR, {
-				name: attr.name.value,
-				messageDetails: "Only 'complex' is supported with UI5 2.x and automatically" +
-					" enforced by the UI5 runtime. Check all bindings whether they will be " +
-					"misinterpreted in 2.x with binding syntax 'complex'.",
-			}, attr.name);
-		}
+		// binding-syntax="simple"
+		report.addMessage(MESSAGE.REDUNDANT_BOOTSTRAP_PARAM_ERROR, {
+			name: attr.name.value,
+			messageDetails: "Only 'complex' is supported with UI5 2.x and automatically " +
+				"enforced by the UI5 runtime. Check all bindings whether they will be " +
+				"misinterpreted in 2.x with binding syntax 'complex'. Also, defining " +
+				"the binding syntax is not necessary if 'data-sap-ui-compat-version=\"edge\"' is set.",
+		}, attr.name);
 	}
 }
 
