@@ -202,7 +202,7 @@ function transform(
 									insertNodeAfter(variableStatement, classDeclaration);
 
 									// Also: Move comments from the variable declaration to the class declaration
-									addNodeCommentsForRemoval(node.parent, sourceFile);
+									moveCommentsToNode(node.parent, classDeclaration, sourceFile);
 								} else {
 									// The variable statement only contains our class variable, so we can replace
 									// the whole statement node with the new class declaration.
@@ -248,11 +248,9 @@ function transform(
 	const fullSourceText = processedSourceFile.getFullText();
 
 	moduleDefinitions.forEach(({oldFactoryBlock, moveComments}) => {
-		// Make sure to move comments from removed nodes to the new ones
-		// (e.g. when a "return" statement becomes a "export default class" statement)
 		if (moveComments) {
-			for (const [from] of moveComments) {
-				addNodeCommentsForRemoval(from);
+			for (const [from, to] of moveComments) {
+				moveCommentsToNode(from, to);
 			}
 		}
 		if (!oldFactoryBlock) {
@@ -261,8 +259,6 @@ function transform(
 
 		const lastFactoryBlockChild = oldFactoryBlock.getChildren().slice(-1)[0];
 		if (lastFactoryBlockChild.kind === ts.SyntaxKind.CloseBraceToken) {
-			// Make sure that comments at the end of the factory block are preserved
-
 			const comments = getCommentsFromNode(lastFactoryBlockChild);
 			comments.leading.forEach((comment) => {
 				commentRemovals.push(comment);
@@ -303,15 +299,41 @@ function transform(
 		};
 	}
 
-	function addNodeCommentsForRemoval(from: ts.Node, sourceFile?: ts.SourceFile) {
+	function getCommentText(comment: ts.CommentRange, sourceFile?: ts.SourceFile): string {
+		const sourceText = sourceFile?.getFullText() ?? fullSourceText;
+		const fullCommentText = sourceText.substring(comment.pos, comment.end);
+		if (comment.kind === ts.SyntaxKind.SingleLineCommentTrivia) {
+			// Remove leading "//"
+			return fullCommentText.replace(/^\/\//, "");
+		} else if (comment.kind === ts.SyntaxKind.MultiLineCommentTrivia) {
+			// Remove leading "/*" and trailing "*/"
+			return fullCommentText.replace(/^\/\*/, "").replace(/\*\/$/, "");
+		} else {
+			return fullCommentText;
+		}
+	}
+
+	function moveCommentsToNode(from: ts.Node, to: ts.Node, sourceFile?: ts.SourceFile) {
 		const comments = getCommentsFromNode(from, sourceFile);
 		comments.leading.forEach((comment) => {
 			commentRemovals.push(comment);
-			// Intentionally do not re-attach any original leading comments
+			const commentText = getCommentText(comment, sourceFile);
+			if (!(comment.kind === ts.SyntaxKind.MultiLineCommentTrivia && commentText.startsWith("*"))) {
+				// For now, do not move JSDoc comments as they might contribute invalid type information
+				// to the TypeScript type checker.
+				// Instead, the comments will be removed completely.
+				ts.addSyntheticLeadingComment(to, comment.kind, commentText, comment.hasTrailingNewLine);
+			}
 		});
 		comments.trailing.forEach((comment) => {
 			commentRemovals.push(comment);
-			// Intentionally do not re-attach any original trailing comments
+			const commentText = getCommentText(comment, sourceFile);
+			if (!(comment.kind === ts.SyntaxKind.MultiLineCommentTrivia && commentText.startsWith("*"))) {
+				// For now, do not move JSDoc comments as they might contribute invalid type information
+				// to the TypeScript type checker.
+				// Instead, the comments will be removed completely.
+				ts.addSyntheticTrailingComment(to, comment.kind, commentText, comment.hasTrailingNewLine);
+			}
 		});
 	}
 
@@ -338,7 +360,7 @@ function transform(
 		if (replacements) {
 			for (const replacement of replacements) {
 				// Move comments to the new node
-				addNodeCommentsForRemoval(replacement.original);
+				moveCommentsToNode(replacement.original, replacement.substitute);
 				// Replace it
 				node = replaceNodeInParent(node, replacement, nodeFactory);
 			}
