@@ -54,7 +54,7 @@ function extractInfoFromArguments(
 	return [className, classNamespace, classBody];
 }
 
-function getClassNameFromArgument(classNameNode: ts.Expression): [string, string | undefined] {
+function getClassNameFromArgument(classNameNode: ts.Expression): [string, string] {
 	if (!ts.isStringLiteralLike(classNameNode)) {
 		throw new UnsupportedExtendCall(`Unexpected extends argument of type ${ts.SyntaxKind[classNameNode.kind]} at ` +
 			toPosStr(classNameNode));
