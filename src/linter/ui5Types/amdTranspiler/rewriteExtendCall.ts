@@ -42,7 +42,7 @@ export default function rewriteExtendCall(nodeFactory: ts.NodeFactory,
 
 function extractInfoFromArguments(
 	nodeFactory: ts.NodeFactory, callExp: ts.CallExpression
-): [string, string | undefined, ts.ClassElement[]] {
+): [string, string, ts.ClassElement[]] {
 	const args = callExp.arguments;
 	if (args.length === 0) {
 		throw new UnsupportedExtendCall(`Missing arguments at ${toPosStr(callExp)}`);
