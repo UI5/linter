@@ -325,10 +325,6 @@ function transform(
 	}
 
 	function moveCommentsToNode(from: ts.Node, to: ts.Node, sourceFile?: ts.SourceFile) {
-		// Note: Moving synthetic comments becomes relevant when a newly created node is replaced with another new node.
-		// Currently this doesn't seem to be the case, but in future it might be.
-		ts.moveSyntheticComments(to, from);
-
 		const comments = getCommentsFromNode(from, sourceFile);
 		comments.leading.forEach((comment) => {
 			commentRemovals.push(comment);
