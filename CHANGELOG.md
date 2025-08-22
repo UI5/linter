@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.18.1](https://github.com/UI5/linter/compare/v1.18.0...v1.18.1) (2025-08-22)
+
+
+### Bug Fixes
+
+* **Bootstrap attributes:** Evaluate compat-version + attribute aliases ([#824](https://github.com/UI5/linter/issues/824)) ([4e3563d](https://github.com/UI5/linter/commit/4e3563dfe1b8d1e10c5eb810744196ce49a4ac3a))
+
+
+### Dependencies
+
+* Bump @sapui5/types from 1.136.6 to 1.136.7 ([9b03d9e](https://github.com/UI5/linter/commit/9b03d9e0e85cbe52e8e795f80ce57d9cba6e26aa))
+* Bump magic-string from 0.30.17 to 0.30.18 ([12bb6b0](https://github.com/UI5/linter/commit/12bb6b03c5bcdc300a06ab35b48dfafec65b201f))
+
 ## [1.18.0](https://github.com/UI5/linter/compare/v1.17.0...v1.18.0) (2025-08-19)
 
 
