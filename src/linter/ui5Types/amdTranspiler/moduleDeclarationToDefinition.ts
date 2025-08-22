@@ -320,11 +320,7 @@ function createDefaultExport(factory: ts.NodeFactory, node: ts.Node): ts.Stateme
 				originalClass.typeParameters,
 				originalClass.heritageClauses,
 				originalClass.members);
-			// Preserve synthetic comments (e.g., injected JSDoc @namespace)
-			const leading = ts.getSyntheticLeadingComments(originalClass);
-			if (leading) ts.setSyntheticLeadingComments(updatedClass, leading);
-			const trailing = ts.getSyntheticTrailingComments(originalClass);
-			if (trailing) ts.setSyntheticTrailingComments(updatedClass, trailing);
+			ts.moveSyntheticComments(updatedClass, originalClass);
 			return updatedClass;
 		}
 		case SyntaxKind.FunctionDeclaration:

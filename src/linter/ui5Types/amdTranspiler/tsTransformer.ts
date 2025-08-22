@@ -260,9 +260,17 @@ function transform(
 		const lastFactoryBlockChild = oldFactoryBlock.getChildren().slice(-1)[0];
 		if (lastFactoryBlockChild.kind === ts.SyntaxKind.CloseBraceToken) {
 			const comments = getCommentsFromNode(lastFactoryBlockChild);
+			// Re-attach non-JSDoc trailing comments at end of factory block to the last transformed node
+			const targetForEndComments = moveComments.length ? moveComments[moveComments.length - 1][1] : undefined;
 			comments.leading.forEach((comment) => {
+				if (targetForEndComments) {
+					const commentText = getCommentText(comment);
+					if (!(comment.kind === ts.SyntaxKind.MultiLineCommentTrivia && commentText.startsWith("*"))) {
+						ts.addSyntheticTrailingComment(
+							targetForEndComments, comment.kind, commentText, comment.hasTrailingNewLine);
+					}
+				}
 				commentRemovals.push(comment);
-				// Drop all original comments at end of factory block; do not re-attach
 			});
 		}
 
@@ -314,6 +322,9 @@ function transform(
 	}
 
 	function moveCommentsToNode(from: ts.Node, to: ts.Node, sourceFile?: ts.SourceFile) {
+		// Note: Moving synthetic comments becomes relevant when a newly created node is replaced with another new node.
+		// Currently this doesn't seem to be the case, but in future it might be.
+
 		const comments = getCommentsFromNode(from, sourceFile);
 		comments.leading.forEach((comment) => {
 			commentRemovals.push(comment);
