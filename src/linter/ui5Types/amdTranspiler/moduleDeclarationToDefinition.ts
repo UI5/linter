@@ -311,18 +311,14 @@ function createDefaultExport(factory: ts.NodeFactory, node: ts.Node): ts.Stateme
 		case SyntaxKind.PropertyAccessExpression:
 		case SyntaxKind.NewExpression:
 			return factory.createExportAssignment(undefined, undefined, node as ts.Expression);
-		case SyntaxKind.ClassDeclaration: {
-			const originalClass = node as ts.ClassDeclaration;
-			const updatedClass = factory.updateClassDeclaration(
-				originalClass,
+		case SyntaxKind.ClassDeclaration:
+			return factory.updateClassDeclaration(
+				(node as ts.ClassDeclaration),
 				exportModifiers,
-				originalClass.name,
-				originalClass.typeParameters,
-				originalClass.heritageClauses,
-				originalClass.members);
-			ts.moveSyntheticComments(updatedClass, originalClass);
-			return updatedClass;
-		}
+				(node as ts.ClassDeclaration).name,
+				(node as ts.ClassDeclaration).typeParameters,
+				(node as ts.ClassDeclaration).heritageClauses,
+				(node as ts.ClassDeclaration).members);
 		case SyntaxKind.FunctionDeclaration:
 			return factory.updateFunctionDeclaration(
 				(node as ts.FunctionDeclaration),
