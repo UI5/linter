@@ -38,7 +38,7 @@ export default class ManifestReporter {
 			args = argsOrNode;
 		}
 
-		this.#context.addLintingMessage(this.#resourcePath, id, args, this.#getPosition(node));
+		this.#context.addLintingMessage(this.#resourcePath, {id, args, position: this.#getPosition(node)});
 	}
 
 	addCoverageInfo({node, message, category}: ReporterCoverageInfo) {

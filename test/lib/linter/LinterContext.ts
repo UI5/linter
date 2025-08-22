@@ -18,13 +18,13 @@ test.before((t) => {
 
 	// Propagate with findings in every 10th row up to 100
 	for (let i = 1; i <= 10; i++) {
-		t.context.linterContext.addLintingMessage("/foo.js", MESSAGE.DEPRECATED_API_ACCESS, {
+		t.context.linterContext.addLintingMessage("/foo.js", {id: MESSAGE.DEPRECATED_API_ACCESS, args: {
 			apiName: "foo",
 			details: "bar",
-		}, {
+		}, position: {
 			line: i * 10,
 			column: 10,
-		});
+		}});
 	}
 });
 

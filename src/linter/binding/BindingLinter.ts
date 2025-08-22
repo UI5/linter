@@ -154,10 +154,10 @@ export default class BindingLinter {
 		if (!variableName) {
 			return;
 		}
-		this.#context.addLintingMessage(this.#resourcePath, MESSAGE.NO_GLOBALS, {
+		this.#context.addLintingMessage(this.#resourcePath, {id: MESSAGE.NO_GLOBALS, args: {
 			variableName,
 			namespace: ref,
-		}, position);
+		}, position});
 	}
 
 	getGlobalReference(ref: string, requireDeclarations: RequireDeclaration[]): string | null {
@@ -272,7 +272,7 @@ export default class BindingLinter {
 						decl.moduleName === expectedModuleName || decl.moduleName === ODATA_EXPRESSION_ADDONS_MODULE)
 				) {
 					this.#context.addLintingMessage(
-						this.#resourcePath, MESSAGE.NO_ODATA_GLOBALS, {} as never, position
+						this.#resourcePath, {id: MESSAGE.NO_ODATA_GLOBALS, position}
 					);
 				}
 			}
@@ -281,6 +281,6 @@ export default class BindingLinter {
 	}
 
 	reportParsingError(message: string, position: PositionInfo) {
-		this.#context.addLintingMessage(this.#resourcePath, MESSAGE.PARSING_ERROR, {message}, position);
+		this.#context.addLintingMessage(this.#resourcePath, {id: MESSAGE.PARSING_ERROR, args: {message}, position});
 	}
 }

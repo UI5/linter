@@ -351,11 +351,12 @@ export default class Parser {
 		} else if (namespace === SVG_NAMESPACE) {
 			// Ignore SVG nodes
 			this.#context.addLintingMessage(this.#resourcePath,
-				MESSAGE.SVG_IN_XML,
-				undefined as never,
 				{
-					line: tag.openStart.line + 1, // Add one to align with IDEs
-					column: tag.openStart.character + 1,
+					id: MESSAGE.SVG_IN_XML,
+					position: {
+						line: tag.openStart.line + 1, // Add one to align with IDEs
+						column: tag.openStart.character + 1,
+					},
 				}
 			);
 			return {
@@ -368,11 +369,12 @@ export default class Parser {
 		} else if (namespace === XHTML_NAMESPACE) {
 			// Ignore XHTML nodes for now
 			this.#context.addLintingMessage(this.#resourcePath,
-				MESSAGE.HTML_IN_XML,
-				undefined as never,
 				{
-					line: tag.openStart.line + 1, // Add one to align with IDEs
-					column: tag.openStart.character + 1,
+					id: MESSAGE.HTML_IN_XML,
+					position: {
+						line: tag.openStart.line + 1, // Add one to align with IDEs
+						column: tag.openStart.character + 1,
+					},
 				}
 			);
 			return {
@@ -444,8 +446,10 @@ export default class Parser {
 						if (requireDeclarations.length) {
 							// Usage of space separated list is not recommended, as it only allows for global access
 							this.#context.addLintingMessage(this.#resourcePath,
-								MESSAGE.NO_LEGACY_TEMPLATE_REQUIRE_SYNTAX,
-								{moduleNames: attr.value}, attr.start
+								{
+									id: MESSAGE.NO_LEGACY_TEMPLATE_REQUIRE_SYNTAX,
+									args: {moduleNames: attr.value}, position: attr.start,
+								}
 							);
 						}
 					} else {
@@ -638,9 +642,9 @@ export default class Parser {
 								// and there is no easy way to know whether the input is intended to be a binding or
 								// event handler.
 								this.#context.addLintingMessage(
-									this.#resourcePath, MESSAGE.PARSING_ERROR, {
+									this.#resourcePath, {id: MESSAGE.PARSING_ERROR, args: {
 										message: err instanceof Error ? err.message : String(err),
-									}, position
+									}, position}
 								);
 								return;
 							}
@@ -683,15 +687,18 @@ export default class Parser {
 							// Note that this could also be a global function reference, but we can't distinguish
 							// that here.
 							this.#context.addLintingMessage(
-								this.#resourcePath, MESSAGE.NO_AMBIGUOUS_EVENT_HANDLER, {
-									eventHandler: functionName,
-								}, position
+								this.#resourcePath, {
+									id: MESSAGE.NO_AMBIGUOUS_EVENT_HANDLER,
+									args: {eventHandler: functionName},
+									position,
+								}
 							);
 						} else {
-							this.#context.addLintingMessage(this.#resourcePath, MESSAGE.NO_GLOBALS, {
-								variableName,
-								namespace: functionName,
-							}, position);
+							this.#context.addLintingMessage(this.#resourcePath, {
+								id: MESSAGE.NO_GLOBALS,
+								args: {variableName, namespace: functionName},
+								position,
+							});
 						}
 					});
 

@@ -29,7 +29,7 @@ export interface RawLintResult {
 
 export interface RawLintMessage<M extends MESSAGE = MESSAGE> {
 	id: M;
-	args: MessageArgs[M];
+	args?: MessageArgs[M];
 	position?: PositionInfo;
 	fix?: Fix;
 	ui5TypeInfo?: Ui5TypeInfo;
@@ -193,9 +193,9 @@ export default class LinterContext {
 	}
 
 	addLintingMessage<M extends MESSAGE>(
-		resourcePath: ResourcePath, id: M, args: MessageArgs[M], position?: PositionInfo, fix?: Fix
+		resourcePath: ResourcePath, rawMessage: RawLintMessage<M>
 	): void {
-		this.getRawLintingMessages(resourcePath).push({id, args, position, fix});
+		this.getRawLintingMessages(resourcePath).push(rawMessage);
 	}
 
 	addLintingMessages<M extends MESSAGE>(
@@ -238,13 +238,13 @@ export default class LinterContext {
 			severity: messageInfo.severity,
 			line: rawMessage.position ? rawMessage.position.line : undefined,
 			column: rawMessage.position ? rawMessage.position.column : undefined,
-			message: messageFunc(rawMessage.args || {}),
+			message: messageFunc(rawMessage.args ?? {} as MessageArgs[M]),
 			ui5TypeInfo: rawMessage.ui5TypeInfo,
 		};
 
 		if (this.#includeMessageDetails) {
 			const detailsFunc = messageInfo.details as (args: MessageArgs[M]) => string | undefined;
-			const messageDetails = detailsFunc(rawMessage.args || {});
+			const messageDetails = detailsFunc(rawMessage.args ?? {} as MessageArgs[M]);
 			if (messageDetails) {
 				message.messageDetails = resolveLinks(messageDetails);
 			}

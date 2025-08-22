@@ -56,7 +56,7 @@ export default async function transpileHtml(
 		return {source: "", map: ""};
 	} catch (err) {
 		const message = err instanceof Error ? err.message : String(err);
-		context.addLintingMessage(resourcePath, MESSAGE.PARSING_ERROR, {message});
+		context.addLintingMessage(resourcePath, {id: MESSAGE.PARSING_ERROR, args: {message}});
 		return;
 	}
 }
