@@ -25,7 +25,7 @@ import {SourceMapInput, TraceMap, originalPositionFor} from "@jridgewell/trace-m
 import type {ApiExtract} from "../../utils/ApiExtract.js";
 import {findDirectives} from "./directives.js";
 import BindingLinter from "../binding/BindingLinter.js";
-import {RequireDeclaration} from "../xmlTemplate/Parser.js";
+import {RequireDeclaration} from "../xmlTemplate/xmlNodes.js";
 import {createResource} from "@ui5/fs/resourceFactory";
 import {AbstractAdapter} from "@ui5/fs";
 import type {AmbientModuleCache} from "./AmbientModuleCache.js";

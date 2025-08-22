@@ -1,4 +1,10 @@
-import {BaseUi5TypeInfo, Ui5ModuleTypeInfo, Ui5NamespaceTypeInfo, Ui5TypeInfo, Ui5TypeInfoKind} from "./Ui5TypeInfo.js";
+import {
+	BaseUi5TypeInfo,
+	Ui5ModuleTypeInfo,
+	Ui5NamespaceTypeInfo,
+	Ui5TypeInfo,
+	Ui5TypeInfoKind,
+} from "./Ui5TypeInfo.js";
 
 // Re-export selected interfaces as public API
 export {

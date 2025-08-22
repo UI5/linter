@@ -1,4 +1,4 @@
-import type {jsonSourceMapType, jsonMapPointers} from "./ManifestLinter.js";
+import type {jsonSourceMapType, jsonMapPointers} from "./parser.js";
 import LinterContext, {
 	CoverageInfo, PositionInfo, ResourcePath,
 } from "../LinterContext.js";

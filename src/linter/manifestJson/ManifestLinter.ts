@@ -8,25 +8,12 @@ import type {
 
 import ManifestReporter from "./ManifestReporter.js";
 import {ResourcePath} from "../LinterContext.js";
-import jsonMap from "json-source-map";
 import LinterContext from "../LinterContext.js";
 import {deprecatedLibraries, deprecatedComponents} from "../../utils/deprecations.js";
 import {MESSAGE} from "../messages.js";
-
-interface locType {
-	line: number;
-	column: number;
-	pos: number;
-}
+import {parseManifest} from "./parser.js";
 
 const deprecatedViewTypes = ["JSON", "HTML", "JS", "Template"];
-
-export type jsonMapPointers = Record<string, {key: locType; keyEnd: locType; value: locType; valueEnd: locType}>;
-
-export interface jsonSourceMapType {
-	data: SAPJSONSchemaForWebApplicationManifestFile;
-	pointers: jsonMapPointers;
-}
 
 export default class ManifestLinter {
 	#reporter: ManifestReporter | undefined;
@@ -43,17 +30,13 @@ export default class ManifestLinter {
 	// eslint-disable-next-line @typescript-eslint/require-await
 	async lint() {
 		try {
-			const source = this.#parseManifest(this.#content);
+			const source = parseManifest(this.#content);
 			this.#reporter = new ManifestReporter(this.#resourcePath, this.#context, source);
 			this.#analyzeManifest(source.data);
 		} catch (err) {
 			const message = err instanceof Error ? err.message : String(err);
 			this.#context.addLintingMessage(this.#resourcePath, {id: MESSAGE.PARSING_ERROR, args: {message}});
 		}
-	}
-
-	#parseManifest(manifest: string): jsonSourceMapType {
-		return jsonMap.parse<jsonSourceMapType>(manifest);
 	}
 
 	#analyzeManifest(manifest: SAPJSONSchemaForWebApplicationManifestFile) {

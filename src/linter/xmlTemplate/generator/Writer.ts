@@ -1,6 +1,6 @@
 import {encode, SourceMapMappings, SourceMapSegment} from "@jridgewell/sourcemap-codec";
 import {EncodedSourceMap} from "@jridgewell/trace-mapping";
-import {Position} from "../Parser.js";
+import {Position} from "../xmlNodes.js";
 const NL = "\n";
 
 interface Mapping {
