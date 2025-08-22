@@ -4,6 +4,7 @@ import LinterContext, {
 } from "../LinterContext.js";
 import {MESSAGE} from "../messages.js";
 import {MessageArgs} from "../MessageArgs.js";
+import {JsonFix} from "./fix/JsonFix.js";
 
 interface ReporterCoverageInfo extends CoverageInfo {
 	node: string;
@@ -20,10 +21,11 @@ export default class ManifestReporter {
 		this.#context = context;
 	}
 
+	addMessage<M extends MESSAGE>(id: M, args: MessageArgs[M], node: string, fix?: JsonFix): void;
 	addMessage<M extends MESSAGE>(id: M, args: MessageArgs[M], node: string): void;
 	addMessage<M extends MESSAGE>(id: M, node: string): void;
 	addMessage<M extends MESSAGE>(
-		id: M, argsOrNode?: MessageArgs[M] | string, node?: string
+		id: M, argsOrNode?: MessageArgs[M] | string, node?: string, fix?: JsonFix
 	) {
 		if (!argsOrNode) {
 			throw new Error("Invalid arguments: Missing second argument");
@@ -38,7 +40,7 @@ export default class ManifestReporter {
 			args = argsOrNode;
 		}
 
-		this.#context.addLintingMessage(this.#resourcePath, {id, args, position: this.#getPosition(node)});
+		this.#context.addLintingMessage(this.#resourcePath, {id, args, position: this.#getPosition(node), fix});
 	}
 
 	addCoverageInfo({node, message, category}: ReporterCoverageInfo) {
