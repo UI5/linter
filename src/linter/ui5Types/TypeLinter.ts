@@ -14,10 +14,13 @@ import SourceFileReporter from "./SourceFileReporter.js";
 import {AmbientModuleCache} from "./AmbientModuleCache.js";
 import {JSONSchemaForSAPUI5Namespace} from "../../manifest.js";
 import type FixFactory from "./fix/FixFactory.js";
+import SourceFileMetadataCollector from "./SourceFileMetadataCollector.js";
+import EventHandlersFix from "./fix/EventHandlersFix.js";
 
 const log = getLogger("linter:ui5Types:TypeLinter");
 
 export default class TypeLinter {
+	#metadataCollector: SourceFileMetadataCollector;
 	#sharedLanguageService: SharedLanguageService;
 	#compilerOptions: ts.CompilerOptions;
 	#context: LinterContext;
@@ -30,9 +33,11 @@ export default class TypeLinter {
 	constructor(
 		{workspace, filePathsWorkspace, context}: LinterParameters,
 		libraryDependencies: JSONSchemaForSAPUI5Namespace["dependencies"]["libs"],
-		sharedLanguageService: SharedLanguageService
+		sharedLanguageService: SharedLanguageService,
+		metadataCollector: SourceFileMetadataCollector
 	) {
 		this.#sharedLanguageService = sharedLanguageService;
+		this.#metadataCollector = metadataCollector;
 		this.#context = context;
 		this.#workspace = workspace;
 		this.#filePathsWorkspace = filePathsWorkspace;
@@ -112,6 +117,17 @@ export default class TypeLinter {
 		const messageDetails = this.#context.getIncludeMessageDetails();
 		const typeCheckDone = taskStart("Linting all transpiled resources");
 		for (const sourceFile of program.getSourceFiles()) {
+			if (sourceFile.isDeclarationFile) {
+				continue;
+			}
+			if (sourceFile.getFullText().startsWith("//@ui5-bundle ")) {
+				log.verbose(`Skipping collecting UI5 bundle '${sourceFile.fileName}' metadata`);
+				continue;
+			}
+			this.#metadataCollector.collect(sourceFile);
+		}
+
+		for (const sourceFile of program.getSourceFiles()) {
 			if (sourceFile.isDeclarationFile || !pathsToLint.includes(sourceFile.fileName)) {
 				continue;
 			}
@@ -183,9 +199,19 @@ export default class TypeLinter {
 		}
 		typeCheckDone();
 
-		this.#sharedLanguageService.release();
-
 		this.addMessagesToContext();
+
+		const rawLintResults = this.#context.generateRawLintResults();
+		rawLintResults
+			.filter(({filePath}) => filePath.endsWith(".view.xml"))
+			.flatMap(({rawMessages}) => rawMessages)
+			.forEach(({fix}) => {
+				if (fix && fix instanceof EventHandlersFix) {
+					fix.methodExistsInController(program, checker, this.#metadataCollector);
+				}
+			});
+
+		this.#sharedLanguageService.release();
 
 		if (process.env.UI5LINT_WRITE_TRANSFORMED_SOURCES) {
 			// If requested, write out every resource that has a source map (which indicates it has been transformed)
