@@ -25,6 +25,7 @@
 				"magic-string": "^0.30.18",
 				"minimatch": "^10.0.3",
 				"sax-wasm": "^3.1.1",
+				"semver": "^7.7.2",
 				"typescript": "^5.9.2",
 				"update-notifier": "^7.3.1",
 				"yargs": "^17.7.2"
@@ -41,6 +42,7 @@
 				"@stylistic/eslint-plugin": "^5.2.3",
 				"@types/he": "^1.2.3",
 				"@types/node": "20.16.15",
+				"@types/semver": "^7.7.0",
 				"@types/sinon": "^17.0.4",
 				"@types/update-notifier": "^6.0.8",
 				"@types/yargs": "^17.0.33",
@@ -3795,6 +3797,13 @@
 			"version": "2.5.4",
 			"resolved": "https://registry.npmjs.org/@types/qunit/-/qunit-2.5.4.tgz",
 			"integrity": "sha512-VHi2lEd4/zp8OOouf43JXGJJ5ZxHvdLL1dU0Yakp6Iy73SjpuXl7yjwAwmh1qhTv8krDgHteSwaySr++uXX9YQ=="
+		},
+		"node_modules/@types/semver": {
+			"version": "7.7.0",
+			"resolved": "https://registry.npmjs.org/@types/semver/-/semver-7.7.0.tgz",
+			"integrity": "sha512-k107IF4+Xr7UHjwDc7Cfd6PRQfbdkiRabXGRjo07b4WyPahFBZCZ1sE+BNxYIJPPg73UkfOsVOLwqVc/6ETrIA==",
+			"dev": true,
+			"license": "MIT"
 		},
 		"node_modules/@types/sinon": {
 			"version": "17.0.4",
@@ -12565,19 +12574,6 @@
 				"url": "https://opencollective.com/eslint"
 			}
 		},
-		"node_modules/eslint/node_modules/@eslint/js": {
-			"version": "9.33.0",
-			"resolved": "https://registry.npmjs.org/@eslint/js/-/js-9.33.0.tgz",
-			"integrity": "sha512-5K1/mKhWaMfreBGJTwval43JJmkip0RmM+3+IuqupeSKNC/Th2Kc7ucaq5ovTSra/OOKB9c58CGSz3QMVbWt0A==",
-			"dev": true,
-			"license": "MIT",
-			"engines": {
-				"node": "^18.18.0 || ^20.9.0 || >=21.1.0"
-			},
-			"funding": {
-				"url": "https://eslint.org/donate"
-			}
-		},
 		"node_modules/eslint/node_modules/ajv": {
 			"version": "6.12.6",
 			"resolved": "https://registry.npmjs.org/ajv/-/ajv-6.12.6.tgz",
@@ -17538,6 +17534,7 @@
 			"version": "7.7.2",
 			"resolved": "https://registry.npmjs.org/semver/-/semver-7.7.2.tgz",
 			"integrity": "sha512-RF0Fw+rO5AMf9MAyaRXI4AV0Ulj5lMHqVxxdSgiVbixSCXoEmmX/jk0CuJw4+3SqroYO9VoUh+HcuJivvtJemA==",
+			"license": "ISC",
 			"bin": {
 				"semver": "bin/semver.js"
 			},
