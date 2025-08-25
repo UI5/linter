@@ -112,47 +112,15 @@ export default class ManifestLinter {
 
 		// Detect deprecations in routing.targets:
 		const targets = routing?.targets;
-		const oldToNewTargetPropsMap = {
-			viewName: "name",
-			viewId: "id",
-			viewLevel: "level",
-			viewPath: "path",
-		};
-
-		if (isManifest2 && routing?.config) {
-			for (const [oldProp, newProp] of Object.entries(oldToNewTargetPropsMap)) {
-				if (routing.config[oldProp] && !routing.config[newProp]) {
-					this.#reporter?.addMessage(MESSAGE.NO_RENAMED_MANIFEST_PROPERTY, {
-						propName: oldProp,
-						newName: newProp,
-					}, `/sap.ui5/routing/config/${oldProp}`);
-				}
-			}
-		}
-
 		if (targets) {
 			const configType = routing?.config?.type as string | undefined;
 			const targetsType = [];
-			let hasNewPropTargetNames = false;
 
 			for (const [key, target] of Object.entries(targets)) {
 				targetsType.push((target.type === undefined) ? key : null);
-				hasNewPropTargetNames = hasNewPropTargetNames ||
-					Object.values(oldToNewTargetPropsMap).some((newProp) => newProp in target);
 
-				if (isManifest2) {
-					for (const [oldProp, newProp] of Object.entries(oldToNewTargetPropsMap)) {
-						if (target[oldProp] && !target[newProp]) {
-							this.#reporter?.addMessage(MESSAGE.NO_RENAMED_MANIFEST_PROPERTY, {
-								propName: oldProp,
-								newName: newProp,
-							}, `/sap.ui5/routing/targets/${key}/${oldProp}`);
-						}
-					}
-				}
-
-				if (configType === "View" && target?.type === "View") {
-					// When routing.config.type is "View" setting target.type "View" is redundant,
+				if (!!configType && target?.type === configType) {
+					// When routing.config.type isis the same as target.type "View", the property can be omitted.
 					this.#reporter?.addMessage(MESSAGE.REDUNDANT_VIEW_CONFIG_PROPERTY, {
 						propertyName: "type",
 					}, `/sap.ui5/routing/targets/${key}/type`);
@@ -178,10 +146,7 @@ export default class ManifestLinter {
 			}
 
 			// "type" must be defined somewhere, either in routing.config or in every target.type
-			// OR
-			// if the new property names are used, ensure that the "type" is set
-			// (either by defaulting it in "sap.ui5"/"routing"/"config" or by specifying it in the target)
-			if (configType === undefined && (hasNewPropTargetNames || targetsType.length)) {
+			if (configType === undefined && targetsType.length) {
 				const hasTargetsWithTypes = targetsType.some((key) => key === null);
 
 				if (hasTargetsWithTypes) {
@@ -193,6 +158,7 @@ export default class ManifestLinter {
 						}, `/sap.ui5/routing/targets/${key}`);
 					});
 				} else {
+					// If not types at all, recommend setting the "type" in the routing.config
 					this.#reporter?.addMessage(MESSAGE.NO_MISSING_MANIFEST_TARGET_TYPE, {
 						propertyPath: `/sap.ui5/routing/config/type`,
 					}, `/sap.ui5/routing/config`);
