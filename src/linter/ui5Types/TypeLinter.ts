@@ -199,24 +199,19 @@ export default class TypeLinter {
 		}
 		typeCheckDone();
 
-		// Provide TS Compiler information to the XMLViews i.e. controllers, etc.
-		const rawLintResults = this.#context.generateRawLintResults();
-		for (const {filePath, rawMessages} of rawLintResults) {
-			// Process only XML files
-			if (!filePath.endsWith(".view.xml")) {
-				continue;
-			}
+		this.addMessagesToContext();
 
-			rawMessages.forEach((message) => {
-				if (message.fix && message.fix instanceof EventHandlersFix) {
-					message.fix.methodExistsInController(program, checker, this.#metadataCollector);
+		const rawLintResults = this.#context.generateRawLintResults();
+		rawLintResults
+			.filter(({filePath}) => filePath.endsWith(".view.xml"))
+			.flatMap(({rawMessages}) => rawMessages)
+			.forEach(({fix}) => {
+				if (fix && fix instanceof EventHandlersFix) {
+					fix.methodExistsInController(program, checker, this.#metadataCollector);
 				}
 			});
-		}
 
 		this.#sharedLanguageService.release();
-
-		this.addMessagesToContext();
 
 		if (process.env.UI5LINT_WRITE_TRANSFORMED_SOURCES) {
 			// If requested, write out every resource that has a source map (which indicates it has been transformed)
