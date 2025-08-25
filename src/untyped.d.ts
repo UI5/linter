@@ -153,11 +153,6 @@ declare module "@ui5/logger/writers/Console" {
 	export function init(): void;
 }
 
-// There are no TS Types for json-source-map
-declare module "json-source-map" {
-	export function parse<T>(content: string): T;
-}
-
 declare module "fs" {
 	export interface Dirent {
 		/**

@@ -40,6 +40,7 @@
 				"@istanbuljs/nyc-config-typescript": "^1.0.2",
 				"@stylistic/eslint-plugin": "^5.2.3",
 				"@types/he": "^1.2.3",
+				"@types/json-source-map": "^0.6.0",
 				"@types/node": "20.16.15",
 				"@types/sinon": "^17.0.4",
 				"@types/update-notifier": "^6.0.8",
@@ -3756,6 +3757,13 @@
 			"version": "7.0.15",
 			"resolved": "https://registry.npmjs.org/@types/json-schema/-/json-schema-7.0.15.tgz",
 			"integrity": "sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==",
+			"dev": true,
+			"license": "MIT"
+		},
+		"node_modules/@types/json-source-map": {
+			"version": "0.6.0",
+			"resolved": "https://registry.npmjs.org/@types/json-source-map/-/json-source-map-0.6.0.tgz",
+			"integrity": "sha512-5RTx9KQi42g0knHvHM9+f6V5B17S22ZFyoDfabgHLhnWa/5ST1UCDpuda/AaUIyHX1pLxwFZKcScM2sytz9OEQ==",
 			"dev": true,
 			"license": "MIT"
 		},

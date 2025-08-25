@@ -1,0 +1,68 @@
+{
+	"_version": "1.12.0",
+
+	"sap.app": {
+		"id": "com.ui5.troublesome.app",
+		"type": "application",
+		"dataSources": {
+			"v4": {
+				"uri": "/api/odata-4/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "4.0"
+				}
+			}
+		}
+	},
+
+	"sap.ui5": {
+		"models": {
+			"": {
+				"type": "sap.ui.model.odata.v4.ODataModel",
+				"settings": {
+					"synchronizationMode": "None"
+				}
+			},
+			"odata-v4": {
+				"type": "sap.ui.model.odata.v4.ODataModel",
+				"settings": {
+					"synchronizationMode": "None"
+				}
+			},
+			"odata-v4-setting-before-synchronizationMode": {
+				"type": "sap.ui.model.odata.v4.ODataModel",
+				"settings": {
+					"autoExpandSelect": true,
+					"synchronizationMode": "None"
+				}
+			},
+			"odata-v4-setting-after-synchronizationMode": {
+				"type": "sap.ui.model.odata.v4.ODataModel",
+				"settings": {
+					"synchronizationMode": "None",
+					"autoExpandSelect": true
+				}
+			},
+			"odata-v4-settings-around-synchronizationMode": {
+				"type": "sap.ui.model.odata.v4.ODataModel",
+				"settings": {
+					"autoExpandSelect": true,
+					"synchronizationMode": "None",
+					"earlyRequests": true
+				}
+			},
+			"odata-v4-settings-around-synchronizationMode-inline": {
+				"type": "sap.ui.model.odata.v4.ODataModel",
+				"settings": {
+					"autoExpandSelect": true, "synchronizationMode": "None", "earlyRequests": true
+				}
+			},
+			"odata-v4-via-dataSource": {
+				"dataSource": "v4",
+				"settings": {
+					"synchronizationMode": "None"
+				}
+			}
+		}
+	}
+}
