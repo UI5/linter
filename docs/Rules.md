@@ -20,7 +20,6 @@
 	- [no-outdated-manifest-version](#no-outdated-manifest-version)
 	- [no-removed-manifest-property](#no-removed-manifest-property)
 	- [no-missing-manifest-target-type](#no-missing-manifest-target-type)
-	- [no-renamed-manifest-property](#no-renamed-manifest-property)
 	- [no-legacy-ui5-version-in-manifest](#no-legacy-ui5-version-in-manifest)
 
 ## async-component-flags
@@ -135,10 +134,6 @@ Manifest Version 2 lacks several properties of earlier versions, which do not ma
 ## no-missing-manifest-target-type
 
 Property "type" must be defined somewhere, either in `routing.config` or in every `target.type` in manifest.json.
-
-## no-renamed-manifest-property
-
-Manifest Version 2 renames several properties of earlier versions. Their names must be adjusted to match the new schema.
 
 ## no-legacy-ui5-version-in-manifest
 
