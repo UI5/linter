@@ -2,8 +2,9 @@ import ts, {Program} from "typescript";
 import {PositionInfo} from "../../LinterContext.js";
 import {Attribute, Position, SaxEventType} from "sax-wasm";
 import XmlEnabledFix from "./XmlEnabledFix.js";
-import type {AttributeDeclaration} from "../../xmlTemplate/Parser.js";
+import {type AttributeDeclaration} from "../../xmlTemplate/Parser.js";
 import {ChangeAction, ChangeSet} from "../../../utils/textChanges.js";
+import SourceFileMetadataCollector from "../SourceFileMetadataCollector.js";
 
 export default class EventHandlersFix extends XmlEnabledFix {
 	protected sourcePosition: PositionInfo | undefined;
@@ -39,9 +40,10 @@ export default class EventHandlersFix extends XmlEnabledFix {
 
 	methodExistsInController(
 		tsProgram?: Program,
-		checker?: ts.TypeChecker
+		checker?: ts.TypeChecker,
+		metadataCollector?: SourceFileMetadataCollector
 	): void {
-		if (tsProgram === undefined || checker === undefined) {
+		if (tsProgram === undefined || checker === undefined || metadataCollector === undefined) {
 			return;
 		}
 
@@ -52,30 +54,10 @@ export default class EventHandlersFix extends XmlEnabledFix {
 			return ts.forEachChild(node, findClassDeclaration);
 		};
 
-		const sourceFiles = tsProgram.getSourceFiles().filter((sourceFile) =>
-			(!sourceFile.fileName.endsWith(".d.ts") && sourceFile.fileName.endsWith(".ts")) ||
-			sourceFile.fileName.endsWith(".js"));
-
-		let classDeclaration: ts.ClassLikeDeclaration | undefined;
-		for (const sourceFile of sourceFiles) {
-			const curClassDeclaration = findClassDeclaration(sourceFile);
-			if (curClassDeclaration) {
-				const jsDocs = ts.getJSDocTags(curClassDeclaration);
-				const controllerNameJSDocNode = jsDocs.find((tag) => tag.tagName.text === "namespace");
-				const controllerNamespace =
-					controllerNameJSDocNode && typeof controllerNameJSDocNode.comment === "string" ?
-							controllerNameJSDocNode.comment.trim() :
-						undefined;
-
-				const localNameMatch = /([^/]+)\.controller\.(js|ts)$/.exec(sourceFile.fileName);
-				const localName = localNameMatch ? localNameMatch[1] : undefined;
-				if (`${controllerNamespace}.${localName}` === this.controllerName) {
-					classDeclaration = curClassDeclaration;
-					break;
-				}
-			}
-		}
-
+		const sourcePath = metadataCollector.getMetadata()
+			.controllerNamespace.byNamespace.get(this.controllerName!);
+		const sourceFile = sourcePath && tsProgram.getSourceFile(sourcePath);
+		const classDeclaration = sourceFile && findClassDeclaration(sourceFile);
 		if (!classDeclaration) {
 			return;
 		}
