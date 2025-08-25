@@ -45,14 +45,13 @@ export default class RemoveJsonPropertyFix extends JsonFix {
 		}
 
 		// Never remove the root object (empty string key)
-		if (removeParent && parentKey) {
+		if (removeParent && parentKey !== "") {
 			this.calculatePositions(parentKey, pointers);
-			return;
+		} else {
+			// Empty the parent object to remove the property and potential whitespace
+			this.startPos = parentPointer.value.pos + 1; // Skip opening brace '{'
+			this.endPos = parentPointer.valueEnd.pos - 1; // Skip closing brace '}'
 		}
-
-		// Empty the parent object to remove the property and potential whitespace
-		this.startPos = parentPointer.value.pos + 1; // Skip opening brace '{'
-		this.endPos = parentPointer.valueEnd.pos - 1; // Skip closing brace '}'
 	}
 
 	generateChanges(): ChangeSet | ChangeSet[] | undefined {

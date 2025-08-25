@@ -133,9 +133,9 @@ test("Should remove empty parent (multi-line)", (t) => {
 
 test("Should only remove direct empty parent", (t) => {
 	assertPropertyRemoval(t, {
-		source: `{ "entry": { "settings": { "text": "Hello World" } } }`,
-		removalKey: "/entry/settings/text",
-		expected: `{ "entry": {} }`,
+		source: `{ "": { "settings": { "text": "Hello World" } } }`,
+		removalKey: "//settings/text",
+		expected: `{ "": {} }`,
 		removeEmptyDirectParent: true,
 	});
 });
@@ -143,15 +143,15 @@ test("Should only remove direct empty parent", (t) => {
 test("Should only remove direct empty parent (multi-line)", (t) => {
 	assertPropertyRemoval(t, {
 		source: `{
-			"entry": {
+			"": {
 				"settings": {
 					"text": "Hello World"
 				}
 			}
 		}`,
-		removalKey: "/entry/settings/text",
+		removalKey: "//settings/text",
 		expected: `{
-			"entry": {}
+			"": {}
 		}`,
 		removeEmptyDirectParent: true,
 	});

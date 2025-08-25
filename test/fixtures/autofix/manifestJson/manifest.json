@@ -17,6 +17,12 @@
 
 	"sap.ui5": {
 		"models": {
+			"": {
+				"type": "sap.ui.model.odata.v4.ODataModel",
+				"settings": {
+					"synchronizationMode": "None"
+				}
+			},
 			"odata-v4": {
 				"type": "sap.ui.model.odata.v4.ODataModel",
 				"settings": {
