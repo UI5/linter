@@ -2,7 +2,7 @@ import ts, {Program} from "typescript";
 import {PositionInfo} from "../../LinterContext.js";
 import {Attribute, Position, SaxEventType} from "sax-wasm";
 import XmlEnabledFix from "./XmlEnabledFix.js";
-import {type AttributeDeclaration} from "../../xmlTemplate/Parser.js";
+import {type AttributeDeclaration} from "../../xmlTemplate/xmlNodes.js";
 import {ChangeAction, ChangeSet} from "../../../utils/textChanges.js";
 import SourceFileMetadataCollector from "../SourceFileMetadataCollector.js";
 
