@@ -120,7 +120,7 @@ export default class ManifestLinter {
 				targetsType.push((target.type === undefined) ? key : null);
 
 				if (!!configType && target?.type === configType) {
-					// When routing.config.type isis the same as target.type "View", the property can be omitted.
+					// When routing.config.type is the same as target.type, the property can be omitted in target.
 					this.#reporter?.addMessage(MESSAGE.REDUNDANT_VIEW_CONFIG_PROPERTY, {
 						propertyName: "type",
 					}, `/sap.ui5/routing/targets/${key}/type`);
