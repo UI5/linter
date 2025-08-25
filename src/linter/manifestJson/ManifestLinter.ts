@@ -140,7 +140,11 @@ export default class ManifestLinter {
 				curModel.settings && "synchronizationMode" in curModel.settings
 			) {
 				const key = `/sap.ui5/models/${modelKey}/settings/synchronizationMode`;
-				const fix = new RemoveJsonPropertyFix(key, source.pointers);
+				const fix = new RemoveJsonPropertyFix({
+					key,
+					pointers: source.pointers,
+					removeEmptyDirectParent: true,
+				});
 				this.#reporter?.addMessage(MESSAGE.DEPRECATED_ODATA_MODEL_V4_SYNCHRONIZATION_MODE, {
 					modelName: modelKey,
 				}, key, fix);

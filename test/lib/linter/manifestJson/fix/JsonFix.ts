@@ -1,19 +1,19 @@
 import test from "ava";
-import {HtmlFix} from "../../../../../src/linter/html/fix/HtmlFix.js";
+import {JsonFix} from "../../../../../src/linter/manifestJson/fix/JsonFix.js";
 import ts from "typescript";
 import {FixHelpers} from "../../../../../src/linter/ui5Types/fix/Fix.js";
 
-/* This unit test file covers the abstract class HtmlFix.ts: */
+/* This unit test file covers the abstract class JsonFix.ts: */
 
 // Minimal concrete subclass for testing:
-class TestHtmlFix extends HtmlFix {
+class TestJsonFix extends JsonFix {
 	calculateSourceCodeRange() {
 		// noop
 	}
 }
 
-test("HtmlFix - All methods", (t) => {
-	const fix = new TestHtmlFix();
+test("JsonFix - All methods", (t) => {
+	const fix = new TestJsonFix();
 
 	// getNodeSearchParameters()
 	const params = fix.getNodeSearchParameters();

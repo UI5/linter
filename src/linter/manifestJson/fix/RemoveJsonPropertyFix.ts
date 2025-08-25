@@ -1,37 +1,62 @@
+import {Pointers} from "json-source-map";
 import {ChangeAction, ChangeSet} from "../../../utils/textChanges.js";
-import {getNextPropertyPointer, getPreviousPropertyPointer, jsonMapPointers} from "../parser.js";
+import {getNextPropertyPointer, getPreviousPropertyPointer} from "../parser.js";
 import {JsonFix} from "./JsonFix.js";
 
+interface RemoveJsonPropertyFixOptions {
+	key: string;
+	pointers: Pointers;
+	removeEmptyDirectParent?: boolean;
+}
+
 export default class RemoveJsonPropertyFix extends JsonFix {
-	constructor(removalKey: string, pointers: jsonMapPointers) {
+	constructor(options: RemoveJsonPropertyFixOptions) {
 		super();
-		this.calculatePositions(removalKey, pointers);
+		this.calculatePositions(options.key, options.pointers, options.removeEmptyDirectParent);
 	}
 
-	calculatePositions(removalKey: string, pointers: jsonMapPointers) {
-		const currentPointer = pointers[removalKey];
-		const previousPointer = getPreviousPropertyPointer(pointers, currentPointer, removalKey);
+	calculatePositions(key: string, pointers: Pointers, removeParent = false) {
+		const currentPointer = pointers[key];
+		if (!currentPointer) {
+			throw new TypeError(`Cannot find JSON pointer: '${key}'`);
+		}
+		if (!currentPointer.key) {
+			throw new Error(`Unsupported removal of non-property value: '${key}'`);
+		}
+		const previousPointer = getPreviousPropertyPointer(pointers, currentPointer, key);
 		if (previousPointer) {
-			// Start remove from end of previous property to include the comma
+			// Start removal from end of previous property to include the comma
 			this.startPos = previousPointer.valueEnd.pos;
 			this.endPos = currentPointer.valueEnd.pos;
 			return;
 		}
-		const nextPointer = getNextPropertyPointer(pointers, currentPointer, removalKey);
+		const nextPointer = getNextPropertyPointer(pointers, currentPointer, key);
 		if (nextPointer) {
 			// End the removal at the start of the next property to include the comma
 			this.startPos = currentPointer.key.pos;
-			this.endPos = nextPointer.key.pos;
+			this.endPos = nextPointer.key!.pos; // Key is present, as it's a sibling property
 			return;
 		}
 
-		// Object can be removed completely
-		const parentKey = removalKey.substring(0, removalKey.lastIndexOf("/"));
-		this.calculatePositions(parentKey, pointers);
+		const parentKey = key.substring(0, key.lastIndexOf("/"));
+		const parentPointer = pointers[parentKey];
+		if (!parentPointer) {
+			throw new TypeError(`Cannot find parent JSON pointer: '${parentKey}' (for '${key}')`);
+		}
+
+		// Never remove the root object (empty string key)
+		if (removeParent && parentKey) {
+			this.calculatePositions(parentKey, pointers);
+			return;
+		}
+
+		// Empty the parent object to remove the property and potential whitespace
+		this.startPos = parentPointer.value.pos + 1; // Skip opening brace '{'
+		this.endPos = parentPointer.valueEnd.pos - 1; // Skip closing brace '}'
 	}
 
 	generateChanges(): ChangeSet | ChangeSet[] | undefined {
-		if (!this.startPos || !this.endPos) {
+		if (this.startPos === undefined || this.endPos === undefined) {
 			return undefined;
 		}
 		return {
