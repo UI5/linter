@@ -1,41 +1,29 @@
 import type {
 	SAPJSONSchemaForWebApplicationManifestFile,
 } from "../../manifest.d.ts";
-import jsonMap from "json-source-map";
-
-interface locType {
-	line: number;
-	column: number;
-	pos: number;
-}
-
-interface JsonMapPointerLocation {
-	key: locType;
-	keyEnd: locType;
-	value: locType;
-	valueEnd: locType;
-}
-
-export type jsonMapPointers = Record<string, JsonMapPointerLocation>;
+import jsonMap, {Mapping, Pointers} from "json-source-map";
 
 export interface jsonSourceMapType {
 	data: SAPJSONSchemaForWebApplicationManifestFile;
-	pointers: jsonMapPointers;
+	pointers: Pointers;
 }
 
-export function parseManifest(manifest: string): jsonSourceMapType {
-	return jsonMap.parse<jsonSourceMapType>(manifest);
+export function parseManifest(manifest: string) {
+	const json = jsonMap.parse(manifest);
+	const data = json.data as SAPJSONSchemaForWebApplicationManifestFile;
+	const pointers = json.pointers;
+	return {data, pointers};
 }
 
 function findAdjacentPropertyPointer(
-	pointers: jsonMapPointers,
-	targetPointer: JsonMapPointerLocation,
+	pointers: Pointers,
+	targetPointer: Mapping,
 	targetKey: string,
 	direction: "previous" | "next"
-): JsonMapPointerLocation | undefined {
+) {
 	const parentKey = targetKey.substring(0, targetKey.lastIndexOf("/") + 1);
 	const targetPos = targetPointer.value.pos;
-	let bestPointer: JsonMapPointerLocation | undefined;
+	let bestPointer: Mapping | undefined;
 	let bestPos = direction === "previous" ? -1 : Infinity;
 
 	for (const [key, pointer] of Object.entries(pointers)) {
@@ -63,13 +51,13 @@ function findAdjacentPropertyPointer(
 }
 
 export function getPreviousPropertyPointer(
-	pointers: jsonMapPointers, targetPointer: JsonMapPointerLocation, targetKey: string
-): JsonMapPointerLocation | undefined {
+	pointers: Pointers, targetPointer: Mapping, targetKey: string
+) {
 	return findAdjacentPropertyPointer(pointers, targetPointer, targetKey, "previous");
 }
 
 export function getNextPropertyPointer(
-	pointers: jsonMapPointers, targetPointer: JsonMapPointerLocation, targetKey: string
-): JsonMapPointerLocation | undefined {
+	pointers: Pointers, targetPointer: Mapping, targetKey: string
+) {
 	return findAdjacentPropertyPointer(pointers, targetPointer, targetKey, "next");
 }

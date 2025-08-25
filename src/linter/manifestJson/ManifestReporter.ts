@@ -1,10 +1,11 @@
-import type {jsonSourceMapType, jsonMapPointers} from "./parser.js";
+import type {jsonSourceMapType} from "./parser.js";
 import LinterContext, {
 	CoverageInfo, PositionInfo, ResourcePath,
 } from "../LinterContext.js";
 import {MESSAGE} from "../messages.js";
 import {MessageArgs} from "../MessageArgs.js";
 import {JsonFix} from "./fix/JsonFix.js";
+import {Pointers} from "json-source-map";
 
 interface ReporterCoverageInfo extends CoverageInfo {
 	node: string;
@@ -12,7 +13,7 @@ interface ReporterCoverageInfo extends CoverageInfo {
 
 export default class ManifestReporter {
 	#resourcePath: ResourcePath;
-	#pointers: jsonMapPointers;
+	#pointers: Pointers;
 	#context: LinterContext;
 
 	constructor(resourcePath: ResourcePath, context: LinterContext, manifest: jsonSourceMapType) {
@@ -48,8 +49,8 @@ export default class ManifestReporter {
 		this.#context.addCoverageInfo(this.#resourcePath, {
 			category,
 			// One-based to be aligned with most IDEs
-			line: location.key.line,
-			column: location.key.column,
+			line: location.key?.line ?? location.value.line,
+			column: location.key?.column ?? location.value.column,
 			endLine: location.valueEnd.line,
 			endColumn: location.valueEnd.column,
 			message,
@@ -69,8 +70,8 @@ export default class ManifestReporter {
 		const location = this.#pointers[path];
 
 		if (location) {
-			line = location.key.line + 1;
-			column = location.key.column + 1;
+			line = (location.key?.line ?? location.value.line) + 1;
+			column = (location.key?.column ?? location.value.column) + 1;
 		}
 
 		return {
