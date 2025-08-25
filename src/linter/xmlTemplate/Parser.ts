@@ -32,7 +32,6 @@ import {
 } from "./xmlNodes.js";
 const log = getLogger("linter:xmlTemplate:Parser");
 
-
 const XHTML_NAMESPACE = "http://www.w3.org/1999/xhtml";
 const SVG_NAMESPACE = "http://www.w3.org/2000/svg";
 const TEMPLATING_NAMESPACE = "http://schemas.sap.com/sapui5/extension/sap.ui.core.template/1";
