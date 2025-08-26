@@ -39,14 +39,10 @@ export default class EventHandlersFix extends XmlEnabledFix {
 	}
 
 	methodExistsInController(
-		tsProgram?: Program,
-		checker?: ts.TypeChecker,
-		metadataCollector?: SourceFileMetadataCollector
+		tsProgram: Program,
+		checker: ts.TypeChecker,
+		metadataCollector: SourceFileMetadataCollector
 	): void {
-		if (tsProgram === undefined || checker === undefined || metadataCollector === undefined) {
-			return;
-		}
-
 		const findClassDeclaration = (node: ts.Node): ts.ClassLikeDeclaration | undefined => {
 			if (ts.isClassLike(node)) {
 				return node;
@@ -114,10 +110,9 @@ export default class EventHandlersFix extends XmlEnabledFix {
 	generateChanges(): ChangeSet | ChangeSet[] | undefined {
 		if (this.fullMethodSignature) {
 			return {
-				action: ChangeAction.REPLACE,
+				action: ChangeAction.INSERT,
 				start: this.startPos!,
-				end: this.endPos!,
-				value: `.${this.fullMethodSignature}`,
+				value: ".",
 			};
 		}
 	}
