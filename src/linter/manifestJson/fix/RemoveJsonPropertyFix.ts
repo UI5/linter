@@ -45,7 +45,8 @@ export default class RemoveJsonPropertyFix extends JsonFix {
 		}
 
 		// Never remove the root object (empty string key)
-		if (removeParent && parentKey !== "") {
+		// Only remove parent if it is an property (has a key) and not an array element
+		if (removeParent && parentKey !== "" && parentPointer.key) {
 			this.calculatePositions(parentKey, pointers);
 		} else {
 			// Empty the parent object to remove the property and potential whitespace

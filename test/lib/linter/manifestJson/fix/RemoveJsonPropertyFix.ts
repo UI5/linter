@@ -204,6 +204,15 @@ test("Should not remove empty parent if parent is root (multi-line)", (t) => {
 	});
 });
 
+test("Should not remove empty parent if parent is inside an array", (t) => {
+	assertPropertyRemoval(t, {
+		source: `{ "entries": [{ "text": "Hello World" }] }`,
+		removalKey: "/entries/0/text",
+		expected: `{ "entries": [{}] }`,
+		removeEmptyDirectParent: true,
+	});
+});
+
 test("Should throw error when removing non-property value (root)", (t) => {
 	const source = `"Hello World"`;
 	const {pointers} = jsonMap.parse(source);
