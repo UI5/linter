@@ -629,7 +629,6 @@ export default class Parser {
 
 						const generateFix = (functionName: string) => {
 							const fix = new EventHandlersFix(functionName, this._controllerName);
-
 							if (fix.visitLinterNode(prop, position)) {
 								return fix;
 							}

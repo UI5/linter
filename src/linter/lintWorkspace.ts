@@ -19,7 +19,6 @@ import {MESSAGE} from "./messages.js";
 import {getLogger} from "@ui5/logger";
 import path from "node:path";
 import {JSONSchemaForSAPUI5Namespace, SAPJSONSchemaForWebApplicationManifestFile} from "../manifest.js";
-import SourceFileMetadataCollector from "./ui5Types/SourceFileMetadataCollector.js";
 
 const log = getLogger("linter:lintWorkspace");
 
@@ -29,11 +28,10 @@ export default async function lintWorkspace(
 	sharedLanguageService: SharedLanguageService
 ): Promise<LintResult[]> {
 	const libraryDependencies = await getLibraryDependenciesFromManifest(workspace, options.virBasePath);
-	const metadataCollector = new SourceFileMetadataCollector();
 
 	const lintContext = await runLintWorkspace(
 		workspace, filePathsWorkspace, options, config, patternsMatch,
-		libraryDependencies, sharedLanguageService, metadataCollector
+		libraryDependencies, sharedLanguageService
 	);
 	if (!options.fix) {
 		return lintContext.generateLintResults();
@@ -45,7 +43,7 @@ export default async function lintWorkspace(
 		log.verbose(`Autofix iteration #${autofixIterations}...`);
 		const autofixContext = await runAutofix(
 			workspace, filePathsWorkspace, options, config, patternsMatch, libraryDependencies, sharedLanguageService,
-			lastContext, autofixDryRun, metadataCollector
+			lastContext, autofixDryRun
 		);
 
 		if (!autofixContext) {
@@ -61,8 +59,7 @@ async function runAutofix(
 	workspace: AbstractAdapter, filePathsWorkspace: AbstractAdapter,
 	options: LinterOptions & FSToVirtualPathOptions, config: UI5LintConfigType, patternsMatch: Set<string>,
 	libraryDependencies: JSONSchemaForSAPUI5Namespace["dependencies"]["libs"],
-	sharedLanguageService: SharedLanguageService, context: LinterContext, dryRun: boolean,
-	metadataCollector: SourceFileMetadataCollector
+	sharedLanguageService: SharedLanguageService, context: LinterContext, dryRun: boolean
 ): Promise<LinterContext | undefined> {
 	const rawLintResults = context.generateRawLintResults();
 
@@ -125,7 +122,7 @@ async function runAutofix(
 		const autofixContext = context;
 		context = await runLintWorkspace(
 			workspace, filePathsWorkspace, optionsAfterFix, config, patternsMatch,
-			libraryDependencies, sharedLanguageService, metadataCollector
+			libraryDependencies, sharedLanguageService
 		);
 
 		for (const {filePath, rawMessages} of autofixContext.generateRawLintResults()) {
@@ -183,8 +180,7 @@ async function runLintWorkspace(
 	workspace: AbstractAdapter, filePathsWorkspace: AbstractAdapter,
 	options: LinterOptions & FSToVirtualPathOptions, config: UI5LintConfigType, patternsMatch: Set<string>,
 	libraryDependencies: JSONSchemaForSAPUI5Namespace["dependencies"]["libs"],
-	sharedLanguageService: SharedLanguageService,
-	metadataCollector: SourceFileMetadataCollector
+	sharedLanguageService: SharedLanguageService
 ): Promise<LinterContext> {
 	const done = taskStart("Linting Workspace");
 	const fsToVirtualPathOptions = {
@@ -226,7 +222,7 @@ async function runLintWorkspace(
 		lintFileTypes(params),
 	]);
 
-	const typeLinter = new TypeLinter(params, libraryDependencies, sharedLanguageService, metadataCollector);
+	const typeLinter = new TypeLinter(params, libraryDependencies, sharedLanguageService);
 	await typeLinter.lint();
 	done();
 	return context;

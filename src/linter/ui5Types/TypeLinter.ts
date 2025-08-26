@@ -33,11 +33,10 @@ export default class TypeLinter {
 	constructor(
 		{workspace, filePathsWorkspace, context}: LinterParameters,
 		libraryDependencies: JSONSchemaForSAPUI5Namespace["dependencies"]["libs"],
-		sharedLanguageService: SharedLanguageService,
-		metadataCollector: SourceFileMetadataCollector
+		sharedLanguageService: SharedLanguageService
 	) {
 		this.#sharedLanguageService = sharedLanguageService;
-		this.#metadataCollector = metadataCollector;
+		this.#metadataCollector = new SourceFileMetadataCollector();
 		this.#context = context;
 		this.#workspace = workspace;
 		this.#filePathsWorkspace = filePathsWorkspace;
