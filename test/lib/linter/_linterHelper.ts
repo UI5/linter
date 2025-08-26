@@ -100,9 +100,11 @@ export function createTestsForFixtures(fixturesPath: string, fix = false) {
 		const testFiles = readdirSync(fixturesPath, {withFileTypes: true, recursive: true}).filter((dirEntries) => {
 			return dirEntries.isFile() && dirEntries.name !== ".DS_Store";
 		}).map((dirEntries) => {
+			// Normalize to POSIX separators to ensure consistent matching on Windows
+			const rel = path.relative(fixturesPath, dirEntries.parentPath || dirEntries.path).split(path.sep).join("/");
 			return path.posix.join(
 				// Resolve relative path OS dependant, but do the join in POSIX format
-				path.relative(fixturesPath, dirEntries.parentPath || dirEntries.path),
+				rel,
 				dirEntries.name
 			);
 		});
