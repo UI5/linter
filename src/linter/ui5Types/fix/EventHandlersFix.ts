@@ -38,10 +38,45 @@ export default class EventHandlersFix extends XmlEnabledFix {
 		};
 	}
 
+	// Finds the closest path relative to the viewPath.
+	// That way, if there are multiple controls with the same namespace and name,
+	// there's a chance to find the correct one. If more than one matches are found, then return undefined.
+	private getClosestPath(sourcePaths: Set<string>, viewPath: string): string | undefined {
+		if (!sourcePaths.size) {
+			return undefined;
+		} else if (sourcePaths.size === 1) {
+			return Array.from(sourcePaths)[0];
+		}
+
+		const viewPathChunks = viewPath.split("/");
+		let longestPrefixLength = 0;
+		let closestPath: string | undefined;
+		let hasMultipleWithSameLength = false;
+
+		for (const sourcePath of sourcePaths) {
+			const sourcePathChunks = sourcePath.split("/");
+			// Find the common prefix length between the view path and the source path
+			const commonPrefix = viewPathChunks.filter((chunk, index) => chunk === sourcePathChunks[index]);
+			const commonPrefixLength = commonPrefix.length;
+
+			if (commonPrefixLength > longestPrefixLength) {
+				longestPrefixLength = commonPrefixLength;
+				closestPath = sourcePath;
+				hasMultipleWithSameLength = false;
+			} else if (commonPrefixLength === longestPrefixLength && commonPrefixLength > 0) {
+				hasMultipleWithSameLength = true;
+			}
+		}
+
+		// Return undefined if multiple paths have the same longest prefix length
+		return hasMultipleWithSameLength ? undefined : closestPath;
+	}
+
 	methodExistsInController(
 		tsProgram: Program,
 		checker: ts.TypeChecker,
-		metadataCollector: SourceFileMetadataCollector
+		metadataCollector: SourceFileMetadataCollector,
+		currentFilePath: string
 	): void {
 		const findClassDeclaration = (node: ts.Node): ts.ClassLikeDeclaration | undefined => {
 			if (ts.isClassLike(node)) {
@@ -50,9 +85,10 @@ export default class EventHandlersFix extends XmlEnabledFix {
 			return ts.forEachChild(node, findClassDeclaration);
 		};
 
-		const sourcePath = metadataCollector.getMetadata()
+		const sourcePaths = metadataCollector.getMetadata()
 			.controllerNamespace.byNamespace.get(this.controllerName!);
-		const sourceFile = sourcePath && tsProgram.getSourceFile(sourcePath);
+		const controllerPath = sourcePaths && this.getClosestPath(sourcePaths, currentFilePath);
+		const sourceFile = controllerPath && tsProgram.getSourceFile(controllerPath);
 		const classDeclaration = sourceFile && findClassDeclaration(sourceFile);
 		if (!classDeclaration) {
 			return;

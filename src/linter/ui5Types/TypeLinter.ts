@@ -3,7 +3,7 @@ import {FileContents, createVirtualLanguageServiceHost} from "./host.js";
 import SourceFileLinter from "./SourceFileLinter.js";
 import {taskStart} from "../../utils/perf.js";
 import {getLogger} from "@ui5/logger";
-import LinterContext, {LinterParameters} from "../LinterContext.js";
+import LinterContext, {LinterParameters, RawLintMessage} from "../LinterContext.js";
 import path from "node:path/posix";
 import {AbstractAdapter} from "@ui5/fs";
 import {createAdapter, createResource} from "@ui5/fs/resourceFactory";
@@ -203,10 +203,10 @@ export default class TypeLinter {
 		const rawLintResults = this.#context.generateRawLintResults();
 		rawLintResults
 			.filter(({filePath}) => filePath.endsWith(".view.xml"))
-			.flatMap(({rawMessages}) => rawMessages)
-			.forEach(({fix}) => {
+			.flatMap(({filePath, rawMessages}) => rawMessages.map((msg) => ({...msg, filePath})))
+			.forEach(({filePath, fix}: RawLintMessage & {filePath: string}) => {
 				if (fix && fix instanceof EventHandlersFix) {
-					fix.methodExistsInController(program, checker, this.#metadataCollector);
+					fix.methodExistsInController(program, checker, this.#metadataCollector, filePath);
 				}
 			});
 

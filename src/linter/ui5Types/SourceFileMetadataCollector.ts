@@ -4,7 +4,7 @@ export default class SourceFileMetadataCollector {
 	private metadata: {
 		controllerNamespace: {
 			byPath: Map<string, string>;
-			byNamespace: Map<string, string>;
+			byNamespace: Map<string, Set<string>>;
 		};
 	};
 
@@ -41,7 +41,10 @@ export default class SourceFileMetadataCollector {
 		const fullyQuantifiedName = [controllerNamespace, localName].filter(Boolean).join(".");
 
 		this.metadata.controllerNamespace.byPath.set(filePath, fullyQuantifiedName);
-		this.metadata.controllerNamespace.byNamespace.set(fullyQuantifiedName, filePath);
+		if (!this.metadata.controllerNamespace.byNamespace.has(fullyQuantifiedName)) {
+			this.metadata.controllerNamespace.byNamespace.set(fullyQuantifiedName, new Set());
+		}
+		this.metadata.controllerNamespace.byNamespace.get(fullyQuantifiedName)!.add(filePath);
 	}
 
 	collect(sourceFile: ts.SourceFile) {
