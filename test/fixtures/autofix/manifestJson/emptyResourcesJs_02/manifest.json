@@ -1,0 +1,15 @@
+{
+	"_version": "1.12.0",
+
+	"sap.app": {
+		"id": "com.ui5.troublesome.app",
+		"type": "application"
+	},
+
+	"sap.ui5": {
+		"resources": {
+			"css": [{ "uri": "path/to/styles.css" }],
+			"js": []
+		}
+	}
+}

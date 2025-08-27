@@ -16,6 +16,9 @@
 	},
 
 	"sap.ui5": {
+		"resources": {
+			"js": []
+		},
 		"models": {
 			"": {
 				"type": "sap.ui.model.odata.v4.ODataModel",

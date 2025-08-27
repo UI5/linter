@@ -104,7 +104,23 @@ export default class ManifestLinter {
 		}
 
 		if (resources?.js) {
-			this.#reporter?.addMessage(MESSAGE.DEPRECATED_MANIFEST_JS_RESOURCES, "/sap.ui5/resources/js");
+			const key = "/sap.ui5/resources/js";
+			let fix;
+
+			if (!resources.js.length) {
+				// If there are no js resources, we can remove the whole array and
+				// if the array is the only property of "resources", we can also remove
+				// the "resources" object
+				fix = new RemoveJsonPropertyFix({
+					key,
+					pointers: source.pointers,
+					removeEmptyDirectParent: true,
+				});
+			}
+
+			this.#reporter?.addMessage(
+				MESSAGE.DEPRECATED_MANIFEST_JS_RESOURCES, {} as never, key, fix
+			);
 		}
 
 		const modelKeys: string[] = (models && Object.keys(models)) ?? [];
