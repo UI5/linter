@@ -18,7 +18,7 @@ export default class RemoveJsonPropertyFix extends JsonFix {
 	calculatePositions(key: string, pointers: Pointers, removeParent = false) {
 		const currentPointer = pointers[key];
 		if (!currentPointer) {
-			throw new TypeError(`Cannot find JSON pointer: '${key}'`);
+			throw new Error(`Cannot find JSON pointer: '${key}'`);
 		}
 		if (!currentPointer.key) {
 			throw new Error(`Unsupported removal of non-property value: '${key}'`);
@@ -41,11 +41,11 @@ export default class RemoveJsonPropertyFix extends JsonFix {
 		const parentKey = key.substring(0, key.lastIndexOf("/"));
 		const parentPointer = pointers[parentKey];
 		if (!parentPointer) {
-			throw new TypeError(`Cannot find parent JSON pointer: '${parentKey}' (for '${key}')`);
+			throw new Error(`Cannot find parent JSON pointer: '${parentKey}' (for '${key}')`);
 		}
 
 		// Never remove the root object (empty string key)
-		// Only remove parent if it is an property (has a key) and not an array element
+		// Only remove parent if it is a property (has a key) and not an array element
 		if (removeParent && parentKey !== "" && parentPointer.key) {
 			this.calculatePositions(parentKey, pointers);
 		} else {
