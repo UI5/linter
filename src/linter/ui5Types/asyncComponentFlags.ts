@@ -3,8 +3,7 @@ import path from "node:path/posix";
 import type SourceFileReporter from "./SourceFileReporter.js";
 import type {JSONSchemaForSAPUI5Namespace, SAPJSONSchemaForWebApplicationManifestFile} from "../../manifest.js";
 import LinterContext from "../LinterContext.js";
-import jsonMap from "json-source-map";
-import type {jsonSourceMapType} from "../manifestJson/parser.js";
+import {parseManifest} from "../manifestJson/parser.js";
 import {MESSAGE} from "../messages.js";
 import {getPropertyNameText} from "./utils/utils.js";
 
@@ -370,7 +369,7 @@ function reportUiComponentResults({
 			}, {node: classDeclaration});
 		}
 	} else {
-		const {pointers} = jsonMap.parse<jsonSourceMapType>(manifestContent ?? "{}");
+		const {pointers} = parseManifest(manifestContent ?? "{}");
 		const report = (pointerKey: string) => {
 			if (manifestContent) {
 				// If the manifest.json is present, then we need to redirect the message pointers to it
