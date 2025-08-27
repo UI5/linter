@@ -64,14 +64,15 @@ export default class ManifestLinter {
 		}
 
 		if (manifest?._version?.startsWith("2.")) {
-			this.#validatePropertiesForManifestVersion(manifest, true);
+			this.#validatePropertiesForManifestVersion(source, true);
 		} else {
-			this.#validatePropertiesForManifestVersion(manifest);
+			this.#validatePropertiesForManifestVersion(source);
 			this.#reporter?.addMessage(MESSAGE.NO_OUTDATED_MANIFEST_VERSION, "/_version");
 		}
 	}
 
-	#validatePropertiesForManifestVersion(manifest: SAPJSONSchemaForWebApplicationManifestFile, isManifest2 = false) {
+	#validatePropertiesForManifestVersion(source: jsonSourceMapType, isManifest2 = false) {
+		const manifest = source.data;
 		const {resources, models, dependencies, rootView, routing} =
 			(manifest["sap.ui5"] ?? {} as JSONSchemaForSAPUI5Namespace);
 		const {dataSources} = (manifest["sap.app"] ?? {} as JSONSchemaForSAPAPPNamespace);
