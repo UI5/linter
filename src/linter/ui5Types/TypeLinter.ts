@@ -3,7 +3,7 @@ import {FileContents, createVirtualLanguageServiceHost} from "./host.js";
 import SourceFileLinter from "./SourceFileLinter.js";
 import {taskStart} from "../../utils/perf.js";
 import {getLogger} from "@ui5/logger";
-import LinterContext, {LinterParameters, RawLintMessage} from "../LinterContext.js";
+import LinterContext, {LinterParameters} from "../LinterContext.js";
 import path from "node:path/posix";
 import {AbstractAdapter} from "@ui5/fs";
 import {createAdapter, createResource} from "@ui5/fs/resourceFactory";
@@ -116,17 +116,8 @@ export default class TypeLinter {
 		const messageDetails = this.#context.getIncludeMessageDetails();
 		const typeCheckDone = taskStart("Linting all transpiled resources");
 		for (const sourceFile of program.getSourceFiles()) {
-			if (sourceFile.isDeclarationFile) {
-				continue;
-			}
-			if (sourceFile.getFullText().startsWith("//@ui5-bundle ")) {
-				log.verbose(`Skipping collecting UI5 bundle '${sourceFile.fileName}' metadata`);
-				continue;
-			}
-			this.#metadataCollector.collect(sourceFile);
-		}
+			this.#metadataCollector.collectControllerInfo(sourceFile); // Collect data prior to linting filter below
 
-		for (const sourceFile of program.getSourceFiles()) {
 			if (sourceFile.isDeclarationFile || !pathsToLint.includes(sourceFile.fileName)) {
 				continue;
 			}
@@ -201,14 +192,17 @@ export default class TypeLinter {
 		this.addMessagesToContext();
 
 		const rawLintResults = this.#context.generateRawLintResults();
-		rawLintResults
-			.filter(({filePath}) => filePath.endsWith(".view.xml"))
-			.flatMap(({filePath, rawMessages}) => rawMessages.map((msg) => ({...msg, filePath})))
-			.forEach(({filePath, fix}: RawLintMessage & {filePath: string}) => {
+		for (const result of rawLintResults) {
+			if (!result.filePath.endsWith(".view.xml")) {
+				continue;
+			}
+
+			for (const {fix} of result.rawMessages) {
 				if (fix && fix instanceof EventHandlersFix) {
-					fix.methodExistsInController(program, checker, this.#metadataCollector, filePath);
+					fix.methodExistsInController(checker, this.#metadataCollector, result.filePath);
 				}
-			});
+			}
+		}
 
 		this.#sharedLanguageService.release();
 

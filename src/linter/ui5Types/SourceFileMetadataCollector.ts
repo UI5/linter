@@ -2,17 +2,17 @@ import ts from "typescript";
 
 export default class SourceFileMetadataCollector {
 	private metadata: {
-		controllerNamespace: {
-			byPath: Map<string, string>;
-			byNamespace: Map<string, Set<string>>;
+		controllerInfo: {
+			classNodeByPath: Map<string, ts.ClassLikeDeclaration>;
+			nameToPath: Map<string, Set<string>>;
 		};
 	};
 
 	constructor() {
 		this.metadata = {
-			controllerNamespace: {
-				byPath: new Map(),
-				byNamespace: new Map(),
+			controllerInfo: {
+				classNodeByPath: new Map(),
+				nameToPath: new Map(),
 			},
 		};
 	}
@@ -40,14 +40,19 @@ export default class SourceFileMetadataCollector {
 
 		const fullyQuantifiedName = [controllerNamespace, localName].filter(Boolean).join(".");
 
-		this.metadata.controllerNamespace.byPath.set(filePath, fullyQuantifiedName);
-		if (!this.metadata.controllerNamespace.byNamespace.has(fullyQuantifiedName)) {
-			this.metadata.controllerNamespace.byNamespace.set(fullyQuantifiedName, new Set());
+		this.metadata.controllerInfo.classNodeByPath.set(filePath, node);
+		if (!this.metadata.controllerInfo.nameToPath.has(fullyQuantifiedName)) {
+			this.metadata.controllerInfo.nameToPath.set(fullyQuantifiedName, new Set());
 		}
-		this.metadata.controllerNamespace.byNamespace.get(fullyQuantifiedName)!.add(filePath);
+		this.metadata.controllerInfo.nameToPath.get(fullyQuantifiedName)!.add(filePath);
 	}
 
-	collect(sourceFile: ts.SourceFile) {
+	collectControllerInfo(sourceFile: ts.SourceFile) {
+		// Limit collection to only controllers
+		if (!sourceFile.fileName.endsWith(".controller.js") && !sourceFile.fileName.endsWith(".controller.ts")) {
+			return;
+		}
+
 		this.visitNode(sourceFile, sourceFile);
 	}
 

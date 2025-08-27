@@ -1,4 +1,4 @@
-import ts, {Program} from "typescript";
+import ts from "typescript";
 import {PositionInfo} from "../../LinterContext.js";
 import {Attribute, Position, SaxEventType} from "sax-wasm";
 import XmlEnabledFix from "./XmlEnabledFix.js";
@@ -10,17 +10,18 @@ export default class EventHandlersFix extends XmlEnabledFix {
 	protected sourcePosition: PositionInfo | undefined;
 	protected startPos: number | undefined;
 	protected trailingCommaPos: number | undefined;
-	private hasAvailableController = false;
+	private isMethodInController = false;
 
 	constructor(
 		private methodName: string,
-		private controllerName?: string
+		private controllerName: string,
+		sourcePosition: PositionInfo
 	) {
 		super();
+		this.sourcePosition = sourcePosition;
 	}
 
-	visitLinterNode(_node: ts.Node | AttributeDeclaration, sourcePosition: PositionInfo) {
-		this.sourcePosition = sourcePosition;
+	visitLinterNode(_node: ts.Node | AttributeDeclaration, _sourcePosition: PositionInfo) {
 		// If controller name is not present we cannot determine which is the actual controller, so skip further checks
 		return !!this.controllerName;
 	}
@@ -71,23 +72,14 @@ export default class EventHandlersFix extends XmlEnabledFix {
 	}
 
 	methodExistsInController(
-		tsProgram: Program,
 		checker: ts.TypeChecker,
 		metadataCollector: SourceFileMetadataCollector,
 		currentFilePath: string
 	): void {
-		const findClassDeclaration = (node: ts.Node): ts.ClassLikeDeclaration | undefined => {
-			if (ts.isClassLike(node)) {
-				return node;
-			}
-			return ts.forEachChild(node, findClassDeclaration);
-		};
-
-		const sourcePaths = metadataCollector.getMetadata()
-			.controllerNamespace.byNamespace.get(this.controllerName!);
+		const {controllerInfo: controllerMetadata} = metadataCollector.getMetadata();
+		const sourcePaths = controllerMetadata.nameToPath.get(this.controllerName);
 		const controllerPath = sourcePaths && this.getClosestPath(sourcePaths, currentFilePath);
-		const sourceFile = controllerPath && tsProgram.getSourceFile(controllerPath);
-		const classDeclaration = sourceFile && findClassDeclaration(sourceFile);
+		const classDeclaration = controllerPath && controllerMetadata.classNodeByPath.get(controllerPath);
 		if (!classDeclaration) {
 			return;
 		}
@@ -106,7 +98,7 @@ export default class EventHandlersFix extends XmlEnabledFix {
 				curType = symbolType.getProperty(curName ?? "");
 			}
 
-			this.hasAvailableController = !!curType;
+			this.isMethodInController = !!curType;
 			return;
 		}
 
@@ -117,11 +109,11 @@ export default class EventHandlersFix extends XmlEnabledFix {
 		node: Attribute,
 		toPosition: (pos: Position) => number
 	) {
-		if (this.hasAvailableController) {
+		if (this.isMethodInController) {
 			this.startPos = toPosition(node.value.start);
 		}
 
-		return this.hasAvailableController;
+		return this.isMethodInController;
 	}
 
 	visitAutofixNode(_node: ts.Node, _position: number, _sourceFile: ts.SourceFile) {

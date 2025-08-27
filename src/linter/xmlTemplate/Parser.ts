@@ -629,7 +629,7 @@ export default class Parser {
 
 						const generateFix = (functionName: string) => {
 							if (this._controllerName) {
-								return new EventHandlersFix(functionName, this._controllerName);
+								return new EventHandlersFix(functionName, this._controllerName, position);
 							}
 						};
 						if (!functionName.includes(".")) {
