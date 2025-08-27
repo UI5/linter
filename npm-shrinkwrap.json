@@ -24,7 +24,7 @@
 				"json-source-map": "^0.6.1",
 				"magic-string": "^0.30.18",
 				"minimatch": "^10.0.3",
-				"sax-wasm": "^3.1.1",
+				"sax-wasm": "^3.1.2",
 				"typescript": "^5.9.2",
 				"update-notifier": "^7.3.1",
 				"yargs": "^17.7.2"
@@ -17521,9 +17521,9 @@
 			"integrity": "sha512-+aWOz7yVScEGoKNd4PA10LZ8sk0A/z5+nXQG5giUO5rprX9jgYsTdov9qCchZiPIZezbZH+jRut8nPodFAX4Jg=="
 		},
 		"node_modules/sax-wasm": {
-			"version": "3.1.1",
-			"resolved": "https://registry.npmjs.org/sax-wasm/-/sax-wasm-3.1.1.tgz",
-			"integrity": "sha512-Q0pCxOj5S60OMcTsHNeaDHwZ4uXIv5yC3xuFUiDeQZSsHTweS3vw4N8QaouYNp5SHL3dbgPB5liU4WBdnyiIUw==",
+			"version": "3.1.2",
+			"resolved": "https://registry.npmjs.org/sax-wasm/-/sax-wasm-3.1.2.tgz",
+			"integrity": "sha512-ej7g6cgUQAsxaN2/6P3i9Xb+fxtOaEfdNEXaR7cgap/3V+8NTgETbMBivUVFeGPwFyFqk2YI0A7T30QK10KtAQ==",
 			"license": "MIT",
 			"engines": {
 				"node": ">=18.20.5"
