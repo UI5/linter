@@ -9,9 +9,7 @@ import SourceFileMetadataCollector from "../SourceFileMetadataCollector.js";
 export default class EventHandlersFix extends XmlEnabledFix {
 	protected sourcePosition: PositionInfo | undefined;
 	protected startPos: number | undefined;
-	protected endPos: number | undefined;
 	protected trailingCommaPos: number | undefined;
-	private fullMethodSignature: string | undefined;
 	private hasAvailableController = false;
 
 	constructor(
@@ -120,9 +118,7 @@ export default class EventHandlersFix extends XmlEnabledFix {
 		toPosition: (pos: Position) => number
 	) {
 		if (this.hasAvailableController) {
-			this.fullMethodSignature = node.value.value;
 			this.startPos = toPosition(node.value.start);
-			this.endPos = toPosition(node.value.end);
 		}
 
 		return this.hasAvailableController;
@@ -134,20 +130,20 @@ export default class EventHandlersFix extends XmlEnabledFix {
 	}
 
 	getAffectedSourceCodeRange() {
-		if (this.startPos === undefined || this.endPos === undefined) {
-			throw new Error("Start and end position are not defined");
+		if (this.startPos === undefined) {
+			throw new Error("Start position is not defined");
 		}
 		return {
 			start: this.startPos,
-			end: this.endPos,
+			end: 0,
 		};
 	}
 
 	generateChanges(): ChangeSet | ChangeSet[] | undefined {
-		if (this.fullMethodSignature) {
+		if (typeof this.startPos === "number") {
 			return {
 				action: ChangeAction.INSERT,
-				start: this.startPos!,
+				start: this.startPos,
 				value: ".",
 			};
 		}
