@@ -180,7 +180,7 @@ sap.ui.define(["sap/base/strings/NormalizePolyfill"], async function (NormalizeP
 	var ownerWindow = jQuery.sap.ownerWindow(document.getElementById("controlA"));
 	var size = jQuery.sap.scrollbarSize("myclassA", true);
 	jQuery.sap.includeScript("myapp/fancy/awesome.js", "fancyAwesomeScript");
-	jQuery.sap.includeStylesheet("myapp/fancy/style.css", "fancyStyleSheet");
+	jQuery.sap.includeStyleSheet("myapp/fancy/style.css", "fancyStyleSheet");
 	var isPatched = jQuery.sap.replaceDOM(document.getElementById("controlA"), document.getElementById("controlB"));
 	var rem = jQuery.sap.pxToRem("16px");
 	var px = jQuery.sap.remToPx("1rem");
