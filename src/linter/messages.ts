@@ -21,7 +21,6 @@ export const RULES = {
 	"no-outdated-manifest-version": "no-outdated-manifest-version",
 	"no-removed-manifest-property": "no-removed-manifest-property",
 	"no-legacy-ui5-version-in-manifest": "no-legacy-ui5-version-in-manifest",
-	"no-missing-manifest-target-type": "no-missing-manifest-target-type",
 } as const;
 
 export enum LintMessageSeverity {
@@ -70,7 +69,6 @@ export enum MESSAGE {
 	NO_LEGACY_TEMPLATE_REQUIRE_SYNTAX,
 	NO_LEGACY_UI5_VERSION_IN_MANIFEST,
 	NO_ODATA_GLOBALS,
-	NO_MISSING_MANIFEST_TARGET_TYPE,
 	NO_OUTDATED_MANIFEST_VERSION,
 	NO_REMOVED_MANIFEST_PROPERTY,
 	NOT_STATIC_CONTROL_RENDERER,
@@ -718,20 +716,6 @@ export const MESSAGE_INFO = {
 		message: ({propName}: {propName: string}) => `Property '${propName}' has been removed in Manifest ` +
 			`Version 2 and must no longer be provided`,
 		details: ({propName}: {propName: string}) => `Remove property '${propName}' and follow the migration guide ` +
-			`{@link topic:be0cf40f61184b358b5faedaec98b2da#loiobe0cf40f61184b358b5faedaec98b2da/section_manifest2 ` +
-			`Manifest Version 2}`,
-	},
-
-	[MESSAGE.NO_MISSING_MANIFEST_TARGET_TYPE]: {
-		severity: LintMessageSeverity.Error,
-		ruleId: RULES["no-missing-manifest-target-type"],
-
-		message: ({propertyPath}: {propertyPath: string}) =>
-			`The '${propertyPath}' is required but is missing in the 'manifest.json'`,
-		details: ({propertyPath}: {propertyPath: string}) =>
-			`Property 'type' must be defined either in 'routing/config' or in every ` +
-			`'targets/{targetName}/type' in 'manifest.json'. Add property '${propertyPath}' ` +
-			`and follow the migration guide ` +
 			`{@link topic:be0cf40f61184b358b5faedaec98b2da#loiobe0cf40f61184b358b5faedaec98b2da/section_manifest2 ` +
 			`Manifest Version 2}`,
 	},
