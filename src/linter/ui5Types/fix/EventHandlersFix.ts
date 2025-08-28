@@ -12,16 +12,14 @@ export default class EventHandlersFix extends XmlEnabledFix {
 
 	constructor(
 		private methodName: string,
-		private controllerName: string,
-		sourcePosition?: PositionInfo
+		private controllerName: string
 	) {
 		super();
-		if (sourcePosition) {
-			this.sourcePosition = sourcePosition;
-		}
 	}
 
-	visitLinterNode() {
+	visitLinterNode(_node: ts.Node, sourcePosition: PositionInfo) {
+		this.sourcePosition = sourcePosition;
+
 		// If controller name is not present we cannot determine which is the actual controller, so skip further checks
 		return !!this.controllerName;
 	}
