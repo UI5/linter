@@ -19,15 +19,21 @@ export default class SourceFileMetadataCollector {
 
 	visitNode(node: ts.Node, sourceFile: ts.SourceFile) {
 		if (ts.isClassLike(node)) {
-			return this.checkControllerNamespace(node, sourceFile.fileName);
+			this.addControllerClass(node, sourceFile.fileName);
 		}
-
-		ts.forEachChild(node, (node) => {
-			this.visitNode(node, sourceFile);
+		ts.forEachChild(node, (child) => {
+			this.visitNode(child, sourceFile);
 		});
 	}
 
-	private checkControllerNamespace(node: ts.ClassLikeDeclaration, filePath: string) {
+	addControllerClass(node: ts.ClassLikeDeclaration, filePath: string) {
+		const localNameMatch = /([^/]+)\.controller\.(js|ts)$/.exec(filePath);
+		const localName = localNameMatch ? localNameMatch[1] : undefined;
+		if (!localName) {
+			// Not a controller file, ignore
+			return;
+		}
+
 		const jsDocs = ts.getJSDocTags(node);
 		const controllerNameJSDocNode = jsDocs.find((tag) => tag.tagName.text === "namespace");
 		const controllerNamespace =
@@ -35,11 +41,11 @@ export default class SourceFileMetadataCollector {
 					controllerNameJSDocNode.comment.trim() :
 				undefined;
 
-		const localNameMatch = /([^/]+)\.controller\.(js|ts)$/.exec(filePath);
-		const localName = localNameMatch ? localNameMatch[1] : undefined;
-
 		const fullyQuantifiedName = [controllerNamespace, localName].filter(Boolean).join(".");
 
+		// Stashing the node here is safe until we use the same ts.Program instance
+		// We must ensure that the node will be released within the same program lifecycle,
+		// otherwise we may encounter memory leaks or stale references
 		this.metadata.controllerInfo.classNodeByPath.set(filePath, node);
 		if (!this.metadata.controllerInfo.nameToPath.has(fullyQuantifiedName)) {
 			this.metadata.controllerInfo.nameToPath.set(fullyQuantifiedName, new Set());

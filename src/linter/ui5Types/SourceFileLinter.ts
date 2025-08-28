@@ -2,6 +2,7 @@ import ts from "typescript";
 import path from "node:path/posix";
 import {getLogger} from "@ui5/logger";
 import SourceFileReporter from "./SourceFileReporter.js";
+import type SourceFileMetadataCollector from "./SourceFileMetadataCollector.js";
 import {ResourcePath, CoverageCategory, LintMetadata} from "../LinterContext.js";
 import {MESSAGE} from "../messages.js";
 import analyzeComponentJson from "./asyncComponentFlags.js";
@@ -96,7 +97,8 @@ export default class SourceFileLinter {
 		private ambientModuleCache: AmbientModuleCache,
 		private fixFactory?: FixFactory,
 		private manifestContent?: string,
-		private libraryDependencies?: JSONSchemaForSAPUI5Namespace["dependencies"]["libs"]
+		private libraryDependencies?: JSONSchemaForSAPUI5Namespace["dependencies"]["libs"],
+		private metadataCollector?: SourceFileMetadataCollector
 	) {
 		this.#reporter = typeLinter.getSourceFileReporter(sourceFile);
 		this.#boundVisitNode = this.visitNode.bind(this);
@@ -153,6 +155,14 @@ export default class SourceFileLinter {
 	}
 
 	visitNode(node: ts.Node) {
+		// Collect controller class metadata while traversing controller files to avoid an extra AST pass
+		if (this.metadataCollector &&
+			ts.isClassLike(node) &&
+			(this.sourceFile.fileName.endsWith(".controller.js") ||
+				this.sourceFile.fileName.endsWith(".controller.ts"))) {
+			this.metadataCollector.addControllerClass(node, this.sourceFile.fileName);
+		}
+
 		if (node.kind === ts.SyntaxKind.NewExpression) { // e.g. "new Button({\n\t\t\t\tblocked: true\n\t\t\t})"
 			this.analyzeNewExpression(node as ts.NewExpression);
 		} else if (node.kind === ts.SyntaxKind.CallExpression) { // ts.isCallLikeExpression too?

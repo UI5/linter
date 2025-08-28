@@ -116,9 +116,20 @@ export default class TypeLinter {
 		const messageDetails = this.#context.getIncludeMessageDetails();
 		const typeCheckDone = taskStart("Linting all transpiled resources");
 		for (const sourceFile of program.getSourceFiles()) {
-			this.#metadataCollector.collectControllerInfo(sourceFile); // Collect data prior to linting filter below
+			if (sourceFile.isDeclarationFile) {
+				continue;
+			}
 
-			if (sourceFile.isDeclarationFile || !pathsToLint.includes(sourceFile.fileName)) {
+			const willLint = pathsToLint.includes(sourceFile.fileName);
+
+			// For files that are not going to be linted, collect controller info upfront and continue
+			if (!willLint) {
+				// So far we use this information in XML string autofixing and it will not affect
+				// linting in SourceFileLinter.
+				// The program.getSourceFiles() cannot guarantee the order of files,
+				// so in the future if we need the complete information for all the files,
+				// we might need to collect it upfront.
+				this.#metadataCollector.collectControllerInfo(sourceFile);
 				continue;
 			}
 			if (sourceFile.getFullText().startsWith("//@ui5-bundle ")) {
@@ -141,7 +152,7 @@ export default class TypeLinter {
 				sourceFile,
 				checker, reportCoverage, messageDetails,
 				apiExtract, this.#filePathsWorkspace, this.#workspace, ambientModuleCache,
-				fixFactory, manifestContent, this.#libraryDependencies
+				fixFactory, manifestContent, this.#libraryDependencies, this.#metadataCollector
 			);
 			await linter.lint();
 			linterDone();
@@ -181,7 +192,8 @@ export default class TypeLinter {
 					this,
 					sourceFile,
 					checker, reportCoverage, messageDetails,
-					apiExtract, this.#filePathsWorkspace, this.#workspace, ambientModuleCache
+					apiExtract, this.#filePathsWorkspace, this.#workspace, ambientModuleCache,
+					undefined, undefined, undefined, this.#metadataCollector
 				);
 				await linter.lint();
 				linterDone();
