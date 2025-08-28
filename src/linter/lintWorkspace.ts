@@ -30,8 +30,7 @@ export default async function lintWorkspace(
 	const libraryDependencies = await getLibraryDependenciesFromManifest(workspace, options.virBasePath);
 
 	const lintContext = await runLintWorkspace(
-		workspace, filePathsWorkspace, options, config, patternsMatch,
-		libraryDependencies, sharedLanguageService
+		workspace, filePathsWorkspace, options, config, patternsMatch, libraryDependencies, sharedLanguageService
 	);
 	if (!options.fix) {
 		return lintContext.generateLintResults();
