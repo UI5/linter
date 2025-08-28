@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.19.0](https://github.com/UI5/linter/compare/v1.18.1...v1.19.0) (2025-08-28)
+
+
+### Features
+
+* **autofix:** Remove 'synchronizationMode' from manifest.json ([#833](https://github.com/UI5/linter/issues/833)) ([b751244](https://github.com/UI5/linter/commit/b751244c3a59d77060f8fa7c9233b5162c0f7829))
+* **autofix:** Remove empty 'sap.ui5/resources/js' from manifest.json ([c894fc7](https://github.com/UI5/linter/commit/c894fc77a5fd202fedd7ab2d4bcae83236ab3345))
+* Offer migration functionality to recommended event handler notation ([#804](https://github.com/UI5/linter/issues/804)) ([954754c](https://github.com/UI5/linter/commit/954754c94bfe9dc940146cc1d0401d9b8d4aea4e))
+
+
+### Dependencies
+
+* Bump sax-wasm from 3.1.1 to 3.1.2 ([8f2302d](https://github.com/UI5/linter/commit/8f2302d396efc6b653f0e5d5b4b820dc209551e3))
+
 ## [1.18.1](https://github.com/UI5/linter/compare/v1.18.0...v1.18.1) (2025-08-22)
 
 
