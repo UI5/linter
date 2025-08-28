@@ -14,10 +14,13 @@ import SourceFileReporter from "./SourceFileReporter.js";
 import {AmbientModuleCache} from "./AmbientModuleCache.js";
 import {JSONSchemaForSAPUI5Namespace} from "../../manifest.js";
 import type FixFactory from "./fix/FixFactory.js";
+import SourceFileMetadataCollector from "./SourceFileMetadataCollector.js";
+import EventHandlersFix from "./fix/EventHandlersFix.js";
 
 const log = getLogger("linter:ui5Types:TypeLinter");
 
 export default class TypeLinter {
+	#metadataCollector: SourceFileMetadataCollector;
 	#sharedLanguageService: SharedLanguageService;
 	#compilerOptions: ts.CompilerOptions;
 	#context: LinterContext;
@@ -33,6 +36,7 @@ export default class TypeLinter {
 		sharedLanguageService: SharedLanguageService
 	) {
 		this.#sharedLanguageService = sharedLanguageService;
+		this.#metadataCollector = new SourceFileMetadataCollector();
 		this.#context = context;
 		this.#workspace = workspace;
 		this.#filePathsWorkspace = filePathsWorkspace;
@@ -112,7 +116,20 @@ export default class TypeLinter {
 		const messageDetails = this.#context.getIncludeMessageDetails();
 		const typeCheckDone = taskStart("Linting all transpiled resources");
 		for (const sourceFile of program.getSourceFiles()) {
-			if (sourceFile.isDeclarationFile || !pathsToLint.includes(sourceFile.fileName)) {
+			if (sourceFile.isDeclarationFile) {
+				continue;
+			}
+
+			const willLint = pathsToLint.includes(sourceFile.fileName);
+
+			// For files that are not going to be linted, collect controller info upfront and continue
+			if (!willLint) {
+				// So far we use this information in XML string autofixing and it will not affect
+				// linting in SourceFileLinter.
+				// The program.getSourceFiles() cannot guarantee the order of files,
+				// so in the future if we need the complete information for all the files,
+				// we might need to collect it upfront.
+				this.#metadataCollector.collectControllerInfo(sourceFile);
 				continue;
 			}
 			if (sourceFile.getFullText().startsWith("//@ui5-bundle ")) {
@@ -135,7 +152,7 @@ export default class TypeLinter {
 				sourceFile,
 				checker, reportCoverage, messageDetails,
 				apiExtract, this.#filePathsWorkspace, this.#workspace, ambientModuleCache,
-				fixFactory, manifestContent, this.#libraryDependencies
+				fixFactory, manifestContent, this.#libraryDependencies, this.#metadataCollector
 			);
 			await linter.lint();
 			linterDone();
@@ -175,7 +192,8 @@ export default class TypeLinter {
 					this,
 					sourceFile,
 					checker, reportCoverage, messageDetails,
-					apiExtract, this.#filePathsWorkspace, this.#workspace, ambientModuleCache
+					apiExtract, this.#filePathsWorkspace, this.#workspace, ambientModuleCache,
+					undefined, undefined, undefined, this.#metadataCollector
 				);
 				await linter.lint();
 				linterDone();
@@ -183,9 +201,22 @@ export default class TypeLinter {
 		}
 		typeCheckDone();
 
-		this.#sharedLanguageService.release();
-
 		this.addMessagesToContext();
+
+		const rawLintResults = this.#context.generateRawLintResults();
+		for (const result of rawLintResults) {
+			if (!result.filePath.endsWith(".view.xml")) {
+				continue;
+			}
+
+			for (const {fix} of result.rawMessages) {
+				if (fix && fix instanceof EventHandlersFix) {
+					fix.methodExistsInController(checker, this.#metadataCollector, result.filePath);
+				}
+			}
+		}
+
+		this.#sharedLanguageService.release();
 
 		if (process.env.UI5LINT_WRITE_TRANSFORMED_SOURCES) {
 			// If requested, write out every resource that has a source map (which indicates it has been transformed)

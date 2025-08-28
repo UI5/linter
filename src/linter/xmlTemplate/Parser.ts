@@ -15,6 +15,7 @@ import {Tag as SaxTag, Text as SaxText} from "sax-wasm";
 import EventHandlerResolver from "./lib/EventHandlerResolver.js";
 import BindingParser from "../binding/lib/BindingParser.js";
 import {extractDirective} from "../../utils/xmlParser.js";
+import EventHandlersFix from "../ui5Types/fix/EventHandlersFix.js";
 import {
 	AggregationDeclaration,
 	AttributeDeclaration,
@@ -343,6 +344,11 @@ export default class Parser {
 		}
 	}
 
+	// Every View has just one controllerName that is defined in the root tag
+	// This is used later to determine the context for event handlers.
+	// It is certain that if present, controllerName will be firstly collected because of the nature of SAX parsing.
+	// Note: It's only uncertain how the attributes in the root tag would be ordered.
+	_controllerName: string | undefined;
 	_handleUi5LibraryNamespace(
 		moduleName: string, namespace: Namespace, attributes: Map<string, AttributeDeclaration>,
 		tag: SaxTag
@@ -350,6 +356,9 @@ export default class Parser {
 		const controlProperties = new Set<PropertyDeclaration>();
 		const customDataElements: ControlDeclaration[] = [];
 		attributes.forEach((attr) => {
+			if (attr.name === "controllerName") {
+				this._controllerName = attr.value;
+			}
 			if (attr.localNamespace) {
 				// Resolve namespace
 				const resolvedNamespace = this._resolveNamespace(attr.localNamespace);
@@ -617,6 +626,14 @@ export default class Parser {
 						if (!variableName) {
 							return;
 						}
+
+						const generateFix = (functionName: string) => {
+							if (this._controllerName) {
+								const fix = new EventHandlersFix(functionName, this._controllerName);
+								fix.visitLinterNode(undefined as never, position);
+								return fix;
+							}
+						};
 						if (!functionName.includes(".")) {
 							// If the event handler does not include a dot, it is most likely a reference to the
 							// controller which should be prefixed with a leading dot, but works in UI5 1.x runtime
@@ -628,6 +645,7 @@ export default class Parser {
 									id: MESSAGE.NO_AMBIGUOUS_EVENT_HANDLER,
 									args: {eventHandler: functionName},
 									position,
+									fix: generateFix(functionName),
 								}
 							);
 						} else {
@@ -635,6 +653,7 @@ export default class Parser {
 								id: MESSAGE.NO_GLOBALS,
 								args: {variableName, namespace: functionName},
 								position,
+								fix: generateFix(functionName),
 							});
 						}
 					});
