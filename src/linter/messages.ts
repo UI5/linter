@@ -35,8 +35,6 @@ export enum MESSAGE {
 	COMPONENT_MISSING_ASYNC_INTERFACE,
 	COMPONENT_MISSING_MANIFEST_DECLARATION,
 	COMPONENT_REDUNDANT_ASYNC_FLAG,
-	MANIFEST_V2_ASYNC_FLAG_ERROR,
-	MANIFEST_V2_ASYNC_TRUE_ERROR,
 	MANIFEST_ASYNC_FALSE_ERROR,
 	CSP_UNSAFE_INLINE_SCRIPT,
 	DEPRECATED_API_ACCESS,
@@ -151,30 +149,6 @@ export const MESSAGE_INFO = {
 			`The redundant 'async' flag at '${asyncFlagLocation}' should be removed from the component manifest`,
 		details: () =>
 			`{@link sap.ui.core.IAsyncContentCreation sap.ui.core.IAsyncContentCreation}`,
-	},
-
-	[MESSAGE.MANIFEST_V2_ASYNC_FLAG_ERROR]: {
-		severity: LintMessageSeverity.Error,
-		ruleId: RULES["async-component-flags"],
-
-		message: ({asyncFlagLocation}: {asyncFlagLocation: string}) =>
-			`The 'async' flag at '${asyncFlagLocation}' must be removed in manifest version 2`,
-		details: () =>
-			`In manifest version 2, components should not have explicit 'async' flags. ` +
-			`{@link sap.ui.core.IAsyncContentCreation sap.ui.core.IAsyncContentCreation}`,
-	},
-
-	[MESSAGE.MANIFEST_V2_ASYNC_TRUE_ERROR]: {
-		severity: LintMessageSeverity.Error,
-		ruleId: RULES["async-component-flags"],
-
-		message: ({asyncFlagLocation}: {asyncFlagLocation: string}) =>
-			`The 'async: true' flag at '${asyncFlagLocation}' is redundant in manifest version 2`,
-		details: () =>
-			`In manifest version 2, the default value for 'async' is 'true', ` +
-			`so explicit 'async: true' flags should be removed. ` +
-			`{@link topic:be0cf40f61184b358b5faedaec98b2da#loiobe0cf40f61184b358b5faedaec98b2da/section_manifest2 ` +
-			`Manifest Version 2}`,
 	},
 
 	[MESSAGE.MANIFEST_ASYNC_FALSE_ERROR]: {

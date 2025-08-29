@@ -388,13 +388,13 @@ function reportUiComponentResults({
 		// - Do not enforce IAsyncContentCreation (if present, do nothing)
 		// - If async flags are present (true), return error message
 		if (rootViewAsyncFlag === AsyncPropertyStatus.true) {
-			report("/sap.ui5/rootView/async", MESSAGE.MANIFEST_V2_ASYNC_FLAG_ERROR, {
-				asyncFlagLocation: "/sap.ui5/rootView/async",
+			report("/sap.ui5/rootView/async", MESSAGE.NO_REMOVED_MANIFEST_PROPERTY, {
+				propName: "/sap.ui5/rootView/async",
 			});
 		}
 		if (routingAsyncFlag === AsyncPropertyStatus.true) {
-			report("/sap.ui5/routing/config/async", MESSAGE.MANIFEST_V2_ASYNC_FLAG_ERROR, {
-				asyncFlagLocation: "/sap.ui5/routing/config/async",
+			report("/sap.ui5/routing/config/async", MESSAGE.NO_REMOVED_MANIFEST_PROPERTY, {
+				propName: "/sap.ui5/routing/config/async",
 			});
 		}
 	} else {
