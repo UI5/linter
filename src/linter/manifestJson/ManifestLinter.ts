@@ -144,7 +144,8 @@ export default class ManifestLinter {
 			const key = "/sap.ui5/resources/js";
 			let fix;
 			const messageId = isManifest2 ?
-				MESSAGE.NO_REMOVED_MANIFEST_PROPERTY : MESSAGE.DEPRECATED_MANIFEST_JS_RESOURCES;
+				MESSAGE.NO_REMOVED_MANIFEST_PROPERTY :
+				MESSAGE.DEPRECATED_MANIFEST_JS_RESOURCES;
 
 			if (!resources.js.length) {
 				// If there are no js resources, we can remove the whole array and
@@ -157,7 +158,7 @@ export default class ManifestLinter {
 				});
 			}
 
-			this.#reporter?.addMessage(messageId, {} as never, key, fix);
+			this.#reporter?.addMessage(messageId, {propName: key}, key, fix);
 		}
 
 		const modelKeys: string[] = (models && Object.keys(models)) ?? [];
