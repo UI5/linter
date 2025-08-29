@@ -187,5 +187,5 @@ test("createVirtualLanguageServiceHost: getScriptFileNames returns sorted files"
 	];
 
 	// Check that our test files are in the correct sorted order
-	t.deepEqual(scriptFileNames, expectedOrder);
+	t.deepEqual(scriptFileNames, expectedOrder, "Resources should be sorted by filename");
 });
