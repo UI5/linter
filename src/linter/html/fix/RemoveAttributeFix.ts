@@ -64,16 +64,6 @@ export default class RemoveAttributeFix extends HtmlFix {
 			}
 		}
 
-		// This if statement is a workaround for edge cases
-		// since sax-wasm parses wrong positions for NoValue single-character attributes.
-		// TODO: Remove once it's fixed (https://github.com/justinwilaby/sax-wasm/issues/139).
-		if (previousAttr && previousAttr.type === AttributeType.NoValue && previousAttr.name.value.length === 1) {
-			startPos = {
-				line: previousAttr.name.start.line,
-				character: previousAttr.name.start.character + 1,
-			};
-		}
-
 		// Edge case: no space w/ NoValues or NoQuotes
 		const edgeCaseStart = this._getEdgeCaseStartPos(tag, previousAttr, attr, subsequentAttr);
 		if (edgeCaseStart) {
@@ -111,16 +101,6 @@ export default class RemoveAttributeFix extends HtmlFix {
 					character: attr.name.end.character,
 				};
 				break;
-		}
-
-		// This if statement is a workaround for edge cases
-		// since sax-wasm parses wrong positions for NoValue single-character attributes.
-		// TODO: Remove once it's fixed (https://github.com/justinwilaby/sax-wasm/issues/139).
-		if (attr.type === AttributeType.NoValue && attr.name.value.length === 1) {
-			endPos = {
-				line: attr.name.start.line,
-				character: attr.name.start.character + 1,
-			};
 		}
 
 		if (!endPos) {
