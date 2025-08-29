@@ -77,6 +77,11 @@ export default class ManifestLinter {
 			(manifest["sap.ui5"] ?? {} as JSONSchemaForSAPUI5Namespace);
 		const {dataSources} = (manifest["sap.app"] ?? {} as JSONSchemaForSAPAPPNamespace);
 
+		// Validate async flags for manifest version 2
+		if (isManifest2) {
+			this.#validateAsyncFlagsForManifestV2(rootView, routing);
+		}
+
 		// Detect deprecated libraries:
 		const libKeys: string[] = (dependencies?.libs && Object.keys(dependencies.libs)) ?? [];
 		libKeys.forEach((libKey: string) => {
@@ -198,5 +203,46 @@ export default class ManifestLinter {
 				}, key, fix);
 			}
 		});
+	}
+
+	#validateAsyncFlagsForManifestV2(
+		rootView: JSONSchemaForSAPUI5Namespace["rootView"],
+		routing: JSONSchemaForSAPUI5Namespace["routing"]
+	) {
+		// Check rootView async flag
+		if (typeof rootView === "object" && rootView && "async" in rootView &&
+			typeof rootView.async === "boolean") {
+			if (rootView.async === true) {
+				// Error: async: true is redundant in manifest v2
+				this.#reporter?.addMessage(MESSAGE.MANIFEST_V2_ASYNC_TRUE_ERROR, {
+					asyncFlagLocation: "/sap.ui5/rootView/async",
+				}, "/sap.ui5/rootView/async");
+			} else if (rootView.async === false) {
+				// Error: async: false is not supported
+				this.#reporter?.addMessage(MESSAGE.MANIFEST_ASYNC_FALSE_ERROR, {
+					asyncFlagLocation: "/sap.ui5/rootView/async",
+				}, "/sap.ui5/rootView/async");
+			}
+			// Note: We cannot determine if IAsyncContentCreation is used from manifest alone,
+			// so we only check for async: true/false cases here. The IAsyncContentCreation + async flag
+			// validation is handled in the component analysis (asyncComponentFlags.ts)
+		}
+
+		// Check routing config async flag
+		if (routing?.config && "async" in routing.config &&
+			typeof routing.config.async === "boolean") {
+			if (routing.config.async === true) {
+				// Error: async: true is redundant in manifest v2
+				this.#reporter?.addMessage(MESSAGE.MANIFEST_V2_ASYNC_TRUE_ERROR, {
+					asyncFlagLocation: "/sap.ui5/routing/config/async",
+				}, "/sap.ui5/routing/config/async");
+			} else if (routing.config.async === false) {
+				// Error: async: false is not supported
+				this.#reporter?.addMessage(MESSAGE.MANIFEST_ASYNC_FALSE_ERROR, {
+					asyncFlagLocation: "/sap.ui5/routing/config/async",
+				}, "/sap.ui5/routing/config/async");
+			}
+			// Note: Same as above - IAsyncContentCreation validation is handled elsewhere
+		}
 	}
 }
