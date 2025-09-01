@@ -2,6 +2,7 @@ import ts from "typescript";
 import path from "node:path/posix";
 import type SourceFileReporter from "./SourceFileReporter.js";
 import type {JSONSchemaForSAPUI5Namespace, SAPJSONSchemaForWebApplicationManifestFile} from "../../manifest.js";
+import LinterContext from "../LinterContext.js";
 import {parseManifest} from "../manifestJson/parser.js";
 import {MESSAGE} from "../messages.js";
 import {getPropertyNameText} from "./utils/utils.js";
@@ -24,6 +25,7 @@ interface AsyncFlags {
 	hasManifestDefinition: boolean;
 	routingAsyncFlag: AsyncPropertyStatus;
 	rootViewAsyncFlag: AsyncPropertyStatus;
+	manifestVersion?: string;
 }
 
 export default function analyzeComponentJson({
@@ -31,6 +33,7 @@ export default function analyzeComponentJson({
 	manifestContent,
 	resourcePath,
 	reporter,
+	context,
 	checker,
 	isUiComponent,
 }: {
@@ -38,6 +41,7 @@ export default function analyzeComponentJson({
 	manifestContent: string | undefined;
 	resourcePath: string;
 	reporter: SourceFileReporter;
+	context: LinterContext;
 	checker: ts.TypeChecker;
 
 	// Indication whether the class not only inherits from sap/ui/core/Component but also from sap/ui/core/UIComponent
@@ -53,7 +57,7 @@ export default function analyzeComponentJson({
 		reportComponentResults({analysisResult, reporter, classDeclaration, manifestContent});
 		if (isUiComponent) {
 			reportUiComponentResults(
-				{analysisResult, reporter, resourcePath, classDeclaration, manifestContent}
+				{analysisResult, context, reporter, resourcePath, classDeclaration, manifestContent}
 			);
 		}
 	}
@@ -68,6 +72,7 @@ function mergeAsyncFlags(a: AsyncFlags, b: AsyncFlags): AsyncFlags {
 		routingAsyncFlag: getHighestPropertyStatus(a.routingAsyncFlag, b.routingAsyncFlag),
 		rootViewAsyncFlag: getHighestPropertyStatus(a.rootViewAsyncFlag, b.rootViewAsyncFlag),
 		hasAsyncInterface: a.hasAsyncInterface || b.hasAsyncInterface,
+		manifestVersion: a.manifestVersion ?? b.manifestVersion,
 	};
 }
 
@@ -207,6 +212,7 @@ function doPropsCheck(metadata: ts.PropertyDeclaration, manifestContent: string 
 	let rootViewAsyncFlag: AsyncPropertyStatus = AsyncPropertyStatus.parentPropNotSet;
 	let routingAsyncFlag: AsyncPropertyStatus = AsyncPropertyStatus.parentPropNotSet;
 	let hasManifestDefinition = false;
+	let manifestVersion;
 
 	if (componentManifest &&
 		ts.isPropertyAssignment(componentManifest) &&
@@ -219,6 +225,8 @@ function doPropsCheck(metadata: ts.PropertyDeclaration, manifestContent: string 
 		hasManifestDefinition = true;
 
 		const manifestJson = extractPropsRecursive(componentManifest.initializer) ?? {};
+		manifestVersion = manifestJson?._version?.value;
+
 		let manifestSapui5Section: propsRecordValueType | propsRecordValueType[] | undefined;
 		if (instanceOfPropsRecord(manifestJson["sap.ui5"])) {
 			manifestSapui5Section = manifestJson["sap.ui5"].value;
@@ -247,6 +255,8 @@ function doPropsCheck(metadata: ts.PropertyDeclaration, manifestContent: string 
 	} else if (manifestContent) {
 		const parsedManifestContent =
 			JSON.parse(manifestContent) as SAPJSONSchemaForWebApplicationManifestFile;
+
+		manifestVersion = parsedManifestContent._version;
 
 		const {rootView, routing} = parsedManifestContent["sap.ui5"] ?? {} as JSONSchemaForSAPUI5Namespace;
 
@@ -278,6 +288,7 @@ function doPropsCheck(metadata: ts.PropertyDeclaration, manifestContent: string 
 		rootViewAsyncFlag,
 		hasAsyncInterface,
 		hasManifestDefinition,
+		manifestVersion,
 	};
 }
 
@@ -333,66 +344,21 @@ function reportComponentResults({
 	}
 }
 
-function extractInlineManifestData(classDeclaration: ts.ClassDeclaration): Record<string, unknown> | null {
-	// Extract inline manifest data from component metadata
-	for (const member of classDeclaration.members) {
-		if (ts.isPropertyDeclaration(member) &&
-			member.initializer && ts.isObjectLiteralExpression(member.initializer)) {
-			for (const prop of member.initializer.properties) {
-				if (ts.isPropertyAssignment(prop) && prop.name) {
-					const propText = getPropertyNameText(prop.name);
-					if (propText === "manifest" && ts.isObjectLiteralExpression(prop.initializer)) {
-						const manifestJson = extractPropsRecursive(prop.initializer);
-						// Convert propsRecord to plain object
-						return convertPropsRecordToPlainObject(manifestJson);
-					}
-				}
-			}
-		}
-	}
-	return null;
-}
-
-function convertPropsRecordToPlainObject(propsRecord: propsRecord): Record<string, unknown> {
-	const result: Record<string, unknown> = {};
-	for (const [key, prop] of Object.entries(propsRecord)) {
-		if (prop.value && typeof prop.value === "object" && !Array.isArray(prop.value) &&
-			prop.value !== null && "value" in prop.value) {
-			// It's a nested propsRecord
-			result[key] = convertPropsRecordToPlainObject(prop.value);
-		} else {
-			result[key] = prop.value;
-		}
-	}
-	return result;
-}
-
 function reportUiComponentResults({
-	analysisResult, reporter, classDeclaration, manifestContent, resourcePath,
+	analysisResult, reporter, classDeclaration, manifestContent, resourcePath, context,
 }: {
 	analysisResult: AsyncFlags;
 	reporter: SourceFileReporter;
+	context: LinterContext;
 	classDeclaration: ts.ClassDeclaration;
 	manifestContent: string | undefined;
 	resourcePath: string;
 }) {
-	const {hasAsyncInterface, routingAsyncFlag, rootViewAsyncFlag} = analysisResult;
+	const {hasAsyncInterface, routingAsyncFlag, rootViewAsyncFlag, manifestVersion} = analysisResult;
 	const componentFileName = path.basename(resourcePath);
 
 	// Determine manifest version from external manifest.json or inline manifest
-	let isManifestV2 = false;
-
-	if (manifestContent) {
-		// External manifest.json file
-		const {data} = parseManifest(manifestContent);
-		isManifestV2 = data?._version?.startsWith("2.") ?? false;
-	} else {
-		// Check for inline manifest in component metadata
-		const inlineManifestData = extractInlineManifestData(classDeclaration);
-		if (inlineManifestData && typeof inlineManifestData._version === "string") {
-			isManifestV2 = inlineManifestData._version.startsWith("2.") ?? false;
-		}
-	}
+	const isManifestV2 = manifestVersion?.startsWith("2.") ?? false;
 
 	if (!manifestContent && isManifestV2) {
 		// Inline manifest definition (within Component.js)
@@ -455,17 +421,33 @@ function reportUiComponentResults({
 				}, {node: classDeclaration});
 			}
 		} else {
+			const {pointers} = parseManifest(manifestContent ?? "{}");
+			const report = (pointerKey: string) => {
+				if (manifestContent) {
+					// If the manifest.json is present, then we need to redirect the message pointers to it
+					const {key: posInfo} = pointers[pointerKey];
+					context.addLintingMessage(
+						resourcePath.replace(componentFileName, "manifest.json"),
+						{
+							id: MESSAGE.COMPONENT_REDUNDANT_ASYNC_FLAG,
+							args: {asyncFlagLocation: pointerKey},
+							position: posInfo,
+						}
+					);
+				} else {
+					reporter.addMessage(MESSAGE.COMPONENT_REDUNDANT_ASYNC_FLAG, {
+						asyncFlagLocation: pointerKey,
+					}, {node: classDeclaration});
+				}
+			};
+
 			// IAsyncContentCreation is present
 			// Check if both IAsyncContentCreation and async flags are present - warning to remove async flags
 			if (rootViewAsyncFlag === AsyncPropertyStatus.true) {
-				reporter.addMessage(MESSAGE.COMPONENT_REDUNDANT_ASYNC_FLAG, {
-					asyncFlagLocation: "/sap.ui5/rootView/async",
-				}, {node: classDeclaration});
+				report("/sap.ui5/rootView/async");
 			}
 			if (routingAsyncFlag === AsyncPropertyStatus.true) {
-				reporter.addMessage(MESSAGE.COMPONENT_REDUNDANT_ASYNC_FLAG, {
-					asyncFlagLocation: "/sap.ui5/routing/config/async",
-				}, {node: classDeclaration});
+				report("/sap.ui5/routing/config/async");
 			}
 		}
 	}
