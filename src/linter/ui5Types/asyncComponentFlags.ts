@@ -389,6 +389,8 @@ function reportUiComponentResults({
 				asyncFlagLocation: "/sap.ui5/routing/config/async",
 			}, {node: classDeclaration});
 		}
+
+		return;
 	}
 
 	const {pointers} = parseManifest(manifestContent ?? "{}");
@@ -416,7 +418,6 @@ function reportUiComponentResults({
 	if (hasAsyncInterface !== true) {
 		if ([AsyncPropertyStatus.propNotSet, AsyncPropertyStatus.false].includes(rootViewAsyncFlag) ||
 			[AsyncPropertyStatus.propNotSet, AsyncPropertyStatus.false].includes(routingAsyncFlag)) {
-			// Both IAsyncContentCreation and async flags are missing - error
 			let asyncFlagMissingIn;
 			if (AsyncPropertyStatus.parentPropNotSet === rootViewAsyncFlag) {
 				// sap.ui5/rootView is not set at all, so skip it in the message
