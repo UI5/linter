@@ -212,7 +212,7 @@ function doPropsCheck(metadata: ts.PropertyDeclaration, manifestContent: string 
 	let rootViewAsyncFlag: AsyncPropertyStatus = AsyncPropertyStatus.parentPropNotSet;
 	let routingAsyncFlag: AsyncPropertyStatus = AsyncPropertyStatus.parentPropNotSet;
 	let hasManifestDefinition = false;
-	let manifestVersion;
+	let manifestVersion: string | undefined;
 
 	if (componentManifest &&
 		ts.isPropertyAssignment(componentManifest) &&
@@ -225,7 +225,7 @@ function doPropsCheck(metadata: ts.PropertyDeclaration, manifestContent: string 
 		hasManifestDefinition = true;
 
 		const manifestJson = extractPropsRecursive(componentManifest.initializer) ?? {};
-		manifestVersion = manifestJson?._version?.value;
+		manifestVersion = manifestJson?._version?.value as (string | undefined);
 
 		let manifestSapui5Section: propsRecordValueType | propsRecordValueType[] | undefined;
 		if (instanceOfPropsRecord(manifestJson["sap.ui5"])) {
