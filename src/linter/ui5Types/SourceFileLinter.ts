@@ -199,7 +199,6 @@ export default class SourceFileLinter {
 				manifestContent: this.manifestContent,
 				resourcePath: this.resourcePath,
 				reporter: this.#reporter,
-				context: this.typeLinter.getContext(),
 				checker: this.checker,
 				isUiComponent: this.isUi5ClassDeclaration(node, "sap/ui/core/UIComponent"),
 			});

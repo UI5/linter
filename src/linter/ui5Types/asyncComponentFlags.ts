@@ -2,7 +2,6 @@ import ts from "typescript";
 import path from "node:path/posix";
 import type SourceFileReporter from "./SourceFileReporter.js";
 import type {JSONSchemaForSAPUI5Namespace, SAPJSONSchemaForWebApplicationManifestFile} from "../../manifest.js";
-import LinterContext from "../LinterContext.js";
 import {parseManifest} from "../manifestJson/parser.js";
 import {MESSAGE} from "../messages.js";
 import {getPropertyNameText} from "./utils/utils.js";
@@ -32,7 +31,6 @@ export default function analyzeComponentJson({
 	manifestContent,
 	resourcePath,
 	reporter,
-	context,
 	checker,
 	isUiComponent,
 }: {
@@ -40,7 +38,6 @@ export default function analyzeComponentJson({
 	manifestContent: string | undefined;
 	resourcePath: string;
 	reporter: SourceFileReporter;
-	context: LinterContext;
 	checker: ts.TypeChecker;
 
 	// Indication whether the class not only inherits from sap/ui/core/Component but also from sap/ui/core/UIComponent
