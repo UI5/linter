@@ -360,12 +360,16 @@ function reportUiComponentResults({
 	// Determine manifest version from external manifest.json or inline manifest
 	const isManifestV2 = manifestVersion?.startsWith("2.") ?? false;
 
-	if (!manifestContent && isManifestV2) {
-		// Inline manifest definition (within Component.js)
+	if (isManifestV2) {
 		// Only report errors when no external manifest.json exists to avoid duplication with ManifestLinter
+		if (manifestContent) {
+			// Avoid duplicate checks
+			return;
+		}
+		// Inline manifest definition (within Component.js)
 		// Manifest v2 logic:
 		// - Do not enforce IAsyncContentCreation (if present, do nothing)
-		// - If async flags are present (true), return error message
+		// - If async flags are present (true), return error message, if false it's a clear error in Manifest 2
 		if (rootViewAsyncFlag === AsyncPropertyStatus.true) {
 			reporter.addMessage(MESSAGE.NO_REMOVED_MANIFEST_PROPERTY, {
 				propName: "/sap.ui5/rootView/async",
@@ -385,70 +389,70 @@ function reportUiComponentResults({
 				asyncFlagLocation: "/sap.ui5/routing/config/async",
 			}, {node: classDeclaration});
 		}
-	} else if (!isManifestV2) {
-		// Manifest v1 logic:
-		// - If IAsyncContentCreation is missing, check if async flags are present (true), if not return error message
-		if (hasAsyncInterface !== true) {
-			// Check if both IAsyncContentCreation and async flags are missing
-			const hasAnyAsyncFlag = (
-				rootViewAsyncFlag === AsyncPropertyStatus.true ||
-				routingAsyncFlag === AsyncPropertyStatus.true
-			);
+	}
 
-			// Only report missing async interface if there are rootView or routing sections
-			// but no async flags are set to true
-			const hasRootViewOrRouting = (
-				rootViewAsyncFlag !== AsyncPropertyStatus.parentPropNotSet ||
-				routingAsyncFlag !== AsyncPropertyStatus.parentPropNotSet
-			);
+	// Manifest v1 logic:
+	// - If IAsyncContentCreation is missing, check if async flags are present (true), if not return error message
+	if (hasAsyncInterface !== true) {
+		// Check if both IAsyncContentCreation and async flags are missing
+		const hasAnyAsyncFlag = (
+			rootViewAsyncFlag === AsyncPropertyStatus.true ||
+			routingAsyncFlag === AsyncPropertyStatus.true
+		);
 
-			if (hasRootViewOrRouting && !hasAnyAsyncFlag) {
-				// Both IAsyncContentCreation and async flags are missing - error
-				let asyncFlagMissingIn;
-				if (AsyncPropertyStatus.parentPropNotSet === rootViewAsyncFlag) {
-					// sap.ui5/rootView is not set at all, so skip it in the message
-					asyncFlagMissingIn = `"sap.ui5/routing/config"`;
-				} else if (AsyncPropertyStatus.parentPropNotSet === routingAsyncFlag) {
-					// sap.ui5/routing/config is not set at all, so skip it in the message
-					asyncFlagMissingIn = `"sap.ui5/rootView"`;
-				} else {
-					asyncFlagMissingIn = `"sap.ui5/routing/config" and "sap.ui5/rootView"`;
-				}
+		// Only report missing async interface if there are rootView or routing sections
+		// but no async flags are set to true
+		const hasRootViewOrRouting = (
+			rootViewAsyncFlag !== AsyncPropertyStatus.parentPropNotSet ||
+			routingAsyncFlag !== AsyncPropertyStatus.parentPropNotSet
+		);
 
-				reporter.addMessage(MESSAGE.COMPONENT_MISSING_ASYNC_INTERFACE, {
-					componentFileName,
-					asyncFlagMissingIn,
+		if (hasRootViewOrRouting && !hasAnyAsyncFlag) {
+			// Both IAsyncContentCreation and async flags are missing - error
+			let asyncFlagMissingIn;
+			if (AsyncPropertyStatus.parentPropNotSet === rootViewAsyncFlag) {
+				// sap.ui5/rootView is not set at all, so skip it in the message
+				asyncFlagMissingIn = `"sap.ui5/routing/config"`;
+			} else if (AsyncPropertyStatus.parentPropNotSet === routingAsyncFlag) {
+				// sap.ui5/routing/config is not set at all, so skip it in the message
+				asyncFlagMissingIn = `"sap.ui5/rootView"`;
+			} else {
+				asyncFlagMissingIn = `"sap.ui5/routing/config" and "sap.ui5/rootView"`;
+			}
+
+			reporter.addMessage(MESSAGE.COMPONENT_MISSING_ASYNC_INTERFACE, {
+				componentFileName,
+				asyncFlagMissingIn,
+			}, {node: classDeclaration});
+		}
+	} else {
+		const {pointers} = parseManifest(manifestContent ?? "{}");
+		const report = (pointerKey: string) => {
+			if (manifestContent) {
+				// If the manifest.json is present, then we need to redirect the message pointers to it
+				const {key: posInfo} = pointers[pointerKey];
+				context.addLintingMessage(
+					resourcePath.replace(componentFileName, "manifest.json"),
+					{
+						id: MESSAGE.COMPONENT_REDUNDANT_ASYNC_FLAG,
+						args: {asyncFlagLocation: pointerKey},
+						position: posInfo,
+					}
+				);
+			} else {
+				reporter.addMessage(MESSAGE.COMPONENT_REDUNDANT_ASYNC_FLAG, {
+					asyncFlagLocation: pointerKey,
 				}, {node: classDeclaration});
 			}
-		} else {
-			const {pointers} = parseManifest(manifestContent ?? "{}");
-			const report = (pointerKey: string) => {
-				if (manifestContent) {
-					// If the manifest.json is present, then we need to redirect the message pointers to it
-					const {key: posInfo} = pointers[pointerKey];
-					context.addLintingMessage(
-						resourcePath.replace(componentFileName, "manifest.json"),
-						{
-							id: MESSAGE.COMPONENT_REDUNDANT_ASYNC_FLAG,
-							args: {asyncFlagLocation: pointerKey},
-							position: posInfo,
-						}
-					);
-				} else {
-					reporter.addMessage(MESSAGE.COMPONENT_REDUNDANT_ASYNC_FLAG, {
-						asyncFlagLocation: pointerKey,
-					}, {node: classDeclaration});
-				}
-			};
+		};
 
-			// IAsyncContentCreation is present
-			// Check if both IAsyncContentCreation and async flags are present - warning to remove async flags
-			if (rootViewAsyncFlag === AsyncPropertyStatus.true) {
-				report("/sap.ui5/rootView/async");
-			}
-			if (routingAsyncFlag === AsyncPropertyStatus.true) {
-				report("/sap.ui5/routing/config/async");
-			}
+		// IAsyncContentCreation is present
+		// Check if both IAsyncContentCreation and async flags are present - warning to remove async flags
+		if (rootViewAsyncFlag === AsyncPropertyStatus.true) {
+			report("/sap.ui5/rootView/async");
+		}
+		if (routingAsyncFlag === AsyncPropertyStatus.true) {
+			report("/sap.ui5/routing/config/async");
 		}
 	}
 }
