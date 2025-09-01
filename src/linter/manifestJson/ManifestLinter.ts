@@ -42,17 +42,16 @@ export default class ManifestLinter {
 
 	#analyzeManifest(source: jsonSourceMapType) {
 		const manifest = source.data;
-		if (manifest?.["sap.ui5"]?.dependencies?.minUI5Version) {
-			let availableVersions: string[] = [];
+		const minUI5Version = manifest?.["sap.ui5"]?.dependencies?.minUI5Version;
 
-			if (Array.isArray(manifest?.["sap.ui5"]?.dependencies?.minUI5Version)) {
-				availableVersions = manifest?.["sap.ui5"]?.dependencies?.minUI5Version;
-			} else if (typeof manifest?.["sap.ui5"]?.dependencies?.minUI5Version === "string") {
-				availableVersions.push(manifest?.["sap.ui5"]?.dependencies?.minUI5Version);
-			}
+		if (minUI5Version) {
+			// Simplify version extraction - handle both string and array cases
+			const availableVersions = Array.isArray(minUI5Version) ?
+				minUI5Version :
+					(typeof minUI5Version === "string" ? [minUI5Version] : []);
 
 			// Check if any version is below 1.136
-			const isBelow136 = availableVersions.some((version) => {
+			const isBelow136 = availableVersions.some((version: string) => {
 				const normalizedVersion = semver.coerce(version);
 				return normalizedVersion && semver.lt(normalizedVersion, "1.136.0");
 			});

@@ -56,7 +56,7 @@ export default function analyzeComponentJson({
 		reportComponentResults({analysisResult, reporter, classDeclaration, manifestContent});
 		if (isUiComponent) {
 			reportUiComponentResults(
-				{analysisResult, context, reporter, resourcePath, classDeclaration, manifestContent}
+				{analysisResult, reporter, resourcePath, classDeclaration, manifestContent}
 			);
 		}
 	}
@@ -336,12 +336,45 @@ function reportComponentResults({
 	}
 }
 
+function extractInlineManifestData(classDeclaration: ts.ClassDeclaration): Record<string, unknown> | null {
+	// Extract inline manifest data from component metadata
+	for (const member of classDeclaration.members) {
+		if (ts.isPropertyDeclaration(member) &&
+			member.initializer && ts.isObjectLiteralExpression(member.initializer)) {
+			for (const prop of member.initializer.properties) {
+				if (ts.isPropertyAssignment(prop) && prop.name) {
+					const propText = getPropertyNameText(prop.name);
+					if (propText === "manifest" && ts.isObjectLiteralExpression(prop.initializer)) {
+						const manifestJson = extractPropsRecursive(prop.initializer);
+						// Convert propsRecord to plain object
+						return convertPropsRecordToPlainObject(manifestJson);
+					}
+				}
+			}
+		}
+	}
+	return null;
+}
+
+function convertPropsRecordToPlainObject(propsRecord: propsRecord): Record<string, unknown> {
+	const result: Record<string, unknown> = {};
+	for (const [key, prop] of Object.entries(propsRecord)) {
+		if (prop.value && typeof prop.value === "object" && !Array.isArray(prop.value) &&
+			prop.value !== null && "value" in prop.value) {
+			// It's a nested propsRecord
+			result[key] = convertPropsRecordToPlainObject(prop.value);
+		} else {
+			result[key] = prop.value;
+		}
+	}
+	return result;
+}
+
 function reportUiComponentResults({
-	analysisResult, reporter, classDeclaration, manifestContent, resourcePath, context,
+	analysisResult, reporter, classDeclaration, manifestContent, resourcePath,
 }: {
 	analysisResult: AsyncFlags;
 	reporter: SourceFileReporter;
-	context: LinterContext;
 	classDeclaration: ts.ClassDeclaration;
 	manifestContent: string | undefined;
 	resourcePath: string;
@@ -349,56 +382,49 @@ function reportUiComponentResults({
 	const {hasAsyncInterface, routingAsyncFlag, rootViewAsyncFlag} = analysisResult;
 	const componentFileName = path.basename(resourcePath);
 
-	// Determine manifest version early to use throughout the function
-	const {pointers, data} = parseManifest(manifestContent ?? "{}");
-	const isManifestV2 = data?._version?.startsWith("2.") ?? false;
+	// Determine manifest version from external manifest.json or inline manifest
+	let isManifestV2 = false;
 
-	// Helper function to report messages with proper location handling
-	const report = (pointerKey: string, messageId: MESSAGE, args: Record<string, string>) => {
-		if (manifestContent) {
-			// If the manifest.json is present, then we need to redirect the message pointers to it
-			const {key: posInfo} = pointers[pointerKey];
-			context.addLintingMessage(
-				resourcePath.replace(componentFileName, "manifest.json"),
-				{
-					id: messageId,
-					args,
-					position: posInfo,
-				}
-			);
-		} else {
-			reporter.addMessage(messageId, args, {node: classDeclaration});
+	if (manifestContent) {
+		// External manifest.json file
+		const {data} = parseManifest(manifestContent);
+		isManifestV2 = data?._version?.startsWith("2.") ?? false;
+	} else {
+		// Check for inline manifest in component metadata
+		const inlineManifestData = extractInlineManifestData(classDeclaration);
+		if (inlineManifestData && typeof inlineManifestData._version === "string") {
+			isManifestV2 = inlineManifestData._version.startsWith("2.") ?? false;
 		}
-	};
-
-	// Handle async: false cases for both manifest versions
-	if (rootViewAsyncFlag === AsyncPropertyStatus.false) {
-		report("/sap.ui5/rootView/async", MESSAGE.MANIFEST_ASYNC_FALSE_ERROR, {
-			asyncFlagLocation: "/sap.ui5/rootView/async",
-		});
-	}
-	if (routingAsyncFlag === AsyncPropertyStatus.false) {
-		report("/sap.ui5/routing/config/async", MESSAGE.MANIFEST_ASYNC_FALSE_ERROR, {
-			asyncFlagLocation: "/sap.ui5/routing/config/async",
-		});
 	}
 
-	if (isManifestV2) {
+	if (!manifestContent && isManifestV2) {
+		// Inline manifest definition (within Component.js)
+		// Only report errors when no external manifest.json exists to avoid duplication with ManifestLinter
 		// Manifest v2 logic:
 		// - Do not enforce IAsyncContentCreation (if present, do nothing)
 		// - If async flags are present (true), return error message
 		if (rootViewAsyncFlag === AsyncPropertyStatus.true) {
-			report("/sap.ui5/rootView/async", MESSAGE.NO_REMOVED_MANIFEST_PROPERTY, {
+			reporter.addMessage(MESSAGE.NO_REMOVED_MANIFEST_PROPERTY, {
 				propName: "/sap.ui5/rootView/async",
-			});
+			}, {node: classDeclaration});
+		} else if (rootViewAsyncFlag === AsyncPropertyStatus.false) {
+			reporter.addMessage(MESSAGE.MANIFEST_ASYNC_FALSE_ERROR, {
+				asyncFlagLocation: "/sap.ui5/rootView/async",
+			}, {node: classDeclaration});
 		}
+
 		if (routingAsyncFlag === AsyncPropertyStatus.true) {
-			report("/sap.ui5/routing/config/async", MESSAGE.NO_REMOVED_MANIFEST_PROPERTY, {
+			reporter.addMessage(MESSAGE.NO_REMOVED_MANIFEST_PROPERTY, {
 				propName: "/sap.ui5/routing/config/async",
-			});
+			}, {node: classDeclaration});
+		} else if (routingAsyncFlag === AsyncPropertyStatus.false) {
+			reporter.addMessage(MESSAGE.MANIFEST_ASYNC_FALSE_ERROR, {
+				asyncFlagLocation: "/sap.ui5/routing/config/async",
+			}, {node: classDeclaration});
 		}
-	} else {
+	} else if (!isManifestV2) {
 		// Manifest v1 logic:
+		// - If IAsyncContentCreation is missing, check if async flags are present (true), if not return error message
 		if (hasAsyncInterface !== true) {
 			// Check if both IAsyncContentCreation and async flags are missing
 			const hasAnyAsyncFlag = (
@@ -435,14 +461,14 @@ function reportUiComponentResults({
 			// IAsyncContentCreation is present
 			// Check if both IAsyncContentCreation and async flags are present - warning to remove async flags
 			if (rootViewAsyncFlag === AsyncPropertyStatus.true) {
-				report("/sap.ui5/rootView/async", MESSAGE.COMPONENT_REDUNDANT_ASYNC_FLAG, {
+				reporter.addMessage(MESSAGE.COMPONENT_REDUNDANT_ASYNC_FLAG, {
 					asyncFlagLocation: "/sap.ui5/rootView/async",
-				});
+				}, {node: classDeclaration});
 			}
 			if (routingAsyncFlag === AsyncPropertyStatus.true) {
-				report("/sap.ui5/routing/config/async", MESSAGE.COMPONENT_REDUNDANT_ASYNC_FLAG, {
+				reporter.addMessage(MESSAGE.COMPONENT_REDUNDANT_ASYNC_FLAG, {
 					asyncFlagLocation: "/sap.ui5/routing/config/async",
-				});
+				}, {node: classDeclaration});
 			}
 		}
 	}
