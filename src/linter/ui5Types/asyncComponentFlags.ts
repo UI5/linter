@@ -414,20 +414,8 @@ function reportUiComponentResults({
 	// Manifest v1 logic:
 	// - If IAsyncContentCreation is missing, check if async flags are present (true), if not return error message
 	if (hasAsyncInterface !== true) {
-		// Check if both IAsyncContentCreation and async flags are missing
-		const hasAnyAsyncFlag = (
-			rootViewAsyncFlag === AsyncPropertyStatus.true ||
-			routingAsyncFlag === AsyncPropertyStatus.true
-		);
-
-		// Only report missing async interface if there are rootView or routing sections
-		// but no async flags are set to true
-		const hasRootViewOrRouting = (
-			rootViewAsyncFlag !== AsyncPropertyStatus.parentPropNotSet ||
-			routingAsyncFlag !== AsyncPropertyStatus.parentPropNotSet
-		);
-
-		if (hasRootViewOrRouting && !hasAnyAsyncFlag) {
+		if ([AsyncPropertyStatus.propNotSet, AsyncPropertyStatus.false].includes(rootViewAsyncFlag) ||
+			[AsyncPropertyStatus.propNotSet, AsyncPropertyStatus.false].includes(routingAsyncFlag)) {
 			// Both IAsyncContentCreation and async flags are missing - error
 			let asyncFlagMissingIn;
 			if (AsyncPropertyStatus.parentPropNotSet === rootViewAsyncFlag) {
@@ -464,6 +452,7 @@ function reportUiComponentResults({
 		}
 	}
 
+	// Always report async: false flags
 	if (rootViewAsyncFlag === AsyncPropertyStatus.false) {
 		report(
 			MESSAGE.MANIFEST_ASYNC_FALSE_ERROR,
