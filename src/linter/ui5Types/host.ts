@@ -213,7 +213,8 @@ export async function createVirtualLanguageServiceHost(
 			if (silly) {
 				log.silly(`getScriptFileNames`);
 			}
-			return Array.from(files.keys());
+			// Sort file names to ensure deterministic order of processing
+			return Array.from(files.keys()).sort((a, b) => a.localeCompare(b));
 		},
 
 		getScriptVersion: (fileName) => {

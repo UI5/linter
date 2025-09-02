@@ -156,3 +156,36 @@ test("createVirtualLanguageServiceHost: Minimal project with sap/m/Button import
 		"/types/@ui5/linter/types/index.d.ts",
 	]);
 });
+
+test("createVirtualLanguageServiceHost: getScriptFileNames returns sorted files", async (t) => {
+	const sharedLanguageService = new SharedLanguageService();
+
+	// Create file contents in a specific order
+	const fileContents = new Map<string, string>([
+		["/resources/test/z.js", "// Last file"],
+		["/resources/test/a.js", "// First file"],
+		["/resources/test/m.js", "// Middle file"],
+	]);
+
+	const sourceMaps = new Map<string, string>();
+	const context = new LinterContext({
+		rootDir: "/",
+		namespace: "test",
+	});
+
+	const projectScriptVersion = sharedLanguageService.getNextProjectScriptVersion();
+	const host = await createVirtualLanguageServiceHost(
+		{}, fileContents, sourceMaps, context, projectScriptVersion, undefined
+	);
+	const scriptFileNames = host.getScriptFileNames();
+
+	// Verify the files are actually sorted
+	const expectedOrder = [
+		"/resources/test/a.js",
+		"/resources/test/m.js",
+		"/resources/test/z.js",
+	];
+
+	// Check that our test files are in the correct sorted order
+	t.deepEqual(scriptFileNames, expectedOrder, "Resources should be sorted by filename");
+});
