@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.19.1](https://github.com/UI5/linter/compare/v1.19.0...v1.19.1) (2025-09-02)
+
+
+### Bug Fixes
+
+* Ensure deterministic order of processing source files ([#842](https://github.com/UI5/linter/issues/842)) ([dcf884d](https://github.com/UI5/linter/commit/dcf884db5b30b1e36b3f02afd34d89416d5a2281))
+
 ## [1.19.0](https://github.com/UI5/linter/compare/v1.18.1...v1.19.0) (2025-08-28)
 
 
