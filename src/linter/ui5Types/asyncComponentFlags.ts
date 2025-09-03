@@ -370,23 +370,17 @@ function reportUiComponentResults({
 		// Manifest v2 logic:
 		// - Do not enforce IAsyncContentCreation (if present, do nothing)
 		// - If async flags are present (true), return error message, if false it's a clear error in Manifest 2
-		if (rootViewAsyncFlag === AsyncPropertyStatus.true) {
+		if (rootViewAsyncFlag === AsyncPropertyStatus.true ||
+			rootViewAsyncFlag === AsyncPropertyStatus.false) {
 			reporter.addMessage(MESSAGE.NO_REMOVED_MANIFEST_PROPERTY, {
 				propName: "/sap.ui5/rootView/async",
 			}, {node: classDeclaration});
-		} else if (rootViewAsyncFlag === AsyncPropertyStatus.false) {
-			reporter.addMessage(MESSAGE.MANIFEST_ASYNC_FALSE_ERROR, {
-				asyncFlagLocation: "/sap.ui5/rootView/async",
-			}, {node: classDeclaration});
 		}
 
-		if (routingAsyncFlag === AsyncPropertyStatus.true) {
+		if (routingAsyncFlag === AsyncPropertyStatus.true ||
+			routingAsyncFlag === AsyncPropertyStatus.false) {
 			reporter.addMessage(MESSAGE.NO_REMOVED_MANIFEST_PROPERTY, {
 				propName: "/sap.ui5/routing/config/async",
-			}, {node: classDeclaration});
-		} else if (routingAsyncFlag === AsyncPropertyStatus.false) {
-			reporter.addMessage(MESSAGE.MANIFEST_ASYNC_FALSE_ERROR, {
-				asyncFlagLocation: "/sap.ui5/routing/config/async",
 			}, {node: classDeclaration});
 		}
 
