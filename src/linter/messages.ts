@@ -705,7 +705,7 @@ export const MESSAGE_INFO = {
 		severity: LintMessageSeverity.Error,
 		ruleId: RULES["no-outdated-manifest-version"],
 
-		message: () => "manifest.json must be migrated to version 2",
+		message: () => "manifest.json must be migrated to Version 2",
 		details: () =>
 			"Set _version to 2.0.0 or higher and follow the migration guide " +
 			"{@link topic:be0cf40f61184b358b5faedaec98b2da#loiobe0cf40f61184b358b5faedaec98b2da/section_manifest2 " +
