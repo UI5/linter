@@ -159,8 +159,8 @@ export const MESSAGE_INFO = {
 			`The 'async' property at '${asyncFlagLocation}' must be set to 'true'.`,
 		details: () =>
 			`Setting 'async' to 'false' prevents asynchronous loading and is not recommended. ` +
-			`Set 'async: true' or remove the 'async' flag and implement the ` +
-			`sap.ui.core.IAsyncContentCreation interface for proper asynchronous loading support. ` +
+			`Set 'async: true' or remove the 'async' flag and verify if the ` +
+			`sap.ui.core.IAsyncContentCreation interface is implemented for proper asynchronous loading support. ` +
 			`{@link topic:676b636446c94eada183b1218a824717 Use Asynchronous Loading}`,
 	},
 

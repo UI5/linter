@@ -437,29 +437,26 @@ function reportUiComponentResults({
 				"/sap.ui5/rootView/async",
 				classDeclaration
 			);
+		} else if (rootViewAsyncFlag === AsyncPropertyStatus.false) {
+			report(
+				MESSAGE.MANIFEST_ASYNC_FALSE_ERROR,
+				"/sap.ui5/rootView/async",
+				classDeclaration
+			);
 		}
+
 		if (routingAsyncFlag === AsyncPropertyStatus.true) {
 			report(
 				MESSAGE.COMPONENT_REDUNDANT_ASYNC_FLAG,
 				"/sap.ui5/routing/config/async",
 				classDeclaration
 			);
+		} else if (routingAsyncFlag === AsyncPropertyStatus.false) {
+			report(
+				MESSAGE.MANIFEST_ASYNC_FALSE_ERROR,
+				"/sap.ui5/routing/config/async",
+				classDeclaration
+			);
 		}
-	}
-
-	// Always report async: false flags
-	if (rootViewAsyncFlag === AsyncPropertyStatus.false) {
-		report(
-			MESSAGE.MANIFEST_ASYNC_FALSE_ERROR,
-			"/sap.ui5/rootView/async",
-			classDeclaration
-		);
-	}
-	if (routingAsyncFlag === AsyncPropertyStatus.false) {
-		report(
-			MESSAGE.MANIFEST_ASYNC_FALSE_ERROR,
-			"/sap.ui5/routing/config/async",
-			classDeclaration
-		);
 	}
 }
