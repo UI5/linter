@@ -161,7 +161,7 @@ export const MESSAGE_INFO = {
 			`Setting 'async' to 'false' prevents asynchronous loading and is not recommended. Remove the 'async' flag` +
 			(hasAsyncInterface ?
 				". " :
-				` and verify if the sap.ui.core.IAsyncContentCreation ` +
+				` and verify that the sap.ui.core.IAsyncContentCreation ` +
 				`interface is implemented for proper asynchronous loading support. `
 			) +
 			`{@link topic:676b636446c94eada183b1218a824717 Use Asynchronous Loading}`,
