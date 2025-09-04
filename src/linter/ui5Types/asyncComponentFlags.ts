@@ -404,6 +404,7 @@ function reportUiComponentResults({
 		} else {
 			reporter.addMessage(messageId, {
 				asyncFlagLocation: pointerKey,
+				...args,
 			}, {node: location});
 		}
 	};
