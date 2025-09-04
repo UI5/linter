@@ -388,7 +388,8 @@ function reportUiComponentResults({
 	}
 
 	const {pointers} = parseManifest(manifestContent ?? "{}");
-	const report = (messageId: MESSAGE, pointerKey: string, location: ts.ClassDeclaration) => {
+	const report = (messageId: MESSAGE, pointerKey: string,
+		location: ts.ClassDeclaration, args?: Record<string, any>) => {
 		if (manifestContent) {
 			// If the manifest.json is present, then we need to redirect the message pointers to it
 			const {key: posInfo} = pointers[pointerKey];
@@ -396,7 +397,7 @@ function reportUiComponentResults({
 				resourcePath.replace(componentFileName, "manifest.json"),
 				{
 					id: messageId,
-					args: {asyncFlagLocation: pointerKey},
+					args: {asyncFlagLocation: pointerKey, ...args},
 					position: posInfo,
 				}
 			);
@@ -441,7 +442,7 @@ function reportUiComponentResults({
 			report(
 				MESSAGE.MANIFEST_ASYNC_FALSE_ERROR,
 				"/sap.ui5/rootView/async",
-				classDeclaration
+				classDeclaration, {hasAsyncInterface}
 			);
 		}
 
@@ -455,7 +456,7 @@ function reportUiComponentResults({
 			report(
 				MESSAGE.MANIFEST_ASYNC_FALSE_ERROR,
 				"/sap.ui5/routing/config/async",
-				classDeclaration
+				classDeclaration, {hasAsyncInterface}
 			);
 		}
 	}

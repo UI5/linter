@@ -156,11 +156,14 @@ export const MESSAGE_INFO = {
 		ruleId: RULES["async-component-flags"],
 
 		message: ({asyncFlagLocation}: {asyncFlagLocation: string}) =>
-			`The 'async' property at '${asyncFlagLocation}' must be set to 'true'.`,
-		details: () =>
-			`Setting 'async' to 'false' prevents asynchronous loading and is not recommended. ` +
-			`Set 'async: true' or remove the 'async' flag and verify if the ` +
-			`sap.ui.core.IAsyncContentCreation interface is implemented for proper asynchronous loading support. ` +
+			`The 'async' property at '${asyncFlagLocation}' must be removed`,
+		details: ({hasAsyncInterface}: {hasAsyncInterface?: boolean}) =>
+			`Setting 'async' to 'false' prevents asynchronous loading and is not recommended. Remove the 'async' flag` +
+			(hasAsyncInterface ?
+				". " :
+				` and verify if the sap.ui.core.IAsyncContentCreation ` +
+				`interface is implemented for proper asynchronous loading support. `
+			) +
 			`{@link topic:676b636446c94eada183b1218a824717 Use Asynchronous Loading}`,
 	},
 
