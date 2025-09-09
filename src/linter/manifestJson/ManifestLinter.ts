@@ -212,33 +212,19 @@ export default class ManifestLinter {
 		// Check rootView async flag
 		if (typeof rootView === "object" && rootView && "async" in rootView &&
 			typeof rootView.async === "boolean") {
-			if (rootView.async === true) {
-				// Error: async: true is redundant in manifest v2
-				this.#reporter?.addMessage(MESSAGE.NO_REMOVED_MANIFEST_PROPERTY, {
-					propName: "/sap.ui5/rootView/async",
-				}, "/sap.ui5/rootView/async");
-			} else if (rootView.async === false) {
-				// Error: async: false is not supported
-				this.#reporter?.addMessage(MESSAGE.MANIFEST_ASYNC_FALSE_ERROR, {
-					asyncFlagLocation: "/sap.ui5/rootView/async",
-				}, "/sap.ui5/rootView/async");
-			}
+			// Error: async is redundant in manifest v2
+			this.#reporter?.addMessage(MESSAGE.NO_REMOVED_MANIFEST_PROPERTY, {
+				propName: "/sap.ui5/rootView/async",
+			}, "/sap.ui5/rootView/async");
 		}
 
 		// Check routing config async flag
 		if (routing?.config && "async" in routing.config &&
 			typeof routing.config.async === "boolean") {
-			if (routing.config.async === true) {
-				// Error: async: true is redundant in manifest v2
-				this.#reporter?.addMessage(MESSAGE.NO_REMOVED_MANIFEST_PROPERTY, {
-					propName: "/sap.ui5/routing/config/async",
-				}, "/sap.ui5/routing/config/async");
-			} else if (routing.config.async === false) {
-				// Error: async: false is not supported
-				this.#reporter?.addMessage(MESSAGE.MANIFEST_ASYNC_FALSE_ERROR, {
-					asyncFlagLocation: "/sap.ui5/routing/config/async",
-				}, "/sap.ui5/routing/config/async");
-			}
+			// Error: async is redundant in manifest v2
+			this.#reporter?.addMessage(MESSAGE.NO_REMOVED_MANIFEST_PROPERTY, {
+				propName: "/sap.ui5/routing/config/async",
+			}, "/sap.ui5/routing/config/async");
 		}
 	}
 }
