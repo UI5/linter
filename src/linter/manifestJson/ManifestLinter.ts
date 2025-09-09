@@ -223,9 +223,6 @@ export default class ManifestLinter {
 					asyncFlagLocation: "/sap.ui5/rootView/async",
 				}, "/sap.ui5/rootView/async");
 			}
-			// Note: We cannot determine if IAsyncContentCreation is used from manifest alone,
-			// so we only check for async: true/false cases here. The IAsyncContentCreation + async flag
-			// validation is handled in the component analysis (asyncComponentFlags.ts)
 		}
 
 		// Check routing config async flag
@@ -242,7 +239,6 @@ export default class ManifestLinter {
 					asyncFlagLocation: "/sap.ui5/routing/config/async",
 				}, "/sap.ui5/routing/config/async");
 			}
-			// Note: Same as above - IAsyncContentCreation validation is handled elsewhere
 		}
 	}
 }
