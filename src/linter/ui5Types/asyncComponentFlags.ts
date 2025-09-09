@@ -367,9 +367,7 @@ function reportUiComponentResults({
 			return;
 		}
 		// Inline manifest definition (within Component.js)
-		// Manifest v2 logic:
-		// - Do not enforce IAsyncContentCreation (if present, do nothing)
-		// - If async flags are present (true), return error message, if false it's a clear error in Manifest 2
+		// Async flags are completely removed in Manifest Version 2 schema
 		if (rootViewAsyncFlag === AsyncPropertyStatus.true ||
 			rootViewAsyncFlag === AsyncPropertyStatus.false) {
 			reporter.addMessage(MESSAGE.NO_REMOVED_MANIFEST_PROPERTY, {
