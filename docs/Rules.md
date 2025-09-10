@@ -17,6 +17,9 @@
 	- [prefer-test-starter](#prefer-test-starter)
 	- [ui5-class-declaration](#ui5-class-declaration)
 	- [unsupported-api-usage](#unsupported-api-usage)
+	- [no-outdated-manifest-version](#no-outdated-manifest-version)
+	- [no-removed-manifest-property](#no-removed-manifest-property)
+	- [no-legacy-ui5-version-in-manifest](#no-legacy-ui5-version-in-manifest)
 
 ## async-component-flags
 
@@ -118,3 +121,20 @@ Checks whether the declaration of UI5 classes is correct. This rule only applies
 ## unsupported-api-usage
 
 Checks whether the UI5 API is used correctly, for example, whether a formatter in a JavaScript/TypeScript binding declaration is of type `function`.
+
+## no-outdated-manifest-version
+
+Legacy-free UI5 requires Manifest Version 2. This test checks the `_version` property in `manifest.json`.
+
+## no-removed-manifest-property
+
+Manifest Version 2 lacks several properties of earlier versions, which do not match anymore to the new schema. They must be omitted.
+
+## no-legacy-ui5-version-in-manifest
+
+Checks the `sap.ui5/dependencies/minUI5Version` property in `manifest.json` for legacy UI5 versions, which must not be used.
+
+This rule ensures that projects specify a minimum UI5 version that supports modern development practices. As of OpenUI5/SAPUI5 1.136, the new Manifest Version 2 is supported, which provides enhanced capabilities for UI5 applications.
+
+**Related information**
+- [Manifest for Components](https://ui5.sap.com/#/topic/be0cf40f61184b358b5faedaec98b2da#loiobe0cf40f61184b358b5faedaec98b2da/section_manifest2)

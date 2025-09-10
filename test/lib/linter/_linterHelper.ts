@@ -166,21 +166,25 @@ function testDefinition(
 		defineTest = defineTest.only as typeof test;
 		testName = fileName.slice(5);
 	}
+
+	testName = testName.replace(/\\/g, "/");
+
 	// Executing linting in parallel might lead to OOM errors in the CI
 	// Therefore always use serial
 	defineTest(`General: ${testName}`, async (t) => {
 		const {lintFile} = t.context;
 
+		const posixFilePaths = filePaths.map((fileName) => path.posix.join(...fileName.split("\\")));
 		const res = await lintFile({
 			rootDir: fixturesPath,
 			namespace,
-			filePatterns: filePaths,
+			filePatterns: posixFilePaths,
 			coverage: true,
 			details: true,
 			fix,
 		}, t.context.sharedLanguageService);
 		assertExpectedLintResults(t, res, fixturesPath,
-			filePaths.map((fileName) => namespace ? path.join("resources", namespace, fileName) : fileName));
+			posixFilePaths.map((fileName) => namespace ? path.posix.join("resources", namespace, fileName) : fileName));
 
 		const parsingErrors = new Map<string, string[]>();
 		const autofixErrors = new Map<string, string[]>();

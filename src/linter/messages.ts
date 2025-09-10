@@ -18,6 +18,9 @@ export const RULES = {
 	"ui5-class-declaration": "ui5-class-declaration",
 	"unsupported-api-usage": "unsupported-api-usage",
 	"prefer-test-starter": "prefer-test-starter",
+	"no-outdated-manifest-version": "no-outdated-manifest-version",
+	"no-removed-manifest-property": "no-removed-manifest-property",
+	"no-legacy-ui5-version-in-manifest": "no-legacy-ui5-version-in-manifest",
 } as const;
 
 export enum LintMessageSeverity {
@@ -32,6 +35,7 @@ export enum MESSAGE {
 	COMPONENT_MISSING_ASYNC_INTERFACE,
 	COMPONENT_MISSING_MANIFEST_DECLARATION,
 	COMPONENT_REDUNDANT_ASYNC_FLAG,
+	MANIFEST_ASYNC_FALSE_ERROR,
 	CSP_UNSAFE_INLINE_SCRIPT,
 	DEPRECATED_API_ACCESS,
 	DEPRECATED_BOOTSTRAP_PARAM,
@@ -64,7 +68,10 @@ export enum MESSAGE {
 	NO_GLOBALS,
 	NO_ICON_POOL_RENDERER,
 	NO_LEGACY_TEMPLATE_REQUIRE_SYNTAX,
+	NO_LEGACY_UI5_VERSION_IN_MANIFEST,
 	NO_ODATA_GLOBALS,
+	NO_OUTDATED_MANIFEST_VERSION,
+	NO_REMOVED_MANIFEST_PROPERTY,
 	NOT_STATIC_CONTROL_RENDERER,
 	PARSING_ERROR,
 	AUTOFIX_ERROR,
@@ -142,6 +149,22 @@ export const MESSAGE_INFO = {
 			`The redundant 'async' flag at '${asyncFlagLocation}' should be removed from the component manifest`,
 		details: () =>
 			`{@link sap.ui.core.IAsyncContentCreation sap.ui.core.IAsyncContentCreation}`,
+	},
+
+	[MESSAGE.MANIFEST_ASYNC_FALSE_ERROR]: {
+		severity: LintMessageSeverity.Error,
+		ruleId: RULES["async-component-flags"],
+
+		message: ({asyncFlagLocation}: {asyncFlagLocation: string}) =>
+			`The 'async' property at '${asyncFlagLocation}' must be removed`,
+		details: ({hasAsyncInterface}: {hasAsyncInterface?: boolean}) =>
+			`Setting 'async' to 'false' prevents asynchronous loading and is not recommended. Remove the 'async' flag` +
+			(hasAsyncInterface ?
+				". " :
+				` and verify that the sap.ui.core.IAsyncContentCreation ` +
+				`interface is implemented for proper asynchronous loading support. `
+			) +
+			`{@link topic:676b636446c94eada183b1218a824717 Use Asynchronous Loading}`,
 	},
 
 	[MESSAGE.CSP_UNSAFE_INLINE_SCRIPT]: {
@@ -679,6 +702,39 @@ export const MESSAGE_INFO = {
 		details: () =>
 			"Import the 'sap/ui/model/odata/ODataExpressionAddons' module instead. " +
 			"See {@link topic:28fcd55b04654977b63dacbee0552712 Best Practices for Developers}",
+	},
+
+	[MESSAGE.NO_OUTDATED_MANIFEST_VERSION]: {
+		severity: LintMessageSeverity.Error,
+		ruleId: RULES["no-outdated-manifest-version"],
+
+		message: () => "manifest.json must be migrated to Version 2",
+		details: () =>
+			"Set _version to 2.0.0 or higher and follow the migration guide " +
+			"{@link topic:be0cf40f61184b358b5faedaec98b2da#loiobe0cf40f61184b358b5faedaec98b2da/section_manifest2 " +
+			"Manifest Version 2}",
+	},
+
+	[MESSAGE.NO_LEGACY_UI5_VERSION_IN_MANIFEST]: {
+		severity: LintMessageSeverity.Error,
+		ruleId: RULES["no-legacy-ui5-version-in-manifest"],
+
+		message: () => "Use UI5 version 1.136.0 or higher in manifest.json",
+		details: () =>
+			"Set minUI5Version to 1.136.0 or higher and follow the migration guide " +
+			"{@link topic:be0cf40f61184b358b5faedaec98b2da#loiobe0cf40f61184b358b5faedaec98b2da/section_manifest2 " +
+			"Manifest Version 2}",
+	},
+
+	[MESSAGE.NO_REMOVED_MANIFEST_PROPERTY]: {
+		severity: LintMessageSeverity.Error,
+		ruleId: RULES["no-removed-manifest-property"],
+
+		message: ({propName}: {propName: string}) => `Property '${propName}' has been removed in Manifest ` +
+			`Version 2 and must no longer be provided`,
+		details: ({propName}: {propName: string}) => `Remove property '${propName}' and follow the migration guide ` +
+			`{@link topic:be0cf40f61184b358b5faedaec98b2da#loiobe0cf40f61184b358b5faedaec98b2da/section_manifest2 ` +
+			`Manifest Version 2}`,
 	},
 
 } as const;

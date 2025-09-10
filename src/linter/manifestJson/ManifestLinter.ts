@@ -10,6 +10,7 @@ import {ResourcePath} from "../LinterContext.js";
 import LinterContext from "../LinterContext.js";
 import {deprecatedLibraries, deprecatedComponents} from "../../utils/deprecations.js";
 import {MESSAGE} from "../messages.js";
+import semver from "semver";
 import {jsonSourceMapType, parseManifest} from "./parser.js";
 import RemoveJsonPropertyFix from "./fix/RemoveJsonPropertyFix.js";
 
@@ -41,9 +42,44 @@ export default class ManifestLinter {
 
 	#analyzeManifest(source: jsonSourceMapType) {
 		const manifest = source.data;
+		const minUI5Version = manifest?.["sap.ui5"]?.dependencies?.minUI5Version;
+
+		if (minUI5Version) {
+			// Simplify version extraction - handle both string and array cases
+			const availableVersions = Array.isArray(minUI5Version) ?
+				minUI5Version :
+					(typeof minUI5Version === "string" ? [minUI5Version] : []);
+
+			// Check if any version is below 1.136
+			const isBelow136 = availableVersions.some((version: string) => {
+				const normalizedVersion = semver.coerce(version);
+				return normalizedVersion && semver.lt(normalizedVersion, "1.136.0");
+			});
+
+			if (isBelow136) {
+				this.#reporter?.addMessage(MESSAGE.NO_LEGACY_UI5_VERSION_IN_MANIFEST,
+					"/sap.ui5/dependencies/minUI5Version");
+			}
+		}
+
+		if (manifest?._version?.startsWith("2.")) {
+			this.#validatePropertiesForManifestVersion(source, true);
+		} else {
+			this.#validatePropertiesForManifestVersion(source);
+			this.#reporter?.addMessage(MESSAGE.NO_OUTDATED_MANIFEST_VERSION, "/_version");
+		}
+	}
+
+	#validatePropertiesForManifestVersion(source: jsonSourceMapType, isManifest2 = false) {
+		const manifest = source.data;
 		const {resources, models, dependencies, rootView, routing} =
 			(manifest["sap.ui5"] ?? {} as JSONSchemaForSAPUI5Namespace);
 		const {dataSources} = (manifest["sap.app"] ?? {} as JSONSchemaForSAPAPPNamespace);
+
+		// Validate async flags for manifest version 2
+		if (isManifest2) {
+			this.#validateAsyncFlagsForManifestV2(rootView, routing);
+		}
 
 		// Detect deprecated libraries:
 		const libKeys: string[] = (dependencies?.libs && Object.keys(dependencies.libs)) ?? [];
@@ -73,7 +109,7 @@ export default class ManifestLinter {
 		}
 
 		// Detect deprecated view type in routing.config:
-		if (routing?.config && routing.config.viewType && deprecatedViewTypes.includes(routing.config.viewType)) {
+		if (routing?.config?.viewType && deprecatedViewTypes.includes(routing.config.viewType)) {
 			this.#reporter?.addMessage(MESSAGE.DEPRECATED_VIEW_TYPE, {
 				viewType: routing.config.viewType,
 			}, "/sap.ui5/routing/config/viewType");
@@ -106,6 +142,9 @@ export default class ManifestLinter {
 		if (resources?.js) {
 			const key = "/sap.ui5/resources/js";
 			let fix;
+			const messageId = isManifest2 ?
+				MESSAGE.NO_REMOVED_MANIFEST_PROPERTY :
+				MESSAGE.DEPRECATED_MANIFEST_JS_RESOURCES;
 
 			if (!resources.js.length) {
 				// If there are no js resources, we can remove the whole array and
@@ -118,9 +157,7 @@ export default class ManifestLinter {
 				});
 			}
 
-			this.#reporter?.addMessage(
-				MESSAGE.DEPRECATED_MANIFEST_JS_RESOURCES, {} as never, key, fix
-			);
+			this.#reporter?.addMessage(messageId, {propName: key}, key, fix);
 		}
 
 		const modelKeys: string[] = (models && Object.keys(models)) ?? [];
@@ -166,5 +203,28 @@ export default class ManifestLinter {
 				}, key, fix);
 			}
 		});
+	}
+
+	#validateAsyncFlagsForManifestV2(
+		rootView: JSONSchemaForSAPUI5Namespace["rootView"],
+		routing: JSONSchemaForSAPUI5Namespace["routing"]
+	) {
+		// Check rootView async flag
+		if (typeof rootView === "object" && rootView && "async" in rootView &&
+			typeof rootView.async === "boolean") {
+			// Error: async is redundant in manifest v2
+			this.#reporter?.addMessage(MESSAGE.NO_REMOVED_MANIFEST_PROPERTY, {
+				propName: "/sap.ui5/rootView/async",
+			}, "/sap.ui5/rootView/async");
+		}
+
+		// Check routing config async flag
+		if (routing?.config && "async" in routing.config &&
+			typeof routing.config.async === "boolean") {
+			// Error: async is redundant in manifest v2
+			this.#reporter?.addMessage(MESSAGE.NO_REMOVED_MANIFEST_PROPERTY, {
+				propName: "/sap.ui5/routing/config/async",
+			}, "/sap.ui5/routing/config/async");
+		}
 	}
 }
