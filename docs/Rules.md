@@ -133,3 +133,8 @@ Manifest Version 2 lacks several properties of earlier versions, which do not ma
 ## no-legacy-ui5-version-in-manifest
 
 Checks the `sap.ui5/dependencies/minUI5Version` property in `manifest.json` for legacy UI5 versions, which must not be used.
+
+This rule ensures that projects specify a minimum UI5 version that supports modern development practices. As of OpenUI5/SAPUI5 1.136, the new Manifest Version 2 is supported, which provides enhanced capabilities for UI5 applications.
+
+**Related information**
+- [Manifest for Components](https://ui5.sap.com/#/topic/be0cf40f61184b358b5faedaec98b2da#loiobe0cf40f61184b358b5faedaec98b2da/section_manifest2)
