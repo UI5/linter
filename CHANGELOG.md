@@ -1,5 +1,26 @@
 # Changelog
 
+## [1.20.0](https://github.com/UI5/linter/compare/v1.19.0...v1.20.0) (2025-09-11)
+
+
+### Features
+
+* Consider UI5 Manifest v2 ([#780](https://github.com/UI5/linter/issues/780)) ([d29801d](https://github.com/UI5/linter/commit/d29801da8ac2534343c2368f3f8bf95aa4e92d56))
+
+
+### Bug Fixes
+
+* Ensure deterministic order of processing source files ([#842](https://github.com/UI5/linter/issues/842)) ([dcf884d](https://github.com/UI5/linter/commit/dcf884db5b30b1e36b3f02afd34d89416d5a2281))
+
+
+### Dependencies
+
+* Bump @jridgewell/trace-mapping from 0.3.30 to 0.3.31 ([48a9a4b](https://github.com/UI5/linter/commit/48a9a4bd2586bc400f52f3487994e9cb4d4c7311))
+* Bump @sapui5/types from 1.136.7 to 1.136.8 ([#850](https://github.com/UI5/linter/issues/850)) ([3a07ad8](https://github.com/UI5/linter/commit/3a07ad8181d4d6633f03b24824033e4f9bf701bc))
+* Bump chalk from 5.6.0 to 5.6.2 ([94639e0](https://github.com/UI5/linter/commit/94639e0dadf143e10a19097f70f20313689911da))
+* Bump globals from 16.3.0 to 16.4.0 ([9f3c522](https://github.com/UI5/linter/commit/9f3c522dd9b9b08095d7d79f7f76f45d1835d771))
+* Bump magic-string from 0.30.18 to 0.30.19 ([7ed2b58](https://github.com/UI5/linter/commit/7ed2b58c46abee4f7062e50d3f1ff07b1ac9b755))
+
 ## [1.19.0](https://github.com/UI5/linter/compare/v1.18.1...v1.19.0) (2025-08-28)
 
 
