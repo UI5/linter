@@ -4,7 +4,7 @@ import LinterContext from "../../../src/linter/LinterContext.js";
 
 test("Test YamlLinter report", async (t) => {
 	const resourceContent =
-`specVersion: '3.0'
+		`specVersion: '3.0'
 metadata:
   name: ava-test-ui5yamllinter
 type: application
@@ -49,7 +49,7 @@ framework:
 
 test("Test YamlLinter report with multiple documents", async (t) => {
 	const resourceContent =
-`--- # This is the first document part
+		`--- # This is the first document part
 specVersion: "3.2"
 kind: extension
 type: task
@@ -123,7 +123,7 @@ framework:
 
 test("Test YamlLinter report with multiple documents and empty lines", async (t) => {
 	const resourceContent =
-`--- # This is the first document part
+		`--- # This is the first document part
 specVersion: "3.2"
 kind: extension
 type: task
@@ -199,7 +199,7 @@ framework:
 
 test("Test YamlLinter report with multiple documents and without comments", async (t) => {
 	const resourceContent =
-`---
+		`---
 specVersion: "3.2"
 kind: extension
 type: task
@@ -273,7 +273,7 @@ framework:
 
 test("Test YamlLinter report with multiple documents and without first separator", async (t) => {
 	const resourceContent =
-`specVersion: "3.2"
+		`specVersion: "3.2"
 kind: extension
 type: task
 metadata:
