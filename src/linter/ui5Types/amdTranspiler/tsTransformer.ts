@@ -28,8 +28,8 @@ interface NodeComments {
 
 function removeCommentFromSourceFile(sourceFile: ts.SourceFile, comment: ts.CommentRange) {
 	sourceFile.text =
-			sourceFile.text.slice(0, comment.pos).padEnd(comment.end, " ") +
-			sourceFile.text.slice(comment.end);
+		sourceFile.text.slice(0, comment.pos).padEnd(comment.end, " ") +
+		sourceFile.text.slice(comment.end);
 }
 
 function isBlockLike(node: ts.Node): node is ts.BlockLike {
