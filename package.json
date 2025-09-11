@@ -72,7 +72,7 @@
 	},
 	"dependencies": {
 		"@jridgewell/sourcemap-codec": "^1.5.5",
-		"@jridgewell/trace-mapping": "^0.3.30",
+		"@jridgewell/trace-mapping": "^0.3.31",
 		"@sapui5/types": "1.136.7",
 		"@ui5/fs": "^4.0.1",
 		"@ui5/logger": "^4.0.1",
