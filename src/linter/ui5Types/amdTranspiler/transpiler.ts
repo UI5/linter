@@ -5,6 +5,7 @@ import {taskStart} from "../../../utils/perf.js";
 import LinterContext, {TranspileResult} from "../../LinterContext.js";
 import {createTransformer} from "./tsTransformer.js";
 import {UnsupportedModuleError} from "./util.js";
+import {UnsafeNodeRemoval} from "./pruneNode.js";
 
 const log = getLogger("linter:ui5Types:amdTranspiler:transpiler");
 
@@ -121,6 +122,13 @@ export default function transpileAmdToEsm(
 		} else if (err instanceof Error && err.message.startsWith("Debug Failure")) {
 			// We probably failed to create a valid AST. The error is thrown by TypeScript itself.
 			log.verbose(`AST transformation failed for module ${fileName}: ${err.message}`);
+			if (err.stack) {
+				log.verbose(`Stack trace:`);
+				log.verbose(err.stack);
+			}
+			return {source: content, map: ""};
+		} else if (err instanceof UnsafeNodeRemoval && err.message.startsWith("Cannot remove ConditionalExpression")) {
+			log.verbose(`Failed to transform module ${fileName}: ${err.message}`);
 			if (err.stack) {
 				log.verbose(`Stack trace:`);
 				log.verbose(err.stack);

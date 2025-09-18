@@ -2,6 +2,7 @@ import anyTest, {TestFn} from "ava";
 import sinonGlobal from "sinon";
 import LinterContext from "../../../../src/linter/LinterContext.js";
 import {UnsupportedModuleError} from "../../../../src/linter/ui5Types/amdTranspiler/util.js";
+import {UnsafeNodeRemoval} from "../../../../src/linter/ui5Types/amdTranspiler/pruneNode.js";
 import esmock from "esmock";
 
 const test = anyTest as TestFn<{
@@ -132,4 +133,32 @@ test.serial("Error: Unexpected TypeScript Debug Failure during transformation (s
 	t.throws(() => transpileAmdToEsm("/resources/my/app/x.js", inputSource, context, true), {
 		message: "Debug Failure. TEST",
 	});
+});
+
+test.serial("Error: UnsafeNodeRemoval with ConditionalExpression", (t) => {
+	const {transpileAmdToEsm, transformFunctionStub, log} = t.context;
+
+	const context = new LinterContext({
+		rootDir: "/",
+		namespace: "my/app",
+	});
+
+	const inputSource = "const x = condition ? valueA : valueB;";
+
+	const error = new UnsafeNodeRemoval(
+		"Cannot remove ConditionalExpression with only one part marked for removal at [1,10]");
+	transformFunctionStub.throws(error);
+
+	const {source, map} = transpileAmdToEsm("/resources/my/app/x.js", inputSource, context);
+
+	t.is(source, inputSource);
+	t.is(map, "");
+
+	// Verify that the appropriate log.verbose messages are called
+	t.is(log.verbose.callCount, 3);
+	t.deepEqual(log.verbose.getCall(0).args,
+		["Failed to transform module x.js: Cannot remove ConditionalExpression" +
+			" with only one part marked for removal at [1,10]"]);
+	t.deepEqual(log.verbose.getCall(1).args, ["Stack trace:"]);
+	t.deepEqual(log.verbose.getCall(2).args, [error.stack]);
 });
