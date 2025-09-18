@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.20.1](https://github.com/UI5/linter/compare/v1.20.0...v1.20.1) (2025-09-18)
+
+
+### Bug Fixes
+
+* Handle correctly transpilation exception of UnsafeNodeRemoval ([#870](https://github.com/UI5/linter/issues/870)) ([5a61cb0](https://github.com/UI5/linter/commit/5a61cb0953a1c92816b508b9e64fd3a2022d22d6))
+
+
+### Dependencies
+
+* Bump @ui5/fs from 4.0.1 to 4.0.2 ([674b8fb](https://github.com/UI5/linter/commit/674b8fbcc80baff3612577b46dadd5f39dded889))
+* Bump @ui5/project from 4.0.4 to 4.0.5 ([e1e95ff](https://github.com/UI5/linter/commit/e1e95ff400a7b079a9ccdc0925fb25b5f485ad31))
+
 ## [1.20.0](https://github.com/UI5/linter/compare/v1.19.0...v1.20.0) (2025-09-11)
 
 
