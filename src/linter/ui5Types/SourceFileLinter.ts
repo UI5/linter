@@ -139,8 +139,8 @@ export default class SourceFileLinter {
 					originalPath: this.sourceFile.fileName,
 				};
 				await Promise.all([
-					await this.filePathsWorkspace.write(newResource),
-					await this.workspace.write(newResource),
+					this.filePathsWorkspace.write(newResource),
+					this.workspace.write(newResource),
 				]);
 			}
 		} catch (err) {
