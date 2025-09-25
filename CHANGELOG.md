@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.20.2](https://github.com/UI5/linter/compare/v1.20.1...v1.20.2) (2025-09-25)
+
+
+### Dependencies
+
+* Bump @ui5/project from 4.0.5 to 4.0.6 ([184ea9e](https://github.com/UI5/linter/commit/184ea9ec772d7694a757657fb04992ce1f0565eb))
+
 ## [1.20.1](https://github.com/UI5/linter/compare/v1.20.0...v1.20.1) (2025-09-18)
 
 
