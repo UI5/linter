@@ -93,7 +93,7 @@
 		"yargs": "^17.7.2"
 	},
 	"devDependencies": {
-		"@commitlint/cli": "^19.8.1",
+		"@commitlint/cli": "^20.0.0",
 		"@commitlint/config-conventional": "^19.8.1",
 		"@eslint/js": "^9.36.0",
 		"@istanbuljs/esm-loader-hook": "^0.3.0",
