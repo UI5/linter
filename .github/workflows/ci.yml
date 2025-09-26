@@ -41,3 +41,7 @@ jobs:
 
     - name: Send report to Coveralls for package @ui5/linter
       uses: coverallsapp/github-action@v2.3.6
+      with:
+        # Pinned to v0.6.15 as workaround for 500 server errors
+        # See: https://github.com/coverallsapp/coverage-reporter/issues/180
+        coverage-reporter-version: v0.6.15
