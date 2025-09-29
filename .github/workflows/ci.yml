@@ -41,7 +41,6 @@ jobs:
 
     - name: Send report to Coveralls for package @ui5/linter
       uses: coverallsapp/github-action@v2.3.6
-      continue-on-error: true
 
     - name: Should still pass
       run: echo "If we reached this step, everything went well!"
