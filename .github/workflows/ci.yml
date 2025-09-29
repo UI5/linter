@@ -39,5 +39,11 @@ jobs:
     - name: Run unit tests
       run: npm run coverage
 
-    - name: Send report to Coveralls for package @ui5/linter
+    - name: Send report to Coveralls for package @ui5/linter (TEST - WILL FAIL)
       uses: coverallsapp/github-action@v2.3.6
+      continue-on-error: true
+      with:
+        github-token: invalid-token-to-test-failure
+
+    - name: Test step after Coveralls (should execute even if Coveralls fails)
+      run: echo "This step executed successfully after Coveralls step"
