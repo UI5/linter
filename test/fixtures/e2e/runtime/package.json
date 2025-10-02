@@ -3,7 +3,9 @@
 	"version": "0.0.0",
 	"private": true,
 	"scripts": {
-		"test": "ui5-test-runner --start serve --global-timeout 30s --url http://localhost:8055/test-resources/ui5linter/test/e2e/runtime/qunit/testsuite.qunit.html",
+		"test": "npm run install-puppeteer-browsers && npm run test-runner",
+		"test-runner": "ui5-test-runner --start serve --global-timeout 30s --url http://localhost:8055/test-resources/ui5linter/test/e2e/runtime/qunit/testsuite.qunit.html",
+		"install-puppeteer-browsers": "npx puppeteer browsers install",
 		"serve": "ui5 serve --port 8055"
 	}
 }
