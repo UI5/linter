@@ -1,7 +1,7 @@
 {
   "framework": {
     "name": "SAPUI5",
-    "version": "1.136.8"
+    "version": "1.136.9"
   },
   "metadata": {
     "sap.ca.ui.AddPicture": {
@@ -3746,7 +3746,8 @@
     },
     "sap.gantt.simple.StockChart": {
       "aggregation": [
-        "stockChartDimensions"
+        "stockChartDimensions",
+        "customMiddleLine"
       ],
       "defaultAggregation": "stockChartDimensions",
       "property": [
