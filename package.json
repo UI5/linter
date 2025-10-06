@@ -95,7 +95,7 @@
 	"devDependencies": {
 		"@commitlint/cli": "^20.1.0",
 		"@commitlint/config-conventional": "^19.8.1",
-		"@eslint/js": "^9.36.0",
+		"@eslint/js": "^9.37.0",
 		"@istanbuljs/esm-loader-hook": "^0.3.0",
 		"@istanbuljs/nyc-config-typescript": "^1.0.2",
 		"@stylistic/eslint-plugin": "^5.4.0",
