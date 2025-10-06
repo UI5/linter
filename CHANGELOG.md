@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.20.2](https://github.com/UI5/linter/compare/v1.20.1...v1.20.2) (2025-10-06)
+
+
+### Dependencies
+
+* Bump @sapui5/types from 1.136.8 to 1.136.9 ([eeae10a](https://github.com/UI5/linter/commit/eeae10a15f8513bbab44c1c04977ce6b92a2a177))
+* Bump @ui5/fs from 4.0.2 to 4.0.3 ([8639fb2](https://github.com/UI5/linter/commit/8639fb280d3258237dc75ac70fbb78fe2d3f0b5f))
+* Bump @ui5/project from 4.0.5 to 4.0.6 ([184ea9e](https://github.com/UI5/linter/commit/184ea9ec772d7694a757657fb04992ce1f0565eb))
+* Bump fast-xml-parser from 5.2.5 to 5.3.0 ([2d05f07](https://github.com/UI5/linter/commit/2d05f07d38c1c020a723d127322dfeb62d2b593a))
+* Bump typescript from 5.9.2 to 5.9.3 ([a5e5c71](https://github.com/UI5/linter/commit/a5e5c7171adb2cdca6d8c81bc3a35d66a7d211e6))
+
 ## [1.20.1](https://github.com/UI5/linter/compare/v1.20.0...v1.20.1) (2025-09-18)
 
 
