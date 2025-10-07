@@ -121,7 +121,7 @@
 		"rimraf": "^6.0.1",
 		"sinon": "^21.0.0",
 		"tsx": "^4.20.6",
-		"typescript-eslint": "^8.45.0",
+		"typescript-eslint": "^8.46.0",
 		"ui5-test-runner": "^5.10.0",
 		"yauzl-promise": "^4.0.0"
 	}
