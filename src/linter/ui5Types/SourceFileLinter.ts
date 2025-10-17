@@ -340,6 +340,10 @@ export default class SourceFileLinter {
 				// i.e. { renderer: {apiVersion: 2, render: () => {}} }
 				this.analyzeControlRendererInternals(rendererMember.initializer);
 			}
+		} else if (ts.isMethodDeclaration(rendererMember)) {
+			// Analyze renderer property when it's a function (which gets transpiled to a method declaration)
+			// i.e. { renderer: function() => {} }
+			this.analyzeControlRendererInternals(rendererMember);
 		}
 	}
 
