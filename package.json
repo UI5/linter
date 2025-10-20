@@ -112,7 +112,7 @@
 		"@ui5/cli": "^4.0.30",
 		"ava": "^6.4.1",
 		"depcheck": "^1.4.7",
-		"eslint": "^9.37.0",
+		"eslint": "^9.38.0",
 		"eslint-plugin-ava": "^15.1.0",
 		"esmock": "^2.7.3",
 		"husky": "^9.1.7",
