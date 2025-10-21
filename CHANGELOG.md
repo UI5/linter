@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.20.3](https://github.com/UI5/linter/compare/v1.20.2...v1.20.3) (2025-10-21)
+
+
+### Dependencies
+
+* Bump semver from 7.7.2 to 7.7.3 ([a6b05d6](https://github.com/UI5/linter/commit/a6b05d66840a03521a725a4ec87a0095b1d7b49b))
+
 ## [1.20.2](https://github.com/UI5/linter/compare/v1.20.1...v1.20.2) (2025-10-06)
 
 
