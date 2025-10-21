@@ -165,7 +165,7 @@ export async function createVirtualLanguageServiceHost(
 
 	function mapToTypePath(fileName: string): string | undefined {
 		const pkgName = fileName.match(pathMappingRegex);
-		if (pkgName && pkgName.length === 3) {
+		if (pkgName?.length === 3) {
 			const mappedPath = typePathMappings.get(pkgName[1]);
 			if (mappedPath) {
 				return path.join(mappedPath, pkgName[2]);
