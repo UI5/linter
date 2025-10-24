@@ -19,24 +19,6 @@ sap.ui.define([
 		renderer: undefined
 	});
 
-	const NegativeExample4 = Control.extend("sap.ui.demo.linter.controls.NegativeExample4", {
-		metadata: {},
-		renderer: function(oRm, oControl) {
-		}
-	});
-
-	const NegativeExample5 = Control.extend("sap.ui.demo.linter.controls.NegativeExample5", {
-		metadata: {},
-		renderer: (oRm, oControl) => {
-		}
-	});
-
-	const NegativeExample6 = Control.extend("sap.ui.demo.linter.controls.NegativeExample6", {
-		metadata: {},
-		renderer(oRm, oControl) {
-		}
-	});
-
 	const NegativeExample7 = Button.extend("sap.ui.demo.linter.controls.NegativeExample7", {
 		metadata: {},
 		renderer: {
