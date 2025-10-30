@@ -1,7 +1,7 @@
 {
   "framework": {
     "name": "SAPUI5",
-    "version": "1.136.9"
+    "version": "1.136.10"
   },
   "metadata": {
     "sap.ca.ui.AddPicture": {
@@ -9021,6 +9021,7 @@
         "_btn"
       ],
       "event": [
+        "customInput",
         "inputLiveUpdate",
         "scanFail",
         "scanSuccess"
