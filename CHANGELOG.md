@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.20.3](https://github.com/UI5/linter/compare/v1.20.2...v1.20.3) (2025-10-31)
+
+
+### Bug Fixes
+
+* **rules/renderer:** Detect missing apiVersion for method declarations ([ecde6ec](https://github.com/UI5/linter/commit/ecde6ecdcbf2d084897aabf3c81a81b86a917a56))
+
+
+### Dependencies
+
+* Bump @sapui5/types from 1.136.9 to 1.136.10 ([5e51cf1](https://github.com/UI5/linter/commit/5e51cf15bb910a14f7a47593768ca73b7b0fd70f))
+* Bump @ui5/project from 4.0.6 to 4.0.7 ([bf51ba8](https://github.com/UI5/linter/commit/bf51ba8815d5666ae70ec64972b6c3c2267a0375))
+* Bump @ui5/project from 4.0.7 to 4.0.8 ([3fa4316](https://github.com/UI5/linter/commit/3fa4316c55fbc626536327a4d10112df90f849b4))
+* Bump magic-string from 0.30.19 to 0.30.21 ([1208fdd](https://github.com/UI5/linter/commit/1208fdd5143c47a34bbaa498c589143c5d2cf692))
+* Bump minimatch from 10.0.3 to 10.1.1 ([a2b73b4](https://github.com/UI5/linter/commit/a2b73b4fda93fdc638371952273cc3e3296d0d66))
+* Bump semver from 7.7.2 to 7.7.3 ([a6b05d6](https://github.com/UI5/linter/commit/a6b05d66840a03521a725a4ec87a0095b1d7b49b))
+
 ## [1.20.2](https://github.com/UI5/linter/compare/v1.20.1...v1.20.2) (2025-10-06)
 
 
