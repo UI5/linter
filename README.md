@@ -1,3 +1,4 @@
+DEBUG: TEMP (will delete)
 ![UI5 logo](./docs/images/UI5_logo_wide.png)
 
 # UI5 Linter
