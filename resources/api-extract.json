@@ -1,7 +1,7 @@
 {
   "framework": {
     "name": "SAPUI5",
-    "version": "1.136.10"
+    "version": "1.136.11"
   },
   "metadata": {
     "sap.ca.ui.AddPicture": {
@@ -19162,6 +19162,10 @@
       "event": [
         "contentChanged"
       ],
+      "property": [
+        "width",
+        "height"
+      ],
       "extends": "sap.ui.core.Control"
     },
     "sap.ui.vk.FlexibleControl": {
@@ -19666,14 +19670,7 @@
     "sap.ui.vk.Toolbar": {
       "aggregation": [
         "content",
-        "_toolbar",
-        "_helpButton",
-        "_stepNavigationButton",
-        "_sceneTreeButton",
-        "_miniMapButton",
-        "_enterFullScreenButton",
-        "_exitFullScreenButton",
-        "_toolbarTitle"
+        "_toolbar"
       ],
       "association": [
         "viewer"
@@ -20014,6 +20011,12 @@
         "showStepNavigation",
         "showStepNavigationThumbnails",
         "overlayStepNavigation",
+        "enableLayersPanel",
+        "showLayersPanel",
+        "enableElementsPanel",
+        "showElementsPanel",
+        "enablePageGallery",
+        "showPageGallery",
         "enableToolbar",
         "enableProgressIndicator",
         "showDrawerToolbar",
@@ -20026,6 +20029,7 @@
         "recursiveSelection",
         "runtimeSettings",
         "webGLContextAttributes",
+        "hotspotsEnabled",
         "showAllHotspots",
         "hotspotColorABGR",
         "hotspotColor"
