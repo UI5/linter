@@ -11,7 +11,7 @@
 			"dependencies": {
 				"@jridgewell/sourcemap-codec": "^1.5.5",
 				"@jridgewell/trace-mapping": "^0.3.31",
-				"@sapui5/types": "1.136.10",
+				"@sapui5/types": "1.136.11",
 				"@ui5/fs": "^4.0.3",
 				"@ui5/logger": "^4.0.1",
 				"@ui5/project": "^4.0.8",
@@ -3546,9 +3546,9 @@
 			}
 		},
 		"node_modules/@sapui5/types": {
-			"version": "1.136.10",
-			"resolved": "https://registry.npmjs.org/@sapui5/types/-/types-1.136.10.tgz",
-			"integrity": "sha512-XaoRsHFgly/eGZtEsNsVaVjyOCvzc46njQB7p1UzqK87+Fhkf/O2Bh8wqRs+CV5uA2plxK7hp5vI71ZjrdRDRQ==",
+			"version": "1.136.11",
+			"resolved": "https://registry.npmjs.org/@sapui5/types/-/types-1.136.11.tgz",
+			"integrity": "sha512-9DDMFHzsBJAVTeZ7YXtzlNSoBKncpk+3buBfi2Dm+CZPPHBy7PZByOqF77cejARInKgDhh9d7vXW8Y4dknVsoQ==",
 			"license": "SEE LICENSE IN LICENSE.txt",
 			"dependencies": {
 				"@types/jquery": "3.5.13",
