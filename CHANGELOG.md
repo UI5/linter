@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.20.4](https://github.com/UI5/linter/compare/v1.20.3...v1.20.4) (2025-11-17)
+
+
+### Dependencies
+
+* Bump @sapui5/types from 1.136.10 to 1.136.11 ([bf2dd98](https://github.com/UI5/linter/commit/bf2dd984966e51a78d0ca3f2bdba109a5ad41488))
+* Bump js-yaml from 4.1.0 to 4.1.1 ([34badcb](https://github.com/UI5/linter/commit/34badcbab93079dde8d65a7e98f8bc9fa8ecf769))
+
 ## [1.20.3](https://github.com/UI5/linter/compare/v1.20.2...v1.20.3) (2025-10-31)
 
 
