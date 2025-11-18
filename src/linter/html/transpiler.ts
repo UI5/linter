@@ -288,9 +288,8 @@ function checkBindingSyntaxAttr(
 	// binding-syntax="complex"
 	if (attr.value.value.toLowerCase() === "complex") {
 		// Remove binding-syntax if compat-version=edge
-		const fix = compatVersionAttr && compatVersionAttr.value.value.toLowerCase() === "edge" ?
-			new RemoveAttributeFix(tag, attr) :
-			undefined;
+		const compatVersion = compatVersionAttr?.value.value.toLowerCase();
+		const fix = compatVersion === "edge" ? new RemoveAttributeFix(tag, attr) : undefined;
 
 		report.addMessage(MESSAGE.REDUNDANT_BOOTSTRAP_PARAM, {
 			name: attr.name.value,

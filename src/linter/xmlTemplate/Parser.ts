@@ -94,7 +94,9 @@ export default class Parser {
 		this.#resourcePath = resourcePath;
 		this.#xmlDocumentKind = xmlDocumentKind;
 		this.#generator = xmlDocumentKind === DocumentKind.View ?
+		// eslint-disable-next-line @stylistic/indent -- Rule bug with new expression in ternary expressions
 			new ViewGenerator(resourcePath, controllerByIdInfo) :
+		// eslint-disable-next-line @stylistic/indent -- Rule bug with new expression in ternary expressions
 			new FragmentGenerator(resourcePath, controllerByIdInfo);
 
 		this.#apiExtract = apiExtract;
