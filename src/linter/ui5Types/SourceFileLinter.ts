@@ -1143,9 +1143,7 @@ export default class SourceFileLinter {
 		}
 
 		const sourceMapJson = this.typeLinter.getSourceMap(this.sourceFile.fileName);
-		const traceMap = sourceMapJson ?
-			new TraceMap(JSON.parse(sourceMapJson) as SourceMapInput) :
-			undefined;
+		const traceMap = sourceMapJson ? new TraceMap(JSON.parse(sourceMapJson) as SourceMapInput) : undefined;
 		const pos = this.sourceFile.getLineAndCharacterOfPosition(definitionProperty.initializer.pos);
 		const posInSource = traceMap ?
 				originalPositionFor(traceMap, {line: pos.line, column: pos.character}) :
