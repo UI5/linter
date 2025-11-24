@@ -40,5 +40,5 @@ jobs:
       run: npm run coverage
 
     - name: Send report to Coveralls for package @ui5/linter
-      uses: coverallsapp/github-action@v2.3.6
+      uses: coverallsapp/github-action@v2.3.7
       continue-on-error: true # Do not fail the job if coverage reporting fails (e.g. service is down)
