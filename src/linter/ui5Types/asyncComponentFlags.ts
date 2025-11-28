@@ -227,7 +227,7 @@ function doPropsCheck(metadata: ts.PropertyDeclaration, manifestContent: string 
 		const manifestJson = extractPropsRecursive(componentManifest.initializer) ?? {};
 		manifestVersion = manifestJson?._version?.value as (string | undefined);
 
-		let manifestSapui5Section: propsRecordValueType | propsRecordValueType[] | undefined;
+		let manifestSapui5Section: propsRecordValueType | propsRecordValueType[];
 		if (instanceOfPropsRecord(manifestJson["sap.ui5"])) {
 			manifestSapui5Section = manifestJson["sap.ui5"].value;
 		}
