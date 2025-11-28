@@ -20,7 +20,7 @@ declare module "@ui5/project" {
 		id: string;
 		version: string;
 		path: string;
-		configuration?: object | object[];
+		configuration?: object;
 		configPath?: string;
 		dependencies: DependencyTreeNode[];
 	}
