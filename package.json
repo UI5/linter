@@ -120,7 +120,7 @@
 		"nyc": "^17.1.0",
 		"rimraf": "^6.1.2",
 		"sinon": "^21.0.0",
-		"tsx": "^4.20.6",
+		"tsx": "^4.21.0",
 		"typescript-eslint": "^8.48.0",
 		"ui5-test-runner": "^5.11.2",
 		"yauzl-promise": "^4.0.0"
