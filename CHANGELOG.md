@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.20.6](https://github.com/UI5/linter/compare/v1.20.5...v1.20.6) (2025-12-07)
+
+
+### Dependencies
+
+* Bump @sapui5/types from 1.136.11 to 1.136.12 ([#947](https://github.com/UI5/linter/issues/947)) ([17ebfc4](https://github.com/UI5/linter/commit/17ebfc486dab53ca8c0a1932cbb3edb2acca58bc))
+* Bump @ui5/project from 4.0.8 to 4.0.9 ([6fce75c](https://github.com/UI5/linter/commit/6fce75c8a0a6febe565d2abfa6b5d6a07c33c0f0))
+* Bump sax-wasm from 3.1.2 to 3.1.3 ([eaa36eb](https://github.com/UI5/linter/commit/eaa36eb867ff00c978fd67fede5e80193abfcc27))
+
 ## [1.20.5](https://github.com/UI5/linter/compare/v1.20.4...v1.20.5) (2025-11-18)
 
 
