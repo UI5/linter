@@ -17,7 +17,7 @@
 				"@ui5/project": "^4.0.9",
 				"chalk": "^5.6.2",
 				"data-with-position": "^0.5.0",
-				"fast-xml-parser": "^5.3.2",
+				"fast-xml-parser": "^5.3.3",
 				"figures": "^6.1.0",
 				"globals": "^16.5.0",
 				"he": "^1.2.0",
@@ -12898,15 +12898,16 @@
 			]
 		},
 		"node_modules/fast-xml-parser": {
-			"version": "5.3.2",
-			"resolved": "https://registry.npmjs.org/fast-xml-parser/-/fast-xml-parser-5.3.2.tgz",
-			"integrity": "sha512-n8v8b6p4Z1sMgqRmqLJm3awW4NX7NkaKPfb3uJIBTSH7Pdvufi3PQ3/lJLQrvxcMYl7JI2jnDO90siPEpD8JBA==",
+			"version": "5.3.3",
+			"resolved": "https://registry.npmjs.org/fast-xml-parser/-/fast-xml-parser-5.3.3.tgz",
+			"integrity": "sha512-2O3dkPAAC6JavuMm8+4+pgTk+5hoAs+CjZ+sWcQLkX9+/tHRuTkQh/Oaifr8qDmZ8iEHb771Ea6G8CdwkrgvYA==",
 			"funding": [
 				{
 					"type": "github",
 					"url": "https://github.com/sponsors/NaturalIntelligence"
 				}
 			],
+			"license": "MIT",
 			"dependencies": {
 				"strnum": "^2.1.0"
 			},
