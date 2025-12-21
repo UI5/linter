@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.20.7](https://github.com/UI5/linter/compare/v1.20.6...v1.20.7) (2025-12-21)
+
+
+### Dependencies
+
+* Bump fast-xml-parser from 5.3.2 to 5.3.3 ([987defc](https://github.com/UI5/linter/commit/987defc0c702b30517c21c72be9984174c0c9955))
+
 ## [1.20.6](https://github.com/UI5/linter/compare/v1.20.5...v1.20.6) (2025-12-07)
 
 
