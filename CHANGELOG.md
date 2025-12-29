@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.20.7](https://github.com/UI5/linter/compare/v1.20.6...v1.20.7) (2025-12-29)
+
+
+### Dependencies
+
+* Bump @sapui5/types from 1.136.12 to 1.136.13 ([#960](https://github.com/UI5/linter/issues/960)) ([91d5395](https://github.com/UI5/linter/commit/91d53957eea85c7f113bb77c19a4258d4b27f509))
+* Bump fast-xml-parser from 5.3.2 to 5.3.3 ([987defc](https://github.com/UI5/linter/commit/987defc0c702b30517c21c72be9984174c0c9955))
+
 ## [1.20.6](https://github.com/UI5/linter/compare/v1.20.5...v1.20.6) (2025-12-07)
 
 
