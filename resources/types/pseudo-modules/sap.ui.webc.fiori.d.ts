@@ -9,6 +9,7 @@ declare module "sap/ui/webc/fiori/BarDesign" {
 	 * This enum is part of the 'sap/ui/webc/fiori/library' module export and must be accessed by the property 'BarDesign'.
 	 *
 	 * @experimental (since 1.92.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.fiori
 	 * @public
 	 * @since 1.92.0
 	*/
@@ -24,6 +25,7 @@ declare module "sap/ui/webc/fiori/FCLLayout" {
 	 * This enum is part of the 'sap/ui/webc/fiori/library' module export and must be accessed by the property 'FCLLayout'.
 	 *
 	 * @experimental (since 1.92.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.fiori
 	 * @public
 	 * @since 1.92.0
 	*/
@@ -39,6 +41,7 @@ declare module "sap/ui/webc/fiori/IllustrationMessageSize" {
 	 * This enum is part of the 'sap/ui/webc/fiori/library' module export and must be accessed by the property 'IllustrationMessageSize'.
 	 *
 	 * @experimental (since 1.106.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.fiori
 	 * @public
 	 * @since 1.106.0
 	*/
@@ -54,6 +57,7 @@ declare module "sap/ui/webc/fiori/IllustrationMessageType" {
 	 * This enum is part of the 'sap/ui/webc/fiori/library' module export and must be accessed by the property 'IllustrationMessageType'.
 	 *
 	 * @experimental (since 1.95.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.fiori
 	 * @public
 	 * @since 1.95.0
 	*/
@@ -69,6 +73,7 @@ declare module "sap/ui/webc/fiori/MediaGalleryItemLayout" {
 	 * This enum is part of the 'sap/ui/webc/fiori/library' module export and must be accessed by the property 'MediaGalleryItemLayout'.
 	 *
 	 * @experimental (since 1.99.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.fiori
 	 * @public
 	 * @since 1.99.0
 	*/
@@ -84,6 +89,7 @@ declare module "sap/ui/webc/fiori/MediaGalleryLayout" {
 	 * This enum is part of the 'sap/ui/webc/fiori/library' module export and must be accessed by the property 'MediaGalleryLayout'.
 	 *
 	 * @experimental (since 1.99.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.fiori
 	 * @public
 	 * @since 1.99.0
 	*/
@@ -99,6 +105,7 @@ declare module "sap/ui/webc/fiori/MediaGalleryMenuHorizontalAlign" {
 	 * This enum is part of the 'sap/ui/webc/fiori/library' module export and must be accessed by the property 'MediaGalleryMenuHorizontalAlign'.
 	 *
 	 * @experimental (since 1.99.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.fiori
 	 * @public
 	 * @since 1.99.0
 	*/
@@ -114,6 +121,7 @@ declare module "sap/ui/webc/fiori/MediaGalleryMenuVerticalAlign" {
 	 * This enum is part of the 'sap/ui/webc/fiori/library' module export and must be accessed by the property 'MediaGalleryMenuVerticalAlign'.
 	 *
 	 * @experimental (since 1.99.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.fiori
 	 * @public
 	 * @since 1.99.0
 	*/
@@ -129,6 +137,7 @@ declare module "sap/ui/webc/fiori/PageBackgroundDesign" {
 	 * This enum is part of the 'sap/ui/webc/fiori/library' module export and must be accessed by the property 'PageBackgroundDesign'.
 	 *
 	 * @experimental (since 1.92.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.fiori
 	 * @public
 	 * @since 1.92.0
 	*/
@@ -144,6 +153,7 @@ declare module "sap/ui/webc/fiori/SideContentFallDown" {
 	 * This enum is part of the 'sap/ui/webc/fiori/library' module export and must be accessed by the property 'SideContentFallDown'.
 	 *
 	 * @experimental (since 1.99.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.fiori
 	 * @public
 	 * @since 1.99.0
 	*/
@@ -159,6 +169,7 @@ declare module "sap/ui/webc/fiori/SideContentPosition" {
 	 * This enum is part of the 'sap/ui/webc/fiori/library' module export and must be accessed by the property 'SideContentPosition'.
 	 *
 	 * @experimental (since 1.99.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.fiori
 	 * @public
 	 * @since 1.99.0
 	*/
@@ -174,6 +185,7 @@ declare module "sap/ui/webc/fiori/SideContentVisibility" {
 	 * This enum is part of the 'sap/ui/webc/fiori/library' module export and must be accessed by the property 'SideContentVisibility'.
 	 *
 	 * @experimental (since 1.99.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.fiori
 	 * @public
 	 * @since 1.99.0
 	*/
@@ -189,6 +201,7 @@ declare module "sap/ui/webc/fiori/TimelineLayout" {
 	 * This enum is part of the 'sap/ui/webc/fiori/library' module export and must be accessed by the property 'TimelineLayout'.
 	 *
 	 * @experimental (since 1.92.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.fiori
 	 * @public
 	 * @since 1.92.0
 	*/
@@ -204,6 +217,7 @@ declare module "sap/ui/webc/fiori/UploadState" {
 	 * This enum is part of the 'sap/ui/webc/fiori/library' module export and must be accessed by the property 'UploadState'.
 	 *
 	 * @experimental (since 1.92.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.fiori
 	 * @public
 	 * @since 1.92.0
 	*/
@@ -219,6 +233,7 @@ declare module "sap/ui/webc/fiori/ViewSettingsDialogMode" {
 	 * This enum is part of the 'sap/ui/webc/fiori/library' module export and must be accessed by the property 'ViewSettingsDialogMode'.
 	 *
 	 * @experimental (since 1.115.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.fiori
 	 * @public
 	 * @since 1.115.0
 	*/
@@ -234,6 +249,7 @@ declare module "sap/ui/webc/fiori/WizardContentLayout" {
 	 * This enum is part of the 'sap/ui/webc/fiori/library' module export and must be accessed by the property 'WizardContentLayout'.
 	 *
 	 * @experimental (since 1.92.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.fiori
 	 * @public
 	 * @since 1.92.0
 	*/

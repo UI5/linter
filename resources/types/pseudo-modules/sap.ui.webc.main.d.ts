@@ -9,6 +9,7 @@ declare module "sap/ui/webc/main/AvatarColorScheme" {
 	 * This enum is part of the 'sap/ui/webc/main/library' module export and must be accessed by the property 'AvatarColorScheme'.
 	 *
 	 * @experimental (since 1.92.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.main
 	 * @public
 	 * @since 1.92.0
 	*/
@@ -24,6 +25,7 @@ declare module "sap/ui/webc/main/AvatarGroupType" {
 	 * This enum is part of the 'sap/ui/webc/main/library' module export and must be accessed by the property 'AvatarGroupType'.
 	 *
 	 * @experimental (since 1.92.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.main
 	 * @public
 	 * @since 1.92.0
 	*/
@@ -39,6 +41,7 @@ declare module "sap/ui/webc/main/AvatarShape" {
 	 * This enum is part of the 'sap/ui/webc/main/library' module export and must be accessed by the property 'AvatarShape'.
 	 *
 	 * @experimental (since 1.92.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.main
 	 * @public
 	 * @since 1.92.0
 	*/
@@ -54,6 +57,7 @@ declare module "sap/ui/webc/main/AvatarSize" {
 	 * This enum is part of the 'sap/ui/webc/main/library' module export and must be accessed by the property 'AvatarSize'.
 	 *
 	 * @experimental (since 1.92.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.main
 	 * @public
 	 * @since 1.92.0
 	*/
@@ -69,6 +73,7 @@ declare module "sap/ui/webc/main/BackgroundDesign" {
 	 * This enum is part of the 'sap/ui/webc/main/library' module export and must be accessed by the property 'BackgroundDesign'.
 	 *
 	 * @experimental (since 1.115.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.main
 	 * @public
 	 * @since 1.115.0
 	*/
@@ -84,6 +89,7 @@ declare module "sap/ui/webc/main/BorderDesign" {
 	 * This enum is part of the 'sap/ui/webc/main/library' module export and must be accessed by the property 'BorderDesign'.
 	 *
 	 * @experimental (since 1.115.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.main
 	 * @public
 	 * @since 1.115.0
 	*/
@@ -99,6 +105,7 @@ declare module "sap/ui/webc/main/BreadcrumbsDesign" {
 	 * This enum is part of the 'sap/ui/webc/main/library' module export and must be accessed by the property 'BreadcrumbsDesign'.
 	 *
 	 * @experimental (since 1.95.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.main
 	 * @public
 	 * @since 1.95.0
 	*/
@@ -114,6 +121,7 @@ declare module "sap/ui/webc/main/BreadcrumbsSeparatorStyle" {
 	 * This enum is part of the 'sap/ui/webc/main/library' module export and must be accessed by the property 'BreadcrumbsSeparatorStyle'.
 	 *
 	 * @experimental (since 1.95.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.main
 	 * @public
 	 * @since 1.95.0
 	*/
@@ -129,6 +137,7 @@ declare module "sap/ui/webc/main/BusyIndicatorSize" {
 	 * This enum is part of the 'sap/ui/webc/main/library' module export and must be accessed by the property 'BusyIndicatorSize'.
 	 *
 	 * @experimental (since 1.92.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.main
 	 * @public
 	 * @since 1.92.0
 	*/
@@ -144,6 +153,7 @@ declare module "sap/ui/webc/main/ButtonDesign" {
 	 * This enum is part of the 'sap/ui/webc/main/library' module export and must be accessed by the property 'ButtonDesign'.
 	 *
 	 * @experimental (since 1.92.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.main
 	 * @public
 	 * @since 1.92.0
 	*/
@@ -159,6 +169,7 @@ declare module "sap/ui/webc/main/ButtonType" {
 	 * This enum is part of the 'sap/ui/webc/main/library' module export and must be accessed by the property 'ButtonType'.
 	 *
 	 * @experimental (since 1.120.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.main
 	 * @public
 	 * @since 1.120.0
 	*/
@@ -174,6 +185,7 @@ declare module "sap/ui/webc/main/CalendarSelectionMode" {
 	 * This enum is part of the 'sap/ui/webc/main/library' module export and must be accessed by the property 'CalendarSelectionMode'.
 	 *
 	 * @experimental (since 1.92.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.main
 	 * @public
 	 * @since 1.92.0
 	*/
@@ -189,6 +201,7 @@ declare module "sap/ui/webc/main/CarouselArrowsPlacement" {
 	 * This enum is part of the 'sap/ui/webc/main/library' module export and must be accessed by the property 'CarouselArrowsPlacement'.
 	 *
 	 * @experimental (since 1.92.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.main
 	 * @public
 	 * @since 1.92.0
 	*/
@@ -204,6 +217,7 @@ declare module "sap/ui/webc/main/CarouselPageIndicatorStyle" {
 	 * This enum is part of the 'sap/ui/webc/main/library' module export and must be accessed by the property 'CarouselPageIndicatorStyle'.
 	 *
 	 * @experimental (since 1.115.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.main
 	 * @public
 	 * @since 1.115.0
 	*/
@@ -219,6 +233,7 @@ declare module "sap/ui/webc/main/ComboBoxFilter" {
 	 * This enum is part of the 'sap/ui/webc/main/library' module export and must be accessed by the property 'ComboBoxFilter'.
 	 *
 	 * @experimental (since 1.115.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.main
 	 * @public
 	 * @since 1.115.0
 	*/
@@ -234,6 +249,7 @@ declare module "sap/ui/webc/main/HasPopup" {
 	 * This enum is part of the 'sap/ui/webc/main/library' module export and must be accessed by the property 'HasPopup'.
 	 *
 	 * @experimental (since 1.99.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.main
 	 * @public
 	 * @since 1.99.0
 	*/
@@ -249,6 +265,7 @@ declare module "sap/ui/webc/main/IconDesign" {
 	 * This enum is part of the 'sap/ui/webc/main/library' module export and must be accessed by the property 'IconDesign'.
 	 *
 	 * @experimental (since 1.115.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.main
 	 * @public
 	 * @since 1.115.0
 	*/
@@ -264,6 +281,7 @@ declare module "sap/ui/webc/main/InputType" {
 	 * This enum is part of the 'sap/ui/webc/main/library' module export and must be accessed by the property 'InputType'.
 	 *
 	 * @experimental (since 1.92.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.main
 	 * @public
 	 * @since 1.92.0
 	*/
@@ -279,6 +297,7 @@ declare module "sap/ui/webc/main/LinkDesign" {
 	 * This enum is part of the 'sap/ui/webc/main/library' module export and must be accessed by the property 'LinkDesign'.
 	 *
 	 * @experimental (since 1.92.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.main
 	 * @public
 	 * @since 1.92.0
 	*/
@@ -294,6 +313,7 @@ declare module "sap/ui/webc/main/ListGrowingMode" {
 	 * This enum is part of the 'sap/ui/webc/main/library' module export and must be accessed by the property 'ListGrowingMode'.
 	 *
 	 * @experimental (since 1.92.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.main
 	 * @public
 	 * @since 1.92.0
 	*/
@@ -309,6 +329,7 @@ declare module "sap/ui/webc/main/ListItemType" {
 	 * This enum is part of the 'sap/ui/webc/main/library' module export and must be accessed by the property 'ListItemType'.
 	 *
 	 * @experimental (since 1.92.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.main
 	 * @public
 	 * @since 1.92.0
 	*/
@@ -324,6 +345,7 @@ declare module "sap/ui/webc/main/ListMode" {
 	 * This enum is part of the 'sap/ui/webc/main/library' module export and must be accessed by the property 'ListMode'.
 	 *
 	 * @experimental (since 1.92.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.main
 	 * @public
 	 * @since 1.92.0
 	*/
@@ -339,6 +361,7 @@ declare module "sap/ui/webc/main/ListSeparators" {
 	 * This enum is part of the 'sap/ui/webc/main/library' module export and must be accessed by the property 'ListSeparators'.
 	 *
 	 * @experimental (since 1.92.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.main
 	 * @public
 	 * @since 1.92.0
 	*/
@@ -354,6 +377,7 @@ declare module "sap/ui/webc/main/MessageStripDesign" {
 	 * This enum is part of the 'sap/ui/webc/main/library' module export and must be accessed by the property 'MessageStripDesign'.
 	 *
 	 * @experimental (since 1.92.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.main
 	 * @public
 	 * @since 1.92.0
 	*/
@@ -369,6 +393,7 @@ declare module "sap/ui/webc/main/PanelAccessibleRole" {
 	 * This enum is part of the 'sap/ui/webc/main/library' module export and must be accessed by the property 'PanelAccessibleRole'.
 	 *
 	 * @experimental (since 1.92.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.main
 	 * @public
 	 * @since 1.92.0
 	*/
@@ -384,6 +409,7 @@ declare module "sap/ui/webc/main/PopoverHorizontalAlign" {
 	 * This enum is part of the 'sap/ui/webc/main/library' module export and must be accessed by the property 'PopoverHorizontalAlign'.
 	 *
 	 * @experimental (since 1.92.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.main
 	 * @public
 	 * @since 1.92.0
 	*/
@@ -399,6 +425,7 @@ declare module "sap/ui/webc/main/PopoverPlacementType" {
 	 * This enum is part of the 'sap/ui/webc/main/library' module export and must be accessed by the property 'PopoverPlacementType'.
 	 *
 	 * @experimental (since 1.92.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.main
 	 * @public
 	 * @since 1.92.0
 	*/
@@ -414,6 +441,7 @@ declare module "sap/ui/webc/main/PopoverVerticalAlign" {
 	 * This enum is part of the 'sap/ui/webc/main/library' module export and must be accessed by the property 'PopoverVerticalAlign'.
 	 *
 	 * @experimental (since 1.92.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.main
 	 * @public
 	 * @since 1.92.0
 	*/
@@ -429,6 +457,7 @@ declare module "sap/ui/webc/main/PopupAccessibleRole" {
 	 * This enum is part of the 'sap/ui/webc/main/library' module export and must be accessed by the property 'PopupAccessibleRole'.
 	 *
 	 * @experimental (since 1.115.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.main
 	 * @public
 	 * @since 1.115.0
 	*/
@@ -444,6 +473,7 @@ declare module "sap/ui/webc/main/Priority" {
 	 * This enum is part of the 'sap/ui/webc/main/library' module export and must be accessed by the property 'Priority'.
 	 *
 	 * @experimental (since 1.92.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.main
 	 * @public
 	 * @since 1.92.0
 	*/
@@ -459,6 +489,7 @@ declare module "sap/ui/webc/main/SegmentedButtonMode" {
 	 * This enum is part of the 'sap/ui/webc/main/library' module export and must be accessed by the property 'SegmentedButtonMode'.
 	 *
 	 * @experimental (since 1.115.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.main
 	 * @public
 	 * @since 1.115.0
 	*/
@@ -474,6 +505,7 @@ declare module "sap/ui/webc/main/SemanticColor" {
 	 * This enum is part of the 'sap/ui/webc/main/library' module export and must be accessed by the property 'SemanticColor'.
 	 *
 	 * @experimental (since 1.92.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.main
 	 * @public
 	 * @since 1.92.0
 	*/
@@ -489,6 +521,7 @@ declare module "sap/ui/webc/main/SwitchDesign" {
 	 * This enum is part of the 'sap/ui/webc/main/library' module export and must be accessed by the property 'SwitchDesign'.
 	 *
 	 * @experimental (since 1.92.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.main
 	 * @public
 	 * @since 1.92.0
 	*/
@@ -504,6 +537,7 @@ declare module "sap/ui/webc/main/TabContainerBackgroundDesign" {
 	 * This enum is part of the 'sap/ui/webc/main/library' module export and must be accessed by the property 'TabContainerBackgroundDesign'.
 	 *
 	 * @experimental (since 1.115.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.main
 	 * @public
 	 * @since 1.115.0
 	*/
@@ -519,6 +553,7 @@ declare module "sap/ui/webc/main/TabLayout" {
 	 * This enum is part of the 'sap/ui/webc/main/library' module export and must be accessed by the property 'TabLayout'.
 	 *
 	 * @experimental (since 1.92.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.main
 	 * @public
 	 * @since 1.92.0
 	*/
@@ -534,6 +569,7 @@ declare module "sap/ui/webc/main/TableColumnPopinDisplay" {
 	 * This enum is part of the 'sap/ui/webc/main/library' module export and must be accessed by the property 'TableColumnPopinDisplay'.
 	 *
 	 * @experimental (since 1.115.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.main
 	 * @public
 	 * @since 1.115.0
 	*/
@@ -549,6 +585,7 @@ declare module "sap/ui/webc/main/TableGrowingMode" {
 	 * This enum is part of the 'sap/ui/webc/main/library' module export and must be accessed by the property 'TableGrowingMode'.
 	 *
 	 * @experimental (since 1.92.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.main
 	 * @public
 	 * @since 1.92.0
 	*/
@@ -564,6 +601,7 @@ declare module "sap/ui/webc/main/TableMode" {
 	 * This enum is part of the 'sap/ui/webc/main/library' module export and must be accessed by the property 'TableMode'.
 	 *
 	 * @experimental (since 1.92.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.main
 	 * @public
 	 * @since 1.92.0
 	*/
@@ -579,6 +617,7 @@ declare module "sap/ui/webc/main/TableRowType" {
 	 * This enum is part of the 'sap/ui/webc/main/library' module export and must be accessed by the property 'TableRowType'.
 	 *
 	 * @experimental (since 1.92.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.main
 	 * @public
 	 * @since 1.92.0
 	*/
@@ -594,6 +633,7 @@ declare module "sap/ui/webc/main/TabsOverflowMode" {
 	 * This enum is part of the 'sap/ui/webc/main/library' module export and must be accessed by the property 'TabsOverflowMode'.
 	 *
 	 * @experimental (since 1.99.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.main
 	 * @public
 	 * @since 1.99.0
 	*/
@@ -609,6 +649,7 @@ declare module "sap/ui/webc/main/TitleLevel" {
 	 * This enum is part of the 'sap/ui/webc/main/library' module export and must be accessed by the property 'TitleLevel'.
 	 *
 	 * @experimental (since 1.92.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.main
 	 * @public
 	 * @since 1.92.0
 	*/
@@ -624,6 +665,7 @@ declare module "sap/ui/webc/main/ToastPlacement" {
 	 * This enum is part of the 'sap/ui/webc/main/library' module export and must be accessed by the property 'ToastPlacement'.
 	 *
 	 * @experimental (since 1.92.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.main
 	 * @public
 	 * @since 1.92.0
 	*/
@@ -639,6 +681,7 @@ declare module "sap/ui/webc/main/ToolbarAlign" {
 	 * This enum is part of the 'sap/ui/webc/main/library' module export and must be accessed by the property 'ToolbarAlign'.
 	 *
 	 * @experimental (since 1.120.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.main
 	 * @public
 	 * @since 1.120.0
 	*/
@@ -654,6 +697,7 @@ declare module "sap/ui/webc/main/ToolbarItemOverflowBehavior" {
 	 * This enum is part of the 'sap/ui/webc/main/library' module export and must be accessed by the property 'ToolbarItemOverflowBehavior'.
 	 *
 	 * @experimental (since 1.120.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.main
 	 * @public
 	 * @since 1.120.0
 	*/
@@ -669,6 +713,7 @@ declare module "sap/ui/webc/main/WrappingType" {
 	 * This enum is part of the 'sap/ui/webc/main/library' module export and must be accessed by the property 'WrappingType'.
 	 *
 	 * @experimental (since 1.92.0) - This API is experimental and might change significantly.
+	 * @deprecated (since 1.120) - because it is part of the deprecated package sap.ui.webc.main
 	 * @public
 	 * @since 1.92.0
 	*/
