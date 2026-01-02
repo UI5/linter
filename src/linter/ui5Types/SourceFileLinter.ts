@@ -1272,7 +1272,7 @@ export default class SourceFileLinter {
 			"async", node.arguments[1]
 		);
 
-		if (!asyncProb || asyncProb.initializer.kind !== ts.SyntaxKind.TrueKeyword) {
+		if (asyncProb?.initializer.kind !== ts.SyntaxKind.TrueKeyword) {
 			this.#reporter.addMessage(MESSAGE.PARTIALLY_DEPRECATED_CORE_ROUTER, null, {node});
 		}
 	}
