@@ -109,7 +109,7 @@
 		"@types/yauzl-promise": "^4.0.1",
 		"@ui5-language-assistant/semantic-model": "^3.3.1",
 		"@ui5-language-assistant/semantic-model-types": "^3.3.1",
-		"@ui5/cli": "^4.0.38",
+		"@ui5/cli": "^4.0.39",
 		"ava": "^6.4.1",
 		"depcheck": "^1.4.7",
 		"eslint": "^9.39.2",
@@ -122,7 +122,7 @@
 		"sinon": "^21.0.1",
 		"tsx": "^4.21.0",
 		"typescript-eslint": "^8.51.0",
-		"ui5-test-runner": "^5.12.0",
+		"ui5-test-runner": "^5.13.0",
 		"yauzl-promise": "^4.0.0"
 	}
 }
