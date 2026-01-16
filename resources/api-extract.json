@@ -1,7 +1,7 @@
 {
   "framework": {
     "name": "SAPUI5",
-    "version": "1.136.13"
+    "version": "1.136.14"
   },
   "metadata": {
     "sap.ca.ui.AddPicture": {
@@ -20120,6 +20120,9 @@
         "disableHotspotHovering",
         "hotspotColorABGR",
         "hotspotColor",
+        "hotspotCustomTextOutlineWidth",
+        "hotspotCustomTextOutlineColor",
+        "hotspotCustomTextHaloWidth",
         "keepOutputSize",
         "showAllHotspotsTintColor",
         "autoStartRendering"
