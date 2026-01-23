@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.20.8](https://github.com/UI5/linter/compare/v1.20.7...v1.20.8) (2026-01-23)
+
+
+### Dependencies
+
+* Bump @sapui5/types from 1.136.13 to 1.136.14 ([6f2ca5c](https://github.com/UI5/linter/commit/6f2ca5cc4b1d3f17d321b3e30eb95f3caec6798c))
+* Bump @ui5/fs from 4.0.3 to 4.0.4 ([60f75a0](https://github.com/UI5/linter/commit/60f75a0b4c78d2f6de40cdbcc1fa60411cce34f1))
+* Bump globals from 16.5.0 to 17.0.0 ([111f926](https://github.com/UI5/linter/commit/111f926c05f6c7bd55357305cec4331c0502fcf8))
+* Bump globals from 17.0.0 to 17.1.0 ([6a044a5](https://github.com/UI5/linter/commit/6a044a548414df10b293cad8066280ec8f80afb1))
+* Bump tar from 6.2.1 to 7.5.6 ([83c6665](https://github.com/UI5/linter/commit/83c666554b06e6db5645cf85a83e52a8ff6eaa51))
+
 ## [1.20.7](https://github.com/UI5/linter/compare/v1.20.6...v1.20.7) (2025-12-29)
 
 
