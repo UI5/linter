@@ -1,6 +1,7 @@
 import LinterContext, {PositionInfo, ResourcePath} from "../LinterContext.js";
 import {MESSAGE} from "../messages.js";
 import {RequireDeclaration} from "../xmlTemplate/xmlNodes.js";
+import ExpressionParser from "./lib/ExpressionParser.js";
 import BindingParser, {
 	AggregationBindingInfo, BindingInfo, ExpressionBinding, FilterInfo, PropertyBindingInfo, SorterInfo,
 } from "./lib/BindingParser.js";
@@ -11,6 +12,8 @@ const ODATA_FUNCTION_MODULE_MAP: Record<string, string> = {
 	fillUriTemplate: "sap/ui/thirdparty/URITemplate",
 	uriEncode: "sap/ui/model/odata/ODataUtils",
 } as const;
+
+const DEFAULT_GLOBALS = ExpressionParser.DEFAULT_GLOBALS as Record<string, unknown>;
 
 export default class BindingLinter {
 	#resourcePath: string;
@@ -177,6 +180,10 @@ export default class BindingLinter {
 			decl.moduleName === parts.join("/"));
 		if (requireDeclaration) {
 			// Local reference detected
+			return null;
+		}
+
+		if (DEFAULT_GLOBALS[variableName]) {
 			return null;
 		}
 
