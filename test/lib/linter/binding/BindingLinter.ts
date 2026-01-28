@@ -26,7 +26,7 @@ test("XML Property Binding: Global Formatter", (t) => {
 	t.snapshot(linterContext.generateLintResult("/test.js"));
 });
 
-test.only("XML Property Binding: JS build-ins", (t) => {
+test("XML Property Binding: JS build-ins", (t) => {
 	const {bindingLinter, linterContext} = t.context;
 	const standardGlobals = [
 		"Array",

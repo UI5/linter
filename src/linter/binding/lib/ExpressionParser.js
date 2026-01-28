@@ -848,7 +848,6 @@ function parse(aTokens, sInput, mGlobals) {
  * @private
  */
 export default {
-	DEFAULT_GLOBALS: Object.assign({}, mDefaultGlobals),
 	/**
 	 * Parses a string <code>sInput</code> with an expression based on the syntax sketched
 	 * below.
@@ -949,3 +948,5 @@ export default {
 		};
 	}
 };
+
+export const DEFAULT_GLOBALS = Object.assign({}, mDefaultGlobals);
