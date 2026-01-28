@@ -1,6 +1,7 @@
 import LinterContext, {PositionInfo, ResourcePath} from "../LinterContext.js";
 import {MESSAGE} from "../messages.js";
 import {RequireDeclaration} from "../xmlTemplate/xmlNodes.js";
+import {DEFAULT_GLOBALS} from "./lib/ExpressionParser.js";
 import BindingParser, {
 	AggregationBindingInfo, BindingInfo, ExpressionBinding, FilterInfo, PropertyBindingInfo, SorterInfo,
 } from "./lib/BindingParser.js";
@@ -177,6 +178,10 @@ export default class BindingLinter {
 			decl.moduleName === parts.join("/"));
 		if (requireDeclaration) {
 			// Local reference detected
+			return null;
+		}
+
+		if (variableName in DEFAULT_GLOBALS) {
 			return null;
 		}
 

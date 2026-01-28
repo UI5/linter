@@ -26,6 +26,31 @@ test("XML Property Binding: Global Formatter", (t) => {
 	t.snapshot(linterContext.generateLintResult("/test.js"));
 });
 
+test("XML Property Binding: JS build-ins", (t) => {
+	const {bindingLinter, linterContext} = t.context;
+	const standardGlobals = [
+		"Array",
+		"Boolean",
+		"Date",
+		"parseInt",
+		"parseFloat",
+		"JSON.stringify",
+		"Math",
+		"Number",
+		"Object",
+		"String",
+		"RegExp",
+	];
+
+	let line = 1;
+	for (const globalRef of standardGlobals) {
+		bindingLinter.lintPropertyBinding(`{path: 'invoice>Status', formatter: '${globalRef}'}`,
+			[], {line: line++, column: 1});
+	}
+
+	t.snapshot(linterContext.generateLintResult("/test.js"));
+});
+
 test("XML Property Binding: Global Formatter with bind call", (t) => {
 	const {bindingLinter, linterContext} = t.context;
 

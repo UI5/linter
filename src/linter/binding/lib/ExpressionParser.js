@@ -948,3 +948,5 @@ export default {
 		};
 	}
 };
+
+export const DEFAULT_GLOBALS = Object.assign({}, mDefaultGlobals);
