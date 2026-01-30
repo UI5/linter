@@ -50,7 +50,7 @@
 				"@types/yauzl-promise": "^4.0.1",
 				"@ui5-language-assistant/semantic-model": "^3.3.1",
 				"@ui5-language-assistant/semantic-model-types": "^3.3.1",
-				"@ui5/cli": "^4.0.41",
+				"@ui5/cli": "^4.0.42",
 				"ava": "^6.4.1",
 				"depcheck": "^1.4.7",
 				"eslint": "^9.39.2",
@@ -3560,9 +3560,9 @@
 			"license": "MIT"
 		},
 		"node_modules/@ui5/cli": {
-			"version": "4.0.41",
-			"resolved": "https://registry.npmjs.org/@ui5/cli/-/cli-4.0.41.tgz",
-			"integrity": "sha512-tQxbeLBYpAmGZ9DEiG+XoY6G8RLZFKR82HP/vCBB98n23a2xUQ/MtVwj6pE+ciNNdbTS+Xdq2zU71zD+dVriTQ==",
+			"version": "4.0.42",
+			"resolved": "https://registry.npmjs.org/@ui5/cli/-/cli-4.0.42.tgz",
+			"integrity": "sha512-LeokD0HJYzHdLydTocLYM14YJpUnqtbwOTujpwWkt6+lvr9089xM8Vf8qahZZjWWG/LOwoXYmp1ATp/lgQPG+g==",
 			"dev": true,
 			"hasShrinkwrap": true,
 			"license": "Apache-2.0",
@@ -9429,9 +9429,9 @@
 			}
 		},
 		"node_modules/@ui5/cli/node_modules/tar": {
-			"version": "7.5.6",
-			"resolved": "https://registry.npmjs.org/tar/-/tar-7.5.6.tgz",
-			"integrity": "sha512-xqUeu2JAIJpXyvskvU3uvQW8PAmHrtXp2KDuMJwQqW8Sqq0CaZBAQ+dKS3RBXVhU4wC5NjAdKrmh84241gO9cA==",
+			"version": "7.5.7",
+			"resolved": "https://registry.npmjs.org/tar/-/tar-7.5.7.tgz",
+			"integrity": "sha512-fov56fJiRuThVFXD6o6/Q354S7pnWMJIVlDBYijsTNx6jKSE4pvrDTs6lUnmGvNyfJwFQQwWy3owKz1ucIhveQ==",
 			"dev": true,
 			"license": "BlueOak-1.0.0",
 			"dependencies": {
