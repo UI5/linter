@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.20.9](https://github.com/UI5/linter/compare/v1.20.8...v1.20.9) (2026-01-30)
+
+
+### Bug Fixes
+
+* Exclude native JS globals from formatter checks ([#987](https://github.com/UI5/linter/issues/987)) ([6635730](https://github.com/UI5/linter/commit/6635730c48cf35056c43dddd36e9bdd1a279d3cb))
+
+
+### Dependencies
+
+* Bump globals from 17.1.0 to 17.2.0 ([0151997](https://github.com/UI5/linter/commit/015199735300b031eab19f0eeaedca453ce20b20))
+* Bump tar from 7.5.6 to 7.5.7 ([9573892](https://github.com/UI5/linter/commit/95738925478f2b0f5cfc24e403aeecf9568df238))
+
 ## [1.20.8](https://github.com/UI5/linter/compare/v1.20.7...v1.20.8) (2026-01-23)
 
 
