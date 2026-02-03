@@ -7,82 +7,82 @@ SPDX-PackageComment = "The code in this project may include calls to APIs (“AP
 [[annotations]]
 path = "**"
 precedence = "aggregate"
-SPDX-FileCopyrightText = "2025 SAP SE or an SAP affiliate company and UI5 linter contributors"
+SPDX-FileCopyrightText = "2026 SAP SE or an SAP affiliate company and UI5 linter contributors"
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
 path = "src/linter/xmlTemplate/lib/EventHandlerResolver.js"
 precedence = "aggregate"
-SPDX-FileCopyrightText = "2025 SAP SE or an SAP affiliate company"
+SPDX-FileCopyrightText = "2026 SAP SE or an SAP affiliate company"
 SPDX-License-Identifier = "Apache-2.0"
 SPDX-FileComment = "This file is a copy of sap/ui/core/mvc/EventHandlerResolver.js from the OpenUI5 project."
 
 [[annotations]]
 path = "src/linter/xmlTemplate/lib/JSTokenizer.js"
 precedence = "aggregate"
-SPDX-FileCopyrightText = "2025 SAP SE or an SAP affiliate company"
+SPDX-FileCopyrightText = "2026 SAP SE or an SAP affiliate company"
 SPDX-License-Identifier = "Apache-2.0"
 SPDX-FileComment = "This file is a copy of sap/base/util/JSTokenizer.js from the OpenUI5 project."
 
 [[annotations]]
 path = "src/linter/binding/lib/BindingParser.js"
 precedence = "aggregate"
-SPDX-FileCopyrightText = "2025 SAP SE or an SAP affiliate company"
+SPDX-FileCopyrightText = "2026 SAP SE or an SAP affiliate company"
 SPDX-License-Identifier = "Apache-2.0"
 SPDX-FileComment = "This file is a copy of sap/ui/base/BindingParser.js from the OpenUI5 project."
 
 [[annotations]]
 path = "src/linter/binding/lib/ExpressionParser.js"
 precedence = "aggregate"
-SPDX-FileCopyrightText = "2025 SAP SE or an SAP affiliate company"
+SPDX-FileCopyrightText = "2026 SAP SE or an SAP affiliate company"
 SPDX-License-Identifier = "Apache-2.0"
 SPDX-FileComment = "This file is a copy of sap/ui/base/ExpressionParser.js from the OpenUI5 project."
 
 [[annotations]]
 path = "src/linter/binding/lib/BindingMode.js"
 precedence = "aggregate"
-SPDX-FileCopyrightText = "2025 SAP SE or an SAP affiliate company"
+SPDX-FileCopyrightText = "2026 SAP SE or an SAP affiliate company"
 SPDX-License-Identifier = "Apache-2.0"
 SPDX-FileComment = "This file is a copy of sap/ui/model/BindingMode.js from the OpenUI5 project."
 
 [[annotations]]
 path = "src/linter/binding/lib/util/deepEqual.js"
 precedence = "aggregate"
-SPDX-FileCopyrightText = "2025 SAP SE or an SAP affiliate company"
+SPDX-FileCopyrightText = "2026 SAP SE or an SAP affiliate company"
 SPDX-License-Identifier = "Apache-2.0"
 SPDX-FileComment = "This file is a copy of sap/base/util/deepEqual.js from the OpenUI5 project."
 
 [[annotations]]
 path = "src/linter/binding/lib/strings/escapeRegExp.js"
 precedence = "aggregate"
-SPDX-FileCopyrightText = "2025 SAP SE or an SAP affiliate company"
+SPDX-FileCopyrightText = "2026 SAP SE or an SAP affiliate company"
 SPDX-License-Identifier = "Apache-2.0"
 SPDX-FileComment = "This file is a copy of sap/base/strings/escapeRegExp.js from the OpenUI5 project."
 
 [[annotations]]
 path = "src/formatter/lib/resolveLinks.ts"
 precedence = "aggregate"
-SPDX-FileCopyrightText = "2025 SAP SE or an SAP affiliate company"
+SPDX-FileCopyrightText = "2026 SAP SE or an SAP affiliate company"
 SPDX-License-Identifier = "Apache-2.0"
 SPDX-FileComment = "This file contains parts of the https://github.com/SAP/ui5-builder file lib/processors/jsdoc/lib/transformApiJson.cjs which itself is a copy from the OpenUI5 file lib/jsdoc/transformApiJson.js."
 
 [[annotations]]
 path = "src/manifest.d.ts"
 precedence = "aggregate"
-SPDX-FileCopyrightText = "2025 SAP SE or an SAP affiliate company"
+SPDX-FileCopyrightText = "2026 SAP SE or an SAP affiliate company"
 SPDX-License-Identifier = "Apache-2.0"
 SPDX-FileComment = "TypeScript definitions created from https://github.com/SAP/ui5-manifest/tree/v1.60.0"
 
 [[annotations]]
 path = "test/fixtures/transpiler/amd/sapUiTestGenericUtils.js"
 precedence = "aggregate"
-SPDX-FileCopyrightText = "2025 SAP SE or an SAP affiliate company"
+SPDX-FileCopyrightText = "2026 SAP SE or an SAP affiliate company"
 SPDX-License-Identifier = "Apache-2.0"
 SPDX-FileComment = "This file is a copy of sap/ui/test/generic/Utils.js from the OpenUI5 project."
 
 [[annotations]]
 path = "scripts/metadataProvider/model.ts"
 precedence = "aggregate"
-SPDX-FileCopyrightText = "2025 SAP SE or an SAP affiliate company and UI5 Language Assistant contributors"
+SPDX-FileCopyrightText = "2026 SAP SE or an SAP affiliate company and UI5 Language Assistant contributors"
 SPDX-License-Identifier = "Apache-2.0"
 SPDX-FileComment = "This file contains a part from the https://github.com/SAP/ui5-language-assistant project (getTypeNameFix)."
