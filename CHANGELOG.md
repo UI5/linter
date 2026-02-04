@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.20.10](https://github.com/UI5/linter/compare/v1.20.9...v1.20.10) (2026-02-04)
+
+
+### Dependencies
+
+* Bump minimatch from 10.1.1 to 10.1.2 ([40b3aa5](https://github.com/UI5/linter/commit/40b3aa58fbcd29be4f9e78d5378593689d2f7733))
+
 ## [1.20.9](https://github.com/UI5/linter/compare/v1.20.8...v1.20.9) (2026-01-30)
 
 
