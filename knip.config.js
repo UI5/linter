@@ -1,6 +1,7 @@
-import type { KnipConfig } from 'knip';
-
-const config: KnipConfig = {
+const config = {
+	/**
+	 * As we currently only need unused dependency checks, we disable all checks except for that
+	 */
 	rules: {
 		files: "off",
 		duplicates: "off",
@@ -17,8 +18,8 @@ const config: KnipConfig = {
 	ignoreDependencies: [
 		"@ui5/*",
 		"@istanbuljs/esm-loader-hook",
-		"ui5-test-runner"
-	]
+		"ui5-test-runner",
+	],
 };
 
 export default config;
