@@ -16,7 +16,7 @@ const config = {
 	},
 
 	ignoreDependencies: [
-		"@ui5/*",
+		"@ui5/cli",
 		"@istanbuljs/esm-loader-hook",
 		"ui5-test-runner",
 	],
