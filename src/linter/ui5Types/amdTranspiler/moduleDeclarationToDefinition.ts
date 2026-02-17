@@ -1,4 +1,5 @@
 import ts from "typescript";
+import * as path from "node:path";
 import {getLogger} from "@ui5/logger";
 import {ModuleDeclaration} from "./parseModuleDeclaration.js";
 import rewriteExtendCall, {UnsupportedExtendCall} from "./rewriteExtendCall.js";
@@ -18,9 +19,10 @@ export interface ModuleDefinition {
 }
 
 export default function (
-	moduleDeclaration: ModuleDeclaration, sourceFile: ts.SourceFile, nodeFactory: ts.NodeFactory
+	moduleDeclaration: ModuleDeclaration, sourceFile: ts.SourceFile, nodeFactory: ts.NodeFactory,
+	defaultModuleID?: string
 ): ModuleDefinition {
-	const {imports, identifiers: importIdentifiers} = collectImports(moduleDeclaration, nodeFactory);
+	const {imports, identifiers: importIdentifiers} = collectImports(moduleDeclaration, nodeFactory, defaultModuleID);
 	const {body, oldFactoryBlock, moveComments} =
 		getModuleBody(moduleDeclaration, sourceFile, nodeFactory, importIdentifiers);
 	/* Ignore module name and export flag for now */
@@ -41,10 +43,13 @@ export default function (
 */
 function collectImports(
 	moduleDeclaration: ModuleDeclaration,
-	nodeFactory: ts.NodeFactory
+	nodeFactory: ts.NodeFactory,
+	defaultModuleID: string | undefined
 ): {imports: ts.ImportDeclaration[]; identifiers: ts.Identifier[]} {
 	const imports: ts.ImportDeclaration[] = [];
 	const identifiers: ts.Identifier[] = [];
+	const hasRelativeSegment = /(^|\/)\.{1,2}\//;
+
 	if (!moduleDeclaration.dependencies) {
 		// No dependencies declared
 		return {imports, identifiers};
@@ -91,6 +96,25 @@ function collectImports(
 			ts.setTextRange(moduleSpecifier, dep);
 		} else {
 			moduleSpecifier = dep;
+		}
+		if (hasRelativeSegment.test(moduleSpecifier.text)) {
+			const baseModuleID = moduleDeclaration.moduleName?.text ?? defaultModuleID;
+			if (baseModuleID == null) {
+				log.verbose(`Skipping resolution of relative moduleID ${moduleSpecifier.text} (no base known) at ` +
+					toPosStr(dep));
+			} else {
+				const resolvedModuleID =
+					path.posix.resolve(
+						path.posix.dirname("/" + baseModuleID),
+						moduleSpecifier.text).slice(1);
+				log.silly(`Resolved relative module ID ${moduleSpecifier.text} to ${resolvedModuleID}`);
+				const resolvedModuleSpecifier = nodeFactory.createStringLiteral(
+					resolvedModuleID
+				);
+				// Set range to the original range to preserve source mapping capability
+				ts.setTextRange(resolvedModuleSpecifier, moduleSpecifier);
+				moduleSpecifier = resolvedModuleSpecifier;
+			}
 		}
 		let identifier: ts.Identifier | undefined;
 		if (factoryRequiresCallWrapper) {
