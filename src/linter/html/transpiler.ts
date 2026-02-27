@@ -86,9 +86,10 @@ function detectTestStarter(resourcePath: ResourcePath, scriptTags: SaxTag[], rep
 	}
 
 	if (isTestsuiteQunitFile || isQunitFile) {
-		scriptTags.forEach((tagToMigrate) => {
-			report.addMessage(MESSAGE.PREFER_TEST_STARTER, tagToMigrate);
-		});
+		// Report message only once per file, using the first script tag
+		if (scriptTags.length > 0) {
+			report.addMessage(MESSAGE.PREFER_TEST_STARTER, scriptTags[0]);
+		}
 	}
 }
 
