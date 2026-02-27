@@ -17,13 +17,13 @@
 				"@ui5/project": "^4.0.11",
 				"chalk": "^5.6.2",
 				"data-with-position": "^0.5.0",
-				"fast-xml-parser": "^5.3.9",
+				"fast-xml-parser": "^5.4.1",
 				"figures": "^6.1.0",
 				"globals": "^17.3.0",
 				"he": "^1.2.0",
 				"json-source-map": "^0.6.1",
 				"magic-string": "^0.30.21",
-				"minimatch": "^10.2.3",
+				"minimatch": "^10.2.4",
 				"sax-wasm": "^3.1.4",
 				"semver": "^7.7.4",
 				"typescript": "^5.9.3",
@@ -12028,9 +12028,9 @@
 			"license": "ISC"
 		},
 		"node_modules/emittery": {
-			"version": "1.2.0",
-			"resolved": "https://registry.npmjs.org/emittery/-/emittery-1.2.0.tgz",
-			"integrity": "sha512-KxdRyyFcS85pH3dnU8Y5yFUm2YJdaHwcBZWrfG8o89ZY9a13/f9itbN+YG3ELbBo9Pg5zvIozstmuV8bX13q6g==",
+			"version": "1.2.1",
+			"resolved": "https://registry.npmjs.org/emittery/-/emittery-1.2.1.tgz",
+			"integrity": "sha512-sFz64DCRjirhwHLxofFqxYQm6DCp6o0Ix7jwKQvuCHPn4GMRZNuBZyLPu9Ccmk/QSCAMZt6FOUqA8JZCQvA9fw==",
 			"dev": true,
 			"license": "MIT",
 			"engines": {
@@ -12491,9 +12491,9 @@
 			}
 		},
 		"node_modules/eslint/node_modules/minimatch": {
-			"version": "3.1.4",
-			"resolved": "https://registry.npmjs.org/minimatch/-/minimatch-3.1.4.tgz",
-			"integrity": "sha512-twmL+S8+7yIsE9wsqgzU3E8/LumN3M3QELrBZ20OdmQ9jB2JvW5oZtBEmft84k/Gs5CG9mqtWc6Y9vW+JEzGxw==",
+			"version": "3.1.5",
+			"resolved": "https://registry.npmjs.org/minimatch/-/minimatch-3.1.5.tgz",
+			"integrity": "sha512-VgjWUsnnT6n+NUk6eZq77zeFdpW2LWDzP6zFGrCbHXiYNul5Dzqk2HHQ5uFH2DNW5Xbp8+jVzaeNt94ssEEl4w==",
 			"dev": true,
 			"license": "ISC",
 			"dependencies": {
@@ -12713,10 +12713,22 @@
 			],
 			"license": "BSD-3-Clause"
 		},
+		"node_modules/fast-xml-builder": {
+			"version": "1.0.0",
+			"resolved": "https://registry.npmjs.org/fast-xml-builder/-/fast-xml-builder-1.0.0.tgz",
+			"integrity": "sha512-fpZuDogrAgnyt9oDDz+5DBz0zgPdPZz6D4IR7iESxRXElrlGTRkHJ9eEt+SACRJwT0FNFrt71DFQIUFBJfX/uQ==",
+			"funding": [
+				{
+					"type": "github",
+					"url": "https://github.com/sponsors/NaturalIntelligence"
+				}
+			],
+			"license": "MIT"
+		},
 		"node_modules/fast-xml-parser": {
-			"version": "5.3.9",
-			"resolved": "https://registry.npmjs.org/fast-xml-parser/-/fast-xml-parser-5.3.9.tgz",
-			"integrity": "sha512-zU0KUuO9U+fLGduTDdxQ6qsQLIxRg4EK5AMduwBNGNCSfCGRSbNS7OpH343NFQlLDg1jxoH68JSbOPAGksIGvg==",
+			"version": "5.4.1",
+			"resolved": "https://registry.npmjs.org/fast-xml-parser/-/fast-xml-parser-5.4.1.tgz",
+			"integrity": "sha512-BQ30U1mKkvXQXXkAGcuyUA/GA26oEB7NzOtsxCDtyu62sjGw5QraKFhx2Em3WQNjPw9PG6MQ9yuIIgkSDfGu5A==",
 			"funding": [
 				{
 					"type": "github",
@@ -12725,6 +12737,7 @@
 			],
 			"license": "MIT",
 			"dependencies": {
+				"fast-xml-builder": "^1.0.0",
 				"strnum": "^2.1.2"
 			},
 			"bin": {
@@ -13895,9 +13908,9 @@
 			}
 		},
 		"node_modules/istanbul-lib-processinfo/node_modules/minimatch": {
-			"version": "3.1.4",
-			"resolved": "https://registry.npmjs.org/minimatch/-/minimatch-3.1.4.tgz",
-			"integrity": "sha512-twmL+S8+7yIsE9wsqgzU3E8/LumN3M3QELrBZ20OdmQ9jB2JvW5oZtBEmft84k/Gs5CG9mqtWc6Y9vW+JEzGxw==",
+			"version": "3.1.5",
+			"resolved": "https://registry.npmjs.org/minimatch/-/minimatch-3.1.5.tgz",
+			"integrity": "sha512-VgjWUsnnT6n+NUk6eZq77zeFdpW2LWDzP6zFGrCbHXiYNul5Dzqk2HHQ5uFH2DNW5Xbp8+jVzaeNt94ssEEl4w==",
 			"dev": true,
 			"license": "ISC",
 			"dependencies": {
@@ -14689,9 +14702,9 @@
 			}
 		},
 		"node_modules/minimatch": {
-			"version": "10.2.3",
-			"resolved": "https://registry.npmjs.org/minimatch/-/minimatch-10.2.3.tgz",
-			"integrity": "sha512-Rwi3pnapEqirPSbWbrZaa6N3nmqq4Xer/2XooiOKyV3q12ML06f7MOuc5DVH8ONZIFhwIYQ3yzPH4nt7iWHaTg==",
+			"version": "10.2.4",
+			"resolved": "https://registry.npmjs.org/minimatch/-/minimatch-10.2.4.tgz",
+			"integrity": "sha512-oRjTw/97aTBN0RHbYCdtF1MQfvusSIBQM0IZEgzl6426+8jSC0nF1a/GmnVLpfB9yyr6g6FTqWqiZVbxrtaCIg==",
 			"license": "BlueOak-1.0.0",
 			"dependencies": {
 				"brace-expansion": "^5.0.2"
@@ -15647,9 +15660,9 @@
 			}
 		},
 		"node_modules/nyc/node_modules/minimatch": {
-			"version": "3.1.4",
-			"resolved": "https://registry.npmjs.org/minimatch/-/minimatch-3.1.4.tgz",
-			"integrity": "sha512-twmL+S8+7yIsE9wsqgzU3E8/LumN3M3QELrBZ20OdmQ9jB2JvW5oZtBEmft84k/Gs5CG9mqtWc6Y9vW+JEzGxw==",
+			"version": "3.1.5",
+			"resolved": "https://registry.npmjs.org/minimatch/-/minimatch-3.1.5.tgz",
+			"integrity": "sha512-VgjWUsnnT6n+NUk6eZq77zeFdpW2LWDzP6zFGrCbHXiYNul5Dzqk2HHQ5uFH2DNW5Xbp8+jVzaeNt94ssEEl4w==",
 			"dev": true,
 			"license": "ISC",
 			"dependencies": {
@@ -17385,9 +17398,9 @@
 			"license": "ISC"
 		},
 		"node_modules/spawn-wrap/node_modules/minimatch": {
-			"version": "3.1.4",
-			"resolved": "https://registry.npmjs.org/minimatch/-/minimatch-3.1.4.tgz",
-			"integrity": "sha512-twmL+S8+7yIsE9wsqgzU3E8/LumN3M3QELrBZ20OdmQ9jB2JvW5oZtBEmft84k/Gs5CG9mqtWc6Y9vW+JEzGxw==",
+			"version": "3.1.5",
+			"resolved": "https://registry.npmjs.org/minimatch/-/minimatch-3.1.5.tgz",
+			"integrity": "sha512-VgjWUsnnT6n+NUk6eZq77zeFdpW2LWDzP6zFGrCbHXiYNul5Dzqk2HHQ5uFH2DNW5Xbp8+jVzaeNt94ssEEl4w==",
 			"dev": true,
 			"license": "ISC",
 			"dependencies": {
@@ -17671,12 +17684,12 @@
 			}
 		},
 		"node_modules/strip-ansi": {
-			"version": "7.1.2",
-			"resolved": "https://registry.npmjs.org/strip-ansi/-/strip-ansi-7.1.2.tgz",
-			"integrity": "sha512-gmBGslpoQJtgnMAvOVqGZpEz9dyoKTCzy2nfz/n8aIFhN/jCE/rCmcxabB6jOOHV+0WNnylOxaxBQPSvcWklhA==",
+			"version": "7.2.0",
+			"resolved": "https://registry.npmjs.org/strip-ansi/-/strip-ansi-7.2.0.tgz",
+			"integrity": "sha512-yDPMNjp4WyfYBkHnjIRLfca1i6KMyGCtsVgoKe/z1+6vukgaENdgGBZt+ZmKPc4gavvEZ5OgHfHdrazhgNyG7w==",
 			"license": "MIT",
 			"dependencies": {
-				"ansi-regex": "^6.0.1"
+				"ansi-regex": "^6.2.2"
 			},
 			"engines": {
 				"node": ">=12"
@@ -17889,9 +17902,9 @@
 			}
 		},
 		"node_modules/test-exclude/node_modules/minimatch": {
-			"version": "3.1.4",
-			"resolved": "https://registry.npmjs.org/minimatch/-/minimatch-3.1.4.tgz",
-			"integrity": "sha512-twmL+S8+7yIsE9wsqgzU3E8/LumN3M3QELrBZ20OdmQ9jB2JvW5oZtBEmft84k/Gs5CG9mqtWc6Y9vW+JEzGxw==",
+			"version": "3.1.5",
+			"resolved": "https://registry.npmjs.org/minimatch/-/minimatch-3.1.5.tgz",
+			"integrity": "sha512-VgjWUsnnT6n+NUk6eZq77zeFdpW2LWDzP6zFGrCbHXiYNul5Dzqk2HHQ5uFH2DNW5Xbp8+jVzaeNt94ssEEl4w==",
 			"dev": true,
 			"license": "ISC",
 			"dependencies": {
