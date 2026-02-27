@@ -62,22 +62,34 @@ export default async function transpileHtml(
 }
 
 function detectTestStarter(resourcePath: ResourcePath, scriptTags: SaxTag[], report: HtmlReporter) {
-	const tagToMigrate = scriptTags.find((tag) => {
-		const isTestsuiteQunitFile = /testsuite(?:\.[a-z][a-z0-9-]*)*\.qunit\.html$/.test(resourcePath);
-		return (isTestsuiteQunitFile && !tag.attributes.some((attr) => {
+	const isTestsuiteQunitFile = /testsuite(?:\.[a-z][a-z0-9-]*)*\.qunit\.html$/.test(resourcePath);
+	const isQunitFile = resourcePath.endsWith("qunit.html");
+
+	const hasTestsuiteCreate = scriptTags.some((tag) => {
+		return (isTestsuiteQunitFile && tag.attributes.some((attr) => {
 			return attr.name.value.toLowerCase() === "src" &&
 				(attr.value.value.endsWith("/resources/sap/ui/test/starter/createSuite.js") ||
 					attr.value.value === "resources/sap/ui/test/starter/createSuite.js");
-		})) ||
-		(!isTestsuiteQunitFile && resourcePath.endsWith("qunit.html") && !tag.attributes.some((attr) => {
+		}));
+	});
+
+	const hasTestsuiteRunner = scriptTags.some((tag) => {
+		return (!isTestsuiteQunitFile && isQunitFile && tag.attributes.some((attr) => {
 			return attr.name.value.toLowerCase() === "src" &&
 				(attr.value.value.endsWith("/resources/sap/ui/test/starter/runTest.js") ||
 					attr.value.value === "resources/sap/ui/test/starter/runTest.js");
 		}));
 	});
 
-	if (tagToMigrate) {
-		report.addMessage(MESSAGE.PREFER_TEST_STARTER, tagToMigrate);
+	if (hasTestsuiteCreate || hasTestsuiteRunner) {
+		return; // Test starter already included
+	}
+
+	if (isTestsuiteQunitFile || isQunitFile) {
+		// Report message only once per file, using the first script tag
+		if (scriptTags.length > 0) {
+			report.addMessage(MESSAGE.PREFER_TEST_STARTER, scriptTags[0]);
+		}
 	}
 }
 
