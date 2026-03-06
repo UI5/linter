@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.20.13](https://github.com/UI5/linter/compare/v1.20.12...v1.20.13) (2026-03-06)
+
+
+### Dependencies
+
+* Update npm dependencies ([#1021](https://github.com/UI5/linter/issues/1021)) ([9e67cf5](https://github.com/UI5/linter/commit/9e67cf50b2aadad9e45eae6652f79f8b2159eba8))
+
 ## [1.20.12](https://github.com/UI5/linter/compare/v1.20.11...v1.20.12) (2026-02-27)
 
 
