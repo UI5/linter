@@ -79,7 +79,7 @@
 		"@ui5/project": "^4.0.13",
 		"chalk": "^5.6.2",
 		"data-with-position": "^0.5.0",
-		"fast-xml-parser": "^5.5.3",
+		"fast-xml-parser": "^5.5.4",
 		"figures": "^6.1.0",
 		"globals": "^17.4.0",
 		"he": "^1.2.0",
@@ -93,8 +93,8 @@
 		"yargs": "^17.7.2"
 	},
 	"devDependencies": {
-		"@commitlint/cli": "^20.4.3",
-		"@commitlint/config-conventional": "^20.4.3",
+		"@commitlint/cli": "^20.4.4",
+		"@commitlint/config-conventional": "^20.4.4",
 		"@eslint/js": "^9.39.2",
 		"@istanbuljs/esm-loader-hook": "^0.3.0",
 		"@istanbuljs/nyc-config-typescript": "^1.0.2",
