@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.20.16](https://github.com/UI5/linter/compare/v1.20.15...v1.20.16) (2026-03-25)
+
+
+### Dependencies
+
+* **lockfile:** Cleanup of package.json overrides ([#1030](https://github.com/UI5/linter/issues/1030)) ([3648618](https://github.com/UI5/linter/commit/36486181b07f173a7f49ee47cf9fb0a317734637))
+* **lockfile:** In-range update of npm dependencies ([9fc20da](https://github.com/UI5/linter/commit/9fc20daa482741ff8e64827a288e4b73f89ccfd7))
+
 ## [1.20.15](https://github.com/UI5/linter/compare/v1.20.14...v1.20.15) (2026-03-23)
 
 
