@@ -9,6 +9,7 @@ declare module "sap/ui/vtm/Matrix" {
 	 * The {@link sap.ui.vtm.MatrixComponent} enumeration enumerates the array indices of the matrix components for this type
 	 *
 	 * @experimental (since 1.0.0) - This class is experimental and might be modified or removed in future versions.
+	 * @deprecated (since 1.96.10) - because it is part of the deprecated package sap.ui.vtm
 	 * @public
 	*/
 	export default Matrix;
