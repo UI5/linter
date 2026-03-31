@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.20.17](https://github.com/UI5/linter/compare/v1.20.16...v1.20.17) (2026-03-31)
+
+
+### Dependencies
+
+* Bump @sapui5/types from 1.136.14 to 1.136.16 ([#1032](https://github.com/UI5/linter/issues/1032)) ([0b931cd](https://github.com/UI5/linter/commit/0b931cdd3735a2968cdb0139cab9554c875cd734))
+* **lockfile:** In-range update of npm dependencies ([bb22e6d](https://github.com/UI5/linter/commit/bb22e6d117ab1388b4acb55f0646973794d83750))
+* **lockfile:** In-range update of npm dependencies ([e5dad3f](https://github.com/UI5/linter/commit/e5dad3ff7762cc0d8de15af539f1e03f8ac8ca98))
+* **lockfile:** In-range update of npm dependencies ([1e9f986](https://github.com/UI5/linter/commit/1e9f986476a07a4cad5ea186ddd89cf956bcd4e7))
+* **lockfile:** In-range update of npm dependencies ([dedbf2d](https://github.com/UI5/linter/commit/dedbf2da4b5ce0a41d29146e27a4ed46f5585341))
+
 ## [1.20.16](https://github.com/UI5/linter/compare/v1.20.15...v1.20.16) (2026-03-25)
 
 
