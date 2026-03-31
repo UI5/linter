@@ -1,7 +1,7 @@
 {
   "framework": {
     "name": "SAPUI5",
-    "version": "1.136.14"
+    "version": "1.136.16"
   },
   "metadata": {
     "sap.ca.ui.AddPicture": {
@@ -19151,6 +19151,23 @@
     "sap.ui.vk.dvl.ViewStateManager": {
       "extends": "sap.ui.vk.ViewStateManagerBase"
     },
+    "sap.ui.vk.ecad.ElementsPanel": {
+      "aggregation": [
+        "content"
+      ],
+      "association": [
+        "contentConnector",
+        "viewStateManager"
+      ],
+      "event": [
+        "contentChanged"
+      ],
+      "property": [
+        "width",
+        "height"
+      ],
+      "extends": "sap.ui.core.Control"
+    },
     "sap.ui.vk.ecad.LayersPanel": {
       "aggregation": [
         "content"
@@ -24704,6 +24721,18 @@
   },
   "deprecations": {
     "UI5Class": {
+      "sap.apf.abap.LrepConnector": "(since 1.136) this library is deprecated and will not be available in future major releases.",
+      "sap.apf.Api": "(since 1.136) this library is deprecated and will not be available in future major releases.",
+      "sap.apf.core.MessageObject": "(since 1.136) this library is deprecated and will not be available in future major releases",
+      "sap.apf.core.ReadRequest": "(since 1.136) this library is deprecated and will not be available in future major releases.",
+      "sap.apf.core.ReadRequestByRequiredFilter": "(since 1.136) this library is deprecated and will not be available in future major releases.",
+      "sap.apf.ui.Instance": "(since 1.136) this library is deprecated and will not be available in future major releases.",
+      "sap.apf.ui.representations.representationInterface": "(since 1.136) because it is part of the deprecated package sap.apf",
+      "sap.apf.ui.representations.RepresentationInterfaceProxy": "(since 1.136) because it is part of the deprecated package sap.apf",
+      "sap.apf.utils.Filter": "(since 1.136) this library is deprecated and will not be available in future major releases.",
+      "sap.apf.utils.FilterAnd": "(since 1.136) this library is deprecated and will not be available in future major releases.",
+      "sap.apf.utils.FilterExpression": "(since 1.136) this library is deprecated and will not be available in future major releases.",
+      "sap.apf.utils.FilterOr": "(since 1.136) this library is deprecated and will not be available in future major releases.",
       "sap.ca.ui.AddPicture": "(since 1.26) As per central UX requirements, this control is replaced by sap.m.UploadCollection. Please use the new control if you start developing an application instead of using this AddPicture control.",
       "sap.ca.ui.charts.BarListItem": "(since 1.24) Sap.ca charts have been replaced with sap.viz and vizFrame in 1.24. The UI5 control \"sap.viz.ui5.controls.VizFrame\" serves as a single point of entry for all the new charts. Now that 1.24 is available you are asked to use sap.viz charts and the VizFrame instead! This control will not be supported anymore from 1.24.",
       "sap.ca.ui.charts.BubbleChart": "(since 1.24) Sap.ca charts have been replaced with sap.viz and vizFrame in 1.24. The UI5 control \"sap.viz.ui5.controls.VizFrame\" serves as a single point of entry for all the new charts. Now that 1.24 is available you are asked to use sap.viz charts and the VizFrame instead! This control will not be supported anymore from 1.24.",
@@ -25157,6 +25186,32 @@
       "sap.ui.vk.OverlayArea": "(since 1.120) This is not in use anymore. Please consider using Redline tool, see {@link sap.ui.vk.RedlineTool}",
       "sap.ui.vk.ProgressIndicator": "(since 1.114.0) Use {@link sap.m.ProgressIndicator} instead.",
       "sap.ui.vk.StepNavigation": "(since 1.72.0) This class is used only with DVL namespace which will be removed in future. Use {@link sap.ui.vk.ViewGallery} instead.",
+      "sap.ui.vtm.Column": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm",
+      "sap.ui.vtm.DisplayGroup": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm",
+      "sap.ui.vtm.Extension": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm",
+      "sap.ui.vtm.extensions.DisplayStateCalculationExtension": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm.extensions",
+      "sap.ui.vtm.extensions.InitialViewExtension": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm.extensions",
+      "sap.ui.vtm.extensions.LoadProgressExtension": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm.extensions",
+      "sap.ui.vtm.extensions.MessageStatusCalculationExtension": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm.extensions",
+      "sap.ui.vtm.extensions.MessageStatusIconClickExtension": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm.extensions",
+      "sap.ui.vtm.extensions.SceneNodeHoverHighlightExtension": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm.extensions",
+      "sap.ui.vtm.extensions.SceneNodeHoverTooltipExtension": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm.extensions",
+      "sap.ui.vtm.extensions.SelectionLinkingExtension": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm.extensions",
+      "sap.ui.vtm.extensions.ViewLinkingExtension": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm.extensions",
+      "sap.ui.vtm.extensions.ViewportSelectionLinkingExtension": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm.extensions",
+      "sap.ui.vtm.extensions.VisibilityIconClickExtension": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm.extensions",
+      "sap.ui.vtm.Lookup": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm",
+      "sap.ui.vtm.MessagesPopover": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm",
+      "sap.ui.vtm.Panel": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm",
+      "sap.ui.vtm.ProgressDialog": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm",
+      "sap.ui.vtm.Scene": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm",
+      "sap.ui.vtm.SceneNode": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm",
+      "sap.ui.vtm.SelectColumnsDialog": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm",
+      "sap.ui.vtm.Tree": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm",
+      "sap.ui.vtm.Viewable": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm",
+      "sap.ui.vtm.ViewableLoadInfo": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm",
+      "sap.ui.vtm.Viewport": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm",
+      "sap.ui.vtm.Vtm": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm",
       "sap.ui.webc.common.WebComponent": "(since 1.118.0) Use sap.ui.core.webc.WebComponent instead!",
       "sap.ui.webc.common.WebComponentMetadata": "(since 1.118.0) Use sap.ui.core.webc.WebComponentMetadata instead!",
       "sap.ui.webc.fiori.Bar": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
@@ -25450,6 +25505,7 @@
       "sap.ca.ui.charts.ChartColor": "(since 1.24) Sap.ca charts have been replaced with sap.viz and VizFrame in 1.24. The UI5 control \"sap.viz.ui5.controls.VizFrame\" serves as a single point of entry for all the new charts. Now that 1.24 is available you are asked to use sap.viz charts and the VizFrame instead! This control will not be supported anymore from 1.24.",
       "sap.ca.ui.charts.ChartSelectionMode": "(since 1.24) Sap.ca charts have been replaced with sap.viz and VizFrame in 1.24. The UI5 control \"sap.viz.ui5.controls.VizFrame\" serves as a single point of entry for all the new charts. Now that 1.24 is available you are asked to use sap.viz charts and the VizFrame instead! This control will not be supported anymore from 1.24.",
       "sap.ca.ui.charts.ChartSemanticColor": "(since 1.24) Sap.ca charts have been replaced with sap.viz and VizFrame in 1.24. The UI5 control \"sap.viz.ui5.controls.VizFrame\" serves as a single point of entry for all the new charts. Now that 1.24 is available you are asked to use sap.viz charts and the VizFrame instead! This control will not be supported anymore from 1.24.",
+      "sap.ca.ui.message.Type": "(since 1.28) because it is part of the deprecated package sap.ca.ui.message",
       "sap.chart.data.MeasureRoleType.axis4": "Please use other MeasureRoleType for specific usage.",
       "sap.collaboration.FeedType.company": "(since 1.30.0) The feed type was deprecated because the original feed dialog component does not use it anymore. It also does not conform to naming conventions.",
       "sap.collaboration.FeedType.follows": "(since 1.30.0) The feed type was deprecated because the original feed dialog component does not use it anymore. It also does not conform to naming conventions.",
@@ -25649,6 +25705,14 @@
       "sap.ui.vk.ContentResourceSourceCategory": "(since 1.50.0) Content resource categories shall not be used anymore. See {@link sap.ui.vk.ContentResource#sourceType} property for selection of content type.",
       "sap.ui.vk.dvl.GraphicsCoreApi": "(since 1.72.0) DVL namespace will be removed in future. This object does not have replacement.",
       "sap.ui.vk.MapContainerButtonType": "(since 1.120.2) This object is moved to sap.ui.vbm namespace, see {@link sap.ui.vbm.MapContainerButtonType}",
+      "sap.ui.vtm.ChildCollectionType": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm",
+      "sap.ui.vtm.ColumnType": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm",
+      "sap.ui.vtm.InternalColumnDescriptor": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm",
+      "sap.ui.vtm.PredefinedView": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm",
+      "sap.ui.vtm.SelectionMode": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm",
+      "sap.ui.vtm.TextColor": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm",
+      "sap.ui.vtm.TreeItemType": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm",
+      "sap.ui.vtm.ViewableLoadStatus": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm",
       "sap.ui.webc.fiori.BarDesign": "(since 1.120) because it is part of the deprecated package sap.ui.webc.fiori",
       "sap.ui.webc.fiori.FCLLayout": "(since 1.120) because it is part of the deprecated package sap.ui.webc.fiori",
       "sap.ui.webc.fiori.IllustrationMessageSize": "(since 1.120) because it is part of the deprecated package sap.ui.webc.fiori",
@@ -25771,9 +25835,11 @@
       "module:sap/ui/events/isMouseEventDelayed": "deprecated"
     },
     "UI5Namespace": {
+      "sap.apf": "(since 1.136) this library is deprecated and will not be available in future major releases.",
       "sap.apf.constants": "(since 1.23.1) Use sap.apf.core.constants instead.",
       "sap.ca.ui": "(since 1.28) All controls and helpers in this library meanwhile have been deprecated. Check the individual classes or packages for actual replacements.",
       "sap.ca.ui.charts": "(since 1.24) Sap.ca charts have been replaced with sap.viz and VizFrame in 1.24. The UI5 control \"sap.viz.ui5.controls.VizFrame\" serves as a single point of entry for all the new charts. Now that 1.24 is available you are asked to use sap.viz charts and the VizFrame instead! This control will not be supported anymore from 1.24.",
+      "sap.ca.ui.charts.ChartType": "(since 1.24) because it is part of the deprecated package sap.ca.ui.charts",
       "sap.ca.ui.dialog": "(since 1.26) The content of this package is deprecated since 1.26 as per central UX requirements. Please use {@link sap.m.Dialog} instead.",
       "sap.ca.ui.dialog.confirmation": "(since 1.26) this control is deprecated per central UX requirements. Please use |@link sap.m.Dialog} instead.",
       "sap.ca.ui.message": "(since 1.28) this control is deprecated as per central UX requirements. Please use {@link sap.m.MessageBox} instead.",
@@ -25861,8 +25927,15 @@
       "sap.ui.ux3": "(since 1.38) ",
       "sap.ui.ux3.ShellPersonalization": "(since 1.36) This class was never released for productive use and will never be.",
       "sap.ui.vtm": "(since 1.96.10) ",
+      "sap.ui.vtm.ArrayUtilities": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm",
+      "sap.ui.vtm.DescriptorUtilities": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm",
       "sap.ui.vtm.extensions": "(since 1.96.10) ",
+      "sap.ui.vtm.HashUtilities": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm",
       "sap.ui.vtm.interfaces": "(since 1.96.10) ",
+      "sap.ui.vtm.InternalColumns": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm",
+      "sap.ui.vtm.Matrix": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm",
+      "sap.ui.vtm.MatrixUtilities": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm",
+      "sap.ui.vtm.TreeItemUtilities": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm",
       "sap.ui.webc": "(since 1.120) this Web Components consumption model has been discarded. An alternative consumption model is planned for the future.",
       "sap.ui.webc.common": "(since 1.120) this Web Components consumption model has been discarded. An alternative consumption model is planned for the future.",
       "sap.ui.webc.fiori": "(since 1.120) this Web Components consumption model has been discarded. An alternative consumption model is planned for the future.",
@@ -25901,6 +25974,20 @@
       "jQuery.sap.util.ResourceBundle": "(since 1.58) use {@link module:sap/base/i18n/ResourceBundle} instead",
       "jQuery.sap.util.UriParameters": "(since 1.120) See deprecation notes of {@link module:sap/base/util/UriParameters sap/base/util/UriParameters} on how to migrate to URL web standard classes <code>URLSearchParams</code> / <code>URL</code>.",
       "sap.ui.ux3.DataSetView": "(since 1.38) ",
+      "sap.ui.vtm.interfaces.IDisplayStateCalculationExtension": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm.interfaces",
+      "sap.ui.vtm.interfaces.IDownloadProgressExtension": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm.interfaces",
+      "sap.ui.vtm.interfaces.IInitialViewExtension": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm.interfaces",
+      "sap.ui.vtm.interfaces.ILoadProgressExtension": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm.interfaces",
+      "sap.ui.vtm.interfaces.IMessageStatusCalculationExtension": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm.interfaces",
+      "sap.ui.vtm.interfaces.IMessageStatusHeaderIconClickExtension": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm.interfaces",
+      "sap.ui.vtm.interfaces.IMessageStatusIconClickExtension": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm.interfaces",
+      "sap.ui.vtm.interfaces.ISceneNodeHoverHighlightExtension": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm.interfaces",
+      "sap.ui.vtm.interfaces.ISceneNodeHoverTooltipExtension": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm.interfaces",
+      "sap.ui.vtm.interfaces.ISelectionLinkingExtension": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm.interfaces",
+      "sap.ui.vtm.interfaces.IViewLinkingExtension": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm.interfaces",
+      "sap.ui.vtm.interfaces.IViewportSelectionLinkingExtension": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm.interfaces",
+      "sap.ui.vtm.interfaces.IVisibilityHeaderIconClickExtension": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm.interfaces",
+      "sap.ui.vtm.interfaces.IVisibilityIconClickExtension": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm.interfaces",
       "sap.ui.webc.fiori.IBar": "(since 1.120) because it is part of the deprecated package sap.ui.webc.fiori",
       "sap.ui.webc.fiori.IFilterItem": "(since 1.120) because it is part of the deprecated package sap.ui.webc.fiori",
       "sap.ui.webc.fiori.IFilterItemOption": "(since 1.120) because it is part of the deprecated package sap.ui.webc.fiori",

@@ -4,7 +4,7 @@ declare module "sap/ui/richtexteditor/EditorType" {
 	import {EditorType} from "sap/ui/richtexteditor/library";
 
 	/**
-	 * Determines which editor component should be used for editing the text.
+	 * Determines which editor component should be used for editing the text. <b>Note: To ensure stability and to access the latest features, use the most current TinyMCE version supported by your SAPUI5 version by setting the property to <code>TinyMCE</code>. </br> Unsupported TinyMCE versions with critical vulnerabilities or other serious issues may be removed without notice.</b>
 	 * 
 	 * This enum is part of the 'sap/ui/richtexteditor/library' module export and must be accessed by the property 'EditorType'.
 	 *
