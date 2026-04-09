@@ -88,3 +88,33 @@ test.serial("lint: All files of library with sap.ui.core namespace", async (t) =
 		t.true(writeFilePath.startsWith(projectPath), `${writeFilePath} should start with ${projectPath}`);
 	}
 });
+
+test.serial("lint: All files of globals application", async (t) => {
+	const projectPath = path.join(fixturesProjectsPath, "globals");
+	const {linterEngine} = t.context;
+
+	const res = await linterEngine.lint({
+		rootDir: projectPath,
+		fix: true,
+	});
+
+	t.snapshot(preprocessLintResultsForSnapshot(res));
+	t.truthy(t.context.autofixSpy.callCount >= 1);
+	let expectedWrites = 0;
+	for (let i = t.context.autofixSpy.callCount - 1; i >= 0; i--) {
+		const autofixResult = await t.context.autofixSpy.getCall(i).returnValue;
+		expectedWrites += autofixResult.size;
+		const autofixResultEntries = Array.from(autofixResult.entries());
+		autofixResultEntries.sort((a, b) => a[0].localeCompare(b[0]));
+		for (const [filePath, content] of autofixResultEntries) {
+			t.snapshot(content, `AutofixResult iteration #${i}: ${filePath}`);
+		}
+	}
+
+	// Ensure that all files are written using an absolute path within the project
+	t.is(t.context.writeFileStub.callCount, expectedWrites);
+	const writeFilePaths = t.context.writeFileStub.args.map((args) => args[0]);
+	for (const writeFilePath of writeFilePaths) {
+		t.true(writeFilePath.startsWith(projectPath), `${writeFilePath} should start with ${projectPath}`);
+	}
+});
