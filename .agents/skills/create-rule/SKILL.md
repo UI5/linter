@@ -149,9 +149,10 @@ analyzeMyCustomRule({node, reporter: this.#reporter, checker: this.checker, cont
 **3a. Create the test entry file** at `test/lib/linter/rules/$0.ts`:
 
 ```typescript
+import {fileURLToPath} from "node:url";
 import {runLintRulesTests} from "../_linterHelper.js";
 
-runLintRulesTests(import.meta.url);
+runLintRulesTests(fileURLToPath(import.meta.url));
 ```
 
 **3b. Create fixture directories** under `test/fixtures/linter/rules/$0/`:
