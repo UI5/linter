@@ -121,6 +121,16 @@ export function createTestsForFixtures(fixturesPath: string, fix = false) {
 				filePaths: testFiles,
 				fix,
 			});
+		} else if (fixturesPath.includes("NoAppGlobals")) {
+			const dirName = path.basename(fixturesPath);
+			testDefinition({
+				testName: dirName,
+				namespace: "com/example/app",
+				fileName: dirName,
+				fixturesPath,
+				filePaths: testFiles,
+				fix,
+			});
 		} else {
 			for (const fileName of testFiles) {
 				if (!fileName.endsWith(".js") &&
