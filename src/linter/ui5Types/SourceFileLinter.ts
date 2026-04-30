@@ -1631,7 +1631,8 @@ export default class SourceFileLinter {
 
 			// Get the NodeType in order to check whether this is indirect global access via Window
 			const nodeType = this.checker.getTypeAtLocation(exprNode);
-			if (isGlobalThis(this.checker.typeToString(nodeType))) {
+			const isGlobalThisAccess = isGlobalThis(this.checker.typeToString(nodeType));
+			if (isGlobalThisAccess) {
 				// In case of Indirect global access we need to check for
 				// a global UI5 variable on the right side of the expression instead of left
 				if (ts.isPropertyAccessExpression(node)) {
@@ -1670,6 +1671,27 @@ export default class SourceFileLinter {
 							namespace: fullNamespace,
 						}, {node});
 					}
+				}
+			} else if (isGlobalThisAccess && this.#appNamespaceFirstSegment &&
+				ts.isPropertyAccessExpression(node) && ts.isIdentifier(node.name) &&
+				node.name.text === this.#appNamespaceFirstSegment &&
+				(!symbol || this.#isAppGlobalNotLocal(symbol))) {
+				// Indirect global access via globalThis/window: e.g. window.com.example.app.utils.Helper
+				// node is "window.com" here — walk up to find the full PropertyAccessExpression chain
+				let topNode: ts.Node = node;
+				while (ts.isPropertyAccessExpression(topNode.parent) &&
+					topNode.parent.expression === topNode) {
+					topNode = topNode.parent;
+				}
+				const fullChain = extractNamespace(topNode as ts.PropertyAccessExpression);
+				// Strip the globalThis alias prefix (e.g. "window.com.example.app..." → "com.example.app...")
+				const dotIdx = fullChain.indexOf(".");
+				const withoutPrefix = dotIdx >= 0 ? fullChain.substring(dotIdx + 1) : fullChain;
+				if (withoutPrefix.startsWith(this.#appNamespaceDots + ".")) {
+					this.#reporter.addMessage(MESSAGE.NO_GLOBALS, {
+						variableName: node.name.text,
+						namespace: withoutPrefix,
+					}, {node: topNode});
 				}
 			}
 		}
