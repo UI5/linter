@@ -82,7 +82,7 @@
 		"data-with-position": "^0.5.0",
 		"fast-xml-parser": "^5.7.2",
 		"figures": "^6.1.0",
-		"globals": "^17.5.0",
+		"globals": "^17.6.0",
 		"he": "^1.2.0",
 		"json-source-map": "^0.6.1",
 		"magic-string": "^0.30.21",
@@ -94,8 +94,8 @@
 		"yargs": "^17.7.2"
 	},
 	"devDependencies": {
-		"@commitlint/cli": "^20.5.2",
-		"@commitlint/config-conventional": "^20.5.0",
+		"@commitlint/cli": "^20.5.3",
+		"@commitlint/config-conventional": "^20.5.3",
 		"@eslint/js": "^9.39.2",
 		"@istanbuljs/esm-loader-hook": "^0.3.0",
 		"@istanbuljs/nyc-config-typescript": "^1.0.2",
