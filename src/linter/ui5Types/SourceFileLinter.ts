@@ -81,6 +81,8 @@ export default class SourceFileLinter {
 	#hasTestStarterFindings: boolean;
 	#metadata: LintMetadata;
 	#xmlContents: {xml: string; pos: ts.LineAndCharacter; documentKind: "fragment" | "view"}[];
+	#appNamespaceFirstSegment: string | undefined;
+	#appNamespaceDots: string | undefined;
 
 	private fixHelpers: FixHelpers;
 	private resourcePath: ResourcePath;
@@ -113,6 +115,12 @@ export default class SourceFileLinter {
 			manifestContent: this.manifestContent,
 			libraryDependencies: this.libraryDependencies,
 		};
+
+		const namespace = this.typeLinter.getContext().getNamespace();
+		if (namespace) {
+			this.#appNamespaceDots = namespace.replace(/\//g, ".");
+			this.#appNamespaceFirstSegment = this.#appNamespaceDots.split(".")[0];
+		}
 	}
 
 	async lint() {
@@ -1623,7 +1631,8 @@ export default class SourceFileLinter {
 
 			// Get the NodeType in order to check whether this is indirect global access via Window
 			const nodeType = this.checker.getTypeAtLocation(exprNode);
-			if (isGlobalThis(this.checker.typeToString(nodeType))) {
+			const isGlobalThisAccess = isGlobalThis(this.checker.typeToString(nodeType));
+			if (isGlobalThisAccess) {
 				// In case of Indirect global access we need to check for
 				// a global UI5 variable on the right side of the expression instead of left
 				if (ts.isPropertyAccessExpression(node)) {
@@ -1652,6 +1661,38 @@ export default class SourceFileLinter {
 					node,
 					fix: this.getGlobalFix(node),
 				});
+			} else if (this.#appNamespaceFirstSegment &&
+				exprNode.text === this.#appNamespaceFirstSegment) {
+				const fullNamespace = extractNamespace(node as ts.PropertyAccessExpression);
+				if (fullNamespace.startsWith(this.#appNamespaceDots + ".")) {
+					if (!symbol || this.#isAppGlobalNotLocal(symbol)) {
+						this.#reporter.addMessage(MESSAGE.NO_GLOBALS, {
+							variableName: exprNode.text,
+							namespace: fullNamespace,
+						}, {node});
+					}
+				}
+			} else if (isGlobalThisAccess && this.#appNamespaceFirstSegment &&
+				ts.isPropertyAccessExpression(node) && ts.isIdentifier(node.name) &&
+				node.name.text === this.#appNamespaceFirstSegment &&
+				(!symbol || this.#isAppGlobalNotLocal(symbol))) {
+				// Indirect global access via globalThis/window: e.g. window.com.example.app.utils.Helper
+				// node is "window.com" here — walk up to find the full PropertyAccessExpression chain
+				let topNode: ts.Node = node;
+				while (ts.isPropertyAccessExpression(topNode.parent) &&
+					topNode.parent.expression === topNode) {
+					topNode = topNode.parent;
+				}
+				const fullChain = extractNamespace(topNode as ts.PropertyAccessExpression);
+				// Strip the globalThis alias prefix (e.g. "window.com.example.app..." → "com.example.app...")
+				const dotIdx = fullChain.indexOf(".");
+				const withoutPrefix = dotIdx >= 0 ? fullChain.substring(dotIdx + 1) : fullChain;
+				if (withoutPrefix.startsWith(this.#appNamespaceDots + ".")) {
+					this.#reporter.addMessage(MESSAGE.NO_GLOBALS, {
+						variableName: node.name.text,
+						namespace: withoutPrefix,
+					}, {node: topNode});
+				}
 			}
 		}
 	}
@@ -1797,6 +1838,23 @@ export default class SourceFileLinter {
 		// such symbols (e.g. globals like 'Symbol', which might have dedicated types in UI5 thirdparty like JQuery)
 		return !declarations.some((declaration) => isSourceFileOfTypeScriptLib(declaration.getSourceFile())) &&
 			declarations.some((declaration) => checkFunction(declaration.getSourceFile()));
+	}
+
+	// TypeScript creates implicit Identifier-kind declarations for undeclared globals (e.g. "com").
+	// To avoid false positives when a local variable shadows the namespace first segment
+	// (e.g. "const com = {}"), check whether the symbol has an explicit user-code declaration.
+	#isAppGlobalNotLocal(symbol: ts.Symbol): boolean {
+		const declarations = symbol.getDeclarations();
+		if (!declarations || declarations.length === 0) return true;
+		for (const decl of declarations) {
+			const sf = decl.getSourceFile();
+			if (!isSourceFileOfUi5Type(sf) && !isSourceFileOfTypeScriptLib(sf) &&
+				(ts.isVariableDeclaration(decl) || ts.isFunctionDeclaration(decl) ||
+					ts.isParameter(decl) || ts.isClassDeclaration(decl))) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	analyzeTestsuiteThemeProperty(node: ts.PropertyAssignment) {
