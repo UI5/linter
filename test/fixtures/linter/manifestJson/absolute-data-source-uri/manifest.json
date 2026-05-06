@@ -1,0 +1,23 @@
+{
+	"_version": "2.0.0",
+	"sap.app": {
+		"id": "my.app",
+		"type": "application",
+		"dataSources": {
+			"mainService": {
+				"uri": "/sap/opu/odata/sap/ZMY_SRV/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0"
+				}
+			},
+			"relativeService": {
+				"uri": "sap/opu/odata/sap/ZMY_SRV/",
+				"type": "OData"
+			}
+		}
+	},
+	"sap.cloud": {
+		"service": "my.service"
+	}
+}
