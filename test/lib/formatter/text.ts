@@ -65,6 +65,13 @@ test("Test Text Formatter (with one fatal error)", (t) => {
 	t.snapshot(res);
 });
 
+test("Test Text Formatter (with no findings)", (t) => {
+	const {fakePath} = t.context;
+	const textFormatter = new Text(fakePath);
+	const res = textFormatter.format([], false, false);
+	t.snapshot(res);
+});
+
 test("Test Text Formatter (with two fatal errors)", (t) => {
 	const {fakePath} = t.context;
 	const textFormatter = new Text(fakePath);
