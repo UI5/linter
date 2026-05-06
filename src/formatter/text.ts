@@ -110,9 +110,13 @@ export class Text {
 		const totalCount = quiet ? totalErrorCount : totalErrorCount + totalWarningCount;
 		const problemsText = `${totalCount} ${totalCount === 1 ? "problem" : "problems"}`;
 
-		this.#writeln(
-			summaryColor(`${problemsText} (${errorsText}${warningsText})`)
-		);
+		if (totalCount === 0) {
+			this.#writeln(summaryColor("Success! No findings detected."));
+		} else {
+			this.#writeln(
+				summaryColor(`${problemsText} (${errorsText}${warningsText})`)
+			);
+		}
 
 		if (!autofix && (totalErrorCount + totalWarningCount > 0)) {
 			this.#writeln("   Run \"ui5lint --fix\" to resolve all auto-fixable problems\n");
