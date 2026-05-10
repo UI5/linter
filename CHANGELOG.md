@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.21.0](https://github.com/UI5/linter/compare/v1.20.18...v1.21.0) (2026-05-10)
+
+
+### Features
+
+* Improve UX in case no UI5 linter findings are reported ([c9307dd](https://github.com/UI5/linter/commit/c9307ddc2d918566362f9a3d2423d933b7de7b8f))
+
+
+### Dependencies
+
+* **lockfile:** In-range update of npm dependencies ([1a7f734](https://github.com/UI5/linter/commit/1a7f7347a37dcc5562f7de388e5e934032687a3b))
+* **lockfile:** In-range update of npm dependencies ([3d66155](https://github.com/UI5/linter/commit/3d66155b7640d8cfd40b345dd15b09c6c38054f4))
+* **lockfile:** In-range update of npm dependencies ([86882ea](https://github.com/UI5/linter/commit/86882ea7aa47b0eb5161fcafb4ae4ac1d6cc7d69))
+* **lockfile:** In-range update of npm dependencies ([051b7f3](https://github.com/UI5/linter/commit/051b7f38c94c1569689a1f035d28405faf36955a))
+* **lockfile:** In-range update of npm dependencies ([f64934a](https://github.com/UI5/linter/commit/f64934a8a9f0681a436fae7493f773d809bad3bf))
+
 ## [1.20.18](https://github.com/UI5/linter/compare/v1.20.17...v1.20.18) (2026-04-02)
 
 
