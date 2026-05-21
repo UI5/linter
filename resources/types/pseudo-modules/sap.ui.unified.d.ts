@@ -24,7 +24,6 @@ declare module "sap/ui/unified/CalendarAppointmentRoundWidth" {
 	 *
 	 * @experimental (since 1.81.0)
 	 * @public
-	 * @since 1.81.0
 	*/
 	export default CalendarAppointmentRoundWidth;
 }
@@ -92,9 +91,9 @@ declare module "sap/ui/unified/ContentSwitcherAnimation" {
 	 * 
 	 * This enum is part of the 'sap/ui/unified/library' module export and must be accessed by the property 'ContentSwitcherAnimation'.
 	 *
-	 * @experimental (since 1.16.0) - API is not yet finished and might change completely
+	 * @experimental (since 1.16.0)
+	 * @deprecated (since 1.147.0) - the concept has been discarded. API is not yet finished and might change completely
 	 * @public
-	 * @since 1.16.0
 	*/
 	export default ContentSwitcherAnimation;
 }

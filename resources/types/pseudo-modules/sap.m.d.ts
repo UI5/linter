@@ -169,7 +169,6 @@ declare module "sap/m/ContentConfigType" {
 	 * 
 	 * This enum is part of the 'sap/m/library' module export and must be accessed by the property 'ContentConfigType'.
 	 *
-	 * @experimental (since 1.122)
 	 * @public
 	 * @since 1.122
 	*/
@@ -533,7 +532,7 @@ declare module "sap/m/IconTabFilterInteractionMode" {
 	 * 
 	 * This enum is part of the 'sap/m/library' module export and must be accessed by the property 'IconTabFilterInteractionMode'.
 	 *
-	 * @experimental (since 1.121) - Behavior might change.
+	 * @experimental (since 1.121)
 	 * @public
 	*/
 	export default IconTabFilterInteractionMode;
@@ -691,6 +690,20 @@ declare module "sap/m/ListHeaderDesign" {
 	export default ListHeaderDesign;
 }
 
+declare module "sap/m/ListItemActionType" {
+	import {ListItemActionType} from "sap/m/library";
+
+	/**
+	 * Defines the action types available for list items.
+	 * 
+	 * This enum is part of the 'sap/m/library' module export and must be accessed by the property 'ListItemActionType'.
+	 *
+	 * @public
+	 * @since 1.137
+	*/
+	export default ListItemActionType;
+}
+
 declare module "sap/m/ListKeyboardMode" {
 	import {ListKeyboardMode} from "sap/m/library";
 
@@ -772,6 +785,22 @@ declare module "sap/m/MenuButtonMode" {
 	export default MenuButtonMode;
 }
 
+declare module "sap/m/MessageStripColorSet" {
+	import {MessageStripColorSet} from "sap/m/library";
+
+	/**
+	 * Available color set variants for the {@link sap.m.MessageStrip} control.
+	 * 
+	 * <b>Notes:</b> <ul> <li>The Default color set uses standard semantic colors based on the message type (Information, Success, Warning, Error).</li> <li>ColorSet1 and ColorSet2 provide custom color palettes with 10 predefined color schemes each.</li> <li>When using ColorSet1 or ColorSet2, the <code>colorScheme</code> property determines which color variation is applied.</li> </ul>
+	 * 
+	 * This enum is part of the 'sap/m/library' module export and must be accessed by the property 'MessageStripColorSet'.
+	 *
+	 * @public
+	 * @since 1.143.0
+	*/
+	export default MessageStripColorSet;
+}
+
 declare module "sap/m/MultiSelectMode" {
 	import {MultiSelectMode} from "sap/m/library";
 
@@ -840,17 +869,44 @@ declare module "sap/m/OverflowToolbarPriority" {
 	export default OverflowToolbarPriority;
 }
 
+declare module "sap/m/OverflowToolbarTokenizerRenderMode" {
+	import {OverflowToolbarTokenizerRenderMode} from "sap/m/library";
+
+	/**
+	 * Types of <code>sap.m.OverflowToolbarTokenizerRenderMode</code> responsive modes
+	 * 
+	 * This enum is part of the 'sap/m/library' module export and must be accessed by the property 'OverflowToolbarTokenizerRenderMode'.
+	 *
+	 * @public
+	 * @since 1.139
+	*/
+	export default OverflowToolbarTokenizerRenderMode;
+}
+
 declare module "sap/m/P13nConditionOperation" {
 	import {P13nConditionOperation} from "sap/m/library";
 
 	/**
-	 * undefined
+	 * Operations for conditions used in the personalization condition panel.
 	 * 
 	 * This enum is part of the 'sap/m/library' module export and must be accessed by the property 'P13nConditionOperation'.
 	 *
 	 * @public
 	*/
 	export default P13nConditionOperation;
+}
+
+declare module "sap/m/P13nConditionOperationType" {
+	import {P13nConditionOperationType} from "sap/m/library";
+
+	/**
+	 * Type of a condition operation in the personalization condition panel.
+	 * 
+	 * This enum is part of the 'sap/m/library' module export and must be accessed by the property 'P13nConditionOperationType'.
+	 *
+	 * @public
+	*/
+	export default P13nConditionOperationType;
 }
 
 declare module "sap/m/P13nPanelType" {
@@ -1093,6 +1149,19 @@ declare module "sap/m/ScreenSize" {
 	export default ScreenSize;
 }
 
+declare module "sap/m/SegmentedButtonContentMode" {
+	import {SegmentedButtonContentMode} from "sap/m/library";
+
+	/**
+	 * Different SegmentedButton items sizing modes.
+	 * 
+	 * This enum is part of the 'sap/m/library' module export and must be accessed by the property 'SegmentedButtonContentMode'.
+	 *
+	 * @public
+	*/
+	export default SegmentedButtonContentMode;
+}
+
 declare module "sap/m/SelectColumnRatio" {
 	import {SelectColumnRatio} from "sap/m/library";
 
@@ -1147,6 +1216,20 @@ declare module "sap/m/SelectListKeyboardNavigationMode" {
 	 * @since 1.38
 	*/
 	export default SelectListKeyboardNavigationMode;
+}
+
+declare module "sap/m/SelectTwoColumnSeparator" {
+	import {SelectTwoColumnSeparator} from "sap/m/library";
+
+	/**
+	 * Enumeration for different separators for two columns layout when Select is in read-only mode.
+	 * 
+	 * This enum is part of the 'sap/m/library' module export and must be accessed by the property 'SelectTwoColumnSeparator'.
+	 *
+	 * @public
+	 * @since 1.140
+	*/
+	export default SelectTwoColumnSeparator;
 }
 
 declare module "sap/m/SelectType" {
@@ -1515,7 +1598,7 @@ declare module "sap/m/UploadType" {
 	import {UploadType} from "sap/m/library";
 
 	/**
-	 * Type of the upload {@link sap.m.UploadSetItem}.
+	 * Type of the upload {@link sap.m.upload.UploadSetItem}.
 	 * 
 	 * This enum is part of the 'sap/m/library' module export and must be accessed by the property 'UploadType'.
 	 *

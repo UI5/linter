@@ -64,11 +64,24 @@ declare module "sap/f/cards/SemanticRole" {
 	 * 
 	 * This enum is part of the 'sap/f/library' module export and must be accessed by the property 'cards.SemanticRole'.
 	 *
-	 * @experimental
+	 * @experimental (since 1.131)
 	 * @public
-	 * @since 1.131
 	*/
 	export default cards.SemanticRole;
+}
+
+declare module "sap/f/DynamicPageMediaRange" {
+	import {DynamicPageMediaRange} from "sap/f/library";
+
+	/**
+	 * Defines the media breakpoints for DynamicPage.
+	 * 
+	 * This enum is part of the 'sap/f/library' module export and must be accessed by the property 'DynamicPageMediaRange'.
+	 *
+	 * @public
+	 * @since 1.147
+	*/
+	export default DynamicPageMediaRange;
 }
 
 declare module "sap/f/DynamicPageTitleArea" {
@@ -104,7 +117,7 @@ declare module "sap/f/LayoutType" {
 	/**
 	 * Layouts, representing the number of columns to be displayed and their relative widths for a {@link sap.f.FlexibleColumnLayout} control.
 	 * 
-	 * Each layout has a default predefined ratio for the three columns, depending on device size. Based on the device and layout, some columns are hidden. For more information, refer to the ratios (in %) for each value, listed below: (dash "-" means non-accessible columns).
+	 * Each layout has a default predefined ratio for the three columns, depending on device size. Based on the device and layout, some columns are hidden. For more information, refer to the ratios (in %) for each value, listed below: (hyphen "-" means non-accessible columns).
 	 * 
 	 * <b>Notes:</b> <ul> <li>The user is allowed to customize the default ratio by dragging the column separators to resize the columns. The user preferences are then internally saved (in browser localStorage) and automatically re-applied whenever the user re-visits the same layout. </li> <li>Please note that on a phone device, due to the limited screen size, only one column can be displayed at a time. For all two-column layouts, this column is the <code>Mid</code> column, and for all three-column layouts - the <code>End</code> column, even though the respective column may be hidden on desktop and tablet for that particular layout. Therefore some of the names (such as <code>ThreeColumnsMidExpandedEndHidden</code> for example) are representative of the desktop scenario only. </li> </ul>
 	 * 

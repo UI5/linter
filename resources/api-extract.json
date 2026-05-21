@@ -1,7 +1,7 @@
 {
   "framework": {
     "name": "SAPUI5",
-    "version": "1.136.16"
+    "version": "1.148.0"
   },
   "metadata": {
     "sap.ca.ui.AddPicture": {
@@ -672,15 +672,38 @@
       ],
       "extends": "sap.ui.core.UIComponent"
     },
-    "sap.esh.search.ui.SearchCompositeControl": {
-      "aggregation": [
-        "content"
+    "sap.collaboration.components.util.DateUtil": {
+      "extends": "sap.ui.base.Object"
+    },
+    "sap.esh.search.ui.controls.basket.CustomBasket": {
+      "extends": "sap.ui.layout.VerticalLayout"
+    },
+    "sap.esh.search.ui.controls.basket.SearchBasketAddButton": {
+      "extends": "sap.m.OverflowToolbarButton"
+    },
+    "sap.esh.search.ui.controls.resultview.SearchShowDetailButton": {
+      "extends": "sap.m.Button"
+    },
+    "sap.esh.search.ui.controls.resultview.SearchText": {
+      "extends": "sap.m.Text"
+    },
+    "sap.esh.search.ui.controls.SearchLink": {
+      "property": [
+        "navigationTarget",
+        "forceNavigationAnchorElementNotProcessed",
+        "visualisation"
       ],
+      "extends": "sap.m.Link"
+    },
+    "sap.esh.search.ui.SearchCompositeControl": {
       "event": [
+        "basketChanged",
+        "resultViewSelectionChanged",
         "resultViewTypeChanged",
         "searchFinished",
         "searchStarted",
-        "selectionChanged"
+        "selectionChanged",
+        "showResultDetail"
       ],
       "property": [
         "cssClass",
@@ -693,6 +716,8 @@
         "resultViewTypes",
         "resultViewType",
         "resultViewSettings",
+        "resultviewMasterDetailMode",
+        "searchResultTableMaxNumberOfInitiallyVisibleColumns",
         "tabStripsFormatter",
         "folderMode",
         "folderModeForInitialSearch",
@@ -701,14 +726,35 @@
         "applicationComponent",
         "facetPanelResizable",
         "facetPanelWidthInPercent",
+        "basketPanelVisibility",
+        "basketPanelResizable",
+        "basketPanelWidthInPercent",
         "getCustomNoResultScreen",
+        "customGridView",
+        "getCustomToolbar",
         "getSearchInputPlaceholderLabel",
+        "searchInputLocation",
         "overwriteBrowserTitle",
         "defaultDataSource",
         "optimizeForValueHelp",
         "filterDataSources",
+        "searchBarTitle",
         "facets",
         "facetVisibility",
+        "facetToggleButtonLocation",
+        "basketButtonsLocation",
+        "basketLinkByResultViewItemSelection",
+        "basketAddButtonIcon",
+        "basketAddButtonText",
+        "basketAddButtonTooltip",
+        "basketShowHideButtonIcon",
+        "basketShowHideButtonText",
+        "basketShowHideButtonTooltip",
+        "basketInit",
+        "basketBeforeAddItem",
+        "basketLocation",
+        "customBasket",
+        "enableCharts",
         "boSuggestions",
         "displayFacetPanelInCaseOfNoResults",
         "updateUrl",
@@ -716,9 +762,12 @@
         "isSearchUrl",
         "parseSearchUrlParameters",
         "quickSelectDataSources",
-        "selectionChange",
         "initAsync",
         "enableMultiSelectionResultItems",
+        "resultviewSelectionMode",
+        "showSelectionToggleButton",
+        "basketVisibilityButton",
+        "basketAddButton",
         "pageSize",
         "formatFilterBarText",
         "isFilterBarVisible",
@@ -726,7 +775,7 @@
         "searchTermLengthLimit",
         "limitAjaxRequests"
       ],
-      "extends": "sap.ui.core.Control"
+      "extends": "sap.ui.layout.VerticalLayout"
     },
     "sap.f.Avatar": {
       "extends": "sap.m.Avatar"
@@ -835,7 +884,8 @@
         "iconBackgroundColor",
         "iconVisible",
         "iconSize",
-        "iconFitType"
+        "iconFitType",
+        "iconState"
       ],
       "extends": "sap.f.cards.BaseHeader"
     },
@@ -911,6 +961,7 @@
         "stickySubheaderProvider"
       ],
       "event": [
+        "breakpointChange",
         "pinnedStateChange"
       ],
       "property": [
@@ -1147,11 +1198,13 @@
     },
     "sap.f.ProductSwitchItem": {
       "aggregation": [
+        "_avatar",
         "_icon",
         "_title"
       ],
       "property": [
         "src",
+        "imageSrc",
         "title",
         "subTitle",
         "targetSrc",
@@ -1389,6 +1442,7 @@
     },
     "sap.f.SidePanelItem": {
       "aggregation": [
+        "title",
         "content"
       ],
       "defaultAggregation": "content",
@@ -1398,6 +1452,16 @@
       "extends": "sap.ui.core.Item"
     },
     "sap.fe.base.BuildingBlockBase": {
+      "aggregation": [
+        "content"
+      ],
+      "association": [
+        "ariaLabelledBy"
+      ],
+      "defaultAggregation": "content",
+      "property": [
+        "state"
+      ],
       "extends": "sap.ui.core.Control"
     },
     "sap.fe.core.AppComponent": {
@@ -1408,6 +1472,7 @@
     },
     "sap.fe.core.ExtensionAPI": {
       "property": [
+        "collaborativeDraft",
         "editFlow",
         "intentBasedNavigation",
         "routing"
@@ -1415,13 +1480,35 @@
       "extends": "sap.ui.base.Object"
     },
     "sap.fe.core.PageController": {
+      "property": [
+        "sideEffects"
+      ],
       "extends": "sap.fe.core.BaseController"
+    },
+    "sap.fe.core.ReuseComponent": {
+      "event": [
+        "initialized"
+      ],
+      "extends": "sap.fe.core.fpm.Component"
+    },
+    "sap.fe.core.TemplateComponent": {
+      "property": [
+        "contextPath",
+        "enhanceI18n"
+      ],
+      "extends": "sap.ui.core.UIComponent"
     },
     "sap.fe.core.buildingBlocks.BuildingBlock": {
       "extends": "sap.fe.base.BuildingBlockBase"
     },
     "sap.fe.core.controllerextensions.BaseControllerExtension": {
+      "property": [
+        "base"
+      ],
       "extends": "sap.ui.core.mvc.ControllerExtension"
+    },
+    "sap.fe.core.controllerextensions.CollaborativeDraft": {
+      "extends": "sap.fe.core.controllerextensions.BaseControllerExtension"
     },
     "sap.fe.core.controllerextensions.EditFlow": {
       "extends": "sap.fe.core.controllerextensions.BaseControllerExtension"
@@ -1441,24 +1528,53 @@
     "sap.fe.core.controllerextensions.Share": {
       "extends": "sap.fe.core.controllerextensions.BaseControllerExtension"
     },
+    "sap.fe.core.controllerextensions.SideEffects": {
+      "extends": "sap.ui.core.mvc.ControllerExtension"
+    },
     "sap.fe.core.controllerextensions.ViewState": {
       "extends": "sap.ui.core.mvc.ControllerExtension"
     },
     "sap.fe.core.fpm.Component": {
       "property": [
         "viewName"
+      ],
+      "extends": "sap.fe.core.TemplateComponent"
+    },
+    "sap.fe.macros.AINotice": {
+      "aggregation": [
+        "popoverContent"
       ]
+    },
+    "sap.fe.macros.AlwaysEditableField": {
+      "aggregation": [
+        "formatOptions"
+      ],
+      "event": [
+        "change",
+        "liveChange"
+      ],
+      "property": [
+        "contextPath",
+        "description",
+        "metaPath",
+        "value",
+        "vhIdPrefix"
+      ],
+      "extends": "sap.fe.macros.MacroAPI"
     },
     "sap.fe.macros.Chart": {
       "aggregation": [
+        "actionOverflowGroups",
         "actions"
+      ],
+      "association": [
+        "filterBar"
       ],
       "event": [
         "selectionChange"
       ],
       "property": [
         "contextPath",
-        "filterBar",
         "header",
         "headerVisible",
         "metaPath",
@@ -1467,6 +1583,34 @@
         "variantManagement"
       ],
       "extends": "sap.fe.macros.MacroAPI"
+    },
+    "sap.fe.macros.CollaborativeDraftHandler": {
+      "event": [
+        "avatarPress",
+        "lockChange"
+      ],
+      "property": [
+        "contextPath",
+        "metaPath",
+        "showAvatar"
+      ],
+      "extends": "sap.fe.core.buildingBlocks.BuildingBlock"
+    },
+    "sap.fe.macros.ConditionalSwitch": {
+      "property": [
+        "factory"
+      ],
+      "extends": "sap.fe.base.BuildingBlockBase"
+    },
+    "sap.fe.macros.ConditionalSwitchProperty": {
+      "event": [
+        "valueChanged"
+      ],
+      "property": [
+        "key",
+        "value"
+      ],
+      "extends": "sap.ui.core.Element"
     },
     "sap.fe.macros.Field": {
       "aggregation": [
@@ -1485,6 +1629,39 @@
         "value"
       ],
       "extends": "sap.fe.macros.MacroAPI"
+    },
+    "sap.fe.macros.FilterBar": {
+      "aggregation": [
+        "filterFields"
+      ],
+      "event": [
+        "afterClear",
+        "filterChanged",
+        "search"
+      ],
+      "property": [
+        "contextPath",
+        "liveMode",
+        "metaPath",
+        "navigationPropertiesForPersonalization",
+        "showClearButton",
+        "showMessages"
+      ],
+      "extends": "sap.fe.macros.MacroAPI"
+    },
+    "sap.fe.macros.FormElement": {
+      "aggregation": [
+        "fields"
+      ],
+      "property": [
+        "anchor",
+        "contextPath",
+        "label",
+        "metaPath",
+        "placement",
+        "visible"
+      ],
+      "extends": "sap.ui.layout.form.FormElement"
     },
     "sap.fe.macros.KPITag": {
       "event": [
@@ -1514,12 +1691,17 @@
       "extends": "sap.fe.core.buildingBlocks.BuildingBlock"
     },
     "sap.fe.macros.MicroChart": {
+      "event": [
+        "titlePress"
+      ],
       "property": [
         "contextPath",
         "hideOnNoData",
+        "linkAriaText",
         "metaPath",
         "showOnlyChart",
-        "size"
+        "size",
+        "titleAsLink"
       ],
       "extends": "sap.fe.core.buildingBlocks.BuildingBlock"
     },
@@ -1534,11 +1716,23 @@
     },
     "sap.fe.macros.Page": {
       "aggregation": [
-        "items"
+        "actions",
+        "breadcrumbs",
+        "footer",
+        "headerContent",
+        "items",
+        "navigationActions",
+        "titleContent"
       ],
+      "association": [
+        "stickySubheaderProvider"
+      ],
+      "defaultAggregation": "items",
       "property": [
+        "avatarImageFitType",
         "avatarSrc",
         "description",
+        "showFooter",
         "title"
       ],
       "extends": "sap.fe.core.buildingBlocks.BuildingBlock"
@@ -1556,6 +1750,7 @@
       ],
       "property": [
         "excludeDefaultPlugins",
+        "height",
         "readOnly",
         "required",
         "value"
@@ -1573,11 +1768,146 @@
       "aggregation": [
         "shareOptions"
       ],
+      "defaultAggregation": "shareOptions",
       "extends": "sap.fe.core.buildingBlocks.BuildingBlock"
     },
-    "sap.fe.macros.VariantManagement": {
+    "sap.fe.macros.Status": {
+      "event": [
+        "press"
+      ],
       "property": [
-        "for",
+        "colorPalette",
+        "contextPath",
+        "inverted",
+        "largeDesign",
+        "metaPath",
+        "reactiveAreaMode"
+      ],
+      "extends": "sap.fe.core.buildingBlocks.BuildingBlock"
+    },
+    "sap.fe.macros.Table": {
+      "aggregation": [
+        "actionOverflowGroups",
+        "actions",
+        "analyticalConfiguration",
+        "columns",
+        "creationMode",
+        "massEdit",
+        "noData",
+        "quickVariantSelection"
+      ],
+      "property": [
+        "noData",
+        "busy",
+        "condensedTableLayout",
+        "contextPath",
+        "disableColumnFreeze",
+        "disableCopyToClipboard",
+        "enableAutoColumnWidth",
+        "enableExport",
+        "enableFullScreen",
+        "enablePaste",
+        "enablePastingOfComputedProperties",
+        "enableSelectAll",
+        "exportFileName",
+        "exportRequestSize",
+        "exportSheetName",
+        "filterBar",
+        "frozenColumnCount",
+        "header",
+        "headerVisible",
+        "ignoredFields",
+        "initialLoad",
+        "isSearchable",
+        "metaPath",
+        "modeForNoDataMessage",
+        "personalization",
+        "popinLayout",
+        "readOnly",
+        "rowCount",
+        "rowCountMode",
+        "scrollThreshold",
+        "selectionLimit",
+        "selectionMode",
+        "threshold",
+        "type",
+        "variantManagement",
+        "widthIncludingColumnHeader"
+      ],
+      "defaultAggregation": "columns",
+      "event": [
+        "beforeRebindTable",
+        "rowPress",
+        "selectionChange"
+      ],
+      "extends": "sap.fe.macros.MacroAPI"
+    },
+    "sap.fe.macros.TreeTable": {
+      "aggregation": [
+        "actionOverflowGroups",
+        "actions",
+        "analyticalConfiguration",
+        "columns",
+        "creationMode",
+        "massEdit",
+        "noData",
+        "quickVariantSelection"
+      ],
+      "property": [
+        "noData",
+        "busy",
+        "condensedTableLayout",
+        "contextPath",
+        "disableColumnFreeze",
+        "disableCopyToClipboard",
+        "enableAutoColumnWidth",
+        "enableExport",
+        "enableFullScreen",
+        "enablePaste",
+        "enablePastingOfComputedProperties",
+        "enableSelectAll",
+        "exportFileName",
+        "exportRequestSize",
+        "exportSheetName",
+        "filterBar",
+        "frozenColumnCount",
+        "header",
+        "headerVisible",
+        "hierarchyQualifier",
+        "ignoredFields",
+        "initialLoad",
+        "isCopyToPositionAllowed",
+        "isMoveToPositionAllowed",
+        "isNodeCopyable",
+        "isNodeMovable",
+        "isSearchable",
+        "metaPath",
+        "modeForNoDataMessage",
+        "personalization",
+        "popinLayout",
+        "readOnly",
+        "rowCount",
+        "rowCountMode",
+        "scrollThreshold",
+        "selectionLimit",
+        "selectionMode",
+        "threshold",
+        "type",
+        "variantManagement",
+        "widthIncludingColumnHeader"
+      ],
+      "event": [
+        "beforeRebindTable",
+        "rowPress",
+        "selectionChange"
+      ],
+      "extends": "sap.fe.macros.MacroAPI"
+    },
+    "sap.fe.macros.VariantManagement": {
+      "association": [
+        "for"
+      ],
+      "property": [
         "headerLevel",
         "id",
         "showSetAsDefault"
@@ -1586,23 +1916,20 @@
     },
     "sap.fe.macros.chart.Action": {
       "property": [
-        "anchor",
-        "enabled",
-        "key",
-        "placement",
         "press",
-        "requiresSelection",
-        "text"
+        "requiresSelection"
       ],
-      "extends": "sap.fe.macros.controls.BuildingBlockObjectProperty"
+      "extends": "sap.fe.macros.controls.BaseAction"
     },
     "sap.fe.macros.chart.ActionGroup": {
       "aggregation": [
         "actions"
       ],
+      "defaultAggregation": "actions",
       "property": [
         "anchor",
         "key",
+        "overflowGroup",
         "placement",
         "text"
       ],
@@ -1610,14 +1937,17 @@
     },
     "sap.fe.macros.chart.Chart": {
       "aggregation": [
+        "actionOverflowGroups",
         "actions"
+      ],
+      "association": [
+        "filterBar"
       ],
       "event": [
         "selectionChange"
       ],
       "property": [
         "contextPath",
-        "filterBar",
         "header",
         "headerVisible",
         "metaPath",
@@ -1627,8 +1957,31 @@
       ],
       "extends": "sap.ui.core.Control"
     },
+    "sap.fe.macros.chart.OverflowGroup": {
+      "property": [
+        "overflowGroup",
+        "showSeparator"
+      ],
+      "extends": "sap.fe.macros.controls.BuildingBlockObjectProperty"
+    },
+    "sap.fe.macros.controls.BaseAction": {
+      "property": [
+        "anchor",
+        "enabled",
+        "group",
+        "isAIOperation",
+        "key",
+        "overflowGroup",
+        "placement",
+        "priority",
+        "requiresSelection",
+        "text",
+        "visible"
+      ],
+      "extends": "sap.fe.macros.controls.BuildingBlockObjectProperty"
+    },
     "sap.fe.macros.controls.BuildingBlockObjectProperty": {
-      "extends": "sap.ui.core.Element"
+      "extends": "sap.fe.base.BuildingBlockBase"
     },
     "sap.fe.macros.controls.BuildingBlockWithTemplating": {
       "extends": "sap.fe.core.buildingBlocks.BuildingBlock"
@@ -1659,9 +2012,13 @@
         "dateTimePattern",
         "dateTimeStyle",
         "displayMode",
+        "enableEnlargeImage",
         "fieldEditStyle",
+        "hasSituationsIndicator",
+        "imageFitType",
         "measureDisplayMode",
         "radioButtonsHorizontalLayout",
+        "reactiveAreaMode",
         "showDate",
         "showTime",
         "showTimezone",
@@ -1686,34 +2043,16 @@
         "contextPath",
         "liveMode",
         "metaPath",
+        "navigationPropertiesForPersonalization",
         "showClearButton",
-        "showMessages",
-        "visible"
+        "showMessages"
       ],
-      "extends": "sap.fe.macros.controls.BuildingBlockWithTemplating"
-    },
-    "sap.fe.macros.FilterBar": {
-      "aggregation": [
-        "filterFields"
-      ],
-      "event": [
-        "afterClear",
-        "filterChanged",
-        "search"
-      ],
-      "property": [
-        "contextPath",
-        "liveMode",
-        "metaPath",
-        "showClearButton",
-        "showMessages",
-        "visible"
-      ],
-      "extends": "sap.fe.macros.MacroAPI"
+      "extends": "sap.fe.macros.FilterBar"
     },
     "sap.fe.macros.filterBar.FilterField": {
       "property": [
         "anchor",
+        "availability",
         "key",
         "label",
         "placement",
@@ -1723,36 +2062,67 @@
       ],
       "extends": "sap.fe.macros.controls.BuildingBlockObjectProperty"
     },
-    "sap.fe.macros.Form": {
+    "sap.fe.macros.filterBar.FilterFieldOverride": {
       "property": [
-        "contextPath",
-        "metaPath",
-        "title"
+        "anchor",
+        "availability",
+        "key",
+        "placement",
+        "required"
       ],
-      "extends": "sap.ui.core.Control"
+      "extends": "sap.fe.macros.controls.BuildingBlockObjectProperty"
     },
-    "sap.fe.macros.FormElement": {
+    "sap.fe.macros.Form": {
       "aggregation": [
-        "fields"
-      ],
-      "event": [
-        "change"
+        "layout"
       ],
       "property": [
         "contextPath",
-        "label",
+        "layout",
         "metaPath",
+        "navigationPropertiesForAdaptationDialog",
+        "title",
         "visible"
       ],
       "extends": "sap.ui.core.Control"
     },
+    "sap.fe.macros.form.FormLayoutOptions": {
+      "property": [
+        "adjustLabelSpan",
+        "backgroundDesign",
+        "breakpointL",
+        "breakpointM",
+        "breakpointXL",
+        "columnsL",
+        "columnsM",
+        "columnsXL",
+        "emptyCellsLarge",
+        "emptySpanL",
+        "emptySpanM",
+        "emptySpanS",
+        "emptySpanXL",
+        "labelCellsLarge",
+        "labelSpanL",
+        "labelSpanM",
+        "labelSpanS",
+        "labelSpanXL",
+        "singleContainerFullSize",
+        "type"
+      ],
+      "extends": "sap.fe.macros.controls.BuildingBlockObjectProperty"
+    },
     "sap.fe.macros.microchart.MicroChart": {
+      "event": [
+        "titlePress"
+      ],
       "property": [
         "contextPath",
         "hideOnNoData",
+        "linkAriaText",
         "metaPath",
         "showOnlyChart",
-        "size"
+        "size",
+        "titleAsLink"
       ],
       "extends": "sap.fe.macros.MicroChart"
     },
@@ -1774,6 +2144,9 @@
       "extends": "sap.ui.core.Element"
     },
     "sap.fe.macros.share.ShareOptions": {
+      "property": [
+        "showShareInWorkzone"
+      ],
       "extends": "sap.fe.macros.controls.BuildingBlockObjectProperty"
     },
     "sap.fe.macros.table.Action": {
@@ -1781,27 +2154,26 @@
         "press"
       ],
       "property": [
-        "anchor",
         "command",
         "enabled",
         "enableOnSelect",
-        "key",
-        "placement",
         "requiresSelection",
-        "text",
         "visible"
       ],
-      "extends": "sap.fe.macros.controls.BuildingBlockObjectProperty"
+      "extends": "sap.fe.macros.controls.BaseAction"
     },
     "sap.fe.macros.table.ActionGroup": {
       "aggregation": [
         "actions"
       ],
+      "defaultAggregation": "actions",
       "property": [
         "anchor",
         "defaultAction",
         "key",
+        "overflowGroup",
         "placement",
+        "priority",
         "text"
       ],
       "extends": "sap.fe.macros.controls.BuildingBlockObjectProperty"
@@ -1810,6 +2182,7 @@
       "aggregation": [
         "actions"
       ],
+      "defaultAggregation": "actions",
       "property": [
         "anchor",
         "key",
@@ -1822,9 +2195,11 @@
         "anchor",
         "command",
         "defaultValuesFunction",
+        "disableStrictHandling",
         "enableAutoScroll",
         "enabled",
         "enableOnSelect",
+        "isAIOperation",
         "key",
         "navigateToInstance",
         "placement",
@@ -1840,11 +2215,14 @@
     },
     "sap.fe.macros.table.Column": {
       "aggregation": [
+        "aiNotice",
         "exportSettings"
       ],
       "property": [
+        "aiNotice",
         "anchor",
         "availability",
+        "disableExport",
         "header",
         "horizontalAlign",
         "importance",
@@ -1858,11 +2236,23 @@
       ],
       "extends": "sap.fe.macros.controls.BuildingBlockObjectProperty"
     },
+    "sap.fe.macros.table.ColumnAINotice": {
+      "aggregation": [
+        "content"
+      ],
+      "defaultAggregation": "content",
+      "extends": "sap.fe.macros.controls.BuildingBlockObjectProperty"
+    },
     "sap.fe.macros.table.ColumnExportSettings": {
       "property": [
+        "falseValue",
+        "label",
         "property",
         "template",
+        "textAlign",
+        "trueValue",
         "type",
+        "valueMap",
         "width",
         "wrap"
       ],
@@ -1870,13 +2260,18 @@
     },
     "sap.fe.macros.table.ColumnOverride": {
       "aggregation": [
+        "aiNotice",
         "exportSettings"
       ],
       "property": [
+        "aiNotice",
         "availability",
+        "disableExport",
         "horizontalAlign",
         "importance",
         "key",
+        "mergeCells",
+        "mergeComparisonProperties",
         "width",
         "widthIncludingColumnHeader"
       ],
@@ -1886,10 +2281,18 @@
       "aggregation": [
         "customContent"
       ],
+      "defaultAggregation": "customContent",
       "property": [
         "ignoredFields",
         "operationGroupingMode",
         "visibleFields"
+      ],
+      "extends": "sap.fe.macros.controls.BuildingBlockObjectProperty"
+    },
+    "sap.fe.macros.table.OverflowGroup": {
+      "property": [
+        "overflowGroup",
+        "showSeparator"
       ],
       "extends": "sap.fe.macros.controls.BuildingBlockObjectProperty"
     },
@@ -1900,60 +2303,13 @@
       ],
       "extends": "sap.fe.macros.controls.BuildingBlockObjectProperty"
     },
-    "sap.fe.macros.Table": {
-      "aggregation": [
-        "actions",
-        "analyticalConfiguration",
-        "columns",
-        "massEdit",
-        "noData",
-        "quickVariantSelection"
-      ],
-      "property": [
-        "noData",
-        "busy",
-        "condensedTableLayout",
-        "contextPath",
-        "creationMode",
-        "disableCopyToClipboard",
-        "enableAutoColumnWidth",
-        "enableExport",
-        "enableFullScreen",
-        "enablePaste",
-        "enablePastingOfComputedProperties",
-        "enableSelectAll",
-        "exportRequestSize",
-        "filterBar",
-        "frozenColumnCount",
-        "header",
-        "headerVisible",
-        "ignoredFields",
-        "isSearchable",
-        "metaPath",
-        "modeForNoDataMessage",
-        "personalization",
-        "readOnly",
-        "rowCount",
-        "rowCountMode",
-        "scrollThreshold",
-        "selectionLimit",
-        "selectionMode",
-        "type",
-        "variantManagement",
-        "widthIncludingColumnHeader"
-      ],
-      "event": [
-        "beforeRebindTable",
-        "rowPress",
-        "selectionChange"
-      ],
-      "extends": "sap.fe.macros.MacroAPI"
-    },
     "sap.fe.macros.table.Table": {
       "aggregation": [
+        "actionOverflowGroups",
         "actions",
         "analyticalConfiguration",
         "columns",
+        "creationMode",
         "massEdit",
         "noData",
         "quickVariantSelection"
@@ -1963,7 +2319,7 @@
         "busy",
         "condensedTableLayout",
         "contextPath",
-        "creationMode",
+        "disableColumnFreeze",
         "disableCopyToClipboard",
         "enableAutoColumnWidth",
         "enableExport",
@@ -1971,22 +2327,27 @@
         "enablePaste",
         "enablePastingOfComputedProperties",
         "enableSelectAll",
+        "exportFileName",
         "exportRequestSize",
+        "exportSheetName",
         "filterBar",
         "frozenColumnCount",
         "header",
         "headerVisible",
         "ignoredFields",
+        "initialLoad",
         "isSearchable",
         "metaPath",
         "modeForNoDataMessage",
         "personalization",
+        "popinLayout",
         "readOnly",
         "rowCount",
         "rowCountMode",
         "scrollThreshold",
         "selectionLimit",
         "selectionMode",
+        "threshold",
         "type",
         "variantManagement",
         "widthIncludingColumnHeader"
@@ -1996,7 +2357,7 @@
         "rowPress",
         "selectionChange"
       ],
-      "extends": "sap.fe.macros.controls.BuildingBlockWithTemplating"
+      "extends": "sap.fe.macros.Table"
     },
     "sap.fe.macros.table.TableCreationOptions": {
       "property": [
@@ -2008,65 +2369,13 @@
       ],
       "extends": "sap.fe.macros.controls.BuildingBlockObjectProperty"
     },
-    "sap.fe.macros.TreeTable": {
-      "aggregation": [
-        "actions",
-        "analyticalConfiguration",
-        "columns",
-        "massEdit",
-        "noData",
-        "quickVariantSelection"
-      ],
-      "property": [
-        "noData",
-        "busy",
-        "condensedTableLayout",
-        "contextPath",
-        "creationMode",
-        "disableCopyToClipboard",
-        "enableAutoColumnWidth",
-        "enableExport",
-        "enableFullScreen",
-        "enablePaste",
-        "enablePastingOfComputedProperties",
-        "enableSelectAll",
-        "exportRequestSize",
-        "filterBar",
-        "frozenColumnCount",
-        "header",
-        "headerVisible",
-        "hierarchyQualifier",
-        "ignoredFields",
-        "isCopyToPositionAllowed",
-        "isMoveToPositionAllowed",
-        "isNodeCopyable",
-        "isNodeMovable",
-        "isSearchable",
-        "metaPath",
-        "modeForNoDataMessage",
-        "personalization",
-        "readOnly",
-        "rowCount",
-        "rowCountMode",
-        "scrollThreshold",
-        "selectionLimit",
-        "selectionMode",
-        "type",
-        "variantManagement",
-        "widthIncludingColumnHeader"
-      ],
-      "event": [
-        "beforeRebindTable",
-        "rowPress",
-        "selectionChange"
-      ],
-      "extends": "sap.fe.macros.MacroAPI"
-    },
     "sap.fe.macros.table.TreeTable": {
       "aggregation": [
+        "actionOverflowGroups",
         "actions",
         "analyticalConfiguration",
         "columns",
+        "creationMode",
         "massEdit",
         "noData",
         "quickVariantSelection"
@@ -2076,7 +2385,7 @@
         "busy",
         "condensedTableLayout",
         "contextPath",
-        "creationMode",
+        "disableColumnFreeze",
         "disableCopyToClipboard",
         "enableAutoColumnWidth",
         "enableExport",
@@ -2084,13 +2393,16 @@
         "enablePaste",
         "enablePastingOfComputedProperties",
         "enableSelectAll",
+        "exportFileName",
         "exportRequestSize",
+        "exportSheetName",
         "filterBar",
         "frozenColumnCount",
         "header",
         "headerVisible",
         "hierarchyQualifier",
         "ignoredFields",
+        "initialLoad",
         "isCopyToPositionAllowed",
         "isMoveToPositionAllowed",
         "isNodeCopyable",
@@ -2099,12 +2411,14 @@
         "metaPath",
         "modeForNoDataMessage",
         "personalization",
+        "popinLayout",
         "readOnly",
         "rowCount",
         "rowCountMode",
         "scrollThreshold",
         "selectionLimit",
         "selectionMode",
+        "threshold",
         "type",
         "variantManagement",
         "widthIncludingColumnHeader"
@@ -2114,7 +2428,7 @@
         "rowPress",
         "selectionChange"
       ],
-      "extends": "sap.fe.macros.controls.BuildingBlockWithTemplating"
+      "extends": "sap.fe.macros.TreeTable"
     },
     "sap.fe.macros.table.TreeTableCreationOptions": {
       "property": [
@@ -2146,6 +2460,9 @@
     },
     "sap.fe.templates.ObjectPage.ExtensionAPI": {
       "extends": "sap.fe.core.ExtensionAPI"
+    },
+    "sap.fe.templates.ObjectPage.ObjectPageController": {
+      "extends": "sap.fe.core.PageController"
     },
     "sap.fe.test.api.DialogCreateActions": {
       "extends": "sap.fe.test.api.DialogActions"
@@ -3281,7 +3598,10 @@
         "dragHighlightRows",
         "styleName",
         "leftAnchorPosition",
-        "rightAnchorPosition"
+        "rightAnchorPosition",
+        "hoverFillColor",
+        "hoverStrokeColor",
+        "hoverStrokeWidth"
       ],
       "extends": "sap.ui.core.Element"
     },
@@ -3481,6 +3801,7 @@
       ],
       "event": [
         "dragStart",
+        "futureShapeConnect",
         "renderingComplete",
         "shapeConnect",
         "shapeConnectorList",
@@ -3551,7 +3872,9 @@
         "shapeMouseLeaveDelay",
         "shapeRenderOrder",
         "enableMultipleGhosts",
-        "optimiseRelationships"
+        "optimiseRelationships",
+        "useShapeFillForGhost",
+        "enableShapeDropFromOtherCharts"
       ],
       "extends": "sap.ui.core.Control"
     },
@@ -3868,6 +4191,9 @@
       ],
       "extends": "sap.gantt.skipTime.SkipPattern"
     },
+    "sap.insights.CardProvider": {
+      "extends": "sap.ui.base.Object"
+    },
     "sap.insights.CardsChannel": {
       "extends": "sap.ui.base.Object"
     },
@@ -4015,6 +4341,9 @@
       ],
       "extends": "sap.ui.core.Control"
     },
+    "sap.m.BarInAnyContentEnabler": {
+      "extends": "sap.m.BarInPageEnabler"
+    },
     "sap.m.BarInPageEnabler": {
       "extends": "sap.ui.base.Object"
     },
@@ -4134,7 +4463,9 @@
     "sap.m.CarouselLayout": {
       "property": [
         "visiblePagesCount",
-        "scrollMode"
+        "scrollMode",
+        "responsive",
+        "minPageWidth"
       ],
       "extends": "sap.ui.base.ManagedObject"
     },
@@ -4182,7 +4513,8 @@
       ],
       "property": [
         "colors",
-        "selectedColor"
+        "selectedColor",
+        "_isInPopover"
       ],
       "extends": "sap.ui.core.Control"
     },
@@ -4617,7 +4949,8 @@
     },
     "sap.m.FeedInput": {
       "aggregation": [
-        "_avatar"
+        "_avatar",
+        "actions"
       ],
       "event": [
         "post"
@@ -4644,13 +4977,11 @@
     },
     "sap.m.FeedListItem": {
       "aggregation": [
-        "actions",
         "_text",
         "_actionSheet",
         "_actionButton",
         "_avatar"
       ],
-      "defaultAggregation": "actions",
       "event": [
         "iconPress",
         "senderPress"
@@ -4683,13 +5014,10 @@
         "press"
       ],
       "property": [
-        "icon",
-        "text",
         "key",
-        "visible",
         "enabled"
       ],
-      "extends": "sap.ui.core.Element"
+      "extends": "sap.m.ListItemActionBase"
     },
     "sap.m.FlexBox": {
       "aggregation": [
@@ -4974,7 +5302,8 @@
         "illustrationType",
         "src",
         "title",
-        "ariaTitleLevel"
+        "ariaTitleLevel",
+        "decorative"
       ],
       "extends": "sap.ui.core.Control"
     },
@@ -4986,7 +5315,8 @@
       "property": [
         "set",
         "media",
-        "type"
+        "type",
+        "decorative"
       ],
       "extends": "sap.ui.core.Control"
     },
@@ -5262,7 +5592,9 @@
         "rememberSelections",
         "keyboardMode",
         "sticky",
-        "multiSelectMode"
+        "multiSelectMode",
+        "itemActionCount",
+        "rememberFocus"
       ],
       "association": [
         "ariaLabelledBy"
@@ -5273,6 +5605,7 @@
         "delete",
         "growingFinished",
         "growingStarted",
+        "itemActionPress",
         "itemPress",
         "select",
         "selectionChange",
@@ -5282,10 +5615,28 @@
       ],
       "extends": "sap.ui.core.Control"
     },
+    "sap.m.ListItemAction": {
+      "property": [
+        "type"
+      ],
+      "extends": "sap.m.ListItemActionBase"
+    },
+    "sap.m.ListItemActionBase": {
+      "property": [
+        "icon",
+        "text",
+        "visible"
+      ],
+      "extends": "sap.ui.core.Element"
+    },
     "sap.m.ListItemBase": {
+      "aggregation": [
+        "actions"
+      ],
       "association": [
         "ariaLabelledBy"
       ],
+      "defaultAggregation": "actions",
       "event": [
         "detailPress",
         "detailTap",
@@ -5330,14 +5681,15 @@
     "sap.m.Menu": {
       "aggregation": [
         "items",
-        "_dialog",
-        "_menu"
+        "_menuWrapper",
+        "_popover"
       ],
       "defaultAggregation": "items",
       "event": [
         "beforeClose",
         "closed",
-        "itemSelected"
+        "itemSelected",
+        "open"
       ],
       "property": [
         "title"
@@ -5376,25 +5728,31 @@
     "sap.m.MenuItem": {
       "aggregation": [
         "items",
-        "endContent"
+        "endContent",
+        "_icon",
+        "_menuWrapper",
+        "_popover"
       ],
       "association": [
         "_group"
       ],
       "defaultAggregation": "items",
       "event": [
-        "aggregationChanged",
-        "press",
-        "propertyChanged"
+        "press"
       ],
       "property": [
+        "text",
         "icon",
+        "enabled",
         "visible",
         "selected",
         "shortcutText",
-        "startsSection"
+        "startsSection",
+        "textDirection",
+        "key",
+        "_expanded"
       ],
-      "extends": "sap.ui.core.Item"
+      "extends": "sap.ui.core.Control"
     },
     "sap.m.MenuItemGroup": {
       "aggregation": [
@@ -5502,6 +5860,8 @@
       "property": [
         "text",
         "type",
+        "colorSet",
+        "colorScheme",
         "customIcon",
         "showIcon",
         "showCloseButton",
@@ -5522,6 +5882,7 @@
         "itemSelect",
         "listSelect",
         "longtextLoaded",
+        "onClose",
         "urlValidated"
       ],
       "property": [
@@ -5929,6 +6290,17 @@
     "sap.m.OverflowToolbarToggleButton": {
       "extends": "sap.m.ToggleButton"
     },
+    "sap.m.OverflowToolbarTokenizer": {
+      "aggregation": [
+        "moreItemsButton",
+        "label"
+      ],
+      "property": [
+        "labelText",
+        "renderMode"
+      ],
+      "extends": "sap.m.Button"
+    },
     "sap.m.p13n.AbstractContainer": {
       "aggregation": [
         "header",
@@ -6010,13 +6382,23 @@
     "sap.m.p13n.modules.AdaptationProvider": {
       "extends": "sap.ui.base.Object"
     },
+    "sap.m.p13n.PersistenceProvider": {
+      "association": [
+        "for"
+      ],
+      "property": [
+        "mode"
+      ],
+      "extends": "sap.ui.core.Control"
+    },
     "sap.m.p13n.Popup": {
       "aggregation": [
         "panels",
         "additionalButtons"
       ],
       "event": [
-        "close"
+        "close",
+        "open"
       ],
       "property": [
         "title",
@@ -6572,6 +6954,7 @@
         "fileNameLengthExceeded",
         "fileSizeExceeded",
         "fileTypeMismatch",
+        "itemRenameCanceled",
         "itemRenamed",
         "mediaTypeMismatch",
         "onActivated",
@@ -6632,6 +7015,7 @@
         "contentWidth",
         "contentMinWidth",
         "contentHeight",
+        "maxHeight",
         "enableScrolling",
         "verticalScrolling",
         "horizontalScrolling",
@@ -6692,7 +7076,8 @@
     },
     "sap.m.QuickViewBase": {
       "aggregation": [
-        "pages"
+        "pages",
+        "_navContainer"
       ],
       "defaultAggregation": "pages",
       "event": [
@@ -6957,7 +7342,8 @@
       "property": [
         "width",
         "enabled",
-        "selectedKey"
+        "selectedKey",
+        "contentMode"
       ],
       "extends": "sap.ui.core.Control"
     },
@@ -7010,7 +7396,8 @@
         "forceSelection",
         "wrapItemsText",
         "columnRatio",
-        "required"
+        "required",
+        "twoColumnSeparator"
       ],
       "extends": "sap.ui.core.Control"
     },
@@ -7667,7 +8054,8 @@
         "customTextOff",
         "enabled",
         "name",
-        "type"
+        "type",
+        "editable"
       ],
       "extends": "sap.ui.core.Control"
     },
@@ -7836,6 +8224,18 @@
       ],
       "extends": "sap.m.table.columnmenu.QuickActionItem"
     },
+    "sap.m.table.columnmenu.QuickResize": {
+      "aggregation": [
+        "_content"
+      ],
+      "event": [
+        "change"
+      ],
+      "property": [
+        "width"
+      ],
+      "extends": "sap.m.table.columnmenu.QuickActionBase"
+    },
     "sap.m.table.columnmenu.QuickSort": {
       "aggregation": [
         "items"
@@ -7874,6 +8274,19 @@
     },
     "sap.m.table.ColumnWidthController": {
       "extends": "sap.m.p13n.SelectionController"
+    },
+    "sap.m.table.Title": {
+      "aggregation": [
+        "title"
+      ],
+      "defaultAggregation": "title",
+      "property": [
+        "totalCount",
+        "selectedCount",
+        "showExtendedView",
+        "visible"
+      ],
+      "extends": "sap.ui.core.Control"
     },
     "sap.m.TablePersoController": {
       "aggregation": [
@@ -8169,6 +8582,7 @@
         "editable",
         "textDirection",
         "editableParent",
+        "enabledParent",
         "truncated",
         "posinset",
         "setsize"
@@ -8197,7 +8611,14 @@
         "width",
         "maxWidth",
         "renderMode",
-        "hiddenTokensCount"
+        "hiddenTokensCount",
+        "opener",
+        "name",
+        "displayOnly",
+        "_semanticFormValue",
+        "multiLine",
+        "showClearAll",
+        "_usePopoverArrow"
       ],
       "extends": "sap.ui.core.Control"
     },
@@ -8327,7 +8748,8 @@
         "uploadState",
         "previewable",
         "fileSize",
-        "isTrustedSource"
+        "isTrustedSource",
+        "isDirectory"
       ],
       "extends": "sap.ui.core.Element"
     },
@@ -8339,7 +8761,8 @@
         "uploadUrlPath",
         "previewablePath",
         "fileSizePath",
-        "isTrustedSourcePath"
+        "isTrustedSourcePath",
+        "isDirectoryPath"
       ],
       "extends": "sap.ui.core.Element"
     },
@@ -8570,7 +8993,8 @@
         "_displayTextForExecuteOnSelectionForStandardVariant",
         "_showAsText",
         "_selectStategyForSameItem",
-        "_standardKey"
+        "_standardKey",
+        "dynamicVariantsLoadedCallback"
       ],
       "extends": "sap.ui.core.Control"
     },
@@ -9031,6 +9455,7 @@
         "width",
         "dialogTitle",
         "preferFrontCamera",
+        "facingMode",
         "frameRate",
         "zoom",
         "keepCameraScan",
@@ -9039,6 +9464,9 @@
       "extends": "sap.ui.core.Control"
     },
     "sap.ovp.app.Component": {
+      "property": [
+        "renderLeanView"
+      ],
       "extends": "sap.fe.core.AppComponent"
     },
     "sap.rules.ui.DecisionTableConfiguration": {
@@ -9156,11 +9584,15 @@
       ],
       "extends": "sap.ui.core.Control"
     },
+    "sap.sac.df.model.Condition": {
+      "extends": "sap.ui.base.Object"
+    },
     "sap.sac.df.model.Configuration": {
       "property": [
         "Calculations",
         "Commenting",
         "ContextMenuVariant",
+        "ImplicitVariableHandling",
         "StylingPanelItems",
         "TableTemplates",
         "TableTemplateSelection"
@@ -9192,10 +9624,16 @@
       ],
       "extends": "sap.ui.model.json.JSONModel"
     },
+    "sap.sac.df.model.Scenario": {
+      "extends": "sap.ui.base.Object"
+    },
     "sap.sac.df.model.Variable": {
       "extends": "sap.ui.base.Object"
     },
     "sap.sac.df.model.VariableGroup": {
+      "extends": "sap.ui.base.Object"
+    },
+    "sap.sac.df.model.Visualization": {
       "extends": "sap.ui.base.Object"
     },
     "sap.sac.df.model.visualization.Documents": {
@@ -9209,6 +9647,13 @@
         "metaPath"
       ],
       "extends": "sap.ui.core.Control"
+    },
+    "sap.sac.df.Widget": {
+      "property": [
+        "metaPath",
+        "title",
+        "showLegend"
+      ]
     },
     "sap.suite.ui.commons.AriaProperties": {
       "property": [
@@ -9252,6 +9697,7 @@
       "event": [
         "afterValidation",
         "change",
+        "focusChange",
         "validateFunction"
       ],
       "property": [
@@ -9848,13 +10294,18 @@
       ],
       "association": [
         "ariaDescribedBy",
-        "ariaLabelledBy"
+        "ariaLabelledBy",
+        "associatedControl"
       ],
       "event": [
         "afterLayouting",
         "beforeLayouting",
+        "connectionCreated",
         "failure",
         "graphReady",
+        "itemDeleted",
+        "nodeAdded",
+        "nodeDropped",
         "search",
         "searchSuggest",
         "selectionChange",
@@ -9871,7 +10322,13 @@
         "renderType",
         "noData",
         "noDataText",
-        "_smoothWheelZoom"
+        "loading",
+        "loadingText",
+        "_smoothWheelZoom",
+        "enableDragAndDrop",
+        "nodePorts",
+        "showCreateConnectionButton",
+        "connectionTypeMapping"
       ],
       "extends": "sap.suite.ui.commons.networkgraph.SvgBase"
     },
@@ -9945,6 +10402,10 @@
       "extends": "sap.ui.base.Object"
     },
     "sap.suite.ui.commons.networkgraph.layout.NoopLayout": {
+      "property": [
+        "enableOptimizedLineAlgorithm",
+        "componentArrangement"
+      ],
       "extends": "sap.suite.ui.commons.networkgraph.layout.LayoutAlgorithm"
     },
     "sap.suite.ui.commons.networkgraph.layout.SwimLaneChainLayout": {
@@ -9969,7 +10430,9 @@
         "lineType",
         "arrowPosition",
         "arrowOrientation",
-        "stretchToCenter"
+        "stretchToCenter",
+        "connectionType",
+        "labelName"
       ],
       "extends": "sap.suite.ui.commons.networkgraph.ElementBase"
     },
@@ -10010,7 +10473,9 @@
         "coreNodeSize",
         "visible",
         "altText",
-        "nodeTitleBackground"
+        "nodeTitleBackground",
+        "nodePorts",
+        "showCreateConnectionButton"
       ],
       "extends": "sap.suite.ui.commons.networkgraph.ElementBase"
     },
@@ -10767,6 +11232,7 @@
         "inboundParameters",
         "tableSettings",
         "tableColumnVerticalAlignment",
+        "applyButtonNavigatesImmediately",
         "useColumnLayoutForSmartForm",
         "objectPageColumns",
         "statePreservationMode",
@@ -10775,7 +11241,8 @@
         "collaborationSettings",
         "mergeObjectPageSectionTitle",
         "externalNavigationSettings",
-        "skipOPContextInfoInBrowserTitle"
+        "skipOPContextInfoInBrowserTitle",
+        "noDataRepresentation"
       ],
       "extends": "sap.ui.core.UIComponent"
     },
@@ -11618,10 +12085,73 @@
       "extends": "sap.ui.commons.ComboBox"
     },
     "sap.ui.commons.FileUploader": {
-      "extends": "sap.ui.unified.FileUploader"
+      "aggregation": [
+        "parameters",
+        "headerParameters",
+        "xhrSettings"
+      ],
+      "association": [
+        "ariaDescribedBy",
+        "ariaLabelledBy"
+      ],
+      "event": [
+        "afterDialogClose",
+        "beforeDialogOpen",
+        "change",
+        "fileAllowed",
+        "fileEmpty",
+        "filenameLengthExceed",
+        "fileSizeExceed",
+        "typeMissmatch",
+        "uploadAborted",
+        "uploadComplete",
+        "uploadProgress",
+        "uploadStart"
+      ],
+      "property": [
+        "value",
+        "enabled",
+        "uploadUrl",
+        "name",
+        "width",
+        "uploadOnChange",
+        "additionalData",
+        "sameFilenameAllowed",
+        "buttonText",
+        "fileType",
+        "multiple",
+        "maximumFileSize",
+        "mimeType",
+        "sendXHR",
+        "httpRequestMethod",
+        "placeholder",
+        "style",
+        "buttonOnly",
+        "useMultipart",
+        "maximumFilenameLength",
+        "valueState",
+        "valueStateText",
+        "icon",
+        "iconHovered",
+        "iconSelected",
+        "iconFirst",
+        "iconOnly",
+        "directory"
+      ],
+      "extends": "sap.ui.core.Control"
     },
     "sap.ui.commons.FileUploaderParameter": {
-      "extends": "sap.ui.unified.FileUploaderParameter"
+      "property": [
+        "name",
+        "value"
+      ],
+      "extends": "sap.ui.core.Element"
+    },
+    "sap.ui.commons.FileUploaderXHRSettings": {
+      "property": [
+        "withCredentials"
+      ],
+      "extends": "sap.ui.core.Element"
     },
     "sap.ui.commons.form.Form": {
       "extends": "sap.ui.layout.form.Form"
@@ -12491,6 +13021,7 @@
         "filterGroupItems",
         "content",
         "_parameters",
+        "_filterControls",
         "_toolbar",
         "_headerTitle",
         "_variantManagement",
@@ -12501,7 +13032,8 @@
         "_restoreButton",
         "_filtersButton",
         "_showAllFiltersButton",
-        "_hintText"
+        "_hintText",
+        "_invisibleTexts"
       ],
       "association": [
         "basicSearch"
@@ -12736,7 +13268,8 @@
         "semanticObjectController",
         "selectionDetailsItemActions",
         "selectionDetailsActions",
-        "selectionDetailsActionGroups"
+        "selectionDetailsActionGroups",
+        "noDataIllustratedMessage"
       ],
       "association": [
         "smartVariant"
@@ -12896,7 +13429,8 @@
         "fixedValueListValidationEnabled",
         "_internalFieldGroupIds",
         "suppressEmptyStringRequest",
-        "valueHelpTitleSource"
+        "valueHelpTitleSource",
+        "refreshOnInParamChange"
       ],
       "extends": "sap.ui.core.Control"
     },
@@ -13265,12 +13799,14 @@
         "enableODataSelect",
         "requestAtLeastFields",
         "textSeparator",
-        "singleTokenMode"
+        "singleTokenMode",
+        "enableValueHelpSelectAll"
       ],
       "extends": "sap.ui.comp.smartfield.SmartField"
     },
     "sap.ui.comp.smarttable.SmartTable": {
       "aggregation": [
+        "defaultExportSettings",
         "customToolbar",
         "semanticObjectController",
         "noData",
@@ -13334,6 +13870,7 @@
         "beforeExport",
         "beforePaste",
         "beforeRebindTable",
+        "changeModelValue",
         "dataReceived",
         "dataRequested",
         "editToggled",
@@ -13451,7 +13988,9 @@
         "variantName",
         "valueTexts",
         "semanticDates",
-        "tableSettings"
+        "defaultValues",
+        "tableSettings",
+        "orderedItems"
       ],
       "extends": "sap.ui.base.ManagedObject"
     },
@@ -14492,6 +15031,12 @@
       "extends": "sap.ui.model.Context"
     },
     "sap.ui.model.odata.v2.ODataAnnotations": {
+      "event": [
+        "error",
+        "failed",
+        "loaded",
+        "success"
+      ],
       "extends": "sap.ui.base.EventProvider"
     },
     "sap.ui.model.odata.v2.ODataContextBinding": {
@@ -14675,7 +15220,10 @@
         "shiftKey",
         "ctrlKey",
         "xPercentage",
-        "yPercentage"
+        "yPercentage",
+        "keyDown",
+        "keyUp",
+        "rightClick"
       ],
       "extends": "sap.ui.test.actions.Action"
     },
@@ -14782,6 +15330,9 @@
     "sap.ui.documentation.sdk.controller.ErrorHandler": {
       "extends": "sap.ui.base.Object"
     },
+    "sap.ui.export.CommaSeparatedValues": {
+      "extends": "sap.ui.export.ExportBase"
+    },
     "sap.ui.export.ExportBase": {
       "event": [
         "beforeExport"
@@ -14800,6 +15351,12 @@
       ],
       "extends": "sap.ui.export.ExportBase"
     },
+    "sap.ui.export.TableExportSettings": {
+      "property": [
+        "fileName"
+      ],
+      "extends": "sap.ui.core.Element"
+    },
     "sap.ui.export.util.Filter": {
       "extends": "sap.ui.base.Object"
     },
@@ -14817,8 +15374,7 @@
     },
     "sap.ui.fl.apply._internal.flexObjects.CompVariant": {
       "aggregation": [
-        "revertData",
-        "changes"
+        "revertData"
       ],
       "property": [
         "persisted",
@@ -14879,7 +15435,8 @@
         "standardVariant",
         "contexts",
         "variantId",
-        "author"
+        "author",
+        "variantContentRemoved"
       ],
       "extends": "sap.ui.fl.apply._internal.flexObjects.FlexObject"
     },
@@ -14904,6 +15461,36 @@
         "executeFunction",
         "updateListeners",
         "checkInvalidation"
+      ],
+      "extends": "sap.ui.base.ManagedObject"
+    },
+    "sap.ui.fl.initial._internal.Settings": {
+      "property": [
+        "client",
+        "hasPersoConnector",
+        "isAnnotationChangeEnabled",
+        "isAppVariantSaveAsEnabled",
+        "isAtoEnabled",
+        "isCondensingEnabled",
+        "isContextBasedAdaptationEnabled",
+        "isContextSharingEnabled",
+        "isKeyUser",
+        "isKeyUserTranslationEnabled",
+        "isLocalResetEnabled",
+        "isProductiveSystem",
+        "isPublicFlVariantEnabled",
+        "isPublicLayerAvailable",
+        "isPublishAvailable",
+        "isSeenFeaturesAvailable",
+        "isVariantAdaptationEnabled",
+        "isVariantAuthorNameAvailable",
+        "isVariantPersonalizationEnabled",
+        "isVariantSharingEnabled",
+        "isVersioningEnabled",
+        "system",
+        "systemType",
+        "user",
+        "userId"
       ],
       "extends": "sap.ui.base.ManagedObject"
     },
@@ -14968,6 +15555,741 @@
     },
     "sap.ui.generic.app.transaction.DraftContext": {
       "extends": "sap.ui.base.Object"
+    },
+    "module:sap/ui/geomap/gen/sap_webcomponents/geomap/dist/SapGeomap": {
+      "aggregation": [
+        "items",
+        "mapControls"
+      ],
+      "defaultAggregation": "items",
+      "event": [
+        "mapBoundsChange",
+        "mapCenter",
+        "mapClick",
+        "mapContextmenu",
+        "mapError",
+        "mapMousemove",
+        "mapMouseup",
+        "mapRotate",
+        "mapTilt",
+        "mapZoom"
+      ],
+      "property": [
+        "centerLng",
+        "centerLat",
+        "zoom",
+        "rotation",
+        "tilt",
+        "restrictedAreaWestSouthPointLng",
+        "restrictedAreaWestSouthPointLat",
+        "restrictedAreaEastNorthPointLng",
+        "restrictedAreaEastNorthPointLat",
+        "minZoom",
+        "maxZoom",
+        "minTilt",
+        "maxTilt",
+        "text",
+        "width",
+        "height"
+      ],
+      "extends": "sap.ui.core.webc.WebComponent"
+    },
+    "module:sap/ui/geomap/gen/sap_webcomponents/geomap/dist/SapGeomapArc": {
+      "event": [
+        "layerClick",
+        "layerMousedown",
+        "layerMouseenter",
+        "layerMouseleave",
+        "layerMousemove",
+        "layerMouseup"
+      ],
+      "property": [
+        "beginLng",
+        "beginLat",
+        "endLng",
+        "endLat",
+        "steps",
+        "color",
+        "width",
+        "opacity",
+        "minZoom",
+        "maxZoom",
+        "filter",
+        "displayedFeatures",
+        "hidden",
+        "zIndex",
+        "text",
+        "height"
+      ],
+      "extends": "SapGeomapShape"
+    },
+    "module:sap/ui/geomap/gen/sap_webcomponents/geomap/dist/SapGeomapCircle": {
+      "event": [
+        "circleDragndropEnd",
+        "layerClick",
+        "layerMousedown",
+        "layerMouseenter",
+        "layerMouseleave",
+        "layerMousemove",
+        "layerMouseup"
+      ],
+      "property": [
+        "lng",
+        "lat",
+        "radius",
+        "fillColor",
+        "outlineColor",
+        "outlineWidth",
+        "opacity",
+        "dragndrop",
+        "minZoom",
+        "maxZoom",
+        "filter",
+        "displayedFeatures",
+        "hidden",
+        "zIndex",
+        "width",
+        "text",
+        "height"
+      ],
+      "extends": "SapGeomapShape"
+    },
+    "module:sap/ui/geomap/gen/sap_webcomponents/geomap/dist/SapGeomapCircleLayer": {
+      "event": [
+        "layerClick",
+        "layerMousedown",
+        "layerMouseenter",
+        "layerMouseleave",
+        "layerMousemove",
+        "layerMouseup"
+      ],
+      "property": [
+        "radius",
+        "fillColor",
+        "outlineColor",
+        "outlineWidth",
+        "opacity",
+        "source",
+        "minZoom",
+        "maxZoom",
+        "filter",
+        "displayedFeatures",
+        "hidden",
+        "zIndex",
+        "width",
+        "text",
+        "height"
+      ],
+      "extends": "SapGeomapLayer"
+    },
+    "module:sap/ui/geomap/gen/sap_webcomponents/geomap/dist/SapGeomapCircleLayerState": {
+      "property": [
+        "name",
+        "radius",
+        "fillColor",
+        "outlineColor",
+        "outlineWidth",
+        "opacity",
+        "text",
+        "width",
+        "height"
+      ],
+      "extends": "sap.ui.core.webc.WebComponent"
+    },
+    "module:sap/ui/geomap/gen/sap_webcomponents/geomap/dist/SapGeomapClusterSource": {
+      "property": [
+        "clusterProperties",
+        "clusterRadius",
+        "clusterMinPoints",
+        "clusterMaxZoom",
+        "geojson",
+        "geojsonUrl",
+        "text",
+        "width",
+        "height"
+      ],
+      "extends": "SapGeomapSource"
+    },
+    "module:sap/ui/geomap/gen/sap_webcomponents/geomap/dist/SapGeomapContainer": {
+      "aggregation": [
+        "content"
+      ],
+      "defaultAggregation": "content",
+      "property": [
+        "lng",
+        "lat",
+        "text",
+        "width",
+        "height"
+      ],
+      "extends": "SapGeomapMarkerBase"
+    },
+    "module:sap/ui/geomap/gen/sap_webcomponents/geomap/dist/SapGeomapControlBase": {
+      "property": [
+        "position",
+        "text"
+      ],
+      "extends": "SapGeomapElement"
+    },
+    "module:sap/ui/geomap/gen/sap_webcomponents/geomap/dist/SapGeomapCopyrightControl": {
+      "aggregation": [
+        "content"
+      ],
+      "defaultAggregation": "content",
+      "property": [
+        "position",
+        "width",
+        "height"
+      ],
+      "extends": "SapGeomapControlBase"
+    },
+    "module:sap/ui/geomap/gen/sap_webcomponents/geomap/dist/SapGeomapElement": {
+      "property": [
+        "text"
+      ],
+      "extends": "sap.ui.core.webc.WebComponent"
+    },
+    "module:sap/ui/geomap/gen/sap_webcomponents/geomap/dist/SapGeomapFillLayer": {
+      "event": [
+        "layerClick",
+        "layerMousedown",
+        "layerMouseenter",
+        "layerMouseleave",
+        "layerMousemove",
+        "layerMouseup"
+      ],
+      "property": [
+        "fillColor",
+        "outlineColor",
+        "opacity",
+        "source",
+        "minZoom",
+        "maxZoom",
+        "filter",
+        "displayedFeatures",
+        "hidden",
+        "zIndex",
+        "width",
+        "height"
+      ],
+      "extends": "SapGeomapLayer"
+    },
+    "module:sap/ui/geomap/gen/sap_webcomponents/geomap/dist/SapGeomapFillLayerState": {
+      "property": [
+        "name",
+        "fillColor",
+        "outlineColor",
+        "opacity",
+        "text",
+        "width",
+        "height"
+      ],
+      "extends": "sap.ui.core.webc.WebComponent"
+    },
+    "module:sap/ui/geomap/gen/sap_webcomponents/geomap/dist/SapGeomapFullscreenControl": {
+      "property": [
+        "position",
+        "width",
+        "height"
+      ],
+      "extends": "SapGeomapControlBase"
+    },
+    "module:sap/ui/geomap/gen/sap_webcomponents/geomap/dist/SapGeomapGeocircle": {
+      "event": [
+        "geocircleDragndropEnd",
+        "layerClick",
+        "layerMousedown",
+        "layerMouseenter",
+        "layerMouseleave",
+        "layerMousemove",
+        "layerMouseup"
+      ],
+      "property": [
+        "lng",
+        "lat",
+        "radius",
+        "units",
+        "fillColor",
+        "outlineColor",
+        "opacity",
+        "dragndrop",
+        "minZoom",
+        "maxZoom",
+        "filter",
+        "displayedFeatures",
+        "hidden",
+        "zIndex",
+        "width",
+        "height"
+      ],
+      "extends": "SapGeomapShape"
+    },
+    "module:sap/ui/geomap/gen/sap_webcomponents/geomap/dist/SapGeomapHeatmapLayer": {
+      "event": [
+        "layerClick",
+        "layerMousedown",
+        "layerMouseenter",
+        "layerMouseleave",
+        "layerMousemove",
+        "layerMouseup"
+      ],
+      "property": [
+        "color",
+        "intensity",
+        "weight",
+        "radius",
+        "opacity",
+        "source",
+        "minZoom",
+        "maxZoom",
+        "filter",
+        "displayedFeatures",
+        "hidden",
+        "zIndex",
+        "width",
+        "height"
+      ],
+      "extends": "SapGeomapLayer"
+    },
+    "module:sap/ui/geomap/gen/sap_webcomponents/geomap/dist/SapGeomapHssProvider": {
+      "property": [
+        "serviceUrl",
+        "serviceAuthenticationUrl",
+        "clientId",
+        "clientSecret",
+        "styleUrl",
+        "width",
+        "height"
+      ],
+      "extends": "SapGeomapProviderBase"
+    },
+    "module:sap/ui/geomap/gen/sap_webcomponents/geomap/dist/SapGeomapImage": {
+      "aggregation": [
+        "points"
+      ],
+      "defaultAggregation": "points",
+      "event": [
+        "layerClick",
+        "layerMousedown",
+        "layerMouseenter",
+        "layerMouseleave",
+        "layerMousemove",
+        "layerMouseup"
+      ],
+      "property": [
+        "url",
+        "opacity",
+        "minZoom",
+        "maxZoom",
+        "filter",
+        "displayedFeatures",
+        "hidden",
+        "zIndex",
+        "width",
+        "height"
+      ],
+      "extends": "SapGeomapLayerBase"
+    },
+    "module:sap/ui/geomap/gen/sap_webcomponents/geomap/dist/SapGeomapLayer": {
+      "aggregation": [
+        "states"
+      ],
+      "defaultAggregation": "states",
+      "event": [
+        "layerClick",
+        "layerMousedown",
+        "layerMouseenter",
+        "layerMouseleave",
+        "layerMousemove",
+        "layerMouseup"
+      ],
+      "property": [
+        "source",
+        "minZoom",
+        "maxZoom",
+        "filter",
+        "displayedFeatures",
+        "hidden",
+        "zIndex",
+        "width",
+        "height"
+      ],
+      "extends": "SapGeomapLayerBase"
+    },
+    "module:sap/ui/geomap/gen/sap_webcomponents/geomap/dist/SapGeomapLayerBase": {
+      "event": [
+        "layerClick",
+        "layerMousedown",
+        "layerMouseenter",
+        "layerMouseleave",
+        "layerMousemove",
+        "layerMouseup"
+      ],
+      "property": [
+        "minZoom",
+        "maxZoom",
+        "filter",
+        "displayedFeatures",
+        "hidden",
+        "zIndex",
+        "width",
+        "height"
+      ],
+      "extends": "SapGeomapElement"
+    },
+    "module:sap/ui/geomap/gen/sap_webcomponents/geomap/dist/SapGeomapLine": {
+      "aggregation": [
+        "points"
+      ],
+      "defaultAggregation": "points",
+      "event": [
+        "layerClick",
+        "layerMousedown",
+        "layerMouseenter",
+        "layerMouseleave",
+        "layerMousemove",
+        "layerMouseup",
+        "lineDragndropEnd"
+      ],
+      "property": [
+        "color",
+        "width",
+        "opacity",
+        "dragndrop",
+        "minZoom",
+        "maxZoom",
+        "filter",
+        "displayedFeatures",
+        "hidden",
+        "zIndex"
+      ],
+      "extends": "SapGeomapShape"
+    },
+    "module:sap/ui/geomap/gen/sap_webcomponents/geomap/dist/SapGeomapLineLayer": {
+      "event": [
+        "layerClick",
+        "layerMousedown",
+        "layerMouseenter",
+        "layerMouseleave",
+        "layerMousemove",
+        "layerMouseup"
+      ],
+      "property": [
+        "color",
+        "opacity",
+        "source",
+        "minZoom",
+        "maxZoom",
+        "filter",
+        "displayedFeatures",
+        "hidden",
+        "zIndex",
+        "width"
+      ],
+      "extends": "SapGeomapLayer"
+    },
+    "module:sap/ui/geomap/gen/sap_webcomponents/geomap/dist/SapGeomapLineLayerState": {
+      "property": [
+        "name",
+        "color",
+        "width",
+        "opacity",
+        "text",
+        "height"
+      ],
+      "extends": "sap.ui.core.webc.WebComponent"
+    },
+    "module:sap/ui/geomap/gen/sap_webcomponents/geomap/dist/SapGeomapMarkerBase": {
+      "property": [
+        "lng",
+        "lat"
+      ],
+      "extends": "SapGeomapElement"
+    },
+    "module:sap/ui/geomap/gen/sap_webcomponents/geomap/dist/SapGeomapNavigationControl": {
+      "property": [
+        "noZoom",
+        "noCompass",
+        "position",
+        "width",
+        "height"
+      ],
+      "extends": "SapGeomapControlBase"
+    },
+    "module:sap/ui/geomap/gen/sap_webcomponents/geomap/dist/SapGeomapPoint": {
+      "property": [
+        "lng",
+        "lat",
+        "text",
+        "width",
+        "height"
+      ],
+      "extends": "sap.ui.core.webc.WebComponent"
+    },
+    "module:sap/ui/geomap/gen/sap_webcomponents/geomap/dist/SapGeomapPolygon": {
+      "aggregation": [
+        "points"
+      ],
+      "defaultAggregation": "points",
+      "event": [
+        "layerClick",
+        "layerMousedown",
+        "layerMouseenter",
+        "layerMouseleave",
+        "layerMousemove",
+        "layerMouseup",
+        "polygonDragndropEnd"
+      ],
+      "property": [
+        "fillColor",
+        "outlineColor",
+        "opacity",
+        "dragndrop",
+        "minZoom",
+        "maxZoom",
+        "filter",
+        "displayedFeatures",
+        "hidden",
+        "zIndex",
+        "width"
+      ],
+      "extends": "SapGeomapShape"
+    },
+    "module:sap/ui/geomap/gen/sap_webcomponents/geomap/dist/SapGeomapProvider": {
+      "property": [
+        "styleUrl",
+        "width",
+        "height"
+      ],
+      "extends": "SapGeomapProviderBase"
+    },
+    "module:sap/ui/geomap/gen/sap_webcomponents/geomap/dist/SapGeomapProviderBase": {
+      "property": [
+        "width",
+        "height"
+      ],
+      "extends": "SapGeomapElement"
+    },
+    "module:sap/ui/geomap/gen/sap_webcomponents/geomap/dist/SapGeomapRasterTiles": {
+      "event": [
+        "layerClick",
+        "layerMousedown",
+        "layerMouseenter",
+        "layerMouseleave",
+        "layerMousemove",
+        "layerMouseup"
+      ],
+      "property": [
+        "url",
+        "opacity",
+        "minZoom",
+        "maxZoom",
+        "filter",
+        "displayedFeatures",
+        "hidden",
+        "zIndex",
+        "width"
+      ],
+      "extends": "SapGeomapLayerBase"
+    },
+    "module:sap/ui/geomap/gen/sap_webcomponents/geomap/dist/SapGeomapScaleControl": {
+      "property": [
+        "units",
+        "position",
+        "width",
+        "height"
+      ],
+      "extends": "SapGeomapControlBase"
+    },
+    "module:sap/ui/geomap/gen/sap_webcomponents/geomap/dist/SapGeomapSelectionControl": {
+      "event": [
+        "selectionFinish",
+        "selectionItem"
+      ],
+      "property": [
+        "selectionType",
+        "position",
+        "width",
+        "height"
+      ],
+      "extends": "SapGeomapControlBase"
+    },
+    "module:sap/ui/geomap/gen/sap_webcomponents/geomap/dist/SapGeomapShape": {
+      "event": [
+        "layerClick",
+        "layerMousedown",
+        "layerMouseenter",
+        "layerMouseleave",
+        "layerMousemove",
+        "layerMouseup"
+      ],
+      "property": [
+        "minZoom",
+        "maxZoom",
+        "filter",
+        "displayedFeatures",
+        "hidden",
+        "zIndex",
+        "width"
+      ],
+      "extends": "SapGeomapLayerBase"
+    },
+    "module:sap/ui/geomap/gen/sap_webcomponents/geomap/dist/SapGeomapSource": {
+      "property": [
+        "geojson",
+        "geojsonUrl",
+        "width",
+        "height"
+      ],
+      "extends": "SapGeomapElement"
+    },
+    "module:sap/ui/geomap/gen/sap_webcomponents/geomap/dist/SapGeomapSpot": {
+      "event": [
+        "click",
+        "doubleClick",
+        "mouseout",
+        "mouseover",
+        "rightClick"
+      ],
+      "property": [
+        "draggable",
+        "icon",
+        "width",
+        "height",
+        "opacity",
+        "color",
+        "lng",
+        "lat"
+      ],
+      "extends": "SapGeomapMarkerBase"
+    },
+    "module:sap/ui/geomap/gen/sap_webcomponents/geomap/dist/SapGeomapSymbolLayer": {
+      "event": [
+        "layerClick",
+        "layerMousedown",
+        "layerMouseenter",
+        "layerMouseleave",
+        "layerMousemove",
+        "layerMouseup"
+      ],
+      "property": [
+        "text",
+        "textSize",
+        "textColor",
+        "textAnchor",
+        "textFont",
+        "source",
+        "minZoom",
+        "maxZoom",
+        "filter",
+        "displayedFeatures",
+        "hidden",
+        "zIndex",
+        "width"
+      ],
+      "extends": "SapGeomapLayer"
+    },
+    "sap.ui.geomap.Geomap": {
+      "extends": "SapGeomap"
+    },
+    "sap.ui.geomap.GeomapArc": {
+      "extends": "SapGeomapArc"
+    },
+    "sap.ui.geomap.GeomapCircle": {
+      "extends": "SapGeomapCircle"
+    },
+    "sap.ui.geomap.GeomapCircleLayer": {
+      "extends": "SapGeomapCircleLayer"
+    },
+    "sap.ui.geomap.GeomapCircleLayerState": {
+      "extends": "SapGeomapCircleLayerState"
+    },
+    "sap.ui.geomap.GeomapClusterSource": {
+      "extends": "SapGeomapClusterSource"
+    },
+    "sap.ui.geomap.GeomapContainer": {
+      "extends": "SapGeomapContainer"
+    },
+    "sap.ui.geomap.GeomapControlBase": {
+      "extends": "SapGeomapControlBase"
+    },
+    "sap.ui.geomap.GeomapCopyrightControl": {
+      "extends": "SapGeomapCopyrightControl"
+    },
+    "sap.ui.geomap.GeomapElement": {
+      "extends": "SapGeomapElement"
+    },
+    "sap.ui.geomap.GeomapFillLayer": {
+      "extends": "SapGeomapFillLayer"
+    },
+    "sap.ui.geomap.GeomapFillLayerState": {
+      "extends": "SapGeomapFillLayerState"
+    },
+    "sap.ui.geomap.GeomapFullscreenControl": {
+      "extends": "SapGeomapFullscreenControl"
+    },
+    "sap.ui.geomap.GeomapGeocircle": {
+      "extends": "SapGeomapGeocircle"
+    },
+    "sap.ui.geomap.GeomapHeatmapLayer": {
+      "extends": "SapGeomapHeatmapLayer"
+    },
+    "sap.ui.geomap.GeomapHssProvider": {
+      "extends": "SapGeomapHssProvider"
+    },
+    "sap.ui.geomap.GeomapImage": {
+      "extends": "SapGeomapImage"
+    },
+    "sap.ui.geomap.GeomapLayer": {
+      "extends": "SapGeomapLayer"
+    },
+    "sap.ui.geomap.GeomapLayerBase": {
+      "extends": "SapGeomapLayerBase"
+    },
+    "sap.ui.geomap.GeomapLine": {
+      "extends": "SapGeomapLine"
+    },
+    "sap.ui.geomap.GeomapLineLayer": {
+      "extends": "SapGeomapLineLayer"
+    },
+    "sap.ui.geomap.GeomapLineLayerState": {
+      "extends": "SapGeomapLineLayerState"
+    },
+    "sap.ui.geomap.GeomapMarkerBase": {
+      "extends": "SapGeomapMarkerBase"
+    },
+    "sap.ui.geomap.GeomapNavigationControl": {
+      "extends": "SapGeomapNavigationControl"
+    },
+    "sap.ui.geomap.GeomapPoint": {
+      "extends": "SapGeomapPoint"
+    },
+    "sap.ui.geomap.GeomapPolygon": {
+      "extends": "SapGeomapPolygon"
+    },
+    "sap.ui.geomap.GeomapProvider": {
+      "extends": "SapGeomapProvider"
+    },
+    "sap.ui.geomap.GeomapRasterTiles": {
+      "extends": "SapGeomapRasterTiles"
+    },
+    "sap.ui.geomap.GeomapScaleControl": {
+      "extends": "SapGeomapScaleControl"
+    },
+    "sap.ui.geomap.GeomapSelectionControl": {
+      "extends": "SapGeomapSelectionControl"
+    },
+    "sap.ui.geomap.GeomapShape": {
+      "extends": "SapGeomapShape"
+    },
+    "sap.ui.geomap.GeomapSource": {
+      "extends": "SapGeomapSource"
+    },
+    "sap.ui.geomap.GeomapSpot": {
+      "extends": "SapGeomapSpot"
+    },
+    "sap.ui.geomap.GeomapSymbolLayer": {
+      "extends": "SapGeomapSymbolLayer"
     },
     "sap.ui.integration.ActionDefinition": {
       "aggregation": [
@@ -15073,6 +16395,9 @@
       "extends": "sap.ui.integration.designtime.baseEditor.propertyEditor.BasePropertyEditor"
     },
     "sap.ui.integration.designtime.baseEditor.propertyEditor.codeEditor.CodeEditor": {
+      "event": [
+        "changeEnabledOfBeginButton"
+      ],
       "extends": "sap.ui.integration.designtime.baseEditor.propertyEditor.BasePropertyEditor"
     },
     "sap.ui.integration.designtime.baseEditor.propertyEditor.dateEditor.DateEditor": {
@@ -15374,7 +16699,8 @@
       "association": [
         "host",
         "openerReference",
-        "dialogHeader"
+        "dialogHeader",
+        "showMoreChildCard"
       ],
       "event": [
         "action",
@@ -15387,6 +16713,7 @@
         "referenceId",
         "manifest",
         "parameters",
+        "customSettings",
         "dataMode",
         "baseUrl",
         "manifestChanges",
@@ -15397,6 +16724,7 @@
         "useProgressiveDisclosure",
         "overflow",
         "showCloseButton",
+        "isPaginationCard",
         "interactive"
       ],
       "extends": "sap.f.CardBase"
@@ -15939,6 +17267,7 @@
       "aggregation": [
         "items",
         "actions",
+        "chartActions",
         "selectionDetailsActions",
         "_toolbar",
         "_breadcrumbs",
@@ -15977,6 +17306,12 @@
         "headerVisible"
       ],
       "extends": "sap.ui.mdc.Control"
+    },
+    "sap.ui.mdc.chart.ActionLayoutData": {
+      "property": [
+        "position"
+      ],
+      "extends": "sap.m.OverflowToolbarLayoutData"
     },
     "sap.ui.mdc.chart.ChartImplementationContainer": {
       "aggregation": [
@@ -16064,6 +17399,9 @@
     "sap.ui.mdc.field.ConditionType": {
       "extends": "sap.ui.model.SimpleType"
     },
+    "sap.ui.mdc.field.content.ContentFactory": {
+      "extends": "sap.ui.base.Object"
+    },
     "sap.ui.mdc.field.CustomFieldInfo": {
       "aggregation": [
         "content"
@@ -16137,6 +17475,15 @@
       ],
       "extends": "sap.m.MultiInput"
     },
+    "sap.ui.mdc.field.FieldSelect": {
+      "event": [
+        "valueHelpRequest"
+      ],
+      "property": [
+        "ariaAttributes"
+      ],
+      "extends": "sap.m.Input"
+    },
     "sap.ui.mdc.field.ListFieldHelpItem": {
       "extends": "sap.ui.mdc.valuehelp.content.FixedListItem"
     },
@@ -16164,7 +17511,10 @@
         "showAdaptFiltersButton",
         "showClearButton",
         "p13nMode",
-        "_p13nModeItem"
+        "_p13nModeItem",
+        "adaptFiltersText",
+        "adaptFiltersTextNonZero",
+        "propertyKeys"
       ],
       "extends": "sap.ui.mdc.filterbar.FilterBarBase"
     },
@@ -16172,7 +17522,8 @@
       "aggregation": [
         "filterItems",
         "basicSearchField",
-        "layout"
+        "layout",
+        "invisibleTexts"
       ],
       "association": [
         "variantBackreference"
@@ -16193,6 +17544,12 @@
         "_filterCount"
       ],
       "extends": "sap.ui.mdc.Control"
+    },
+    "sap.ui.mdc.filterbar.FilterContainer": {
+      "aggregation": [
+        "_layout"
+      ],
+      "extends": "sap.ui.mdc.filterbar.IFilterContainer"
     },
     "sap.ui.mdc.filterbar.IFilterContainer": {
       "extends": "sap.ui.core.Element"
@@ -16226,6 +17583,39 @@
         "additionalDataType"
       ],
       "extends": "sap.ui.mdc.field.FieldBase"
+    },
+    "sap.ui.mdc.Geomap": {
+      "aggregation": [
+        "_geomap",
+        "items"
+      ],
+      "defaultAggregation": "items",
+      "event": [
+        "zoomChange"
+      ],
+      "property": [
+        "width",
+        "height",
+        "header",
+        "centerLat",
+        "centerLng",
+        "zoom",
+        "enableSelectionControl",
+        "enableNavigationControl",
+        "enableFullscreenControl",
+        "enableScaleControl",
+        "enableCopyrightControl",
+        "delegate",
+        "propertyInfo"
+      ],
+      "extends": "sap.ui.mdc.Control"
+    },
+    "sap.ui.mdc.geomap.Item": {
+      "property": [
+        "propertyKey",
+        "label"
+      ],
+      "extends": "sap.ui.core.Element"
     },
     "sap.ui.mdc.Link": {
       "association": [
@@ -16271,9 +17661,11 @@
         "columns",
         "creationRow",
         "actions",
+        "tableActions",
         "variant",
         "quickFilter",
         "rowSettings",
+        "defaultExportSettings",
         "dataStateIndicator",
         "noData",
         "copyProvider",
@@ -16308,6 +17700,7 @@
         "multiSelectMode",
         "enableAutoColumnWidth",
         "propertyInfo",
+        "propertyKeys",
         "hideToolbar"
       ],
       "association": [
@@ -16322,6 +17715,12 @@
         "selectionChange"
       ],
       "extends": "sap.ui.mdc.Control"
+    },
+    "sap.ui.mdc.table.ActionLayoutData": {
+      "property": [
+        "position"
+      ],
+      "extends": "sap.m.OverflowToolbarLayoutData"
     },
     "sap.ui.mdc.table.Column": {
       "aggregation": [
@@ -16397,7 +17796,8 @@
         "growingMode",
         "showDetailsButton",
         "detailsButtonSetting",
-        "popinLayout"
+        "popinLayout",
+        "popinDisplay"
       ],
       "extends": "sap.ui.mdc.table.TableTypeBase"
     },
@@ -16420,7 +17820,8 @@
       "property": [
         "highlight",
         "highlightText",
-        "navigated"
+        "navigated",
+        "rowActionCount"
       ],
       "extends": "sap.ui.core.Element"
     },
@@ -16499,6 +17900,9 @@
       "aggregation": [
         "displayContent"
       ],
+      "association": [
+        "ariaLabelledBy"
+      ],
       "event": [
         "cancel",
         "confirm",
@@ -16521,11 +17925,14 @@
     },
     "sap.ui.mdc.valuehelp.base.DefineConditionPanel": {
       "aggregation": [
-        "_content"
+        "_content",
+        "_toolbar",
+        "_invisibleTexts"
       ],
       "association": [
         "fieldHelp",
-        "valueHelp"
+        "valueHelp",
+        "ariaLabelledBy"
       ],
       "event": [
         "conditionProcessed"
@@ -16595,12 +18002,15 @@
     },
     "sap.ui.mdc.valuehelp.content.FixedList": {
       "aggregation": [
-        "items"
+        "items",
+        "_emptyItem"
       ],
       "defaultAggregation": "items",
       "property": [
         "groupable",
-        "filterList"
+        "filterList",
+        "emptyText",
+        "restrictedToFixedValues"
       ],
       "extends": "sap.ui.mdc.valuehelp.base.ListContent"
     },
@@ -16644,7 +18054,8 @@
       "property": [
         "delegate",
         "expandFilterFields",
-        "filterFieldThreshold"
+        "filterFieldThreshold",
+        "_showAllFiltersEnabled"
       ],
       "extends": "sap.ui.mdc.filterbar.FilterBarBase"
     },
@@ -16659,7 +18070,8 @@
       "aggregation": [
         "footer",
         "_toolbarWrapper",
-        "customButtons"
+        "customButtons",
+        "customFonts"
       ],
       "association": [
         "ariaLabelledBy"
@@ -16693,9 +18105,19 @@
         "plugins",
         "useLegacyTheme",
         "buttonGroups",
-        "customToolbar"
+        "customToolbar",
+        "placeholder"
       ],
       "extends": "sap.ui.core.Control"
+    },
+    "sap.ui.richtexteditor.RichTextEditorFontFamily": {
+      "property": [
+        "name",
+        "text",
+        "value",
+        "url"
+      ],
+      "extends": "sap.ui.core.Element"
     },
     "sap.ui.rta.Client": {
       "property": [
@@ -16823,9 +18245,6 @@
       "extends": "sap.ui.core.Control"
     },
     "sap.ui.table.plugins.MultiSelectionPlugin": {
-      "aggregation": [
-        "icon"
-      ],
       "event": [
         "selectionChange"
       ],
@@ -16835,6 +18254,31 @@
         "showHeaderSelector",
         "selectionMode"
       ],
+      "extends": "sap.ui.table.plugins.SelectionPlugin"
+    },
+    "sap.ui.table.plugins.ODataV4Aggregation": {
+      "property": [
+        "enabled",
+        "groupHeaderFormatter"
+      ],
+      "extends": "sap.ui.core.Element"
+    },
+    "sap.ui.table.plugins.ODataV4Hierarchy": {
+      "property": [
+        "enabled"
+      ],
+      "extends": "sap.ui.core.Element"
+    },
+    "sap.ui.table.plugins.ODataV4MultiSelection": {
+      "property": [
+        "limit",
+        "enableNotification",
+        "hideHeaderSelector",
+        "leafSelectionDisabled"
+      ],
+      "extends": "sap.ui.table.plugins.SelectionPlugin"
+    },
+    "sap.ui.table.plugins.ODataV4SingleSelection": {
       "extends": "sap.ui.table.plugins.SelectionPlugin"
     },
     "sap.ui.table.plugins.SelectionPlugin": {
@@ -16857,9 +18301,7 @@
     },
     "sap.ui.table.RowAction": {
       "aggregation": [
-        "items",
-        "_icons",
-        "_menu"
+        "items"
       ],
       "defaultAggregation": "items",
       "property": [
@@ -17077,7 +18519,8 @@
         "startDate",
         "days",
         "showDayNamesLine",
-        "calendarWeekNumbering"
+        "calendarWeekNumbering",
+        "selectableAccessibilitySemantics"
       ],
       "extends": "sap.ui.unified.calendar.Month"
     },
@@ -17105,7 +18548,20 @@
         "visibleButton2",
         "enabledPrevious",
         "enabledNext",
-        "visibleCurrentDateButton"
+        "visibleCurrentDateButton",
+        "_tooltipButton1",
+        "_tooltipButton2",
+        "_keyShortcutButton1",
+        "_keyShortcutButton2",
+        "_descriptionButton1",
+        "_descriptionButton2",
+        "_tooltipButton3",
+        "_tooltipButton4",
+        "_keyShortcutButton3",
+        "_keyShortcutButton4",
+        "_descriptionButton3",
+        "_descriptionButton4",
+        "_currentPicker"
       ],
       "extends": "sap.ui.core.Control"
     },
@@ -17187,7 +18643,9 @@
         "singleSelection",
         "showHeader",
         "primaryCalendarType",
-        "secondaryCalendarType"
+        "secondaryCalendarType",
+        "selectableAccessibilitySemantics",
+        "showWeekNumbers"
       ],
       "extends": "sap.ui.core.Control"
     },
@@ -17213,7 +18671,8 @@
         "singleSelection",
         "showHeader",
         "primaryCalendarType",
-        "secondaryCalendarType"
+        "secondaryCalendarType",
+        "selectableAccessibilitySemantics"
       ],
       "extends": "sap.ui.core.Control"
     },
@@ -17243,6 +18702,9 @@
       "aggregation": [
         "customContent"
       ],
+      "association": [
+        "ariaLabelledBy"
+      ],
       "property": [
         "title",
         "text",
@@ -17256,6 +18718,9 @@
       "extends": "sap.ui.unified.DateTypeRange"
     },
     "sap.ui.unified.CalendarDateInterval": {
+      "aggregation": [
+        "_weeksRow"
+      ],
       "property": [
         "startDate",
         "days",
@@ -17361,7 +18826,8 @@
         "timesRow",
         "datesRow",
         "monthPicker",
-        "yearPicker"
+        "yearPicker",
+        "weeksRow"
       ],
       "association": [
         "ariaLabelledBy",
@@ -17470,7 +18936,10 @@
       "aggregation": [
         "parameters",
         "headerParameters",
-        "xhrSettings"
+        "xhrSettings",
+        "_tokenizer",
+        "_browseIcon",
+        "_clearIcon"
       ],
       "association": [
         "ariaDescribedBy",
@@ -17518,7 +18987,8 @@
         "iconSelected",
         "iconFirst",
         "iconOnly",
-        "directory"
+        "directory",
+        "required"
       ],
       "extends": "sap.ui.core.Control"
     },
@@ -17568,7 +19038,8 @@
         "text",
         "icon",
         "selected",
-        "shortcutText"
+        "shortcutText",
+        "_expanded"
       ],
       "extends": "sap.ui.unified.MenuItemBase"
     },
@@ -19253,6 +20724,9 @@
       ],
       "extends": "sap.ui.core.Control"
     },
+    "sap.ui.vk.Loco": {
+      "extends": "sap.ui.base.Object"
+    },
     "sap.ui.vk.MapContainer": {
       "aggregation": [
         "listPanelStack",
@@ -19770,8 +21244,17 @@
       "extends": "sap.ui.vk.tools.Tool"
     },
     "sap.ui.vk.tools.CrossSectionTool": {
+      "event": [
+        "stateChanged"
+      ],
       "property": [
-        "showEditingUI"
+        "showEditingUI",
+        "outlineColor",
+        "outlineWidth",
+        "showOutline",
+        "cappingColor",
+        "cappingOpacity",
+        "showCapping"
       ],
       "extends": "sap.ui.vk.tools.Tool"
     },
@@ -20005,6 +21488,8 @@
       "aggregation": [
         "contentResources",
         "progressIndicator",
+        "viewGallery",
+        "drawerToolbar",
         "layout",
         "contentConnector",
         "viewStateManager"
@@ -20134,6 +21619,7 @@
         "renderMode",
         "showSafeArea",
         "showAllHotspots",
+        "showAllDynamicContents",
         "disableHotspotHovering",
         "hotspotColorABGR",
         "hotspotColor",
@@ -20142,7 +21628,9 @@
         "hotspotCustomTextHaloWidth",
         "keepOutputSize",
         "showAllHotspotsTintColor",
-        "autoStartRendering"
+        "autoStartRendering",
+        "minCameraPitch",
+        "maxCameraPitch"
       ],
       "extends": "sap.ui.core.Control"
     },
@@ -20403,1903 +21891,6 @@
         "addDefaultExtensions"
       ],
       "extends": "sap.ui.core.Element"
-    },
-    "sap.ui.webc.common.WebComponent": {
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.common.WebComponentMetadata": {
-      "extends": "sap.ui.core.webc.WebComponentMetadata"
-    },
-    "sap.ui.webc.fiori.Bar": {
-      "aggregation": [
-        "endContent",
-        "middleContent",
-        "startContent"
-      ],
-      "defaultAggregation": "middleContent",
-      "property": [
-        "design",
-        "width"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.fiori.BarcodeScannerDialog": {
-      "event": [
-        "scanError",
-        "scanSuccess"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.fiori.DynamicSideContent": {
-      "aggregation": [
-        "content",
-        "sideContent"
-      ],
-      "defaultAggregation": "content",
-      "event": [
-        "layoutChange"
-      ],
-      "property": [
-        "equalSplit",
-        "hideMainContent",
-        "hideSideContent",
-        "sideContentFallDown",
-        "sideContentPosition",
-        "sideContentVisibility"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.fiori.FilterItem": {
-      "aggregation": [
-        "values"
-      ],
-      "property": [
-        "additionalText",
-        "text"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.fiori.FilterItemOption": {
-      "property": [
-        "selected",
-        "text"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.fiori.FlexibleColumnLayout": {
-      "aggregation": [
-        "endColumn",
-        "midColumn",
-        "startColumn"
-      ],
-      "event": [
-        "layoutChange"
-      ],
-      "property": [
-        "accessibilityRoles",
-        "accessibilityTexts",
-        "height",
-        "hideArrows",
-        "layout",
-        "width"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.fiori.IllustratedMessage": {
-      "aggregation": [
-        "actions",
-        "subtitle",
-        "title"
-      ],
-      "association": [
-        "ariaLabelledBy"
-      ],
-      "defaultAggregation": "actions",
-      "property": [
-        "name",
-        "size",
-        "subtitleText",
-        "titleText"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.fiori.MediaGallery": {
-      "aggregation": [
-        "items"
-      ],
-      "defaultAggregation": "items",
-      "event": [
-        "displayAreaClick",
-        "overflowClick",
-        "selectionChange"
-      ],
-      "property": [
-        "interactiveDisplayArea",
-        "layout",
-        "menuHorizontalAlign",
-        "menuVerticalAlign",
-        "showAllThumbnails"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.fiori.MediaGalleryItem": {
-      "aggregation": [
-        "content",
-        "thumbnail"
-      ],
-      "defaultAggregation": "content",
-      "property": [
-        "enabled",
-        "layout",
-        "selected"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.fiori.NotificationAction": {
-      "event": [
-        "click"
-      ],
-      "property": [
-        "design",
-        "enabled",
-        "icon",
-        "text"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.fiori.NotificationListGroupItem": {
-      "aggregation": [
-        "actions",
-        "items"
-      ],
-      "defaultAggregation": "items",
-      "event": [
-        "close",
-        "toggle"
-      ],
-      "property": [
-        "busy",
-        "busyDelay",
-        "collapsed",
-        "priority",
-        "read",
-        "selected",
-        "showClose",
-        "showCounter",
-        "titleText"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.fiori.NotificationListItem": {
-      "aggregation": [
-        "actions",
-        "avatar",
-        "footnotes"
-      ],
-      "event": [
-        "close"
-      ],
-      "property": [
-        "busy",
-        "busyDelay",
-        "description",
-        "priority",
-        "read",
-        "selected",
-        "showClose",
-        "titleText",
-        "wrappingType"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.fiori.Page": {
-      "aggregation": [
-        "content",
-        "footer",
-        "header"
-      ],
-      "defaultAggregation": "content",
-      "property": [
-        "backgroundDesign",
-        "disableScrolling",
-        "floatingFooter",
-        "height",
-        "hideFooter",
-        "width"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.fiori.ProductSwitch": {
-      "aggregation": [
-        "items"
-      ],
-      "defaultAggregation": "items",
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.fiori.ProductSwitchItem": {
-      "event": [
-        "click"
-      ],
-      "property": [
-        "icon",
-        "subtitleText",
-        "target",
-        "targetSrc",
-        "titleText"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.fiori.ShellBar": {
-      "aggregation": [
-        "items",
-        "logo",
-        "menuItems",
-        "profile",
-        "searchField",
-        "startButton"
-      ],
-      "defaultAggregation": "items",
-      "event": [
-        "coPilotClick",
-        "logoClick",
-        "menuItemClick",
-        "notificationsClick",
-        "productSwitchClick",
-        "profileClick"
-      ],
-      "property": [
-        "accessibilityAttributes",
-        "accessibilityRoles",
-        "accessibilityTexts",
-        "notificationsCount",
-        "primaryTitle",
-        "secondaryTitle",
-        "showCoPilot",
-        "showNotifications",
-        "showProductSwitch",
-        "showSearchField"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.fiori.ShellBarItem": {
-      "event": [
-        "click"
-      ],
-      "property": [
-        "count",
-        "icon",
-        "text"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.fiori.SideNavigation": {
-      "aggregation": [
-        "fixedItems",
-        "header",
-        "items"
-      ],
-      "defaultAggregation": "items",
-      "event": [
-        "selectionChange"
-      ],
-      "property": [
-        "collapsed"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.fiori.SideNavigationItem": {
-      "aggregation": [
-        "items"
-      ],
-      "defaultAggregation": "items",
-      "event": [
-        "click"
-      ],
-      "property": [
-        "expanded",
-        "icon",
-        "selected",
-        "text",
-        "wholeItemToggleable"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.fiori.SideNavigationSubItem": {
-      "event": [
-        "click"
-      ],
-      "property": [
-        "icon",
-        "selected",
-        "text"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.fiori.SortItem": {
-      "property": [
-        "selected",
-        "text"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.fiori.Timeline": {
-      "aggregation": [
-        "items"
-      ],
-      "defaultAggregation": "items",
-      "property": [
-        "accessibleName",
-        "height",
-        "layout",
-        "width"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.fiori.TimelineItem": {
-      "aggregation": [
-        "content"
-      ],
-      "defaultAggregation": "content",
-      "event": [
-        "nameClick"
-      ],
-      "property": [
-        "icon",
-        "name",
-        "nameClickable",
-        "subtitleText",
-        "titleText"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.fiori.UploadCollection": {
-      "aggregation": [
-        "header",
-        "items"
-      ],
-      "defaultAggregation": "items",
-      "event": [
-        "drop",
-        "itemDelete",
-        "selectionChange"
-      ],
-      "property": [
-        "accessibleName",
-        "height",
-        "hideDragOverlay",
-        "mode",
-        "noDataDescription",
-        "noDataText",
-        "width"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.fiori.UploadCollectionItem": {
-      "aggregation": [
-        "content",
-        "deleteButton",
-        "thumbnail"
-      ],
-      "defaultAggregation": "content",
-      "event": [
-        "detailClick",
-        "fileNameClick",
-        "rename",
-        "retry",
-        "terminate"
-      ],
-      "property": [
-        "accessibilityAttributes",
-        "disableDeleteButton",
-        "file",
-        "fileName",
-        "fileNameClickable",
-        "hideDeleteButton",
-        "hideRetryButton",
-        "hideTerminateButton",
-        "navigated",
-        "progress",
-        "selected",
-        "type",
-        "uploadState"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.fiori.ViewSettingsDialog": {
-      "aggregation": [
-        "filterItems",
-        "sortItems"
-      ],
-      "event": [
-        "beforeOpen",
-        "cancel",
-        "confirm"
-      ],
-      "property": [
-        "sortDescending"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.fiori.Wizard": {
-      "aggregation": [
-        "steps"
-      ],
-      "defaultAggregation": "steps",
-      "event": [
-        "stepChange"
-      ],
-      "property": [
-        "contentLayout",
-        "height"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.fiori.WizardStep": {
-      "aggregation": [
-        "content"
-      ],
-      "defaultAggregation": "content",
-      "property": [
-        "branching",
-        "enabled",
-        "icon",
-        "selected",
-        "subtitleText",
-        "titleText"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.Avatar": {
-      "aggregation": [
-        "badge",
-        "image"
-      ],
-      "defaultAggregation": "image",
-      "event": [
-        "click"
-      ],
-      "property": [
-        "accessibleName",
-        "colorScheme",
-        "enabled",
-        "fallbackIcon",
-        "icon",
-        "initials",
-        "interactive",
-        "shape",
-        "size"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.AvatarGroup": {
-      "aggregation": [
-        "items",
-        "overflowButton"
-      ],
-      "defaultAggregation": "items",
-      "event": [
-        "click",
-        "overflow"
-      ],
-      "property": [
-        "type"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.Badge": {
-      "aggregation": [
-        "icon"
-      ],
-      "property": [
-        "colorScheme",
-        "text"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.Breadcrumbs": {
-      "aggregation": [
-        "items"
-      ],
-      "defaultAggregation": "items",
-      "event": [
-        "itemClick"
-      ],
-      "property": [
-        "design",
-        "separatorStyle"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.BreadcrumbsItem": {
-      "property": [
-        "accessibleName",
-        "href",
-        "target",
-        "text"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.BusyIndicator": {
-      "aggregation": [
-        "content"
-      ],
-      "defaultAggregation": "content",
-      "property": [
-        "active",
-        "delay",
-        "display",
-        "size",
-        "text",
-        "width"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.Button": {
-      "association": [
-        "ariaLabelledBy"
-      ],
-      "event": [
-        "click"
-      ],
-      "property": [
-        "accessibilityAttributes",
-        "accessibleName",
-        "design",
-        "enabled",
-        "icon",
-        "iconEnd",
-        "text",
-        "textDirection",
-        "type",
-        "width"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.Calendar": {
-      "aggregation": [
-        "dates"
-      ],
-      "defaultAggregation": "dates",
-      "event": [
-        "selectedDatesChange"
-      ],
-      "property": [
-        "formatPattern",
-        "hideWeekNumbers",
-        "maxDate",
-        "minDate",
-        "primaryCalendarType",
-        "secondaryCalendarType",
-        "selectionMode"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.CalendarDate": {
-      "property": [
-        "value"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.Card": {
-      "aggregation": [
-        "content",
-        "header"
-      ],
-      "association": [
-        "ariaLabelledBy"
-      ],
-      "defaultAggregation": "content",
-      "property": [
-        "accessibleName",
-        "height",
-        "width"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.CardHeader": {
-      "aggregation": [
-        "action",
-        "avatar"
-      ],
-      "event": [
-        "click"
-      ],
-      "property": [
-        "interactive",
-        "status",
-        "subtitleText",
-        "titleText"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.Carousel": {
-      "aggregation": [
-        "content"
-      ],
-      "defaultAggregation": "content",
-      "event": [
-        "navigate"
-      ],
-      "property": [
-        "arrowsPlacement",
-        "backgroundDesign",
-        "cyclic",
-        "hideNavigationArrows",
-        "hidePageIndicator",
-        "itemsPerPageL",
-        "itemsPerPageM",
-        "itemsPerPageS",
-        "pageIndicatorBackgroundDesign",
-        "pageIndicatorBorderDesign",
-        "pageIndicatorStyle"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.CheckBox": {
-      "association": [
-        "ariaLabelledBy"
-      ],
-      "event": [
-        "change"
-      ],
-      "property": [
-        "accessibleName",
-        "checked",
-        "enabled",
-        "indeterminate",
-        "name",
-        "readonly",
-        "required",
-        "text",
-        "valueState",
-        "width",
-        "wrappingType"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.ColorPalette": {
-      "aggregation": [
-        "colors"
-      ],
-      "defaultAggregation": "colors",
-      "event": [
-        "itemClick"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.ColorPaletteItem": {
-      "property": [
-        "value"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.ColorPalettePopover": {
-      "aggregation": [
-        "colors"
-      ],
-      "defaultAggregation": "colors",
-      "event": [
-        "itemClick"
-      ],
-      "property": [
-        "defaultColor",
-        "showDefaultColor",
-        "showMoreColors",
-        "showRecentColors"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.ColorPicker": {
-      "event": [
-        "change"
-      ],
-      "property": [
-        "color"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.ComboBox": {
-      "aggregation": [
-        "icon",
-        "items"
-      ],
-      "association": [
-        "ariaLabelledBy"
-      ],
-      "defaultAggregation": "items",
-      "event": [
-        "change",
-        "input",
-        "selectionChange"
-      ],
-      "property": [
-        "accessibleName",
-        "enabled",
-        "filter",
-        "loading",
-        "placeholder",
-        "readonly",
-        "required",
-        "value",
-        "valueState",
-        "valueStateMessage",
-        "width"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.ComboBoxGroupItem": {
-      "property": [
-        "text"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.ComboBoxItem": {
-      "property": [
-        "additionalText",
-        "text"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.CustomListItem": {
-      "aggregation": [
-        "content",
-        "deleteButton"
-      ],
-      "defaultAggregation": "content",
-      "event": [
-        "detailClick"
-      ],
-      "property": [
-        "accessibilityAttributes",
-        "accessibleName",
-        "navigated",
-        "selected",
-        "type"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.DatePicker": {
-      "association": [
-        "ariaLabelledBy"
-      ],
-      "event": [
-        "change",
-        "input"
-      ],
-      "property": [
-        "accessibleName",
-        "enabled",
-        "formatPattern",
-        "hideWeekNumbers",
-        "maxDate",
-        "minDate",
-        "name",
-        "placeholder",
-        "primaryCalendarType",
-        "readonly",
-        "required",
-        "secondaryCalendarType",
-        "value",
-        "valueState",
-        "valueStateMessage",
-        "width"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.DateRangePicker": {
-      "association": [
-        "ariaLabelledBy"
-      ],
-      "event": [
-        "change",
-        "input"
-      ],
-      "property": [
-        "accessibleName",
-        "delimiter",
-        "enabled",
-        "formatPattern",
-        "hideWeekNumbers",
-        "maxDate",
-        "minDate",
-        "name",
-        "placeholder",
-        "primaryCalendarType",
-        "readonly",
-        "required",
-        "secondaryCalendarType",
-        "value",
-        "valueState",
-        "valueStateMessage",
-        "width"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.DateTimePicker": {
-      "association": [
-        "ariaLabelledBy"
-      ],
-      "event": [
-        "change",
-        "input"
-      ],
-      "property": [
-        "accessibleName",
-        "enabled",
-        "formatPattern",
-        "hideWeekNumbers",
-        "maxDate",
-        "minDate",
-        "name",
-        "placeholder",
-        "primaryCalendarType",
-        "readonly",
-        "required",
-        "secondaryCalendarType",
-        "value",
-        "valueState",
-        "valueStateMessage",
-        "width"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.Dialog": {
-      "aggregation": [
-        "content",
-        "footer",
-        "header"
-      ],
-      "association": [
-        "ariaLabelledBy",
-        "initialFocus"
-      ],
-      "defaultAggregation": "content",
-      "event": [
-        "afterClose",
-        "afterOpen",
-        "beforeClose",
-        "beforeOpen"
-      ],
-      "property": [
-        "accessibleName",
-        "accessibleRole",
-        "draggable",
-        "headerText",
-        "height",
-        "open",
-        "preventFocusRestore",
-        "resizable",
-        "state",
-        "stretch",
-        "width"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.FileUploader": {
-      "aggregation": [
-        "content"
-      ],
-      "defaultAggregation": "content",
-      "event": [
-        "change"
-      ],
-      "property": [
-        "accept",
-        "enabled",
-        "hideInput",
-        "multiple",
-        "name",
-        "placeholder",
-        "value",
-        "valueState",
-        "valueStateMessage",
-        "width"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.GroupHeaderListItem": {
-      "property": [
-        "accessibleName",
-        "selected",
-        "text"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.Icon": {
-      "event": [
-        "click"
-      ],
-      "property": [
-        "accessibleName",
-        "accessibleRole",
-        "backgroundColor",
-        "color",
-        "design",
-        "height",
-        "interactive",
-        "name",
-        "showTooltip",
-        "width"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.Input": {
-      "aggregation": [
-        "icon",
-        "suggestionItems"
-      ],
-      "association": [
-        "ariaLabelledBy"
-      ],
-      "defaultAggregation": "suggestionItems",
-      "event": [
-        "change",
-        "input",
-        "suggestionItemPreview",
-        "suggestionItemSelect"
-      ],
-      "property": [
-        "accessibleName",
-        "enabled",
-        "maxlength",
-        "name",
-        "noTypeahead",
-        "placeholder",
-        "readonly",
-        "required",
-        "showClearIcon",
-        "showSuggestions",
-        "type",
-        "value",
-        "valueState",
-        "valueStateMessage",
-        "width"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.Label": {
-      "association": [
-        "labelFor"
-      ],
-      "property": [
-        "required",
-        "showColon",
-        "text",
-        "width",
-        "wrappingType"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.Link": {
-      "association": [
-        "ariaLabelledBy"
-      ],
-      "event": [
-        "click"
-      ],
-      "property": [
-        "accessibilityAttributes",
-        "accessibleName",
-        "accessibleRole",
-        "design",
-        "enabled",
-        "href",
-        "target",
-        "text",
-        "wrappingType"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.List": {
-      "aggregation": [
-        "header",
-        "items"
-      ],
-      "association": [
-        "ariaLabelledBy"
-      ],
-      "defaultAggregation": "items",
-      "event": [
-        "itemClick",
-        "itemClose",
-        "itemDelete",
-        "itemToggle",
-        "loadMore",
-        "selectionChange"
-      ],
-      "property": [
-        "accessibleName",
-        "accessibleRole",
-        "busy",
-        "busyDelay",
-        "footerText",
-        "growing",
-        "headerText",
-        "height",
-        "indent",
-        "mode",
-        "noDataText",
-        "separators",
-        "width"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.Menu": {
-      "aggregation": [
-        "items"
-      ],
-      "association": [
-        "opener"
-      ],
-      "defaultAggregation": "items",
-      "event": [
-        "afterClose",
-        "afterOpen",
-        "beforeClose",
-        "beforeOpen",
-        "itemClick"
-      ],
-      "property": [
-        "busy",
-        "busyDelay",
-        "headerText",
-        "open"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.MenuItem": {
-      "aggregation": [
-        "items"
-      ],
-      "defaultAggregation": "items",
-      "property": [
-        "accessibleName",
-        "additionalText",
-        "busy",
-        "busyDelay",
-        "enabled",
-        "icon",
-        "startsSection",
-        "text"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.MessageStrip": {
-      "aggregation": [
-        "icon"
-      ],
-      "event": [
-        "close"
-      ],
-      "property": [
-        "design",
-        "height",
-        "hideCloseButton",
-        "hideIcon",
-        "text",
-        "width"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.MultiComboBox": {
-      "aggregation": [
-        "icon",
-        "items"
-      ],
-      "association": [
-        "ariaLabelledBy"
-      ],
-      "defaultAggregation": "items",
-      "event": [
-        "change",
-        "input",
-        "openChange",
-        "selectionChange"
-      ],
-      "property": [
-        "accessibleName",
-        "allowCustomValues",
-        "enabled",
-        "filter",
-        "noTypeahead",
-        "placeholder",
-        "readonly",
-        "required",
-        "value",
-        "valueState",
-        "valueStateMessage",
-        "width"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.MultiComboBoxGroupItem": {
-      "property": [
-        "text"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.MultiComboBoxItem": {
-      "property": [
-        "additionalText",
-        "selected",
-        "text"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.MultiInput": {
-      "aggregation": [
-        "icon",
-        "suggestionItems",
-        "tokens"
-      ],
-      "association": [
-        "ariaLabelledBy"
-      ],
-      "defaultAggregation": "suggestionItems",
-      "event": [
-        "change",
-        "input",
-        "suggestionItemPreview",
-        "suggestionItemSelect",
-        "tokenDelete",
-        "valueHelpTrigger"
-      ],
-      "property": [
-        "accessibleName",
-        "enabled",
-        "maxlength",
-        "name",
-        "noTypeahead",
-        "placeholder",
-        "readonly",
-        "required",
-        "showClearIcon",
-        "showSuggestions",
-        "showValueHelpIcon",
-        "type",
-        "value",
-        "valueState",
-        "valueStateMessage",
-        "width",
-        "_semanticFormValue"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.Option": {
-      "property": [
-        "additionalText",
-        "enabled",
-        "icon",
-        "selected",
-        "text",
-        "value"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.Panel": {
-      "aggregation": [
-        "content",
-        "header"
-      ],
-      "defaultAggregation": "content",
-      "event": [
-        "toggle"
-      ],
-      "property": [
-        "accessibleName",
-        "accessibleRole",
-        "collapsed",
-        "fixed",
-        "headerLevel",
-        "headerText",
-        "height",
-        "noAnimation",
-        "stickyHeader",
-        "width"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.Popover": {
-      "aggregation": [
-        "content",
-        "footer",
-        "header"
-      ],
-      "association": [
-        "opener",
-        "ariaLabelledBy",
-        "initialFocus"
-      ],
-      "defaultAggregation": "content",
-      "event": [
-        "afterClose",
-        "afterOpen",
-        "beforeClose",
-        "beforeOpen"
-      ],
-      "property": [
-        "accessibleName",
-        "accessibleRole",
-        "allowTargetOverlap",
-        "headerText",
-        "height",
-        "hideArrow",
-        "hideBackdrop",
-        "horizontalAlign",
-        "modal",
-        "open",
-        "placementType",
-        "preventFocusRestore",
-        "verticalAlign",
-        "width"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.ProgressIndicator": {
-      "property": [
-        "accessibleName",
-        "displayValue",
-        "enabled",
-        "hideValue",
-        "value",
-        "valueState",
-        "width"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.RadioButton": {
-      "association": [
-        "ariaLabelledBy"
-      ],
-      "event": [
-        "change"
-      ],
-      "property": [
-        "accessibleName",
-        "checked",
-        "enabled",
-        "name",
-        "readonly",
-        "required",
-        "text",
-        "value",
-        "valueState",
-        "width",
-        "wrappingType"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.RangeSlider": {
-      "event": [
-        "change",
-        "input"
-      ],
-      "property": [
-        "accessibleName",
-        "enabled",
-        "endValue",
-        "labelInterval",
-        "max",
-        "min",
-        "showTickmarks",
-        "showTooltip",
-        "startValue",
-        "step",
-        "width"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.RatingIndicator": {
-      "association": [
-        "ariaLabelledBy"
-      ],
-      "event": [
-        "change"
-      ],
-      "property": [
-        "accessibleName",
-        "enabled",
-        "max",
-        "readonly",
-        "required",
-        "value",
-        "width"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.ResponsivePopover": {
-      "aggregation": [
-        "content",
-        "footer",
-        "header"
-      ],
-      "association": [
-        "opener",
-        "ariaLabelledBy",
-        "initialFocus"
-      ],
-      "defaultAggregation": "content",
-      "event": [
-        "afterClose",
-        "afterOpen",
-        "beforeClose",
-        "beforeOpen"
-      ],
-      "property": [
-        "accessibleName",
-        "accessibleRole",
-        "allowTargetOverlap",
-        "headerText",
-        "hideArrow",
-        "hideBackdrop",
-        "horizontalAlign",
-        "modal",
-        "open",
-        "placementType",
-        "preventFocusRestore",
-        "verticalAlign"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.SegmentedButton": {
-      "aggregation": [
-        "items"
-      ],
-      "defaultAggregation": "items",
-      "event": [
-        "selectionChange"
-      ],
-      "property": [
-        "accessibleName",
-        "mode",
-        "width"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.SegmentedButtonItem": {
-      "association": [
-        "ariaLabelledBy"
-      ],
-      "event": [
-        "click"
-      ],
-      "property": [
-        "accessibilityAttributes",
-        "accessibleName",
-        "design",
-        "enabled",
-        "icon",
-        "iconEnd",
-        "pressed",
-        "submits",
-        "text",
-        "type"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.Select": {
-      "aggregation": [
-        "label",
-        "options"
-      ],
-      "association": [
-        "ariaLabelledBy",
-        "menu"
-      ],
-      "defaultAggregation": "options",
-      "event": [
-        "change",
-        "close",
-        "liveChange",
-        "open"
-      ],
-      "property": [
-        "accessibleName",
-        "enabled",
-        "name",
-        "required",
-        "valueState",
-        "valueStateMessage",
-        "width"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.SelectMenu": {
-      "aggregation": [
-        "content"
-      ],
-      "defaultAggregation": "content",
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.SelectMenuOption": {
-      "aggregation": [
-        "content"
-      ],
-      "defaultAggregation": "content",
-      "property": [
-        "displayText",
-        "value"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.Slider": {
-      "event": [
-        "change",
-        "input"
-      ],
-      "property": [
-        "accessibleName",
-        "enabled",
-        "labelInterval",
-        "max",
-        "min",
-        "showTickmarks",
-        "showTooltip",
-        "step",
-        "value",
-        "width"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.SplitButton": {
-      "event": [
-        "arrowClick",
-        "click"
-      ],
-      "property": [
-        "accessibleName",
-        "activeIcon",
-        "design",
-        "enabled",
-        "icon",
-        "text"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.StandardListItem": {
-      "aggregation": [
-        "deleteButton",
-        "imageContent"
-      ],
-      "event": [
-        "detailClick"
-      ],
-      "property": [
-        "accessibilityAttributes",
-        "accessibleName",
-        "additionalText",
-        "additionalTextState",
-        "description",
-        "icon",
-        "iconEnd",
-        "image",
-        "navigated",
-        "selected",
-        "text",
-        "type"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.StepInput": {
-      "association": [
-        "ariaLabelledBy"
-      ],
-      "event": [
-        "change"
-      ],
-      "property": [
-        "accessibleName",
-        "enabled",
-        "max",
-        "min",
-        "name",
-        "placeholder",
-        "readonly",
-        "required",
-        "step",
-        "value",
-        "valuePrecision",
-        "valueState",
-        "valueStateMessage",
-        "width"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.SuggestionGroupItem": {
-      "property": [
-        "text"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.SuggestionItem": {
-      "property": [
-        "additionalText",
-        "additionalTextState",
-        "description",
-        "icon",
-        "iconEnd",
-        "image",
-        "text",
-        "type"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.Switch": {
-      "association": [
-        "ariaLabelledBy"
-      ],
-      "event": [
-        "change"
-      ],
-      "property": [
-        "accessibleName",
-        "checked",
-        "design",
-        "enabled",
-        "name",
-        "required",
-        "textOff",
-        "textOn",
-        "width"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.Tab": {
-      "aggregation": [
-        "content",
-        "subTabs"
-      ],
-      "defaultAggregation": "content",
-      "property": [
-        "additionalText",
-        "design",
-        "enabled",
-        "icon",
-        "selected",
-        "text"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.TabContainer": {
-      "aggregation": [
-        "items",
-        "overflowButton",
-        "startOverflowButton"
-      ],
-      "defaultAggregation": "items",
-      "event": [
-        "tabSelect"
-      ],
-      "property": [
-        "collapsed",
-        "contentBackgroundDesign",
-        "fixed",
-        "headerBackgroundDesign",
-        "height",
-        "tabLayout",
-        "tabsOverflowMode",
-        "width"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.Table": {
-      "aggregation": [
-        "columns",
-        "rows"
-      ],
-      "association": [
-        "ariaLabelledBy"
-      ],
-      "defaultAggregation": "rows",
-      "event": [
-        "loadMore",
-        "popinChange",
-        "rowClick",
-        "selectionChange"
-      ],
-      "property": [
-        "accessibleName",
-        "busy",
-        "busyDelay",
-        "growing",
-        "growingButtonSubtext",
-        "growingButtonText",
-        "height",
-        "hideNoData",
-        "mode",
-        "noDataText",
-        "stickyColumnHeader",
-        "width"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.TableCell": {
-      "aggregation": [
-        "content"
-      ],
-      "defaultAggregation": "content",
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.TableColumn": {
-      "aggregation": [
-        "content"
-      ],
-      "defaultAggregation": "content",
-      "property": [
-        "demandPopin",
-        "minWidth",
-        "popinDisplay",
-        "popinText"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.TableGroupRow": {
-      "property": [
-        "text"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.TableRow": {
-      "aggregation": [
-        "cells"
-      ],
-      "defaultAggregation": "cells",
-      "property": [
-        "navigated",
-        "selected",
-        "type"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.TabSeparator": {
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.TextArea": {
-      "association": [
-        "ariaLabelledBy"
-      ],
-      "event": [
-        "change",
-        "input"
-      ],
-      "property": [
-        "accessibleName",
-        "enabled",
-        "growing",
-        "growingMaxLines",
-        "height",
-        "maxlength",
-        "name",
-        "placeholder",
-        "readonly",
-        "required",
-        "rows",
-        "showExceededText",
-        "value",
-        "valueState",
-        "valueStateMessage",
-        "width"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.TimePicker": {
-      "event": [
-        "change",
-        "input"
-      ],
-      "property": [
-        "enabled",
-        "formatPattern",
-        "placeholder",
-        "readonly",
-        "value",
-        "valueState",
-        "valueStateMessage",
-        "width"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.Title": {
-      "property": [
-        "level",
-        "text",
-        "width",
-        "wrappingType"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.Toast": {
-      "property": [
-        "duration",
-        "height",
-        "placement",
-        "text",
-        "width"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.ToggleButton": {
-      "association": [
-        "ariaLabelledBy"
-      ],
-      "event": [
-        "click"
-      ],
-      "property": [
-        "accessibilityAttributes",
-        "accessibleName",
-        "design",
-        "enabled",
-        "icon",
-        "iconEnd",
-        "pressed",
-        "text",
-        "type",
-        "width"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.Token": {
-      "aggregation": [
-        "closeIcon"
-      ],
-      "event": [
-        "select"
-      ],
-      "property": [
-        "readonly",
-        "selected",
-        "text"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.Toolbar": {
-      "aggregation": [
-        "items"
-      ],
-      "association": [
-        "ariaLabelledBy"
-      ],
-      "defaultAggregation": "items",
-      "property": [
-        "accessibleName",
-        "alignContent"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.ToolbarButton": {
-      "association": [
-        "ariaLabelledBy"
-      ],
-      "event": [
-        "click"
-      ],
-      "property": [
-        "accessibilityAttributes",
-        "accessibleName",
-        "design",
-        "enabled",
-        "icon",
-        "iconEnd",
-        "text",
-        "width"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.ToolbarSelect": {
-      "aggregation": [
-        "options"
-      ],
-      "association": [
-        "ariaLabelledBy"
-      ],
-      "defaultAggregation": "options",
-      "event": [
-        "change",
-        "close",
-        "open"
-      ],
-      "property": [
-        "accessibleName",
-        "enabled",
-        "valueState",
-        "width"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.ToolbarSelectOption": {
-      "property": [
-        "selected",
-        "text"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.ToolbarSeparator": {
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.ToolbarSpacer": {
-      "property": [
-        "width"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.Tree": {
-      "aggregation": [
-        "header",
-        "items"
-      ],
-      "association": [
-        "ariaLabelledBy"
-      ],
-      "defaultAggregation": "items",
-      "event": [
-        "itemClick",
-        "itemDelete",
-        "itemMouseout",
-        "itemMouseover",
-        "itemToggle",
-        "selectionChange"
-      ],
-      "property": [
-        "accessibleName",
-        "footerText",
-        "headerText",
-        "height",
-        "mode",
-        "noDataText",
-        "width"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.TreeItem": {
-      "aggregation": [
-        "deleteButton",
-        "items"
-      ],
-      "defaultAggregation": "items",
-      "event": [
-        "detailClick"
-      ],
-      "property": [
-        "accessibilityAttributes",
-        "accessibleName",
-        "additionalText",
-        "additionalTextState",
-        "expanded",
-        "hasChildren",
-        "icon",
-        "indeterminate",
-        "navigated",
-        "selected",
-        "text",
-        "type"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
-    },
-    "sap.ui.webc.main.TreeItemCustom": {
-      "aggregation": [
-        "content",
-        "deleteButton",
-        "items"
-      ],
-      "defaultAggregation": "items",
-      "event": [
-        "detailClick"
-      ],
-      "property": [
-        "accessibilityAttributes",
-        "accessibleName",
-        "additionalTextState",
-        "expanded",
-        "hasChildren",
-        "hideSelectionElement",
-        "icon",
-        "indeterminate",
-        "navigated",
-        "selected",
-        "type"
-      ],
-      "extends": "sap.ui.core.webc.WebComponent"
     },
     "sap.uiext.inbox.composite.InboxAddAttachmentTile": {
       "extends": "sap.ui.core.Control"
@@ -22860,6 +22451,7 @@
       "defaultAggregation": "sections",
       "event": [
         "beforeNavigate",
+        "breakpointChange",
         "editHeaderButtonPress",
         "headerContentPinnedStateChange",
         "navigate",
@@ -24781,9 +24373,13 @@
       "sap.f.Avatar": "(since 1.73) Use the {@link sap.m.Avatar} instead.",
       "sap.f.IllustratedMessage": "(since 1.98) Use the {@link sap.m.IllustratedMessage} instead.",
       "sap.f.Illustration": "(since 1.98) Use the {@link sap.m.Illustration} instead.",
-      "sap.fe.macros.chart.Chart": "(since 1.130) Use {@link sap.fe.macros.Chart } instead",
-      "sap.fe.macros.field.Field": "(since 1.135) Use {@link sap.fe.macros.Field } instead",
-      "sap.fe.macros.microchart.MicroChart": "(since 1.130) Use {@link sap.fe.macros.MicroChart } instead",
+      "sap.fe.macros.chart.Chart": "(since 1.130) Use {@link sap.fe.macros.Chart} instead",
+      "sap.fe.macros.controls.BuildingBlockWithTemplating": "(since 1.140) ",
+      "sap.fe.macros.field.Field": "(since 1.135) Use {@link sap.fe.macros.Field} instead",
+      "sap.fe.macros.filterBar.FilterBar": "(since 1.147) Use {@link sap.fe.macros.FilterBar} instead",
+      "sap.fe.macros.microchart.MicroChart": "(since 1.130) Use {@link sap.fe.macros.MicroChart} instead",
+      "sap.fe.macros.table.Table": "(since 1.145) Use {@link sap.fe.macros.Table} instead",
+      "sap.fe.macros.table.TreeTable": "(since 1.145) Use {@link sap.fe.macros.TreeTable} instead",
       "sap.gantt.AdhocLine": "(since 1.84) {@link sap.gantt.simple.AdhocLine} should be used instead.",
       "sap.gantt.config.BirdEyeGroup": "(since 1.64) the concept has been discarded.",
       "sap.gantt.config.ChartScheme": "(since 1.64) the concept has been discarded.",
@@ -24990,7 +24586,8 @@
       "sap.ui.commons.Dialog": "(since 1.38) Instead, use the <code>sap.m.Dialog</code> control.",
       "sap.ui.commons.DropdownBox": "(since 1.38) replaced by {@link sap.m.ComboBox}",
       "sap.ui.commons.FileUploader": "(since 1.21.0) Please use the control sap.ui.unified.FileUploader of the library sap.ui.unified instead.",
-      "sap.ui.commons.FileUploaderParameter": "(since 1.21.0) Please use the element sap.ui.unified.FileUploaderParameter of the library sap.ui.unified instead.",
+      "sap.ui.commons.FileUploaderParameter": "(since 1.21.0) Please use the control sap.ui.unified.FileUploaderParameter of the library sap.ui.unified instead.",
+      "sap.ui.commons.FileUploaderXHRSettings": "(since 1.144.0) Please use the control sap.ui.unified.FileUploaderXHRSettings of the library sap.ui.unified instead.",
       "sap.ui.commons.form.Form": "(since 1.16.0) moved to sap.ui.layout library. Please use this one.",
       "sap.ui.commons.form.FormContainer": "(since 1.16.0) moved to sap.ui.layout library. Please use this one.",
       "sap.ui.commons.form.FormElement": "(since 1.16.0) moved to sap.ui.layout library. Please use this one.",
@@ -25071,14 +24668,14 @@
       "jQuery.sap.history": "(since 1.19.1) Please use {@link sap.ui.core.routing.Route} instead.",
       "jQuery.sap.log.Logger": "(since 1.58) use {@link module:sap/base/Log.getLogger} instead",
       "jQuery.sap.Version": "(since 1.58) use {@link module:sap/base/util/Version} instead",
-      "module:sap/base/i18n/ResourceBundle._getFallbackLocales": "(since 1.135) Use {@link sap.base.i18n.LanguageFallback.getFallbackLocales} instead.",
+      "module:sap/base/i18n/ResourceBundle._getFallbackLocales": "(since 1.135) Use {@link sap/base/i18n/LanguageFallback.getFallbackLocales} instead.",
       "module:sap/base/util/UriParameters": "(since 1.119) See class description for details.",
       "sap.ui.app.Application": "(since 1.15.1) The Component class is enhanced to take care about the Application code.",
       "sap.ui.app.MockServer": "(since 1.15.1) The mock server code has been moved to sap.ui.core.util - see {@link sap.ui.core.util.MockServer}",
       "sap.ui.core.Configuration": "(since 1.120) There's no single replacement for this class. Instead, several facades have been created for different topics, e.g. {@link module:sap/base/i18n/Localization Localization} for settings related to localization, {@link module:sap/base/i18n/Formatting Formatting} for settings related to data formatting, {@link module:sap/ui/core/Theming Theming} for theming related settings, {@link module:sap/ui/core/ControlBehavior ControlBehavior} for settings that are typically required when implementing the behavior of a control, {@link module:sap/ui/security/Security Security} for settings around security.\n\nPlease check the individual methods of this class for their replacements, if any.",
-      "sap.ui.core.Configuration.getControllerCodeDeactivated": "(since 1.120) ",
-      "sap.ui.core.Configuration.getDesignMode": "(since 1.120) ",
-      "sap.ui.core.Configuration.getSuppressDeactivationOfControllerCode": "(since 1.120) ",
+      "sap.ui.core.Configuration.getControllerCodeDeactivated": "(since 1.120) use {@link module:sap/ui/base/DesignTime.isControllerCodeDeactivated} instead",
+      "sap.ui.core.Configuration.getDesignMode": "(since 1.120) use {@link module:sap/ui/base/DesignTime.isDesignModeEnabled} instead",
+      "sap.ui.core.Configuration.getSuppressDeactivationOfControllerCode": "(since 1.120) use {@link module:sap/ui/base/DesignTime.isControllerCodeDeactivationSuppressed} instead",
       "sap.ui.core.Configuration.FormatSettings": "(since 1.120) Please use {@link module:sap/base/i18n/Formatting Formatting} instead.",
       "sap.ui.core.DeclarativeSupport": "(since 1.120) Please consider using {@link sap.ui.core.mvc.XMLView XMLViews} or {@link topic:e6bb33d076dc4f23be50c082c271b9f0 Typed Views} instead. For more information, see the documentation on {@link topic:91f27e3e6f4d1014b6dd926db0e91070 View types}.",
       "sap.ui.core.LocalBusyIndicator": "(since 1.14.2) The LocalBusyIndicator Control is not needed anymore by the new implementation of the LBI. Hence, it is not used anymore.",
@@ -25091,6 +24688,7 @@
       "sap.ui.core.ScrollBar": "(since 1.56) the concept has been discarded.",
       "sap.ui.core.search.OpenSearchProvider": "(since 1.120) There is no API replacement.",
       "sap.ui.core.search.SearchProvider": "(since 1.120) There is no API replacement.",
+      "sap.ui.core.support.usage.EventBroadcaster": "(since 1.147.0) the concept has been discarded.",
       "sap.ui.core.tmpl.DOMAttribute": "(since 1.56) Use an {@link sap.ui.core.mvc.XMLView XMLView} or a {@link topic:e6bb33d076dc4f23be50c082c271b9f0 Typed View} instead.",
       "sap.ui.core.tmpl.DOMElement": "(since 1.56) Use an {@link sap.ui.core.mvc.XMLView XMLView} or a {@link topic:e6bb33d076dc4f23be50c082c271b9f0 Typed View} instead.",
       "sap.ui.core.tmpl.HandlebarsTemplate": "(since 1.56) Use an {@link sap.ui.core.mvc.XMLView XMLView} or a {@link topic:e6bb33d076dc4f23be50c082c271b9f0 Typed View} instead.",
@@ -25104,6 +24702,9 @@
       "sap.ui.core.util.ExportTypeCSV": "(since 1.73) replaced by the export functionality of the <code>sap.ui.export</code> library.",
       "sap.ui.core.util.serializer.HTMLViewSerializer": "(since 1.108) together with the HTMLView",
       "sap.ui.core.XMLComposite": "(since 1.88) use {@link topic:c1512f6ce1454ff1913e3857bad56392 Standard Composite Controls}",
+      "sap.ui.model.analytics.AnalyticalBinding": "(since 1.138.0) will be replaced by OData V4 data aggregation, see {@link topic:7d914317c0b64c23824bf932cc8a4ae1 Extension for Data Aggregation}",
+      "sap.ui.model.analytics.AnalyticalTreeBindingAdapter": "(since 1.138.0) will be replaced by OData V4 data aggregation, see {@link topic:7d914317c0b64c23824bf932cc8a4ae1 Extension for Data Aggregation}",
+      "sap.ui.model.analytics.BatchResponseCollector": "(since 1.144.0) will be replaced by OData V4 data aggregation, see {@link topic:7d914317c0b64c23824bf932cc8a4ae1 Extension for Data Aggregation}",
       "sap.ui.model.analytics.odata4analytics.Model.ReferenceByURI": "(since 1.94) use {@link sap.ui.model.analytics.odata4analytics.Model.ReferenceByModel} instead",
       "sap.ui.model.odata.Filter": "(since 1.22) Please use the {@link sap.ui.model.Filter} instead.",
       "sap.ui.model.odata.ODataAnnotations": "(since 1.66) please use {@link sap.ui.model.odata.v2.ODataAnnotations} instead.",
@@ -25212,118 +24813,6 @@
       "sap.ui.vtm.ViewableLoadInfo": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm",
       "sap.ui.vtm.Viewport": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm",
       "sap.ui.vtm.Vtm": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm",
-      "sap.ui.webc.common.WebComponent": "(since 1.118.0) Use sap.ui.core.webc.WebComponent instead!",
-      "sap.ui.webc.common.WebComponentMetadata": "(since 1.118.0) Use sap.ui.core.webc.WebComponentMetadata instead!",
-      "sap.ui.webc.fiori.Bar": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.fiori.BarcodeScannerDialog": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.fiori.DynamicSideContent": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.fiori.FilterItem": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.fiori.FilterItemOption": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.fiori.FlexibleColumnLayout": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.fiori.IllustratedMessage": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.fiori.MediaGallery": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.fiori.MediaGalleryItem": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.fiori.NotificationAction": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.fiori.NotificationListGroupItem": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.fiori.NotificationListItem": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.fiori.Page": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.fiori.ProductSwitch": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.fiori.ProductSwitchItem": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.fiori.ShellBar": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.fiori.ShellBarItem": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.fiori.SideNavigation": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.fiori.SideNavigationItem": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.fiori.SideNavigationSubItem": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.fiori.SortItem": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.fiori.Timeline": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.fiori.TimelineItem": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.fiori.UploadCollection": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.fiori.UploadCollectionItem": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.fiori.ViewSettingsDialog": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.fiori.Wizard": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.fiori.WizardStep": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.Avatar": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.AvatarGroup": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.Badge": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.Breadcrumbs": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.BreadcrumbsItem": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.BusyIndicator": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.Button": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.Calendar": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.CalendarDate": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.Card": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.CardHeader": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.Carousel": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.CheckBox": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.ColorPalette": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.ColorPaletteItem": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.ColorPalettePopover": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.ColorPicker": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.ComboBox": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.ComboBoxGroupItem": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.ComboBoxItem": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.CustomListItem": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.DatePicker": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.DateRangePicker": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.DateTimePicker": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.Dialog": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.FileUploader": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.GroupHeaderListItem": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.Icon": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.Input": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.Label": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.Link": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.List": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.Menu": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.MenuItem": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.MessageStrip": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.MultiComboBox": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.MultiComboBoxGroupItem": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.MultiComboBoxItem": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.MultiInput": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.Option": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.Panel": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.Popover": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.ProgressIndicator": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.RadioButton": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.RangeSlider": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.RatingIndicator": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.ResponsivePopover": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.SegmentedButton": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.SegmentedButtonItem": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.Select": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.SelectMenu": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.SelectMenuOption": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.Slider": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.SplitButton": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.StandardListItem": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.StepInput": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.SuggestionGroupItem": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.SuggestionItem": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.Switch": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.Tab": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.TabContainer": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.Table": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.TableCell": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.TableColumn": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.TableGroupRow": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.TableRow": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.TabSeparator": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.TextArea": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.TimePicker": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.Title": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.Toast": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.ToggleButton": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.Token": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.Toolbar": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.ToolbarButton": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.ToolbarSelect": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.ToolbarSelectOption": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.ToolbarSeparator": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.ToolbarSpacer": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.Tree": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.TreeItem": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
-      "sap.ui.webc.main.TreeItemCustom": "(since 1.120) this Web Components consumption model has been discarded. Until an alternative Web Components consumption model is available in the future, use sap.m and sap.f controls with similar functionality.",
       "sap.uiext.inbox.composite.InboxAddAttachmentTile": "(since 1.120) the concept has been discarded.",
       "sap.uiext.inbox.composite.InboxAttachmentsTileContainer": "(since 1.120) the concept has been discarded.",
       "sap.uiext.inbox.composite.InboxAttachmentTile": "(since 1.120) the concept has been discarded.",
@@ -25343,12 +24832,13 @@
       "sap.ushell.components.factsheet.controls.PictureTile": "(since 1.22) Please use {@link sap.m.Carousel} instead.\n\nPictureTile is used in PictureViewer control and is not meant to be consumed outside of PictureViewer usage. PictureViewer was replacing the sap.m.Carousel as it wasn't supporting some versions of MS Internet Explorer. Now, the sap.m.Carousel is fully functional, please use sap.m.Carousel instead. This control will not be supported anymore.",
       "sap.ushell.components.factsheet.controls.PictureViewer": "(since 1.22) Please use {@link sap.m.Carousel} instead. PictureViewer was replacing the Carousel as it wasn't supporting some versions of MS Internet Explorer. Now, the sap.m.Carousel is fully functional, please use sap.m.Carousel instead. This control will not be supported anymore.",
       "sap.ushell.components.factsheet.controls.PictureViewerItem": "(since 1.22) Please use {@link sap.m.Carousel} instead. PictureViewerItem is used in PictureViewer control and is not meant to be consumed outside of PictureViewer usage. PictureViewer was replacing the Carousel as it wasn't supporting some versions of MS Internet Explorer. Now, the sap.m.Carousel is fully functional, please use sap.m.Carousel instead. This control will not be supported anymore.",
-      "sap.ushell.renderers.fiori2.Renderer": "(since 1.120) Please use {@link sap.ushell.services.Extension} instead.",
+      "sap.ushell.renderers.fiori2.Renderer": "(since 1.120) Please use {@link sap.ushell.services.Extension} or {@link sap.ushell.services.FrameBoundExtension} instead.",
+      "sap.ushell.renderers.fiori2.Renderer.LaunchpadState": "(since 1.120) The LaunchpadState concept has been migrated to explicit APIs. Please use {@link sap.ushell.services.Extension.Item} or {@link sap.ushell.services.FrameBoundExtension.Item} APIs instead.",
       "sap.ushell.services.Bookmark": "(since 1.119) Please use {@link sap.ushell.services.BookmarkV2} instead.",
       "sap.ushell.services.CrossApplicationNavigation": "(since 1.120) Please use {@link sap.ushell.services.Navigation} instead.",
-      "sap.ushell.services.EndUserFeedback": "(since 1.93) ",
-      "sap.ushell.services.LaunchPage": "(since 1.99) Deprecated together with the classic homepage.",
-      "sap.ushell.services.Message": "(since 1.120) ",
+      "sap.ushell.services.EndUserFeedback": "(since 1.93) Deprecated without successor.",
+      "sap.ushell.services.LaunchPage": "(since 1.99) Deprecated without successor together with the classic homepage.",
+      "sap.ushell.services.Message": "(since 1.120) Please use {@link sap.m.MessageToast}, {@link sap.m.MessageBox}, or {@link sap.m.Dialog} instead.",
       "sap.ushell.services.NavTargetResolution": "(since 1.120) Use {@link sap.ushell.services.Navigation} for Navigation instead.",
       "sap.ushell.services.Notifications": "(since 1.119) Please use {@link sap.ushell.services.NotificationsV2} instead.",
       "sap.ushell.services.Personalization": "(since 1.120) Please use {@link sap.ushell.services.PersonalizationV2} instead.",
@@ -25364,12 +24854,12 @@
       "sap.ushell.services.ShellNavigation": "(since 1.120) Use {@link sap.ushell.services.Navigation} for Navigation instead.",
       "sap.ushell.services.SmartNavigation": "(since 1.112) Please use the CrossApplicationNavigation service instead.",
       "sap.ushell.services.UsageAnalytics": "(since 1.120) The corresponding cloud service \"SAP Web Analytics\" has been retired, therefore this client-side service API cannot be used any longer.",
-      "sap.ushell.ui.appfinder.AppBox": "(since 1.120) ",
-      "sap.ushell.ui.footerbar.AddBookmarkButton": "(since 1.136) ",
-      "sap.ushell.ui.launchpad.DashboardGroupsContainer": "(since 1.120) ",
-      "sap.ushell.ui.launchpad.LinkTileWrapper": "(since 1.120) ",
-      "sap.ushell.ui.launchpad.TileState": "(since 1.120) ",
-      "sap.ushell.ui.tile.StaticTile": "(since 1.120) ",
+      "sap.ushell.ui.appfinder.AppBox": "(since 1.120) Deprecated without successor together with the classic homepage.",
+      "sap.ushell.ui.footerbar.AddBookmarkButton": "(since 1.136) Use {@link sap.ushell.ui.BookmarkDialog} instead.",
+      "sap.ushell.ui.launchpad.DashboardGroupsContainer": "(since 1.120) Deprecated without successor together with the classic homepage.",
+      "sap.ushell.ui.launchpad.LinkTileWrapper": "(since 1.120) Deprecated without successor together with the classic homepage.",
+      "sap.ushell.ui.launchpad.TileState": "(since 1.120) Deprecated without successor together with the classic homepage.",
+      "sap.ushell.ui.tile.StaticTile": "(since 1.120) Deprecated without successor together with the classic homepage.",
       "sap.ushell.ui5service.UserStatus": "(since 1.70) Support for this service has been discontinued.",
       "sap.viz.ui5.Area": "(since 1.32.0) The chart controls in the <code>sap.viz.ui5</code> package (which were always marked as <i>experimental</i>) have been deprecated since 1.32.0. They are no longer actively developed and won't receive new features or improvements, only important bug fixes. They will only remain in the SAPUI5 distribution for backward compatibility.",
       "sap.viz.ui5.Area100": "(since 1.32.0) The chart controls in the <code>sap.viz.ui5</code> package (which were always marked as <i>experimental</i>) have been deprecated since 1.32.0. They are no longer actively developed and won't receive new features or improvements, only important bug fixes. They will only remain in the SAPUI5 distribution for backward compatibility.",
@@ -25569,6 +25059,7 @@
       "sap.m.InputType.Time": "(since 1.9.1) Please use dedicated {@link sap.m.TimePicker} control to create time input.",
       "sap.m.InputType.Week": "(since 1.9.1) There is no cross-platform support. Please do not use this Input type.",
       "sap.m.ListHeaderDesign": "(since 1.16) Has no functionality since 1.16.",
+      "sap.m.ListMode.SingleSelect": "(since 1.143) replaced by {@link sap.m.ListMode.SingleSelectLeft}.",
       "sap.m.OverflowToolbarPriority.Always": "(since 1.48) ",
       "sap.m.OverflowToolbarPriority.Never": "(since 1.48) ",
       "sap.m.PlacementType.HorizontalPreferedLeft": "(since 1.36) Instead, use <code>sap.m.PlacementType.HorizontalPreferredLeft</code> type.",
@@ -25610,6 +25101,7 @@
       "sap.ui.commons.enums.AreaDesign": "(since 1.38) ",
       "sap.ui.commons.enums.BorderDesign": "(since 1.38) ",
       "sap.ui.commons.enums.Orientation": "(since 1.38) ",
+      "sap.ui.commons.FileUploaderHttpRequestMethod": "(since 1.144.0) Please use the control sap.ui.unified.FileUploaderHttpRequestMethod of the library sap.ui.unified instead.",
       "sap.ui.commons.HorizontalDividerHeight": "(since 1.38) without replacement.",
       "sap.ui.commons.HorizontalDividerType": "(since 1.38) without a replacement.",
       "sap.ui.commons.LabelDesign": "(since 1.38) the concept has been discarded.",
@@ -25639,22 +25131,22 @@
       "jQuery.sap.log.Level": "(since 1.58) use {@link module:sap/base/Log.Level} instead",
       "jQuery.sap.log.LogLevel": "(since 1.1.2) To streamline the Logging API a bit, the separation between Level and LogLevel has been given up. Use the (enriched) enumeration {@link jQuery.sap.log.Level} instead.",
       "jQuery.sap.storage.Type": "(since 1.120) Use {@link module:sap/ui/util/Storage.Type sap/ui/util/Storage.Type} instead.",
-      "module:sap/base/config.Type.Code": "(since 1.120) ",
+      "module:sap/base/config.Type.Code": "(since 1.120) without replacement as code execution with eval() is not supported anymore due to CSP compliance",
       "sap.ui.core.CalendarType": "(since 1.120) Please use {@link module:sap/base/i18n/date/CalendarType} instead.",
       "sap.ui.core.Configuration.AnimationMode": "(since 1.120) Please use module {@link module:sap/ui/core/AnimationMode AnimationMode} instead.",
       "sap.ui.core.date.CalendarWeekNumbering": "(since 1.120) Please use {@link module:sap/base/i18n/date/CalendarWeekNumbering} instead.",
       "sap.ui.core.format.DateFormatTimezoneDisplay": "(since 1.101) replaced by <code>DateFormat#getDateTimeWithTimezoneInstance</code> with the <code>showDate</code>, <code>showTime</code> and <code>showTimezone</code> format options.",
       "sap.ui.core.MessageType": "(since 1.120) Please use {@link module:sap/ui/core/message/MessageType} instead.",
       "sap.ui.core.mvc.ViewType.HTML": "(since 1.108) Consider using {@link sap.ui.core.mvx.XMLView XMLViews} or \"typed views\" (view classes written in JavaScript) instead.",
-      "sap.ui.core.mvc.ViewType.JS": "(since 1.90) ",
+      "sap.ui.core.mvc.ViewType.JS": "(since 1.90) Consider using {@link sap.ui.core.mvx.XMLView XMLViews} or \"typed views\" (view classes written in JavaScript) instead.",
       "sap.ui.core.mvc.ViewType.JSON": "(since 1.120) please consider using {@link sap.ui.core.mvc.XMLView XMLViews} or \"typed views\" (view classes written in JavaScript) instead.",
-      "sap.ui.core.mvc.ViewType.Template": "(since 1.56) ",
+      "sap.ui.core.mvc.ViewType.Template": "(since 1.56) Consider using {@link sap.ui.core.mvx.XMLView XMLViews} or \"typed views\" (view classes written in JavaScript) instead.",
       "sap.ui.model.odata.CountMode.Both": "(since 1.43) this shouldn't be used any longer, decide for one of the other modes.",
       "sap.ui.model.odata.OperationMode.Auto": "(since 1.102.0) because filtering and sorting may lead to different results when executed on the client and on the server, and thus to inconsistent behavior. If it is certain that the collection is completely loaded on the client, use {@link sap.ui.model.odata.OperationMode.Client}; otherwise, use {@link sap.ui.model.odata.OperationMode.Default} or {@link sap.ui.model.odata.OperationMode.Server}.",
       "sap.ui.model.odata.UpdateMethod.Merge": "(since 1.133.0) use {@link sap.ui.model.odata.UpdateMethod.MERGE} instead",
       "sap.ui.model.odata.UpdateMethod.Put": "(since 1.133.0) use {@link sap.ui.model.odata.UpdateMethod.PUT} instead",
       "sap.ui.model.odata.v2.BatchMode": "(since 1.74.0) Use {@link sap.ui.model.odata.CountMode} to specify how the count of collections is retrieved. Use the <code>useBatch</code> parameter of the {@link sap.ui.model.odata.v2.ODataModel} constructor to specify whether requests are sent in $batch.",
-      "sap.ui.test.generic.GenericTestCollection.Test.ControlRenderer": "(since 1.120) ",
+      "sap.ui.test.generic.GenericTestCollection.Test.ControlRenderer": "(since 1.120) sap.ui.requireSync is deprecated, therefore it's not needed to test that no sync request is sent when control renderer is retrieved.",
       "sap.ui.generic.app.navigation.service.NavType": "(since 1.83.0) Please use {@link sap.fe.navigation.NavType} instead.",
       "sap.ui.generic.app.navigation.service.ParamHandlingMode": "(since 1.83.0) Please use {@link sap.fe.navigation.ParamHandlingMode} instead.",
       "sap.ui.generic.app.navigation.service.SuppressionBehavior": "(since 1.83.0) Please use {@link sap.fe.navigation.SuppressionBehavior} instead.",
@@ -25685,7 +25177,7 @@
       "sap.ui.mdc.SelectionMode": "(since 1.115.0) please see {@link sap.ui.mdc.enums.TableSelectionMode}",
       "sap.ui.mdc.TableP13nMode": "(since 1.115.0) please see {@link sap.ui.mdc.enums.TableP13nMode}",
       "sap.ui.mdc.TableType": "(since 1.115.0) please see {@link sap.ui.mdc.enums.TableType}",
-      "sap.ui.richtexteditor.EditorType.TinyMCE6": "(since 1.136.13) Use the {@link sap.ui.richtexteditor.EditorType.TinyMCE} instead.",
+      "sap.ui.richtexteditor.EditorType.TinyMCE6": "(since 1.136.13) TinyMCE 6 is no longer supported. Use the {@link sap.ui.richtexteditor.EditorType.TinyMCE} instead.",
       "sap.ui.suite.TaskCircleColor": "(since 1.108) because it is part of the deprecated package sap.ui.suite",
       "sap.ui.table.NavigationMode": "(since 1.38) the concept has been discarded.",
       "sap.ui.table.NavigationMode.Paginator": "(since 1.38) replaced by {@link sap.ui.table.NavigationMode.Scrollbar}",
@@ -25693,6 +25185,9 @@
       "sap.ui.table.SelectionMode.Multi": "(since 1.38) replaced by {@link sap.ui.table.SelectionMode.MultiToggle}",
       "sap.ui.table.SortOrder": "(since 1.120) replaced with <code>sap.ui.core.SortOrder</code>",
       "sap.ui.table.VisibleRowCountMode": "(since 1.119) see the <code>rowMode</code> aggregation of <code>sap.ui.table.Table</code> for more details.",
+      "sap.ui.unified.ContentSwitcherAnimation": "(since 1.147.0) the concept has been discarded. API is not yet finished and might change completely",
+      "sap.ui.unified.FileUploaderHttpRequestMethod.Post": "(since 1.145.0) use {@link sap.ui.unified.FileUploaderHttpRequestMethod.POST} instead",
+      "sap.ui.unified.FileUploaderHttpRequestMethod.Put": "(since 1.145.0) use {@link sap.ui.unified.FileUploaderHttpRequestMethod.PUT} instead",
       "sap.ui.ux3.ActionBarSocialActions": "(since 1.38) ",
       "sap.ui.ux3.ExactOrder": "(since 1.38) ",
       "sap.ui.ux3.FeederType": "(since 1.38) ",
@@ -25713,69 +25208,8 @@
       "sap.ui.vtm.TextColor": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm",
       "sap.ui.vtm.TreeItemType": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm",
       "sap.ui.vtm.ViewableLoadStatus": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm",
-      "sap.ui.webc.fiori.BarDesign": "(since 1.120) because it is part of the deprecated package sap.ui.webc.fiori",
-      "sap.ui.webc.fiori.FCLLayout": "(since 1.120) because it is part of the deprecated package sap.ui.webc.fiori",
-      "sap.ui.webc.fiori.IllustrationMessageSize": "(since 1.120) because it is part of the deprecated package sap.ui.webc.fiori",
-      "sap.ui.webc.fiori.IllustrationMessageType": "(since 1.120) because it is part of the deprecated package sap.ui.webc.fiori",
-      "sap.ui.webc.fiori.MediaGalleryItemLayout": "(since 1.120) because it is part of the deprecated package sap.ui.webc.fiori",
-      "sap.ui.webc.fiori.MediaGalleryLayout": "(since 1.120) because it is part of the deprecated package sap.ui.webc.fiori",
-      "sap.ui.webc.fiori.MediaGalleryMenuHorizontalAlign": "(since 1.120) because it is part of the deprecated package sap.ui.webc.fiori",
-      "sap.ui.webc.fiori.MediaGalleryMenuVerticalAlign": "(since 1.120) because it is part of the deprecated package sap.ui.webc.fiori",
-      "sap.ui.webc.fiori.PageBackgroundDesign": "(since 1.120) because it is part of the deprecated package sap.ui.webc.fiori",
-      "sap.ui.webc.fiori.SideContentFallDown": "(since 1.120) because it is part of the deprecated package sap.ui.webc.fiori",
-      "sap.ui.webc.fiori.SideContentPosition": "(since 1.120) because it is part of the deprecated package sap.ui.webc.fiori",
-      "sap.ui.webc.fiori.SideContentVisibility": "(since 1.120) because it is part of the deprecated package sap.ui.webc.fiori",
-      "sap.ui.webc.fiori.TimelineLayout": "(since 1.120) because it is part of the deprecated package sap.ui.webc.fiori",
-      "sap.ui.webc.fiori.UploadState": "(since 1.120) because it is part of the deprecated package sap.ui.webc.fiori",
-      "sap.ui.webc.fiori.ViewSettingsDialogMode": "(since 1.120) because it is part of the deprecated package sap.ui.webc.fiori",
-      "sap.ui.webc.fiori.WizardContentLayout": "(since 1.120) because it is part of the deprecated package sap.ui.webc.fiori",
-      "sap.ui.webc.main.AvatarColorScheme": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.AvatarGroupType": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.AvatarShape": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.AvatarSize": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.BackgroundDesign": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.BorderDesign": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.BreadcrumbsDesign": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.BreadcrumbsSeparatorStyle": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.BusyIndicatorSize": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.ButtonDesign": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.ButtonType": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.CalendarSelectionMode": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.CarouselArrowsPlacement": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.CarouselPageIndicatorStyle": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.ComboBoxFilter": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.HasPopup": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.IconDesign": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.InputType": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.LinkDesign": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.ListGrowingMode": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.ListItemType": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.ListMode": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.ListSeparators": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.MessageStripDesign": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.PanelAccessibleRole": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.PopoverHorizontalAlign": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.PopoverPlacementType": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.PopoverVerticalAlign": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.PopupAccessibleRole": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.Priority": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.SegmentedButtonMode": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.SemanticColor": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.SwitchDesign": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.TabContainerBackgroundDesign": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.TabLayout": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.TableColumnPopinDisplay": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.TableGrowingMode": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.TableMode": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.TableRowType": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.TabsOverflowMode": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.TitleLevel": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.ToastPlacement": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.ToolbarAlign": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.ToolbarItemOverflowBehavior": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.WrappingType": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ushell.ContentNodeType.HomepageGroup": "(since 1.120) ",
-      "sap.ushell.NavigationState": "(since 1.136) ",
+      "sap.ushell.ContentNodeType.HomepageGroup": "(since 1.120) Deprecated without successor together with the classic homepage.",
+      "sap.ushell.NavigationState": "(since 1.136) Deprecated without successor.",
       "sap.ushell.ui.launchpad.ViewPortState": "(since 1.120) The ViewPortState is related to Fiori2 and not used anymore.",
       "sap.viz.ui5.format.ChartFormatter.DefaultPattern.CURRENCY": "(since 1.48.0) ",
       "sap.viz.ui5.format.ChartFormatter.DefaultPattern.PERCENT": "(since 1.48.0) ",
@@ -25900,13 +25334,15 @@
       "jQuery.sap.PseudoEvents": "(since 1.58) use {@link module:sap/ui/events/PseudoEvents.events} instead",
       "jQuery.sap.storage": "(since 1.120) Use {@link module:sap/ui/util/Storage sap/ui/util/Storage} instead.",
       "jQuery.sap.util": "(since 1.120) Use {@link module:sap/base/util/Properties} instead",
+      "module:sap/ui/core/ElementHooks": "(since 1.147.0) the concept has been discarded.",
       "module:sap/ui/core/format/TimezoneUtil": "(since 1.124.0) use {@link module:sap/base/i18n/date/TimezoneUtils} instead.",
       "sap.ui.app": "(since 1.15.1) use a {@link sap.ui.core.Component} instead.",
       "sap.ui.core.Component.registry": "(since 1.120) Use {@link module:sap/ui/core/ComponentRegistry} instead.",
       "sap.ui.core.Element.registry": "(since 1.120) Use {@link module:sap/ui/core/ElementRegistry} instead.",
       "sap.ui.core.UIArea.registry": "(since 1.120) without a replacement. Applications should not be interested in the set of <code>UIArea</code>s. They should only assign controls to them, by using {@link sap.ui.core.Control.prototype.placeAt Control.prototype.placeAt} or use the API of a <code>UIArea</code> as reachable via {@link sap.ui.core.Control.prototype.getUIArea Control.prototype.getUIArea}.",
       "sap.ui.core.UIArea.registry.size": "(since 1.120) without a replacement. Applications should not be interested in the set of <code>UIArea</code>s. They should only assign controls to them, by using {@link sap.ui.core.Control.prototype.placeAt Control.prototype.placeAt} or use the API of a <code>UIArea</code> as reachable via {@link sap.ui.core.Control.prototype.getUIArea Control.prototype.getUIArea}.",
-      "sap.ui.Device.browser.webview": "(since 1.98) ",
+      "sap.ui.Device.browser.webview": "(since 1.98) without replacement, refer to the above note.",
+      "sap.ui.model.analytics.odata4analytics": "(since 1.138.0) will be replaced by OData V4 data aggregation, see {@link topic:7d914317c0b64c23824bf932cc8a4ae1 Extension for Data Aggregation}",
       "sap.ui.model.TreeBindingCompatibilityAdapter": "(since 1.96.0) use {@link sap.ui.model.TreeBindingAdapter} instead",
       "sap.ui.fl.apply._internal.connectors.ObjectStorageConnector": "deprecated",
       "sap.ui.fl.connectors": "(since 1.87) Use a implementing class in the {@link sap.ui.fl.write.api.connectors} namespace instead.",
@@ -25926,24 +25362,22 @@
       "jQuery.sap.support": "(since 1.60.0) Please use sap/ui/support/RuleAnalyzer instead.",
       "sap.ui.ux3": "(since 1.38) ",
       "sap.ui.ux3.ShellPersonalization": "(since 1.36) This class was never released for productive use and will never be.",
-      "sap.ui.vtm": "(since 1.96.10) ",
+      "sap.ui.vtm": "(since 1.96.10) This library must not be used in production code as it will be completely removed in future releases.",
       "sap.ui.vtm.ArrayUtilities": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm",
       "sap.ui.vtm.DescriptorUtilities": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm",
-      "sap.ui.vtm.extensions": "(since 1.96.10) ",
+      "sap.ui.vtm.extensions": "(since 1.96.10) This library must not be used in production code as it will be completely removed in future releases.",
       "sap.ui.vtm.HashUtilities": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm",
-      "sap.ui.vtm.interfaces": "(since 1.96.10) ",
+      "sap.ui.vtm.interfaces": "(since 1.96.10) This library must not be used in production code as it will be completely removed in future releases.",
       "sap.ui.vtm.InternalColumns": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm",
       "sap.ui.vtm.Matrix": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm",
       "sap.ui.vtm.MatrixUtilities": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm",
       "sap.ui.vtm.TreeItemUtilities": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm",
-      "sap.ui.webc": "(since 1.120) this Web Components consumption model has been discarded. An alternative consumption model is planned for the future.",
-      "sap.ui.webc.common": "(since 1.120) this Web Components consumption model has been discarded. An alternative consumption model is planned for the future.",
-      "sap.ui.webc.fiori": "(since 1.120) this Web Components consumption model has been discarded. An alternative consumption model is planned for the future.",
-      "sap.ui.webc.main": "(since 1.120) this Web Components consumption model has been discarded. An alternative consumption model is planned for the future.",
       "sap.uiext.inbox.InboxPrimaryFilterEnum": "(since 1.120) the concept has been discarded.",
       "sap.uiext.inbox.InboxSecondaryFilterPathEnum": "(since 1.120) the concept has been discarded.",
       "sap.uiext.inbox.InboxSecondaryFilterValuesEnum": "(since 1.120) the concept has been discarded.",
-      "sap.ushell.services.ContentExtensionAdapterFactory": "deprecated",
+      "sap.ushell.Container.DirtyState": "(since 1.146) the concept has been abandoned.",
+      "sap.ushell.sandbox.SandboxBootTask": "(since 1.136) Use sandboxManifest.json with manifest-based boot configuration instead",
+      "sap.ushell.services.ContentExtensionAdapterFactory": "(since 1.120) Deprecated without successor together with the classic homepage.",
       "sap.zen.crosstab": "(since 1.89.0) "
     },
     "UI5Typedef": {
@@ -25962,12 +25396,13 @@
       "sap.ui.commons.TitleLevel": "(since 1.16.0) Use {@link sap.ui.core.TitleLevel} instead.",
       "module:sap/base/security/URLWhitelist.Entry": "(since 1.85) use {@link module:sap/base/security/URLListValidator.Entry} instead.",
       "sap.ui.table.TreeAutoExpandMode": "(since 1.120) replaced by <code>sap.ui.model.TreeAutoExpandMode</code>",
-      "sap.ui.webc.common.WebComponent.MetadataOptions": "(since 1.118.0) because it is part of the deprecated package sap.ui.webc.common.WebComponent",
+      "sap.ushell.Container.DirtyState": "(since 1.146) the concept has been abandoned.",
       "sap.ushell.services.Bookmark.ContentNode": "(since 1.119) because it is part of the deprecated package sap.ushell.services.Bookmark"
     },
     "UI5Interface": {
       "sap.tnt.IToolHeader": "(since 1.135) This interface is not needed anymore. The <code>ToolPage</code> now accepts any control as a header or subheader.",
       "sap.ui.commons.FormattedTextViewControl": "(since 1.38) the concept has been discarded.",
+      "sap.ui.commons.IProcessableBlobs": "(since 1.38) because it is part of the deprecated package sap.ui.commons",
       "sap.ui.commons.ToolbarItem": "(since 1.38) (altogether with sap.ui.commons.Toolbar). Use sap.m.Toolbar instead.",
       "jQuery.sap.storage.Storage": "(since 1.120) Use {@link module:sap/ui/util/Storage sap/ui/util/Storage} instead.",
       "jQuery.sap.util.Properties": "(since 1.58) use {@link module:sap/base/util/Properties} instead",
@@ -25987,45 +25422,7 @@
       "sap.ui.vtm.interfaces.IViewLinkingExtension": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm.interfaces",
       "sap.ui.vtm.interfaces.IViewportSelectionLinkingExtension": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm.interfaces",
       "sap.ui.vtm.interfaces.IVisibilityHeaderIconClickExtension": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm.interfaces",
-      "sap.ui.vtm.interfaces.IVisibilityIconClickExtension": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm.interfaces",
-      "sap.ui.webc.fiori.IBar": "(since 1.120) because it is part of the deprecated package sap.ui.webc.fiori",
-      "sap.ui.webc.fiori.IFilterItem": "(since 1.120) because it is part of the deprecated package sap.ui.webc.fiori",
-      "sap.ui.webc.fiori.IFilterItemOption": "(since 1.120) because it is part of the deprecated package sap.ui.webc.fiori",
-      "sap.ui.webc.fiori.IMediaGalleryItem": "(since 1.120) because it is part of the deprecated package sap.ui.webc.fiori",
-      "sap.ui.webc.fiori.INotificationAction": "(since 1.120) because it is part of the deprecated package sap.ui.webc.fiori",
-      "sap.ui.webc.fiori.INotificationListItem": "(since 1.120) because it is part of the deprecated package sap.ui.webc.fiori",
-      "sap.ui.webc.fiori.IProductSwitchItem": "(since 1.120) because it is part of the deprecated package sap.ui.webc.fiori",
-      "sap.ui.webc.fiori.IShellBarItem": "(since 1.120) because it is part of the deprecated package sap.ui.webc.fiori",
-      "sap.ui.webc.fiori.ISideNavigationItem": "(since 1.120) because it is part of the deprecated package sap.ui.webc.fiori",
-      "sap.ui.webc.fiori.ISideNavigationSubItem": "(since 1.120) because it is part of the deprecated package sap.ui.webc.fiori",
-      "sap.ui.webc.fiori.ISortItem": "(since 1.120) because it is part of the deprecated package sap.ui.webc.fiori",
-      "sap.ui.webc.fiori.ITimelineItem": "(since 1.120) because it is part of the deprecated package sap.ui.webc.fiori",
-      "sap.ui.webc.fiori.IUploadCollectionItem": "(since 1.120) because it is part of the deprecated package sap.ui.webc.fiori",
-      "sap.ui.webc.fiori.IWizardStep": "(since 1.120) because it is part of the deprecated package sap.ui.webc.fiori",
-      "sap.ui.webc.main.IAvatar": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.IBreadcrumbsItem": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.IButton": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.ICalendarDate": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.ICardHeader": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.IColorPaletteItem": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.IComboBoxItem": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.IIcon": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.IInput": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.IInputSuggestionItem": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.IListItem": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.IMenuItem": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.IMultiComboBoxItem": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.ISegmentedButtonItem": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.ISelectMenuOption": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.ISelectOption": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.ITab": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.ITableCell": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.ITableColumn": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.ITableRow": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.IToken": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.IToolbarItem": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.IToolbarSelectOption": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main",
-      "sap.ui.webc.main.ITreeItem": "(since 1.120) because it is part of the deprecated package sap.ui.webc.main"
+      "sap.ui.vtm.interfaces.IVisibilityIconClickExtension": "(since 1.96.10) because it is part of the deprecated package sap.ui.vtm.interfaces"
     }
   }
 }

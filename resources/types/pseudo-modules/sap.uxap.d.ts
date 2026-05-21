@@ -77,6 +77,20 @@ declare module "sap/uxap/ObjectPageHeaderPictureShape" {
 	export default ObjectPageHeaderPictureShape;
 }
 
+declare module "sap/uxap/ObjectPageLayoutMediaRange" {
+	import {ObjectPageLayoutMediaRange} from "sap/uxap/library";
+
+	/**
+	 * Defines the media breakpoints for ObjectPageLayout.
+	 * 
+	 * This enum is part of the 'sap/uxap/library' module export and must be accessed by the property 'ObjectPageLayoutMediaRange'.
+	 *
+	 * @public
+	 * @since 1.147
+	*/
+	export default ObjectPageLayoutMediaRange;
+}
+
 declare module "sap/uxap/ObjectPageSubSectionLayout" {
 	import {ObjectPageSubSectionLayout} from "sap/uxap/library";
 

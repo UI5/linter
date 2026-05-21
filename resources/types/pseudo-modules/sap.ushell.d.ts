@@ -13,6 +13,19 @@ declare module "sap/ushell/ContentNodeType" {
 	export default ContentNodeType;
 }
 
+declare module "sap/ushell/MenuEntryType" {
+	import {MenuEntryType} from "sap/ushell/library";
+
+	/**
+	 * Denotes the types of the content nodes.
+	 * 
+	 * This enum is part of the 'sap/ushell/library' module export and must be accessed by the property 'MenuEntryType'.
+	 *
+	 * @restricted
+	*/
+	export default MenuEntryType;
+}
+
 declare module "sap/ushell/NavigationState" {
 	import {NavigationState} from "sap/ushell/library";
 
@@ -21,7 +34,7 @@ declare module "sap/ushell/NavigationState" {
 	 * 
 	 * This enum is part of the 'sap/ushell/library' module export and must be accessed by the property 'NavigationState'.
 	 *
-	 * @deprecated (since 1.136)
+	 * @deprecated (since 1.136) - Deprecated without successor.
 	 * @public
 	*/
 	export default NavigationState;

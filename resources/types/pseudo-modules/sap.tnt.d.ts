@@ -8,7 +8,6 @@ declare module "sap/tnt/NavigationListItemDesign" {
 	 * 
 	 * This enum is part of the 'sap/tnt/library' module export and must be accessed by the property 'NavigationListItemDesign'.
 	 *
-	 * @experimental - Behavior might change.
 	 * @public
 	 * @since 1.133.0
 	*/
@@ -36,7 +35,6 @@ declare module "sap/tnt/SideNavigationDesign" {
 	 * 
 	 * This enum is part of the 'sap/tnt/library' module export and must be accessed by the property 'SideNavigationDesign'.
 	 *
-	 * @experimental - Behavior might change.
 	 * @public
 	 * @since 1.134.0
 	*/

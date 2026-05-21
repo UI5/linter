@@ -298,6 +298,20 @@ declare module "sap/gantt/simple/horizontalTextAlignment" {
 	export default simple.horizontalTextAlignment;
 }
 
+declare module "sap/gantt/simple/RelationshipPredecessorType" {
+	import {simple} from "sap/gantt/library";
+
+	/**
+	 * Relationship type of predecessor.
+	 * 
+	 * This enum is part of the 'sap/gantt/library' module export and must be accessed by the property 'simple.RelationshipPredecessorType'.
+	 *
+	 * @public
+	 * @since 1.147.0
+	*/
+	export default simple.RelationshipPredecessorType;
+}
+
 declare module "sap/gantt/simple/relationshipShapeSize" {
 	import {simple} from "sap/gantt/library";
 

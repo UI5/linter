@@ -22,7 +22,7 @@ declare module "sap/ui/integration/CardActionType" {
 	 * 
 	 * This enum is part of the 'sap/ui/integration/library' module export and must be accessed by the property 'CardActionType'.
 	 *
-	 * @experimental (since 1.64) - Disclaimer: this property is in a beta state - incompatible API changes may be done before its official public release. Use at your own discretion.
+	 * @experimental (since 1.64)
 	 * @public
 	*/
 	export default CardActionType;
@@ -66,7 +66,6 @@ declare module "sap/ui/integration/CardDataMode" {
 	 *
 	 * @experimental (since 1.65)
 	 * @public
-	 * @since 1.65
 	*/
 	export default CardDataMode;
 }
@@ -81,7 +80,6 @@ declare module "sap/ui/integration/CardDesign" {
 	 *
 	 * @experimental (since 1.109)
 	 * @public
-	 * @since 1.109
 	*/
 	export default CardDesign;
 }
@@ -94,9 +92,8 @@ declare module "sap/ui/integration/CardDisplayVariant" {
 	 * 
 	 * This enum is part of the 'sap/ui/integration/library' module export and must be accessed by the property 'CardDisplayVariant'.
 	 *
-	 * @experimental (since 1.118) - For usage only by Work Zone.
-	 * @public
-	 * @since 1.118
+	 * @experimental (since 1.118)
+	 * @restricted
 	*/
 	export default CardDisplayVariant;
 }
@@ -125,7 +122,6 @@ declare module "sap/ui/integration/CardOverflow" {
 	 *
 	 * @experimental (since 1.133)
 	 * @public
-	 * @since 1.133
 	*/
 	export default CardOverflow;
 }
@@ -140,7 +136,6 @@ declare module "sap/ui/integration/CardPreviewMode" {
 	 *
 	 * @experimental (since 1.112)
 	 * @public
-	 * @since 1.112
 	*/
 	export default CardPreviewMode;
 }
