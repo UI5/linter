@@ -21,6 +21,7 @@ export const RULES = {
 	"no-outdated-manifest-version": "no-outdated-manifest-version",
 	"no-removed-manifest-property": "no-removed-manifest-property",
 	"no-legacy-ui5-version-in-manifest": "no-legacy-ui5-version-in-manifest",
+	"no-absolute-data-source-uri": "no-absolute-data-source-uri",
 } as const;
 
 export enum LintMessageSeverity {
@@ -69,6 +70,7 @@ export enum MESSAGE {
 	NO_ICON_POOL_RENDERER,
 	NO_LEGACY_TEMPLATE_REQUIRE_SYNTAX,
 	NO_LEGACY_UI5_VERSION_IN_MANIFEST,
+	NO_ABSOLUTE_DATA_SOURCE_URI,
 	NO_ODATA_GLOBALS,
 	NO_OUTDATED_MANIFEST_VERSION,
 	NO_REMOVED_MANIFEST_PROPERTY,
@@ -724,6 +726,17 @@ export const MESSAGE_INFO = {
 			"Set minUI5Version to 1.136.0 or higher and follow the migration guide " +
 			"{@link topic:be0cf40f61184b358b5faedaec98b2da#loiobe0cf40f61184b358b5faedaec98b2da/section_manifest2 " +
 			"Manifest Version 2}",
+	},
+
+	[MESSAGE.NO_ABSOLUTE_DATA_SOURCE_URI]: {
+		severity: LintMessageSeverity.Error,
+		ruleId: RULES["no-absolute-data-source-uri"],
+
+		message: ({dataSourceName}: {dataSourceName: string}) =>
+			`Data source '${dataSourceName}' uri must be relative to the base URL in Cloud Foundry platform ` +
+			"('sap.cloud/service' is set)",
+		details: ({dataSourceName}: {dataSourceName: string}) =>
+			`Remove the leading '/' from sap.app/dataSources/${dataSourceName}/uri to make it relative to the base URL`,
 	},
 
 	[MESSAGE.NO_REMOVED_MANIFEST_PROPERTY]: {

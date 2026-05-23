@@ -20,6 +20,7 @@
 	- [no-outdated-manifest-version](#no-outdated-manifest-version)
 	- [no-removed-manifest-property](#no-removed-manifest-property)
 	- [no-legacy-ui5-version-in-manifest](#no-legacy-ui5-version-in-manifest)
+	- [no-absolute-data-source-uri](#no-absolute-data-source-uri)
 
 ## async-component-flags
 
@@ -138,3 +139,11 @@ This rule ensures that projects specify a minimum UI5 version that supports mode
 
 **Related information**
 - [Manifest for Components](https://ui5.sap.com/#/topic/be0cf40f61184b358b5faedaec98b2da#loiobe0cf40f61184b358b5faedaec98b2da/section_manifest2)
+
+## no-absolute-data-source-uri
+
+Checks `sap.app/dataSources/*/uri` in `manifest.json` for Cloud Foundry platform (`sap.cloud/service` should be set). The URI must be relative to the base URL - must not start with `/`.
+
+**Related information**
+- [Develop a Full-Stack CAP Application Following SAP BTP Developer’s Guide](https://developers.sap.com/tutorials/prep-for-prod..html)
+- [Accessing Business Service UI](https://help.sap.com/docs/btp/sap-business-technology-platform/accessing-business-service-ui)
