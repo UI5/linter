@@ -11,6 +11,7 @@ export const RULES = {
 	"no-deprecated-library": "no-deprecated-library",
 	"no-deprecated-theme": "no-deprecated-theme",
 	"no-globals": "no-globals",
+	"no-project-globals": "no-project-globals",
 	"no-implicit-globals": "no-implicit-globals",
 	"no-pseudo-modules": "no-pseudo-modules",
 	"parsing-error": "parsing-error",
@@ -66,6 +67,7 @@ export enum MESSAGE {
 	NO_DIRECT_ENUM_ACCESS,
 	NO_EXPORTED_VALUES_BY_LIB,
 	NO_GLOBALS,
+	NO_PROJECT_GLOBALS,
 	NO_ICON_POOL_RENDERER,
 	NO_LEGACY_TEMPLATE_REQUIRE_SYNTAX,
 	NO_LEGACY_UI5_VERSION_IN_MANIFEST,
@@ -465,6 +467,18 @@ export const MESSAGE_INFO = {
 			`Access of global variable '${variableName}' (${namespace})`,
 		details: () =>
 			`Do not use global variables to access UI5 modules or APIs. ` +
+			`{@link topic:28fcd55b04654977b63dacbee0552712 See Best Practices for Developers}`,
+	},
+
+	[MESSAGE.NO_PROJECT_GLOBALS]: {
+		severity: LintMessageSeverity.Error,
+		ruleId: RULES["no-project-globals"],
+
+		message: ({variableName, namespace}: {variableName: string; namespace: string}) =>
+			`Access of global variable '${variableName}' (${namespace})`,
+		details: () =>
+			`Do not use global variables to access UI5 projects. ` +
+			`It might be necessary to modify the provider and consumer of this global variable. ` +
 			`{@link topic:28fcd55b04654977b63dacbee0552712 See Best Practices for Developers}`,
 	},
 

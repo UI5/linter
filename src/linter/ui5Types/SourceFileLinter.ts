@@ -1666,7 +1666,7 @@ export default class SourceFileLinter {
 				const fullNamespace = extractNamespace(node as ts.PropertyAccessExpression);
 				if (fullNamespace.startsWith(this.#appNamespaceDots + ".")) {
 					if (!symbol || this.#isAppGlobalNotLocal(symbol)) {
-						this.#reporter.addMessage(MESSAGE.NO_GLOBALS, {
+						this.#reporter.addMessage(MESSAGE.NO_PROJECT_GLOBALS, {
 							variableName: exprNode.text,
 							namespace: fullNamespace,
 						}, {node});
@@ -1688,7 +1688,7 @@ export default class SourceFileLinter {
 				const dotIdx = fullChain.indexOf(".");
 				const withoutPrefix = dotIdx >= 0 ? fullChain.substring(dotIdx + 1) : fullChain;
 				if (withoutPrefix.startsWith(this.#appNamespaceDots + ".")) {
-					this.#reporter.addMessage(MESSAGE.NO_GLOBALS, {
+					this.#reporter.addMessage(MESSAGE.NO_PROJECT_GLOBALS, {
 						variableName: node.name.text,
 						namespace: withoutPrefix,
 					}, {node: topNode});
