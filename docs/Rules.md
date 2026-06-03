@@ -10,6 +10,7 @@
 	- [no-deprecated-library](#no-deprecated-library)
 	- [no-deprecated-theme](#no-deprecated-theme)
 	- [no-globals](#no-globals)
+	- [no-project-globals](#no-project-globals)
 	- [no-implicit-globals](#no-implicit-globals)
 	- [no-pseudo-modules](#no-pseudo-modules)
 	- [parsing-error](#parsing-error)
@@ -79,6 +80,13 @@ Checks for usage of deprecated themes in the code and HTML files.
 ## no-globals
 
 Checks for the usage of global variables in the code.
+
+**Related information**
+- [Best Practices for Developers](https://ui5.sap.com/#/topic/28fcd55b04654977b63dacbee0552712)
+
+## no-project-globals
+
+Checks for the usage of global variables for project-namespace modules in the code.
 
 **Related information**
 - [Best Practices for Developers](https://ui5.sap.com/#/topic/28fcd55b04654977b63dacbee0552712)

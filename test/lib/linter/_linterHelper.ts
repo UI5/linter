@@ -121,7 +121,7 @@ export function createTestsForFixtures(fixturesPath: string, fix = false) {
 				filePaths: testFiles,
 				fix,
 			});
-		} else if (fixturesPath.includes("NoAppGlobals")) {
+		} else if (fixturesPath.includes("NoProjectGlobals")) {
 			const dirName = path.basename(fixturesPath);
 			testDefinition({
 				testName: dirName,

@@ -81,8 +81,8 @@ export default class SourceFileLinter {
 	#hasTestStarterFindings: boolean;
 	#metadata: LintMetadata;
 	#xmlContents: {xml: string; pos: ts.LineAndCharacter; documentKind: "fragment" | "view"}[];
-	#appNamespaceFirstSegment: string | undefined;
-	#appNamespaceDots: string | undefined;
+	#projectNamespaceFirstSegment: string | undefined;
+	#projectNamespaceDots: string | undefined;
 
 	private fixHelpers: FixHelpers;
 	private resourcePath: ResourcePath;
@@ -118,8 +118,8 @@ export default class SourceFileLinter {
 
 		const namespace = this.typeLinter.getContext().getNamespace();
 		if (namespace) {
-			this.#appNamespaceDots = namespace.replace(/\//g, ".");
-			this.#appNamespaceFirstSegment = this.#appNamespaceDots.split(".")[0];
+			this.#projectNamespaceDots = namespace.replace(/\//g, ".");
+			this.#projectNamespaceFirstSegment = this.#projectNamespaceDots.split(".")[0];
 		}
 	}
 
@@ -1661,21 +1661,21 @@ export default class SourceFileLinter {
 					node,
 					fix: this.getGlobalFix(node),
 				});
-			} else if (this.#appNamespaceFirstSegment &&
-				exprNode.text === this.#appNamespaceFirstSegment) {
+			} else if (this.#projectNamespaceFirstSegment &&
+				exprNode.text === this.#projectNamespaceFirstSegment) {
 				const fullNamespace = extractNamespace(node as ts.PropertyAccessExpression);
-				if (fullNamespace.startsWith(this.#appNamespaceDots + ".")) {
-					if (!symbol || this.#isAppGlobalNotLocal(symbol)) {
+				if (fullNamespace.startsWith(this.#projectNamespaceDots + ".")) {
+					if (!symbol || this.#isProjectGlobalNotLocal(symbol)) {
 						this.#reporter.addMessage(MESSAGE.NO_PROJECT_GLOBALS, {
 							variableName: exprNode.text,
 							namespace: fullNamespace,
 						}, {node});
 					}
 				}
-			} else if (isGlobalThisAccess && this.#appNamespaceFirstSegment &&
+			} else if (isGlobalThisAccess && this.#projectNamespaceFirstSegment &&
 				ts.isPropertyAccessExpression(node) && ts.isIdentifier(node.name) &&
-				node.name.text === this.#appNamespaceFirstSegment &&
-				(!symbol || this.#isAppGlobalNotLocal(symbol))) {
+				node.name.text === this.#projectNamespaceFirstSegment &&
+				(!symbol || this.#isProjectGlobalNotLocal(symbol))) {
 				// Indirect global access via globalThis/window: e.g. window.com.example.app.utils.Helper
 				// node is "window.com" here — walk up to find the full PropertyAccessExpression chain
 				let topNode: ts.Node = node;
@@ -1687,7 +1687,7 @@ export default class SourceFileLinter {
 				// Strip the globalThis alias prefix (e.g. "window.com.example.app..." → "com.example.app...")
 				const dotIdx = fullChain.indexOf(".");
 				const withoutPrefix = dotIdx >= 0 ? fullChain.substring(dotIdx + 1) : fullChain;
-				if (withoutPrefix.startsWith(this.#appNamespaceDots + ".")) {
+				if (withoutPrefix.startsWith(this.#projectNamespaceDots + ".")) {
 					this.#reporter.addMessage(MESSAGE.NO_PROJECT_GLOBALS, {
 						variableName: node.name.text,
 						namespace: withoutPrefix,
@@ -1843,7 +1843,7 @@ export default class SourceFileLinter {
 	// TypeScript creates implicit Identifier-kind declarations for undeclared globals (e.g. "com").
 	// To avoid false positives when a local variable shadows the namespace first segment
 	// (e.g. "const com = {}"), check whether the symbol has an explicit user-code declaration.
-	#isAppGlobalNotLocal(symbol: ts.Symbol): boolean {
+	#isProjectGlobalNotLocal(symbol: ts.Symbol): boolean {
 		const declarations = symbol.getDeclarations();
 		if (!declarations || declarations.length === 0) return true;
 		for (const decl of declarations) {
