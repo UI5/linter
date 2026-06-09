@@ -1684,15 +1684,10 @@ export default class SourceFileLinter {
 					topNode = topNode.parent;
 				}
 				const fullChain = extractNamespace(topNode as ts.PropertyAccessExpression);
-				// Strip the globalThis alias prefix (e.g. "window.com.example.app..." → "com.example.app...")
-				const dotIdx = fullChain.indexOf(".");
-				const withoutPrefix = dotIdx >= 0 ? fullChain.substring(dotIdx + 1) : fullChain;
-				if (withoutPrefix.startsWith(this.#projectNamespaceDots + ".")) {
-					this.#reporter.addMessage(MESSAGE.NO_PROJECT_GLOBALS, {
-						variableName: node.name.text,
-						namespace: withoutPrefix,
-					}, {node: topNode});
-				}
+				this.#reporter.addMessage(MESSAGE.NO_PROJECT_GLOBALS, {
+					variableName: node.name.text,
+					namespace: fullChain,
+				}, {node: topNode});
 			}
 		}
 	}
