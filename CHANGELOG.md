@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.22.0](https://github.com/UI5/linter/compare/v1.21.2...v1.22.0) (2026-06-10)
+
+
+### Features
+
+* Detect UI5 project specific globals ([#1042](https://github.com/UI5/linter/issues/1042)) ([05c9b6d](https://github.com/UI5/linter/commit/05c9b6df037b78bf577a8fc2ddace7389656b691))
+
+
+### Dependencies
+
+* **lockfile:** In-range update of npm dependencies ([388d2de](https://github.com/UI5/linter/commit/388d2def36359ec3934abc5d18ce0521f62b3417))
+
 ## [1.21.2](https://github.com/UI5/linter/compare/v1.21.1...v1.21.2) (2026-05-31)
 
 
