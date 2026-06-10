@@ -376,6 +376,20 @@ declare module "sap/suite/ui/commons/networkgraph/BackgroundColor" {
 	export default networkgraph.BackgroundColor;
 }
 
+declare module "sap/suite/ui/commons/networkgraph/ComponentArrangement" {
+	import {networkgraph} from "sap/suite/ui/commons/library";
+
+	/**
+	 * Defines the arrangement of components in the dependency layout.
+	 * 
+	 * This enum is part of the 'sap/suite/ui/commons/library' module export and must be accessed by the property 'networkgraph.ComponentArrangement'.
+	 *
+	 * @public
+	 * @since 1.136.19
+	*/
+	export default networkgraph.ComponentArrangement;
+}
+
 declare module "sap/suite/ui/commons/networkgraph/ElementStatus" {
 	import {networkgraph} from "sap/suite/ui/commons/library";
 

@@ -1,7 +1,7 @@
 {
   "framework": {
     "name": "SAPUI5",
-    "version": "1.136.16"
+    "version": "1.136.19"
   },
   "metadata": {
     "sap.ca.ui.AddPicture": {
@@ -3551,7 +3551,9 @@
         "shapeMouseLeaveDelay",
         "shapeRenderOrder",
         "enableMultipleGhosts",
-        "optimiseRelationships"
+        "optimiseRelationships",
+        "useShapeFillForGhost",
+        "enableShapeDropFromOtherCharts"
       ],
       "extends": "sap.ui.core.Control"
     },
@@ -9848,13 +9850,18 @@
       ],
       "association": [
         "ariaDescribedBy",
-        "ariaLabelledBy"
+        "ariaLabelledBy",
+        "associatedControl"
       ],
       "event": [
         "afterLayouting",
         "beforeLayouting",
+        "connectionCreated",
         "failure",
         "graphReady",
+        "itemDeleted",
+        "nodeAdded",
+        "nodeDropped",
         "search",
         "searchSuggest",
         "selectionChange",
@@ -9871,7 +9878,14 @@
         "renderType",
         "noData",
         "noDataText",
-        "_smoothWheelZoom"
+        "loading",
+        "loadingText",
+        "_smoothWheelZoom",
+        "enableDragAndDrop",
+        "nodePorts",
+        "showCreateConnectionButton",
+        "connectionTypeMapping",
+        "labels"
       ],
       "extends": "sap.suite.ui.commons.networkgraph.SvgBase"
     },
@@ -9945,6 +9959,10 @@
       "extends": "sap.ui.base.Object"
     },
     "sap.suite.ui.commons.networkgraph.layout.NoopLayout": {
+      "property": [
+        "enableOptimizedLineAlgorithm",
+        "componentArrangement"
+      ],
       "extends": "sap.suite.ui.commons.networkgraph.layout.LayoutAlgorithm"
     },
     "sap.suite.ui.commons.networkgraph.layout.SwimLaneChainLayout": {
@@ -9969,7 +9987,9 @@
         "lineType",
         "arrowPosition",
         "arrowOrientation",
-        "stretchToCenter"
+        "stretchToCenter",
+        "connectionType",
+        "labelName"
       ],
       "extends": "sap.suite.ui.commons.networkgraph.ElementBase"
     },
@@ -10010,7 +10030,9 @@
         "coreNodeSize",
         "visible",
         "altText",
-        "nodeTitleBackground"
+        "nodeTitleBackground",
+        "nodePorts",
+        "showCreateConnectionButton"
       ],
       "extends": "sap.suite.ui.commons.networkgraph.ElementBase"
     },
@@ -25488,18 +25510,18 @@
       "sap.viz.ui5.types.VerticalBar_tooltip": "(since 1.12) This Property has been deprecated. This interface will be removed from the SAPUI5 delivery in one of the next releases.",
       "sap.viz.ui5.types.XYContainer": "(since 1.32.0) The chart controls in the <code>sap.viz.ui5</code> package (which were always marked as <i>experimental</i>) have been deprecated since 1.32.0. They are no longer actively developed and won't receive new features or improvements, only important bug fixes. They will only remain in the SAPUI5 distribution for backward compatibility.\n\n<b>SAP strongly recommends that existing consumers of those controls migrate to the new {@link sap.viz.ui5.controls.VizFrame VizFrame} control to benefit from new charting enhancements and timely support. </b>\n\n<b>Note</b>: As the feature set, design and API usage of VizFrame might differ from the old chart controls, make sure you evaluate it thoroughly before migration.",
       "sap.viz.ui5.VizContainer": "(since 1.32.0) The chart controls in the <code>sap.viz.ui5</code> package (which were always marked as <i>experimental</i>) have been deprecated since 1.32.0. They are no longer actively developed and won't receive new features or improvements, only important bug fixes. They will only remain in the SAPUI5 distribution for backward compatibility.\n\n<b>SAP strongly recommends that existing consumers of those controls migrate to the new {@link sap.viz.ui5.controls.VizFrame VizFrame} control to benefit from new charting enhancements and timely support. </b>\n\n<b>Note</b>: As the feature set, design and API usage of VizFrame might differ from the old chart controls, make sure you evaluate it thoroughly before migration.",
-      "sap.zen.commons.layout.AbsoluteLayout": "(since 1.38) the concept has been discarded.",
-      "sap.zen.commons.layout.MatrixLayout": "(since 1.38) Instead, use the <code>sap.ui.layout.Grid</code> control.",
-      "sap.zen.commons.layout.MatrixLayoutCell": "(since 1.38) Instead, use the <code>sap.ui.layout.Grid</code> control.",
-      "sap.zen.commons.layout.MatrixLayoutRow": "(since 1.38) replaced by {@link sap.ui.layout.Grid}.",
-      "sap.zen.commons.layout.PositionContainer": "(since 1.89) the concept has been discarded.",
-      "sap.zen.crosstab.Crosstab": "(since 1.89.0) Please use the WD Grid control instead.",
-      "sap.zen.crosstab.DataCell": "(since 1.89.0) Please use the WD Grid control instead.",
-      "sap.zen.crosstab.HeaderCell": "(since 1.89.0) please use the WD Grid control instead.",
-      "sap.zen.dsh.AnalyticGrid": "(since 1.89.0) Please use the WD Grid control instead.",
-      "sap.zen.dsh.Dsh": "(since 1.89.0) Please use the WD Grid control instead.",
-      "sap.zen.dsh.ValueHelpDialog": "(since 1.89.0) Please use the WD Grid control instead.",
-      "sap.zen.dsh.widgets.SDKModel": "(since 1.89.0) Please use the WD Grid control instead."
+      "sap.zen.commons.layout.AbsoluteLayout": "(since 1.38) the concept has been discarded. As of version 1.89, this library is deprecated and has been replaced by Web Dynpro-based apps in S/4HANA.",
+      "sap.zen.commons.layout.MatrixLayout": "(since 1.38) Instead, use the <code>sap.ui.layout.Grid</code> control. As of version 1.89, this library is deprecated and has been replaced by Web Dynpro-based apps in S/4HANA.",
+      "sap.zen.commons.layout.MatrixLayoutCell": "(since 1.38) Instead, use the <code>sap.ui.layout.Grid</code> control. As of version 1.89, this library is deprecated and has been replaced by Web Dynpro-based apps in S/4HANA.",
+      "sap.zen.commons.layout.MatrixLayoutRow": "(since 1.38) replaced by {@link sap.ui.layout.Grid}. As of version 1.89, this library is deprecated and has been replaced by Web Dynpro-based apps in S/4HANA.",
+      "sap.zen.commons.layout.PositionContainer": "(since 1.89) this library is deprecated and has been replaced by Web Dynpro-based apps in S/4HANA.",
+      "sap.zen.crosstab.Crosstab": "(since 1.89) this library is deprecated and has been replaced by Web Dynpro-based apps in S/4HANA.",
+      "sap.zen.crosstab.DataCell": "(since 1.89) this library is deprecated and has been replaced by Web Dynpro-based apps in S/4HANA.",
+      "sap.zen.crosstab.HeaderCell": "(since 1.89) this library is deprecated and has been replaced by Web Dynpro-based apps in S/4HANA.",
+      "sap.zen.dsh.AnalyticGrid": "(since 1.89) this library is deprecated and has been replaced by Web Dynpro-based apps in S/4HANA.",
+      "sap.zen.dsh.Dsh": "(since 1.89) this library is deprecated and has been replaced by Web Dynpro-based apps in S/4HANA.",
+      "sap.zen.dsh.ValueHelpDialog": "(since 1.89) this library is deprecated and has been replaced by Web Dynpro-based apps in S/4HANA.",
+      "sap.zen.dsh.widgets.SDKModel": "(since 1.89) this library is deprecated and has been replaced by Web Dynpro-based apps in S/4HANA."
     },
     "UI5Enum": {
       "sap.ca.ui.charts.ChartColor": "(since 1.24) Sap.ca charts have been replaced with sap.viz and VizFrame in 1.24. The UI5 control \"sap.viz.ui5.controls.VizFrame\" serves as a single point of entry for all the new charts. Now that 1.24 is available you are asked to use sap.viz charts and the VizFrame instead! This control will not be supported anymore from 1.24.",
@@ -25823,11 +25845,11 @@
       "sap.viz.ui5.types.Tooltip_drawingEffect": "(since 1.32.0) The chart controls in the <code>sap.viz.ui5</code> package (which were always marked as <i>experimental</i>) have been deprecated since 1.32.0. They are no longer actively developed and won't receive new features or improvements, only important bug fixes. They will only remain in the SAPUI5 distribution for backward compatibility.\n\n<b>SAP strongly recommends that existing consumers of those controls migrate to the new {@link sap.viz.ui5.controls.VizFrame VizFrame} control to benefit from new charting enhancements and timely support. </b>\n\n<b>Note</b>: As the feature set, design and API usage of VizFrame might differ from the old chart controls, make sure you evaluate it thoroughly before migration.",
       "sap.viz.ui5.types.VerticalBar_drawingEffect": "(since 1.32.0) The chart controls in the <code>sap.viz.ui5</code> package (which were always marked as <i>experimental</i>) have been deprecated since 1.32.0. They are no longer actively developed and won't receive new features or improvements, only important bug fixes. They will only remain in the SAPUI5 distribution for backward compatibility.\n\n<b>SAP strongly recommends that existing consumers of those controls migrate to the new {@link sap.viz.ui5.controls.VizFrame VizFrame} control to benefit from new charting enhancements and timely support. </b>\n\n<b>Note</b>: As the feature set, design and API usage of VizFrame might differ from the old chart controls, make sure you evaluate it thoroughly before migration.",
       "sap.viz.ui5.types.VerticalBar_orientation": "(since 1.32.0) The chart controls in the <code>sap.viz.ui5</code> package (which were always marked as <i>experimental</i>) have been deprecated since 1.32.0. They are no longer actively developed and won't receive new features or improvements, only important bug fixes. They will only remain in the SAPUI5 distribution for backward compatibility.\n\n<b>SAP strongly recommends that existing consumers of those controls migrate to the new {@link sap.viz.ui5.controls.VizFrame VizFrame} control to benefit from new charting enhancements and timely support. </b>\n\n<b>Note</b>: As the feature set, design and API usage of VizFrame might differ from the old chart controls, make sure you evaluate it thoroughly before migration.",
-      "sap.zen.commons.HAlign": "(since 1.89.0) Please use the WD Grid control instead.",
-      "sap.zen.commons.Padding": "(since 1.89.0) Please use the WD Grid control instead.",
-      "sap.zen.commons.Separation": "(since 1.89.0) Please use the WD Grid control instead.",
-      "sap.zen.commons.VAlign": "(since 1.89.0) Please use the WD Grid control instead.",
-      "sap.zen.dsh.ValueHelpRangeOperation": "(since 1.89.0) Please use the WD Grid control instead."
+      "sap.zen.commons.HAlign": "(since 1.89) this library is deprecated and has been replaced by Web Dynpro-based apps in S/4HANA.",
+      "sap.zen.commons.Padding": "(since 1.89) this library is deprecated and has been replaced by Web Dynpro-based apps in S/4HANA.",
+      "sap.zen.commons.Separation": "(since 1.89) this library is deprecated and has been replaced by Web Dynpro-based apps in S/4HANA.",
+      "sap.zen.commons.VAlign": "(since 1.89) this library is deprecated and has been replaced by Web Dynpro-based apps in S/4HANA.",
+      "sap.zen.dsh.ValueHelpRangeOperation": "(since 1.89) this library is deprecated and has been replaced by Web Dynpro-based apps in S/4HANA."
     },
     "UI5Function": {
       "module:sap/base/util/includes": "(since 1.90) Use the <code>Array.prototype.includes</code> or <code>String.prototype.includes</code> instead, but note that <code>Array.prototype.includes</code> or <code>String.prototype.includes</code> fail when called on null values.",
@@ -25944,7 +25966,7 @@
       "sap.uiext.inbox.InboxSecondaryFilterPathEnum": "(since 1.120) the concept has been discarded.",
       "sap.uiext.inbox.InboxSecondaryFilterValuesEnum": "(since 1.120) the concept has been discarded.",
       "sap.ushell.services.ContentExtensionAdapterFactory": "deprecated",
-      "sap.zen.crosstab": "(since 1.89.0) "
+      "sap.zen.crosstab": "(since 1.89) this library is deprecated and has been replaced by Web Dynpro-based apps in S/4HANA."
     },
     "UI5Typedef": {
       "sap.f.AvatarColor": "(since 1.73) Use the {@link sap.m.AvatarColor} instead.",
