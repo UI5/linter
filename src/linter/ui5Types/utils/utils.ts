@@ -340,11 +340,26 @@ export function isConditionalAccess(node: ts.Node): boolean {
 }
 
 export function extractNamespace(
-	node: ts.PropertyAccessExpression | ts.ElementAccessExpression | ts.CallExpression
+	node: ts.PropertyAccessExpression | ts.ElementAccessExpression | ts.CallExpression,
+	/**
+	 * Whether building the namespace should start with the name of a PropertyAccessExpression
+	 * only, not the full expression. Can be used to omit any `globalThis` prefix.
+	 * Must only be true if node is a ts.PropertyAccessExpression.
+	 */
+	startWithNameOnly = false
 ): string {
 	const propAccessChain: string[] = [];
-	propAccessChain.push(node.expression.getText());
-
+	if (startWithNameOnly) {
+		if (ts.isPropertyAccessExpression(node)) {
+			propAccessChain.push(node.name.text);
+		} else {
+			throw new Error(
+				`Unexpected start node: Expected node to be a PropertyAccessExpression but got ` +
+				ts.SyntaxKind[node.kind]);
+		}
+	} else {
+		propAccessChain.push(node.expression.getText());
+	}
 	let scanNode: ts.Node = node;
 	while (ts.isPropertyAccessExpression(scanNode)) {
 		if (!ts.isIdentifier(scanNode.name)) {
