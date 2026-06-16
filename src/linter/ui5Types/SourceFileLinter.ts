@@ -1675,6 +1675,7 @@ export default class SourceFileLinter {
 			} else if (isGlobalThisAccess && this.#projectNamespaceFirstSegment &&
 				ts.isPropertyAccessExpression(node) && ts.isIdentifier(node.name) &&
 				node.name.text === this.#projectNamespaceFirstSegment &&
+				!this.isAllowedPropertyAccess(node, true) &&
 				(!symbol || this.#isProjectGlobalNotLocal(symbol))) {
 				// Indirect global access via globalThis/window: e.g. window.com.example.app.utils.Helper
 				// node is "window.com" here — walk up to find the full PropertyAccessExpression chain
@@ -1692,7 +1693,10 @@ export default class SourceFileLinter {
 		}
 	}
 
-	isAllowedPropertyAccess(node: ts.PropertyAccessExpression | ts.ElementAccessExpression): boolean {
+	isAllowedPropertyAccess(
+		node: ts.PropertyAccessExpression | ts.ElementAccessExpression,
+		startWithNameOnly = false
+	): boolean {
 		if (!ts.isIdentifier(node.expression)) {
 			// TODO: Fixme if this happens
 			throw new Error(
@@ -1702,7 +1706,7 @@ export default class SourceFileLinter {
 			return true;
 		}
 
-		const propAccess = extractNamespace(node);
+		const propAccess = extractNamespace(node, startWithNameOnly);
 		return [
 			"sap.ui.define",
 			"sap.ui.require",
