@@ -1685,10 +1685,13 @@ export default class SourceFileLinter {
 					topNode = topNode.parent;
 				}
 				const fullChain = extractNamespace(topNode as ts.PropertyAccessExpression);
-				this.#reporter.addMessage(MESSAGE.NO_PROJECT_GLOBALS, {
-					variableName: node.name.text,
-					namespace: fullChain,
-				}, {node: topNode});
+				const fullChainWithoutPrefix = extractNamespace(topNode as ts.PropertyAccessExpression, true);
+				if (fullChainWithoutPrefix.startsWith(this.#projectNamespaceDots + ".")) {
+					this.#reporter.addMessage(MESSAGE.NO_PROJECT_GLOBALS, {
+						variableName: node.name.text,
+						namespace: fullChain,
+					}, {node: topNode});
+				}
 			}
 		}
 	}
@@ -1697,13 +1700,15 @@ export default class SourceFileLinter {
 		node: ts.PropertyAccessExpression | ts.ElementAccessExpression,
 		startWithNameOnly = false
 	): boolean {
-		if (!ts.isIdentifier(node.expression)) {
-			// TODO: Fixme if this happens
-			throw new Error(
-				`Unhandled PropertyAccessExpression expression syntax: ${ts.SyntaxKind[node.expression.kind]}`);
-		}
-		if (["require", "define", "QUnit", "sinon"].includes(node.expression.text)) {
-			return true;
+		if (!startWithNameOnly) {
+			if (!ts.isIdentifier(node.expression)) {
+				// TODO: Fixme if this happens
+				throw new Error(
+					`Unhandled PropertyAccessExpression expression syntax: ${ts.SyntaxKind[node.expression.kind]}`);
+			}
+			if (["require", "define", "QUnit", "sinon"].includes(node.expression.text)) {
+				return true;
+			}
 		}
 
 		const propAccess = extractNamespace(node, startWithNameOnly);

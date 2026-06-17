@@ -358,9 +358,9 @@ export function extractNamespace(
 				ts.SyntaxKind[node.kind]);
 		}
 	} else {
-		propAccessChain.push(node.expression.getText());
+		propAccessChain.push(node.expression.getText().replace(/\?\./g, "."));
 	}
-	let scanNode: ts.Node = node;
+	let scanNode: ts.Node = startWithNameOnly ? node.parent : node;
 	while (ts.isPropertyAccessExpression(scanNode)) {
 		if (!ts.isIdentifier(scanNode.name)) {
 			throw new Error(

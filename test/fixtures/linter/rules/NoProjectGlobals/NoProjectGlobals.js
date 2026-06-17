@@ -11,5 +11,10 @@ sap.ui.define([], function() {
 	var y = window.com.example.app.model.Settings;
 	window.com.example.app.utils.Registry = {};
 
+	// ERROR: Indirect global access via globalThis
+	globalThis.com.example.app.utils.Helper.doSomething();
+	var z = globalThis.com.example.app.model.Settings;
+	globalThis.com.example.app.utils.Registry = {};
+
 	return com.example.app.utils.TestScripts;
 });

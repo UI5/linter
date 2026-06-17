@@ -40,6 +40,11 @@ sap.ui.define(["sap/ui/core/mvc/Controller"],
 			window.sap?.ui?.define() // OK: Special case sap.ui.define
 			top.sap?.ui?.define() // OK: Special case sap.ui.define
 			parent.sap?.ui?.define() // OK: Special case sap.ui.define
+			globalThis.sap?.ui?.loader?.config({amd: true}); // OK: Special case sap.ui.loader.config
+			globalThis.sap?.ui?.loader.config({async: true}); // OK: Special case sap.ui.loader.config
+			self.sap?.ui?.loader.config({async: true}); // OK: Special case sap.ui.loader.config
+			window.sap?.ui?.loader.config({async: true}); // OK: Special case sap.ui.loader.config
+			if (typeof self.sap?.ui?.define === "function") {} // OK: Special case sap.ui.define via typeof
 			Symbol("isProxy"); // OK: Global variable "Symbol"
 		}
 	});
