@@ -121,16 +121,6 @@ export function createTestsForFixtures(fixturesPath: string, fix = false) {
 				filePaths: testFiles,
 				fix,
 			});
-		} else if (fixturesPath.includes("NoProjectGlobals")) {
-			const dirName = path.basename(fixturesPath);
-			testDefinition({
-				testName: dirName,
-				namespace: "com/example/app",
-				fileName: dirName,
-				fixturesPath,
-				filePaths: testFiles,
-				fix,
-			});
 		} else {
 			for (const fileName of testFiles) {
 				if (!fileName.endsWith(".js") &&
@@ -143,13 +133,32 @@ export function createTestsForFixtures(fixturesPath: string, fix = false) {
 					continue;
 				}
 
-				testDefinition({
-					testName: fileName,
-					fileName,
-					fixturesPath,
-					filePaths: [fileName],
-					fix,
-				});
+				let namespaces: (string | undefined)[] = [undefined];
+				if (fixturesPath.includes("NoProjectGlobals") ||
+					fixturesPath.includes("NoGlobals")) {
+					// Tests for NoProjectGlobals and NoGlobals rules should be tested with different namespaces to
+					// ensure that the rules work correctly in different scenarios.
+					// The relevant namespaces are: 1. project's namespace, 2. a UI5 framework namespace and
+					// 3. non relevant namespace.
+					// The core idea is that some checks depend on the namespace of the project,
+					// others depend on the namespace of the UI5 framework.
+					// Therefore, we need to test with different namespaces to ensure that
+					// the rules work correctly in different scenarios.
+					namespaces = ["com/example/app", "sap/ui/core", "some/other/ns"];
+				}
+
+				for (const namespace of namespaces) {
+					testDefinition({
+						testName: namespace ?
+							`${fileName} (${namespace} namespace)` :
+							fileName,
+						namespace,
+						fileName,
+						fixturesPath,
+						filePaths: [fileName],
+						fix,
+					});
+				}
 			}
 		}
 	} catch (err) {
