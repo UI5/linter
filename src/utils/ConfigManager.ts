@@ -54,7 +54,7 @@ export default class ConfigManager {
 				.catch((errs: {errors: NodeJS.ErrnoException[]}) => {
 					const {errors} = errs;
 					if (errors?.every((e) => e?.code === "ERR_MODULE_NOT_FOUND")) {
-						return {default: {}} as {default: UI5LintConfigType};
+						return {default: {}};
 					}
 
 					const errToThrow = errors?.find((e) => e?.code !== "ERR_MODULE_NOT_FOUND");
