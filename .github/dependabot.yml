@@ -23,3 +23,19 @@ updates:
     - dependency-name: "@sapui5/types" # Major/minor updates should be done manually
       # Only perform patch updates (i.e. ignore major/minor updates)
       update-types: ["version-update:semver-major", "version-update:semver-minor"]
+
+    # Major updates of dependencies that require a newer minimum Node.js version
+    # are blocked and can't be merged right now.
+    # Re-visit this list when the minimum supported Node.js version is increased.
+    - dependency-name: "ava"
+      update-types: ["version-update:semver-major"]
+    - dependency-name: "@eslint/js"
+      update-types: ["version-update:semver-major"]
+    - dependency-name: "eslint-plugin-ava"
+      update-types: ["version-update:semver-major"]
+    - dependency-name: "eslint"
+      update-types: ["version-update:semver-major"]
+    - dependency-name: "licensee"
+      update-types: ["version-update:semver-major"]
+    - dependency-name: "yargs"
+      update-types: ["version-update:semver-major"]
