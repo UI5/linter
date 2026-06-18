@@ -343,21 +343,12 @@ export function extractNamespace(
 	node: ts.PropertyAccessExpression | ts.ElementAccessExpression | ts.CallExpression,
 	/**
 	 * Whether building the namespace should start with the name of a PropertyAccessExpression
-	 * only, not the full expression. Can be used to omit any `globalThis` prefix.
-	 * Must only be true if node is a ts.PropertyAccessExpression.
+	 * only, skipping the leftmost expression. Can be used to omit any prefix referring to `globalThis`.
 	 */
-	startWithNameOnly = false
+	skipLeftmostExpression = false
 ): string {
 	const propAccessChain: string[] = [];
-	if (startWithNameOnly) {
-		if (ts.isPropertyAccessExpression(node)) {
-			propAccessChain.push(node.name.text);
-		} else {
-			throw new Error(
-				`Unexpected start node: Expected node to be a PropertyAccessExpression but got ` +
-				ts.SyntaxKind[node.kind]);
-		}
-	} else {
+	if (!skipLeftmostExpression) {
 		propAccessChain.push(node.expression.getText());
 	}
 	let scanNode: ts.Node = node;

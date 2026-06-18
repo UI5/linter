@@ -1652,8 +1652,8 @@ export default class SourceFileLinter {
 			// In case it is, ensure it is not one of the allowed PropertyAccessExpressions, such as "sap.ui.require"
 			if (symbol && this.isSymbolOfUi5OrThirdPartyType(symbol) &&
 				!((ts.isPropertyAccessExpression(node) || ts.isElementAccessExpression(node)) &&
-					this.isAllowedPropertyAccess(node))) {
-				const namespace = extractNamespace((node));
+					this.isAllowedPropertyAccess(node, isGlobalThisAccess))) {
+				const namespace = extractNamespace((node as ts.PropertyAccessExpression));
 				this.#reporter.addMessage(MESSAGE.NO_GLOBALS, {
 					variableName: symbol.getName(),
 					namespace,
@@ -1695,7 +1695,7 @@ export default class SourceFileLinter {
 
 	isAllowedPropertyAccess(
 		node: ts.PropertyAccessExpression | ts.ElementAccessExpression,
-		startWithNameOnly = false
+		skipLeftmostExpression = false
 	): boolean {
 		if (!ts.isIdentifier(node.expression)) {
 			// TODO: Fixme if this happens
@@ -1706,7 +1706,7 @@ export default class SourceFileLinter {
 			return true;
 		}
 
-		const propAccess = extractNamespace(node, startWithNameOnly);
+		const propAccess = extractNamespace(node, skipLeftmostExpression);
 		return [
 			"sap.ui.define",
 			"sap.ui.require",
@@ -1714,8 +1714,7 @@ export default class SourceFileLinter {
 			"sap.ui.loader.config",
 		].some((allowedAccessString) => {
 			return propAccess == allowedAccessString ||
-				propAccess.startsWith(allowedAccessString + ".") ||
-				propAccess.endsWith("." + allowedAccessString);
+				propAccess.startsWith(allowedAccessString + ".");
 		});
 	}
 

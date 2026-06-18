@@ -1,4 +1,4 @@
-sap.ui.define(["sap/ui/core/mvc/Controller"],
+sap.ui.define(["sap/ui/core/mvc/Controller", "sap/ui/test/Opa5"],
 	function (Controller) {
 	"use strict";
 
