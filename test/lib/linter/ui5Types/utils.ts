@@ -569,7 +569,7 @@ test("isReturnValueUsed (negative): CallExpression nested in ObjectLiteralExpres
 	const arrowFunc = propertyAssignment.initializer as ts.ArrowFunction;
 	const block = arrowFunc.body as ts.Block;
 
-	t.false(isReturnValueUsed(block.statements[0] as ts.ExpressionStatement));
+	t.false(isReturnValueUsed(block.statements[0]));
 });
 
 test("isReturnValueUsed: Chaining in PropertyAccessExpression", (t) => {

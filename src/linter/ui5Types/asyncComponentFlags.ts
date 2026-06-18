@@ -104,7 +104,7 @@ function findAsyncInterface({classDeclaration, manifestContent, checker, isUiCom
 				const parentClassType = checker.getTypeAtLocation(parentClass);
 
 				return parentClassType.symbol?.declarations?.flatMap((declaration) => {
-					let result = {...returnTypeTemplate} as AsyncFlags;
+					let result = {...returnTypeTemplate};
 					// Continue down the heritage chain to search for
 					// the async interface or manifest flags
 					if (ts.isClassDeclaration(declaration)) {
