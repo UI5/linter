@@ -1653,7 +1653,7 @@ export default class SourceFileLinter {
 			if (symbol && this.isSymbolOfUi5OrThirdPartyType(symbol) &&
 				!((ts.isPropertyAccessExpression(node) || ts.isElementAccessExpression(node)) &&
 					this.isAllowedPropertyAccess(node, isGlobalThisAccess))) {
-				const namespace = extractNamespace((node as ts.PropertyAccessExpression));
+				const namespace = extractNamespace((node));
 				this.#reporter.addMessage(MESSAGE.NO_GLOBALS, {
 					variableName: symbol.getName(),
 					namespace,
