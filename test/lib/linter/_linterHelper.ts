@@ -134,9 +134,8 @@ export function createTestsForFixtures(fixturesPath: string, fix = false) {
 				}
 
 				let namespaces: (string | undefined)[] = [undefined];
-				if (fixturesPath.includes("NoProjectGlobals") ||
-					fixturesPath.includes("NoGlobals")) {
-					// Tests for NoProjectGlobals and NoGlobals rules should be tested with different namespaces to
+				if (fixturesPath.includes("NoProjectGlobals")) {
+					// Tests for NoProjectGlobals rule should be tested with different namespaces to
 					// ensure that the rules work correctly in different scenarios.
 					// The relevant namespaces are: 1. project's namespace, 2. a UI5 framework namespace and
 					// 3. non relevant namespace.
