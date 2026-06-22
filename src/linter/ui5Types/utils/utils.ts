@@ -340,11 +340,17 @@ export function isConditionalAccess(node: ts.Node): boolean {
 }
 
 export function extractNamespace(
-	node: ts.PropertyAccessExpression | ts.ElementAccessExpression | ts.CallExpression
+	node: ts.PropertyAccessExpression | ts.ElementAccessExpression | ts.CallExpression,
+	/**
+	 * Whether building the namespace should start with the name of a PropertyAccessExpression
+	 * only, skipping the leftmost expression. Can be used to omit any prefix referring to `globalThis`.
+	 */
+	skipLeftmostExpression = false
 ): string {
 	const propAccessChain: string[] = [];
-	propAccessChain.push(node.expression.getText());
-
+	if (!skipLeftmostExpression) {
+		propAccessChain.push(node.expression.getText());
+	}
 	let scanNode: ts.Node = node;
 	while (ts.isPropertyAccessExpression(scanNode)) {
 		if (!ts.isIdentifier(scanNode.name)) {
