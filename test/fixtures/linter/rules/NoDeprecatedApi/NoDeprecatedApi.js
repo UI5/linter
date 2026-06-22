@@ -1,7 +1,8 @@
 sap.ui.define([
 	"sap/m/Button", "sap/m/DateTimeInput", "sap/base/util/includes", "sap/ui/Device", "sap/ui/core/library", "sap/ui/generic/app/navigation/service/NavigationHandler",
-	"sap/ui/table/Table", "sap/ui/table/plugins/MultiSelectionPlugin", "sap/ui/core/Configuration", "sap/m/library"
-], function(Button, DateTimeInput, includes, Device, coreLib, NavigationHandler, Table, MultiSelectionPlugin, Configuration, mobileLib) {
+	"sap/ui/table/Table", "sap/ui/table/plugins/MultiSelectionPlugin", "sap/ui/core/Configuration", "sap/m/library",
+	"sap/m/Input", "sap/m/TileContent", "sap/ui/layout/form/SimpleForm", "sap/m/ResponsivePopover"
+], function(Button, DateTimeInput, includes, Device, coreLib, NavigationHandler, Table, MultiSelectionPlugin, Configuration, mobileLib, Input, TileContent, SimpleForm, ResponsivePopover) {
 	"use strict";
 	var dateTimeInput = new DateTimeInput(); // Control is deprecated. A finding only appears for the module dependency, not for the usage.
 
@@ -77,4 +78,25 @@ sap.ui.define([
 	// (via local function name)
 	const sapUiXmlView = sap.ui.xmlview;
 	const view3 = sapUiXmlView("com.ui5.troublesome.app.view.MyView");
+
+	const simpleForm = new SimpleForm({
+		layout: "ResponsiveLayout" // SimpleFormLayout.ResponsiveLayout is deprecated
+	});
+
+	const tileContent = new TileContent({
+		frameType: "TwoThirds" // FrameType.TwoThirds is deprecated
+	});
+
+	const input = new Input({
+		type: "Date" // InputType.Date is deprecated
+	});
+
+	const simpleForm2 = new SimpleForm({
+		layout: "ResponsiveGridLayout" // Negative test: ResponsiveGridLayout is not deprecated
+	});
+
+	const responsivePopover = new ResponsivePopover({
+		// ui5lint-disable-next-line no-globals
+		placement: sap.m.PlacementType.Auto // Negative test: PlacementType.Auto is not deprecated
+	});
 });

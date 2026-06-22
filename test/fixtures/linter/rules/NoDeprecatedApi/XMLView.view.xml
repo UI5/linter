@@ -3,6 +3,7 @@
 	xmlns:core="sap.ui.core"
 	xmlns:table="sap.ui.table"
 	xmlns:tablePlugins="sap.ui.table.plugins"
+	xmlns:form="sap.ui.layout.form"
 >
 
 	<DateTimeInput /> <!-- DateTimeInput is deprecated -->
@@ -40,5 +41,18 @@
 	<core:Fragment fragmentName="myapp.fragment.Details" /> <!-- type defaults to XML -->
 	<core:Fragment type="XML" fragmentName="myapp.fragment.Details" />
 	<core:Fragment type="JS" fragmentName="myapp.fragment.Details" />
+
+
+	<!-- SimpleFormLayout.ResponsiveLayout is deprecated -->
+	<form:SimpleForm layout="ResponsiveLayout" />
+
+	<!-- FrameType.TwoThirds is deprecated -->
+	<TileContent frameType="TwoThirds" />
+
+	<!-- InputType.Date is deprecated -->
+	<Input type="Date" />
+
+	<!-- Negative test: ResponsiveGridLayout is not deprecated -->
+	<form:SimpleForm layout="ResponsiveGridLayout" />
 
 </mvc:View>
