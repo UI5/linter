@@ -768,6 +768,41 @@ export default class SourceFileLinter {
 				if (!propertySymbol) {
 					return;
 				}
+
+				const propertyType = this.checker.getTypeOfSymbol(propertySymbol);
+
+				if (propertyType.isUnion()) {
+					const valueType = this.checker.getTypeAtLocation(prop.initializer);
+					if (valueType?.isStringLiteral()) {
+						for (const type of propertyType.types) {
+							// Find out whether the value is assignable to one of the types
+							if (!this.checker.isTypeAssignableTo(valueType, type)) {
+								continue;
+							}
+							// If the type is just a string literal (no enum value), we need to look for a matching
+							// enum value in the list of types to check for its deprecation
+							if (!(type.flags & ts.TypeFlags.EnumLiteral) && type.isStringLiteral()) {
+								const enumType = propertyType.types.find((t) => {
+									return t.symbol?.name === type.value;
+								});
+								if (!enumType) {
+									continue;
+								}
+								const deprecationInfo = this.getDeprecationInfo(enumType.symbol);
+								if (deprecationInfo) {
+									this.#reporter.addMessage(MESSAGE.DEPRECATED_PROPERTY, {
+										propertyName: type.value,
+										details: deprecationInfo.messageDetails,
+									}, {
+										node: prop,
+										ui5TypeInfo: deprecationInfo.ui5TypeInfo,
+									});
+								}
+							}
+						}
+					}
+				}
+
 				const deprecationInfo = this.getDeprecationInfo(propertySymbol);
 				if (deprecationInfo) {
 					this.#reporter.addMessage(MESSAGE.DEPRECATED_PROPERTY_OF_CLASS,
