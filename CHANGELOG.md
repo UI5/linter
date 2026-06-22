@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.23.0](https://github.com/UI5/linter/compare/v1.22.0...v1.23.0) (2026-06-22)
+
+
+### Features
+
+* Detect usage of deprecated enum string values ([abeffc4](https://github.com/UI5/linter/commit/abeffc4e0f6ea6260ca01032723d1d1d7b1e40c5))
+
+
+### Bug Fixes
+
+* Ignore allowed globals even when prefixed with a globalThis ([#1058](https://github.com/UI5/linter/issues/1058)) ([c0a8858](https://github.com/UI5/linter/commit/c0a88587fe8776108da4694a3d8bca665ac88d42))
+
+
+### Dependencies
+
+* Bump fast-xml-parser from 5.9.1 to 5.9.3 ([c609ae2](https://github.com/UI5/linter/commit/c609ae2da1eb8045cf3cb8e5146d57bb1e4aac19))
+* Bump yargs from 17.7.2 to 17.7.3 ([82a4cc0](https://github.com/UI5/linter/commit/82a4cc0925bf92244c3854971608930033d37d7d))
+* **lockfile:** In-range update of npm dependencies ([ef83e59](https://github.com/UI5/linter/commit/ef83e59e7e689fe21bd98fd5d55331843324d5f1))
+* **lockfile:** In-range update of npm dependencies ([625656e](https://github.com/UI5/linter/commit/625656e3927fd5fe5517b16862ad5afe4d6e369d))
+
 ## [1.22.0](https://github.com/UI5/linter/compare/v1.21.2...v1.22.0) (2026-06-10)
 
 
