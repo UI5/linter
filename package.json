@@ -88,7 +88,7 @@
 		"minimatch": "^10.2.5",
 		"sax-wasm": "^3.1.4",
 		"semver": "^7.8.5",
-		"typescript": "^5.9.3",
+		"typescript": "^6.0.3",
 		"update-notifier": "^7.3.1",
 		"yargs": "^17.7.3"
 	},
