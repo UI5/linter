@@ -1,7 +1,7 @@
 {
   "framework": {
     "name": "SAPUI5",
-    "version": "1.136.20"
+    "version": "1.136.21"
   },
   "metadata": {
     "sap.ca.ui.AddPicture": {
@@ -9885,7 +9885,8 @@
         "nodePorts",
         "showCreateConnectionButton",
         "connectionTypeMapping",
-        "labels"
+        "labels",
+        "enableEnhancedLineRouting"
       ],
       "extends": "sap.suite.ui.commons.networkgraph.SvgBase"
     },
