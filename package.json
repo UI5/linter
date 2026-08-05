@@ -102,7 +102,7 @@
 		"@types/he": "^1.2.3",
 		"@types/json-source-map": "^0.6.0",
 		"@types/node": "20.16.15",
-		"@types/semver": "^7.7.1",
+		"@types/semver": "^7.8.0",
 		"@types/sinon": "^22.0.0",
 		"@types/update-notifier": "^6.0.8",
 		"@types/yargs": "^17.0.35",
