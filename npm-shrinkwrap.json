@@ -57,7 +57,7 @@
 				"eslint-plugin-ava": "^15.1.0",
 				"esmock": "^2.7.6",
 				"husky": "^9.1.7",
-				"knip": "^6.31.0",
+				"knip": "^6.32.0",
 				"licensee": "^11.1.1",
 				"nyc": "^18.0.0",
 				"rimraf": "^6.1.3",
@@ -4978,9 +4978,9 @@
 			}
 		},
 		"node_modules/@typescript-eslint/types": {
-			"version": "8.65.0",
-			"resolved": "https://registry.npmjs.org/@typescript-eslint/types/-/types-8.65.0.tgz",
-			"integrity": "sha512-JSSwWNy+H0E/01jJEM+hrX6N0OFDzFzeIhHFSAS01tlVaevpG8cFyYRPhS5yjGOvBUx3sqQHVMjCL1CAZZMxBg==",
+			"version": "8.66.0",
+			"resolved": "https://registry.npmjs.org/@typescript-eslint/types/-/types-8.66.0.tgz",
+			"integrity": "sha512-H6gcYaSDOyvL3AD/jHUtUFo2jqGgn/F6nuyuZSu0QTesxL+cP4dQoIMrODRofuJC09g64+WgZ6tE19Y1N2YIFQ==",
 			"dev": true,
 			"license": "MIT",
 			"engines": {
@@ -12500,9 +12500,9 @@
 			}
 		},
 		"node_modules/baseline-browser-mapping": {
-			"version": "2.11.10",
-			"resolved": "https://registry.npmjs.org/baseline-browser-mapping/-/baseline-browser-mapping-2.11.10.tgz",
-			"integrity": "sha512-35JEvJ5/KKlbCHjMCsONI2w6HE88STjVdHk+C7d8LtcFxUjZR1KeLP9izofn2qs0KUxX5r4z73bwH/rd+JHacw==",
+			"version": "2.11.12",
+			"resolved": "https://registry.npmjs.org/baseline-browser-mapping/-/baseline-browser-mapping-2.11.12.tgz",
+			"integrity": "sha512-r7WnVImvVCeFpf2DOXfy41aPWzeNg3H/A2X4dKmy1QL0MSyyk/e7z8ihJ3N6Nn2PsdhkVlqnEfnUE4a05P2aTA==",
 			"dev": true,
 			"license": "Apache-2.0",
 			"bin": {
@@ -12859,9 +12859,9 @@
 			}
 		},
 		"node_modules/caniuse-lite": {
-			"version": "1.0.30001806",
-			"resolved": "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001806.tgz",
-			"integrity": "sha512-72Cuvd95zbSYPKq6Fhg8eDJRlzgWDf7/mtoZv6Qe/DYNCEBdNxoA3+rZAU2ZhGCpZlns3EssFavaZomckT5Uuw==",
+			"version": "1.0.30001809",
+			"resolved": "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001809.tgz",
+			"integrity": "sha512-xxWVywk6a6Arlk+hymeycyn/VgqEfLDxupvhH/xiY5SJ/18kmi9o6MiO320DCUzypORHLtvh0I4i04tUhCNHNQ==",
 			"dev": true,
 			"funding": [
 				{
@@ -13744,9 +13744,9 @@
 			"license": "MIT"
 		},
 		"node_modules/electron-to-chromium": {
-			"version": "1.5.399",
-			"resolved": "https://registry.npmjs.org/electron-to-chromium/-/electron-to-chromium-1.5.399.tgz",
-			"integrity": "sha512-lEcqhErbHjXRvd41rnWLpzbyU/IXfIYo7QwaFWmxGeLiLyY2TBCdHnWY88vB+p3ubnihRypDm66panXl7TylLA==",
+			"version": "1.5.402",
+			"resolved": "https://registry.npmjs.org/electron-to-chromium/-/electron-to-chromium-1.5.402.tgz",
+			"integrity": "sha512-/oOpMaPT6Yg+6/1XQhyIPlzgj7Ye9zf+nNM2Uh6OcE2G2oNptWazFa+qB2Pdqqbsc9KnIDzgAntoYN0dbwOXwA==",
 			"dev": true,
 			"license": "ISC"
 		},
@@ -14812,9 +14812,9 @@
 			}
 		},
 		"node_modules/get-tsconfig": {
-			"version": "4.14.0",
-			"resolved": "https://registry.npmjs.org/get-tsconfig/-/get-tsconfig-4.14.0.tgz",
-			"integrity": "sha512-yTb+8DXzDREzgvYmh6s9vHsSVCHeC0G3PI5bEXNBHtmshPnO+S5O7qgLEOn0I5QvMy6kpZN8K1NKGyilLb93wA==",
+			"version": "4.14.1",
+			"resolved": "https://registry.npmjs.org/get-tsconfig/-/get-tsconfig-4.14.1.tgz",
+			"integrity": "sha512-Dz/6HxkrxgNehhxLVeyv8sad9UzF2xBVeaKBQNDfJ5XiSXmp2gTR0eO0RWiT2NCKS5aGP9jjkOMggTN90qU50A==",
 			"dev": true,
 			"license": "MIT",
 			"dependencies": {
@@ -14962,9 +14962,9 @@
 			}
 		},
 		"node_modules/globby": {
-			"version": "16.2.2",
-			"resolved": "https://registry.npmjs.org/globby/-/globby-16.2.2.tgz",
-			"integrity": "sha512-NLvV9ubZ6NDsJaOpKPy3cQeJpKi9DcWiyCiFUpJPA0YihRqiE6RWaLUmgNNPr8MgPpLZjnBjSmou7uZBRJv9wA==",
+			"version": "16.2.3",
+			"resolved": "https://registry.npmjs.org/globby/-/globby-16.2.3.tgz",
+			"integrity": "sha512-VZX7TV7jmd/pn71vdnLKtgwy1IWqc3KjI9x1/UtPkwoKk5fKrNLY30ltDe3cAM5xruIN7YuuaulFt133jRrKZg==",
 			"license": "MIT",
 			"dependencies": {
 				"@sindresorhus/merge-streams": "^4.0.0",
@@ -15950,9 +15950,9 @@
 			}
 		},
 		"node_modules/knip": {
-			"version": "6.31.0",
-			"resolved": "https://registry.npmjs.org/knip/-/knip-6.31.0.tgz",
-			"integrity": "sha512-NbeIEmUS2VUMjAkbiSNOKPJeV9wpCsr0660sUyKyMQbk4Iom0++nTLInVp4MJ+LfR4kORnw67bDi5tvO7YLnzA==",
+			"version": "6.32.0",
+			"resolved": "https://registry.npmjs.org/knip/-/knip-6.32.0.tgz",
+			"integrity": "sha512-KDX9OmmOFmlvmxTkrx6Z0GHISMut+pXMSKR8eg84bovaxJKx2NdQD4JYCXveSbvieRe107W6vCD2xCpmz0qBYA==",
 			"dev": true,
 			"funding": [
 				{
@@ -15968,7 +15968,7 @@
 			"dependencies": {
 				"fdir": "^6.5.0",
 				"formatly": "^0.3.0",
-				"get-tsconfig": "4.14.0",
+				"get-tsconfig": "4.14.1",
 				"jiti": "^2.7.0",
 				"oxc-parser": "^0.142.0",
 				"oxc-resolver": "11.24.2",
@@ -16901,9 +16901,9 @@
 			}
 		},
 		"node_modules/node-releases": {
-			"version": "2.0.51",
-			"resolved": "https://registry.npmjs.org/node-releases/-/node-releases-2.0.51.tgz",
-			"integrity": "sha512-wRNIrw4DmVLKQlbgOMdkMx27Wrpzes2hh5Jtbi2bjPd+4wJstWIqP5A+lscnqbm0xxmT5Bpg8Lec5ItEBwx6BQ==",
+			"version": "2.0.53",
+			"resolved": "https://registry.npmjs.org/node-releases/-/node-releases-2.0.53.tgz",
+			"integrity": "sha512-D9UOmYG3UH1V+ENW56t5QXBwJw1YEY18ruVeus89Rw+SyIgjPkCO84bRzO3uNIYosJbNwiabWVn48o3uJLjxFQ==",
 			"dev": true,
 			"license": "MIT",
 			"engines": {
@@ -19889,9 +19889,9 @@
 			}
 		},
 		"node_modules/unbash": {
-			"version": "4.0.4",
-			"resolved": "https://registry.npmjs.org/unbash/-/unbash-4.0.4.tgz",
-			"integrity": "sha512-60m9IVGbavD6jholbxt0jVBXZkEB/HsMZq7Tyaghseve2/Sf0zQRAIfWsD34sde+DKP2tBxJS2wP88ZM0D1FhA==",
+			"version": "4.0.7",
+			"resolved": "https://registry.npmjs.org/unbash/-/unbash-4.0.7.tgz",
+			"integrity": "sha512-P3NODenm+qh2PwrP3gzJBx7a541oRtrUTRCyMH8K53P27oZjstMwf7A3CqwWtLLLOIUigRqjdEHSn2UHBQlASA==",
 			"dev": true,
 			"license": "ISC",
 			"engines": {
@@ -19954,9 +19954,9 @@
 			}
 		},
 		"node_modules/update-browserslist-db": {
-			"version": "1.2.3",
-			"resolved": "https://registry.npmjs.org/update-browserslist-db/-/update-browserslist-db-1.2.3.tgz",
-			"integrity": "sha512-Js0m9cx+qOgDxo0eMiFGEueWztz+d4+M3rGlmKPT+T4IS/jP4ylw3Nwpu6cpTTP8R1MAC1kF4VbdLt3ARf209w==",
+			"version": "1.3.0",
+			"resolved": "https://registry.npmjs.org/update-browserslist-db/-/update-browserslist-db-1.3.0.tgz",
+			"integrity": "sha512-x/M6q3w4Ybp91CNaS4S69UnliqR3BzRpOT6LWbksjth0S/+jhfaPJsWjt/TewpT8j9eLIojUf5jr29WextHroA==",
 			"dev": true,
 			"funding": [
 				{
