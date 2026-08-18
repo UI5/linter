@@ -316,7 +316,7 @@ test("applyChanges with negative start position for REPLACE", (t) => {
 
 	t.throws(() => {
 		applyChanges(content, changeSet);
-	}, {message: /Cannot overwrite across a split point/}, "Should throw MagicString error for negative start position in REPLACE");
+	}, {message: /end must be greater than start/}, "Should throw MagicString error for negative start position in REPLACE");
 });
 
 test("applyChanges with negative end position for REPLACE", (t) => {
@@ -348,7 +348,7 @@ test("applyChanges with out-of-bounds end position for REPLACE", (t) => {
 
 	t.throws(() => {
 		applyChanges(content, changeSet);
-	}, {message: /end is out of bounds/}, "Should throw MagicString error for out-of-bounds end position in REPLACE");
+	}, {message: /end \d+ is out of bounds/}, "Should throw MagicString error for out-of-bounds end position in REPLACE");
 });
 
 test("applyChanges with end before start for REPLACE", (t) => {
@@ -364,7 +364,7 @@ test("applyChanges with end before start for REPLACE", (t) => {
 
 	t.throws(() => {
 		applyChanges(content, changeSet);
-	}, {message: /Cannot overwrite across a split point/}, "Should throw MagicString error when end is before start in REPLACE");
+	}, {message: /end must be greater than start/}, "Should throw MagicString error when end is before start in REPLACE");
 });
 
 test("applyChanges with negative start position for DELETE", (t) => {
@@ -409,7 +409,7 @@ test("applyChanges with out-of-bounds positions for DELETE", (t) => {
 
 	t.throws(() => {
 		applyChanges(content, changeSet);
-	}, {message: /Character is out of bounds/}, "Should throw MagicString error for out-of-bounds end position in DELETE");
+	}, {message: /range .+ is out of bounds/}, "Should throw MagicString error for out-of-bounds end position in DELETE");
 });
 
 test("applyChanges with end before start for DELETE", (t) => {
@@ -446,7 +446,7 @@ test("applyChanges with overlapping REPLACE operations", (t) => {
 
 	t.throws(() => {
 		applyChanges(content, changeSet);
-	}, {message: /Cannot split a chunk that has already been edited/}, "Should throw MagicString error for overlapping REPLACE operations");
+	}, {message: /cannot split a chunk that has already been edited/}, "Should throw MagicString error for overlapping REPLACE operations");
 });
 
 test("applyChanges with overlapping DELETE operations", (t) => {
@@ -487,7 +487,7 @@ test("applyChanges with DELETE and REPLACE overlap", (t) => {
 
 	t.throws(() => {
 		applyChanges(content, changeSet);
-	}, {message: /Cannot split a chunk that has already been edited/}, "Should throw MagicString error for DELETE and REPLACE overlap");
+	}, {message: /cannot split a chunk that has already been edited/}, "Should throw MagicString error for DELETE and REPLACE overlap");
 });
 
 test("applyChanges with extremely large position numbers", (t) => {
@@ -534,7 +534,7 @@ test("applyChanges with zero-length REPLACE operation", (t) => {
 	// MagicString throws error for zero-length replace
 	t.throws(() => {
 		applyChanges(content, changeSet);
-	}, {message: /Cannot overwrite a zero-length range \u2013 use appendLeft or prependRight instead/}, "Should throw MagicString error for zero-length REPLACE");
+	}, {message: /cannot overwrite a zero-length range/}, "Should throw MagicString error for zero-length REPLACE");
 });
 
 test("applyChanges with empty string replacements", (t) => {
@@ -649,7 +649,7 @@ test("applyChanges with INSERT missing value", (t) => {
 
 	t.throws(() => {
 		applyChanges(content, changeSet);
-	}, {message: /inserted content must be a string/}, "Should throw MagicString error for INSERT missing value");
+	}, {message: /content must be a string/}, "Should throw MagicString error for INSERT missing value");
 });
 
 test("applyChanges with REPLACE missing end", (t) => {
@@ -664,7 +664,7 @@ test("applyChanges with REPLACE missing end", (t) => {
 
 	t.throws(() => {
 		applyChanges(content, changeSet);
-	}, {message: /Cannot overwrite across a split point/}, "Should throw MagicString error for REPLACE missing end");
+	}, {message: /cannot overwrite across a split point/}, "Should throw MagicString error for REPLACE missing end");
 });
 
 test("applyChanges with REPLACE missing value", (t) => {
@@ -679,7 +679,7 @@ test("applyChanges with REPLACE missing value", (t) => {
 
 	t.throws(() => {
 		applyChanges(content, changeSet);
-	}, {message: /replacement content must be a string/}, "Should throw MagicString error for REPLACE missing value");
+	}, {message: /content must be a string/}, "Should throw MagicString error for REPLACE missing value");
 });
 
 test("applyChanges with DELETE missing end", (t) => {
@@ -724,7 +724,7 @@ test("applyChanges with non-numeric end position", (t) => {
 
 	t.throws(() => {
 		applyChanges(content, changeSet);
-	}, {message: /Cannot overwrite across a split point/}, "Should throw MagicString error for non-numeric end position");
+	}, {message: /cannot overwrite across a split point/}, "Should throw MagicString error for non-numeric end position");
 });
 
 test("applyChanges with non-string value", (t) => {
@@ -739,7 +739,7 @@ test("applyChanges with non-string value", (t) => {
 
 	t.throws(() => {
 		applyChanges(content, changeSet);
-	}, {message: /inserted content must be a string/}, "Should throw MagicString error for non-string value");
+	}, {message: /content must be a string/}, "Should throw MagicString error for non-string value");
 });
 
 test("applyChanges with special characters and unicode", (t) => {
