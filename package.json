@@ -84,7 +84,7 @@
 		"globals": "^17.11.0",
 		"he": "^1.2.0",
 		"json-source-map": "^0.6.1",
-		"magic-string": "^1.2.0",
+		"magic-string": "^1.2.2",
 		"minimatch": "^10.2.6",
 		"sax-wasm": "^3.1.4",
 		"semver": "^7.8.5",
@@ -123,7 +123,7 @@
 		"sinon": "^22.1.0",
 		"tsx": "4.23.12",
 		"typescript-eslint": "8.64.0",
-		"ui5-test-runner": "^5.13.1",
+		"ui5-test-runner": "^5.14.0",
 		"yauzl-promise": "^4.0.0"
 	}
 }
