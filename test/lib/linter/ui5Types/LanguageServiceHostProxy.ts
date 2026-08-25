@@ -1,5 +1,6 @@
 import test from "ava";
 import LanguageServiceHostProxy from "../../../../src/linter/ui5Types/LanguageServiceHostProxy.js";
+import ts from "typescript";
 
 test("LanguageServiceHostProxy default implementation - getCompilationSettings", (t) => {
 	t.deepEqual(new LanguageServiceHostProxy().getCompilationSettings(), {});
@@ -26,7 +27,7 @@ test("LanguageServiceHostProxy default implementation - readFile", (t) => {
 });
 
 test("LanguageServiceHostProxy default implementation - getDefaultLibFileName", (t) => {
-	t.is(new LanguageServiceHostProxy().getDefaultLibFileName({}), "lib.d.ts");
+	t.is(new LanguageServiceHostProxy().getDefaultLibFileName({}), ts.getDefaultLibFileName({}));
 });
 
 test("LanguageServiceHostProxy default implementation - getCurrentDirectory", (t) => {

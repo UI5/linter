@@ -41,7 +41,7 @@
 		"lint": "eslint .",
 		"lint:commit": "commitlint",
 		"prepare": "node ./.husky/skip.js || husky",
-		"test": "npm run lint && npm run build-test && npm run coverage && npm run e2e && npm run knip && npm run check-licenses",
+		"test": "npm run lint && npm run build-test && npm run build && npm run coverage && npm run e2e && npm run knip && npm run check-licenses",
 		"unit": "ava",
 		"e2e": "npm run clean-test-tmp && npm run build && npm run e2e:ui5lint && npm run e2e:ui5lint-fix && npm run e2e:test",
 		"e2e:ui5lint": "TEST_E2E_TMP=$PWD/test/tmp/e2e && mkdir -p $TEST_E2E_TMP && cd test/fixtures/linter/projects/com.ui5.troublesome.app && npm exec ui5lint -- --format=json > $TEST_E2E_TMP/ui5lint-results.json 2> $TEST_E2E_TMP/stderr.log || true",
@@ -88,7 +88,7 @@
 		"minimatch": "^10.2.6",
 		"sax-wasm": "^3.1.4",
 		"semver": "^7.8.5",
-		"typescript": "^5.9.3",
+		"typescript": "^6.0.3",
 		"update-notifier": "^7.3.1",
 		"yargs": "^17.7.3"
 	},
