@@ -93,6 +93,9 @@ export default tseslint.config(
 			"@typescript-eslint/no-unsafe-member-access": "off",
 			"@typescript-eslint/no-unsafe-return": "off",
 			"@typescript-eslint/no-unsafe-unary-minus": "off",
+			// Passing sinon stubs by reference (e.g. to sinon.assert.callOrder) is idiomatic and safe;
+			// the `this`-scoping concern does not apply to them.
+			"@typescript-eslint/unbound-method": "off",
 		},
 	}, {
 		// Overwrite any rules from the configurations above for both, JS and TS files
