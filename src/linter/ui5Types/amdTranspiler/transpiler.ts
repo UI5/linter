@@ -69,6 +69,15 @@ export default function transpileAmdToEsm(
 		{
 			languageVersion: ts.ScriptTarget.ES2022,
 			jsDocParsingMode: ts.JSDocParsingMode.ParseNone,
+			// The AMD source has no import/export statements yet, so TypeScript would detect it as a
+			// script rather than an ES module. Our transformer adds the ESM syntax afterwards, but the
+			// module indicator is fixed at parse time. Mark the file as an external module so the ESM
+			// transform does not prepend a "use strict" prologue (which it emits for non-module files
+			// since alwaysStrict defaults to true as of TypeScript 6).
+			setExternalModuleIndicator: (file) => {
+				// externalModuleIndicator is an internal property not exposed in the public typings
+				(file as {externalModuleIndicator?: unknown}).externalModuleIndicator = true;
+			},
 		}
 		// /*setParentNodes*/ false,
 		// ts.ScriptKind.JS
