@@ -1,7 +1,7 @@
 {
   "framework": {
     "name": "SAPUI5",
-    "version": "1.136.21"
+    "version": "1.136.22"
   },
   "metadata": {
     "sap.ca.ui.AddPicture": {
@@ -15640,6 +15640,7 @@
       "aggregation": [
         "formContainers",
         "title",
+        "_renderingTitle",
         "toolbar",
         "layout"
       ],
@@ -15658,6 +15659,7 @@
       "aggregation": [
         "formElements",
         "title",
+        "_renderingTitle",
         "toolbar",
         "_expandButton"
       ],
