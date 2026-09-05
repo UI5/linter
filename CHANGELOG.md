@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.23.6](https://github.com/UI5/linter/compare/v1.23.5...v1.23.6) (2026-09-02)
+
+
+### Dependencies
+
+* Bump fast-xml-parser from 5.10.1 to 5.11.0 ([d80ca22](https://github.com/UI5/linter/commit/d80ca226887ed1dcbaf048b794e68d45d27efb91))
+* Bump globals from 17.10.0 to 17.11.0 ([48c4a84](https://github.com/UI5/linter/commit/48c4a84094e23e12c203ac9f89b93109e0a6e8fb))
+* Bump globals from 17.9.0 to 17.10.0 ([3f8d48a](https://github.com/UI5/linter/commit/3f8d48a20cb83896d7a46deda7ae1063fa8b7537))
+* Bump magic-string from 1.1.0 to 1.2.0 ([#1120](https://github.com/UI5/linter/issues/1120)) ([6529e98](https://github.com/UI5/linter/commit/6529e980a644fcea6863b680c7f7e8c5b284a88e))
+* **lockfile:** In-range update of npm dependencies ([d4966b3](https://github.com/UI5/linter/commit/d4966b3985aacb65e71f48f405b51f1d893cdbcb))
+* **lockfile:** In-range update of npm dependencies ([f3357dc](https://github.com/UI5/linter/commit/f3357dc1f428d6e437a30d1b284618711f3330a9))
+* **lockfile:** In-range update of npm dependencies ([b8f76bb](https://github.com/UI5/linter/commit/b8f76bbb49888c0b5a5539fb3b48e08c5b8685a1))
+* **lockfile:** In-range update of npm dependencies ([18e428e](https://github.com/UI5/linter/commit/18e428e2894a353efa17be88f73818818349d214))
+
 ## [1.23.5](https://github.com/UI5/linter/compare/v1.23.4...v1.23.5) (2026-08-09)
 
 
