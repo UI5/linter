@@ -31,7 +31,7 @@
 		"build": "npm run clean-lib && tsc -p tsconfig.build.json",
 		"build-test": "tsc --noEmit -p .",
 		"build-watch": "npm run clean-lib && tsc -w -p tsconfig.build.json",
-		"check-engine": "check-engine-light -f npm-shrinkwrap.json .",
+		"check-engine": "check-engine-light .",
 		"check-licenses": "licensee --errors-only",
 		"clean-coverage": "rimraf coverage",
 		"clean-lib": "rimraf lib",
@@ -53,11 +53,11 @@
 		"unit-watch": "ava --watch",
 		"update-sapui5-types": "tsx scripts/update-sapui5-types.ts"
 	},
+	"bundleDependencies": true,
 	"files": [
 		"CHANGELOG.md",
 		"LICENSES/**",
 		"lib/**",
-		"npm-shrinkwrap.json",
 		"resources/**",
 		".reuse/**"
 	],
