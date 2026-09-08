@@ -4,20 +4,39 @@ updates:
   directory: "/"
   schedule:
     interval: "weekly"
-  cooldown:
-    default-days: 2
   commit-message:
     prefix: "ci(github-actions)"
+  cooldown:
+    default-days: 3
+  groups:
+    github-actions:
+      applies-to: version-updates
+      patterns:
+      - "*"
 - package-ecosystem: npm
   directory: "/"
   schedule:
-    interval: "daily"
-  versioning-strategy: increase
+    interval: "weekly"
   cooldown:
-    default-days: 2
+    default-days: 3
+    exclude:
+    - "@ui5/*"
+    - "less-openui5"
+  versioning-strategy: increase
   commit-message:
     prefix: "deps"
     prefix-development: "build(deps-dev)"
+  groups:
+    npm:
+      dependency-type: production
+      update-types:
+      - minor
+      - patch
+    npm-dev:
+      dependency-type: development
+      update-types:
+      - minor
+      - patch
   ignore:
     - dependency-name: "@types/node" # Should be manually kept in sync with the minimum supported Node.js version
     - dependency-name: "@sapui5/types" # Major/minor updates should be done manually
