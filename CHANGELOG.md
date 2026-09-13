@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.23.7](https://github.com/UI5/linter/compare/v1.23.6...v1.23.7) (2026-09-13)
+
+
+### Dependencies
+
+* **lockfile:** In-range update of npm dependencies ([3b306e7](https://github.com/UI5/linter/commit/3b306e7abfb5b110b435400d1c198d573455bfa3))
+
 ## [1.23.6](https://github.com/UI5/linter/compare/v1.23.5...v1.23.6) (2026-09-08)
 
 
