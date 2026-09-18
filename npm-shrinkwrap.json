@@ -50,7 +50,7 @@
 				"@types/yauzl-promise": "^4.0.1",
 				"@ui5-language-assistant/semantic-model": "^3.3.1",
 				"@ui5-language-assistant/semantic-model-types": "^3.3.1",
-				"@ui5/cli": "^4.0.67",
+				"@ui5/cli": "^4.0.69",
 				"ava": "^6.4.1",
 				"check-engine-light": "0.4.0",
 				"eslint": "^9.39.5",
@@ -5090,9 +5090,9 @@
 			"license": "MIT"
 		},
 		"node_modules/@ui5/cli": {
-			"version": "4.0.67",
-			"resolved": "https://registry.npmjs.org/@ui5/cli/-/cli-4.0.67.tgz",
-			"integrity": "sha512-EFSxKSREiDSn+TGpR0oEBx5N3qaNjz/DH1YnwPqc9ZrDjYlpC5NQyqK4gA0Ap/AyJZKIWEz/MbATg4NdqcGP7w==",
+			"version": "4.0.69",
+			"resolved": "https://registry.npmjs.org/@ui5/cli/-/cli-4.0.69.tgz",
+			"integrity": "sha512-fFz4k1XXBaGoz9FWYYP3XmUOpAzSP8KZG5DIkXE7mLhQT3kpOVOqo15acmxZNAz0S+KZpxx+DNtWGTMHOUhGWA==",
 			"bundleDependencies": [
 				"@ui5/builder",
 				"@ui5/fs",
@@ -5112,7 +5112,7 @@
 			"dev": true,
 			"license": "Apache-2.0",
 			"dependencies": {
-				"@ui5/builder": "^4.3.1",
+				"@ui5/builder": "^4.3.2",
 				"@ui5/fs": "^4.0.6",
 				"@ui5/logger": "^4.0.2",
 				"@ui5/project": "^4.0.17",
@@ -5121,7 +5121,7 @@
 				"data-with-position": "^0.5.0",
 				"import-local": "^3.2.0",
 				"js-yaml": "^4.3.2",
-				"open": "^11.0.3",
+				"open": "^11.0.4",
 				"pretty-hrtime": "^1.0.3",
 				"semver": "^7.8.5",
 				"update-notifier": "^7.3.1",
@@ -5433,7 +5433,7 @@
 			"license": "MIT"
 		},
 		"node_modules/@ui5/cli/node_modules/@npmcli/map-workspaces/node_modules/brace-expansion": {
-			"version": "2.1.4",
+			"version": "2.1.7",
 			"dev": true,
 			"inBundle": true,
 			"license": "MIT",
@@ -5661,7 +5661,7 @@
 			"license": "MIT"
 		},
 		"node_modules/@ui5/cli/node_modules/@tufjs/models/node_modules/brace-expansion": {
-			"version": "2.1.4",
+			"version": "2.1.7",
 			"dev": true,
 			"inBundle": true,
 			"license": "MIT",
@@ -5713,12 +5713,12 @@
 			"license": "MIT"
 		},
 		"node_modules/@ui5/cli/node_modules/@ui5/builder": {
-			"version": "4.3.1",
+			"version": "4.3.2",
 			"dev": true,
 			"inBundle": true,
 			"license": "Apache-2.0",
 			"dependencies": {
-				"@jridgewell/sourcemap-codec": "^1.5.5",
+				"@jridgewell/sourcemap-codec": "^1.6.0",
 				"@ui5/fs": "^4.0.6",
 				"@ui5/logger": "^4.0.2",
 				"cheerio": "1.0.0",
@@ -5730,7 +5730,7 @@
 				"less-openui5": "^0.12.0",
 				"pretty-data": "^0.40.0",
 				"semver": "^7.8.5",
-				"terser": "^5.49.2",
+				"terser": "^5.51.2",
 				"workerpool": "^10.0.3",
 				"xml2js": "^0.6.2"
 			},
@@ -6181,7 +6181,7 @@
 			}
 		},
 		"node_modules/@ui5/cli/node_modules/brace-expansion": {
-			"version": "5.0.9",
+			"version": "5.0.12",
 			"dev": true,
 			"inBundle": true,
 			"license": "MIT",
@@ -7254,22 +7254,6 @@
 				"npm": "1.2.8000 || >= 1.4.16"
 			}
 		},
-		"node_modules/@ui5/cli/node_modules/express/node_modules/body-parser/node_modules/qs": {
-			"version": "6.16.0",
-			"dev": true,
-			"inBundle": true,
-			"license": "BSD-3-Clause",
-			"dependencies": {
-				"es-define-property": "^1.0.1",
-				"side-channel": "^1.1.1"
-			},
-			"engines": {
-				"node": ">=0.6"
-			},
-			"funding": {
-				"url": "https://github.com/sponsors/ljharb"
-			}
-		},
 		"node_modules/@ui5/cli/node_modules/express/node_modules/content-type": {
 			"version": "1.0.5",
 			"dev": true,
@@ -7366,7 +7350,7 @@
 			}
 		},
 		"node_modules/@ui5/cli/node_modules/fast-uri": {
-			"version": "3.1.7",
+			"version": "3.1.8",
 			"dev": true,
 			"funding": [
 				{
@@ -7656,7 +7640,7 @@
 			"license": "MIT"
 		},
 		"node_modules/@ui5/cli/node_modules/glob/node_modules/brace-expansion": {
-			"version": "2.1.4",
+			"version": "2.1.7",
 			"dev": true,
 			"inBundle": true,
 			"license": "MIT",
@@ -7923,7 +7907,7 @@
 			"license": "MIT"
 		},
 		"node_modules/@ui5/cli/node_modules/ignore-walk/node_modules/brace-expansion": {
-			"version": "2.1.4",
+			"version": "2.1.7",
 			"dev": true,
 			"inBundle": true,
 			"license": "MIT",
@@ -8014,7 +7998,7 @@
 			}
 		},
 		"node_modules/@ui5/cli/node_modules/ip-address": {
-			"version": "10.7.0",
+			"version": "10.7.2",
 			"dev": true,
 			"inBundle": true,
 			"license": "MIT",
@@ -9131,7 +9115,7 @@
 			}
 		},
 		"node_modules/@ui5/cli/node_modules/open": {
-			"version": "11.0.3",
+			"version": "11.0.4",
 			"dev": true,
 			"inBundle": true,
 			"license": "MIT",
@@ -9714,7 +9698,7 @@
 			"license": "ISC"
 		},
 		"node_modules/@ui5/cli/node_modules/proxy-addr": {
-			"version": "2.0.7",
+			"version": "2.0.8",
 			"dev": true,
 			"inBundle": true,
 			"license": "MIT",
@@ -9724,6 +9708,10 @@
 			},
 			"engines": {
 				"node": ">= 0.10"
+			},
+			"funding": {
+				"type": "opencollective",
+				"url": "https://opencollective.com/express"
 			}
 		},
 		"node_modules/@ui5/cli/node_modules/punycode.js": {
