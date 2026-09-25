@@ -1,12 +1,12 @@
 {
 	"name": "@ui5/linter",
-	"version": "1.23.6",
+	"version": "1.23.7",
 	"lockfileVersion": 3,
 	"requires": true,
 	"packages": {
 		"": {
 			"name": "@ui5/linter",
-			"version": "1.23.6",
+			"version": "1.23.7",
 			"license": "Apache-2.0",
 			"dependencies": {
 				"@jridgewell/sourcemap-codec": "^1.6.0",
