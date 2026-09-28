@@ -31,7 +31,7 @@
 		"build": "npm run clean-lib && tsc -p tsconfig.build.json",
 		"build-test": "tsc --noEmit -p .",
 		"build-watch": "npm run clean-lib && tsc -w -p tsconfig.build.json",
-		"check-engine": "check-engine-light -f npm-shrinkwrap.json .",
+		"check-engine": "check-engine-light -f package-lock.json .",
 		"check-licenses": "licensee --errors-only",
 		"clean-coverage": "rimraf coverage",
 		"clean-lib": "rimraf lib",
@@ -57,7 +57,7 @@
 		"CHANGELOG.md",
 		"LICENSES/**",
 		"lib/**",
-		"npm-shrinkwrap.json",
+		"package-lock.json",
 		"resources/**",
 		".reuse/**"
 	],
