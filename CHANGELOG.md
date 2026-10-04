@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.23.8](https://github.com/UI5/linter/compare/v1.23.7...v1.23.8) (2026-10-04)
+
+
+### Dependencies
+
+* Bump tar and licensee ([#1143](https://github.com/UI5/linter/issues/1143)) ([c3f73b4](https://github.com/UI5/linter/commit/c3f73b4f98d5a0adbe470771738bdcc03528b06d))
+* **lockfile:** In-range update of npm dependencies ([9fd4132](https://github.com/UI5/linter/commit/9fd4132915cc21fb970f08f1a465e5308993e784))
+* **lockfile:** In-range update of npm dependencies ([cc1be22](https://github.com/UI5/linter/commit/cc1be220514abc1493efceb65c0e609e35d1c23e))
+
 ## [1.23.7](https://github.com/UI5/linter/compare/v1.23.6...v1.23.7) (2026-09-28)
 
 
