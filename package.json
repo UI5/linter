@@ -84,7 +84,7 @@
 		"globals": "^17.13.0",
 		"he": "^1.2.0",
 		"json-source-map": "^0.6.1",
-		"magic-string": "^1.4.2",
+		"magic-string": "^1.4.3",
 		"minimatch": "^10.2.6",
 		"sax-wasm": "^3.1.4",
 		"semver": "^7.8.5",
