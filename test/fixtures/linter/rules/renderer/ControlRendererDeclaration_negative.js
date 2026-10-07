@@ -1,8 +1,10 @@
 sap.ui.define([
 	"sap/ui/core/Control", "sap/m/Button", "sap/ui/core/webc/WebComponent",
 	"sap/uxap/BlockBase", "./NegativeExample1Renderer", "sap/ui/core/mvc/View",
-	"sap/ui/core/XMLComposite", "sap/f/cards/loading/PlaceholderBaseRenderer"
-], function(Control, Button, WebComponent, BlockBase, NegativeExample1Renderer, View, XMLComposite, PlaceholderBaseRenderer) {
+	"sap/ui/core/XMLComposite", "sap/f/cards/loading/PlaceholderBaseRenderer",
+	"sap/ui/core/html/HTMLElement"
+], function(Control, Button, WebComponent, BlockBase, NegativeExample1Renderer, View, XMLComposite,
+	PlaceholderBaseRenderer, HTMLElement) {
 
 	const NegativeExample1 = Control.extend("sap.ui.demo.linter.controls.NegativeExample1", {
 		metadata: {},
@@ -58,7 +60,7 @@ sap.ui.define([
 		// No deprecation: Uses inline renderer of XMLComposite if no renderer is specified
 		// Note: XMLComposite itself is deprecated, but there should not be a finding for a missing renderer
 	});
-	
+
 	const NegativeExample13 = Control.extend("sap.ui.demo.linter.controls.NegativeExample13", {
 		metadata: {},
 		// No deprecation: sap/f/cards/loading/PlaceholderBaseRenderer
@@ -67,4 +69,8 @@ sap.ui.define([
 		renderer: PlaceholderBaseRenderer,
 	});
 
+	const NegativeExample14 = HTMLElement.extend("sap.html.Span", {
+		metadata: {},
+		// No deprecation: Uses renderer inherited from HTMLElement
+	});
 });
