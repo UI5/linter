@@ -82,7 +82,7 @@
 		"fast-xml-parser": "^5.11.2",
 		"figures": "^6.1.0",
 		"globals": "^17.13.0",
-		"he": "^1.2.0",
+		"he": "^2.0.0",
 		"json-source-map": "^0.6.1",
 		"magic-string": "^1.4.3",
 		"minimatch": "^10.2.6",
