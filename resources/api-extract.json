@@ -1,7 +1,7 @@
 {
   "framework": {
     "name": "SAPUI5",
-    "version": "1.136.22"
+    "version": "1.136.23"
   },
   "metadata": {
     "sap.ca.ui.AddPicture": {
