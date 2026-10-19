@@ -70,3 +70,7 @@ updates:
     # TypeScript upgrade will be handled via CPOUI5FOUNDATION-1391
     - dependency-name: "typescript"
       update-types: ["version-update:semver-major"]
+
+    # sax-wasm introduced a node >=24.3.0 requirement in a minor release
+    - dependency-name: "sax-wasm"
+      update-types: ["version-update:semver-minor"]
