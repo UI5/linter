@@ -14,7 +14,7 @@ function parseTag(event: SaxEventType, tag: SaxTag, extractedTags: ExtractedTags
 			return (attr.name.value === "rel" &&
 				attr.value.value === "stylesheet");
 		})) {
-			extractedTags.stylesheetLinkTags.push(tag);
+			extractedTags.stylesheetLinkTags.push(tag.toJSON() as SaxTag);
 		};
 	} else if (event === SaxEventType.CloseTag &&
 		tag.name === "script") {
@@ -33,7 +33,7 @@ function parseTag(event: SaxEventType, tag: SaxTag, extractedTags: ExtractedTags
 					].includes(attr.value.value.toLowerCase()));
 		});
 		if (isJSScriptTag) {
-			extractedTags.scriptTags.push(tag);
+			extractedTags.scriptTags.push(tag.toJSON() as SaxTag);
 		}
 	}
 }
@@ -51,12 +51,13 @@ export async function extractHTMLTags(contentStream: Readable) {
 		stylesheetLinkTags: [],
 	};
 	const directives = new Set<Directive>();
+	const events = SaxEventType.OpenTag | SaxEventType.Comment | SaxEventType.CloseTag;
 	await parseXml(contentStream, (event, tag) => {
 		if (tag instanceof SaxTag) {
-			parseTag(event, tag.toJSON() as SaxTag, extractedTags);
+			parseTag(event, tag, extractedTags);
 		} else if (tag instanceof SaxText && event === SaxEventType.Comment) {
-			parseComment(tag.toJSON() as SaxText, directives);
+			parseComment(tag, directives);
 		}
-	});
+	}, events);
 	return {extractedTags, directives};
 }

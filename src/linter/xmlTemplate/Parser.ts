@@ -109,7 +109,7 @@ export default class Parser {
 		this.#nodeStack.push(this._createNode(tag));
 	}
 
-	popTag(_tag: SaxTag) { // No need to use the parsed tag, we rely on our nodeStack
+	popTag() { // No need to use the parsed tag, we rely on our nodeStack
 		const closingNode = this.#nodeStack.pop();
 		const level = this.#nodeStack.length;
 
