@@ -34,7 +34,7 @@ export default abstract class PropertyAssignmentBaseFix extends XmlEnabledFix {
 		}
 		return {
 			nodeTypes: [ts.SyntaxKind.PropertyAssignment],
-			xmlEventTypes: [SaxEventType.Attribute],
+			xmlEventTypes: SaxEventType.Attribute,
 			position: this.sourcePosition,
 		};
 	}

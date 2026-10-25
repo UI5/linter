@@ -30,7 +30,7 @@ export default class EventHandlersFix extends XmlEnabledFix {
 		}
 		return {
 			nodeTypes: [ts.SyntaxKind.PropertyAssignment],
-			xmlEventTypes: [SaxEventType.Attribute],
+			xmlEventTypes: SaxEventType.Attribute,
 			position: this.sourcePosition,
 		};
 	}

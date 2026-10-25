@@ -4,24 +4,15 @@ import {finished} from "node:stream/promises";
 import fs from "node:fs/promises";
 import {createRequire} from "node:module";
 import {Directive} from "../linter/LinterContext.js";
+import {Semaphore} from "./Semaphore.js";
 const require = createRequire(import.meta.url);
 
 export function isSaxParserToJSON(tag: unknown): tag is Tag {
-	const tagAsSaxParserToJSON = tag as Tag;
-	return !!tag &&
-		Object.prototype.hasOwnProperty.call(tagAsSaxParserToJSON, "openStart") &&
-		Object.prototype.hasOwnProperty.call(tagAsSaxParserToJSON, "openEnd") &&
-		Object.prototype.hasOwnProperty.call(tagAsSaxParserToJSON, "closeStart") &&
-		Object.prototype.hasOwnProperty.call(tagAsSaxParserToJSON, "closeEnd") &&
-		Object.prototype.hasOwnProperty.call(tagAsSaxParserToJSON, "attributes") &&
-		Object.prototype.hasOwnProperty.call(tagAsSaxParserToJSON, "textNodes");
+	return tag instanceof Tag;
 }
 
 export function isSaxText(tag: unknown): tag is Text {
-	return !!tag &&
-		Object.prototype.hasOwnProperty.call(tag, "start") &&
-		Object.prototype.hasOwnProperty.call(tag, "end") &&
-		Object.prototype.hasOwnProperty.call(tag, "value");
+	return tag instanceof Text;
 }
 
 /* The following regex is derived from the multi-line variant defined in ui5types/directives.ts
@@ -49,44 +40,40 @@ export function extractDirective(comment: Text): Directive | undefined {
 		column: comment.start.character + 1,
 	};
 }
+const pool: SAXParser[] = [];
 
 let saxWasmBuffer: Buffer;
-export async function initSaxWasm() {
+export async function getPooledSAXParser(): Promise<SAXParser> {
 	if (!saxWasmBuffer) {
 		const saxPath = require.resolve("sax-wasm/lib/sax-wasm.wasm");
 		saxWasmBuffer = await fs.readFile(saxPath);
 	}
 
-	return saxWasmBuffer;
-}
-
-export async function parseXml(
-	contentStream: Readable, parseHandler: typeof SAXParser.prototype.eventHandler,
-	events: number = SaxEventType.CloseTag | SaxEventType.OpenTag | SaxEventType.Comment) {
-	const saxWasmBuffer = await initSaxWasm();
-	const saxParser = new SAXParser(events);
-
-	saxParser.eventHandler = parseHandler;
-
-	// Instantiate and prepare the wasm for parsing
-	if (!await saxParser.prepareWasm(saxWasmBuffer)) {
+	if (pool.length) {
+		return pool.pop()!;
+	}
+	const parser = new SAXParser();
+	if (!await parser.prepareWasm(saxWasmBuffer)) {
 		throw new Error("Unknown error during WASM Initialization");
 	}
+	return parser;
+}
 
-	// Start the stream
-	contentStream.on("data", (chunk: Uint8Array) => {
-		try {
-			saxParser.write(chunk);
-		} catch (err) {
-			if (err instanceof Error) {
-				// In case of an error, destroy the content stream to make the
-				// error bubble up to our callers
-				contentStream.destroy(err);
-			} else {
-				throw err;
-			}
-		}
-	});
+type Handler = typeof SAXParser.prototype.eventHandler;
+// Higher limits perform better on XML only paths but worse on E2E.
+// A limit of 2 strikes a reasonable balance.
+const semaphore = new Semaphore(2);
+export async function parseXml(contentStream: Readable, parseHandler: Handler, events?: number) {
+	events ??= SaxEventType.CloseTag | SaxEventType.OpenTag | SaxEventType.Comment;
+	using _ = await semaphore.acquireLease();
+	const parser = await getPooledSAXParser();
+	parser.events = events;
+
+	const webStream = Readable.toWeb(contentStream) as ReadableStream<Uint8Array>;
+	for await (const [event, detail] of parser.parse(webStream.getReader())) {
+		parseHandler?.(event, detail);
+	}
+
 	await finished(contentStream);
-	saxParser.end();
+	pool.push(parser);
 }
