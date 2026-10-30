@@ -36,13 +36,12 @@ test("Test xmlParser with .library", async (t) => {
 
 	// Call SAXParser with the contentStream
 	const libs: SaxTag[] = [];
-	await parseXml(contentStream, (event, tag) => {
-		if (tag instanceof SaxTag &&
-			event === SaxEventType.CloseTag &&
-			tag.value === "libraryName") {
-			libs.push(tag.toJSON() as SaxTag);
+	await parseXml(contentStream, (_, tag) => {
+		const saxTag = tag as SaxTag;
+		if (saxTag.value === "libraryName") {
+			libs.push(saxTag);
 		}
-	});
+	}, SaxEventType.CloseTag);
 
 	// Test parsed results
 	t.is(libs.length, 4, "Parsed .library XML should contain 4 libraries");

@@ -7,7 +7,7 @@ import {getLogger} from "@ui5/logger";
 import {MESSAGE} from "../messages.js";
 import {loadApiExtract, ApiExtract} from "../../utils/ApiExtract.js";
 import ControllerByIdInfo from "./ControllerByIdInfo.js";
-import {parseXml, initSaxWasm} from "../../utils/xmlParser.js";
+import {parseXml} from "../../utils/xmlParser.js";
 
 const log = getLogger("linter:xmlTemplate:transpiler");
 
@@ -34,16 +34,12 @@ export default async function transpileXml(
 
 let initializing: Promise<void>;
 async function init() {
-	// eslint-disable-next-line @typescript-eslint/no-misused-promises
-	if (initializing) {
+	if (initializing !== undefined) {
 		return initializing;
 	}
 	const taskEnd = taskStart("XML Transpiler initialization");
 
-	return initializing = Promise.all([
-		loadApiExtract(),
-		initSaxWasm(),
-	]).then(([apiExtractRes]) => {
+	return initializing = loadApiExtract().then((apiExtractRes) => {
 		apiExtract = apiExtractRes;
 		taskEnd();
 	});
