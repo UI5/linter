@@ -66,6 +66,8 @@ updates:
       update-types: ["version-update:semver-major"]
     - dependency-name: "he"
       update-types: ["version-update:semver-major"]
+    - dependency-name: "ui5-test-runner"
+      update-types: ["version-update:semver-major"]
 
     # TypeScript upgrade will be handled via CPOUI5FOUNDATION-1391
     - dependency-name: "typescript"
