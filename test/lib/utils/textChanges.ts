@@ -263,9 +263,9 @@ test("applyChanges with negative start position for INSERT", (t) => {
 		},
 	];
 
-	// MagicString treats negative positions as end of string for appendRight
+	// MagicString 1.4.5+ treats -1 as (length - 1), inserting before the last character
 	const result = applyChanges(content, changeSet);
-	t.is(result, "Hello world!Hi ", "Should handle negative start position by appending at end");
+	t.is(result, "Hello worldHi !", "Should treat negative start position as offset from end");
 });
 
 test("applyChanges with out-of-bounds start position for INSERT", (t) => {
@@ -278,9 +278,10 @@ test("applyChanges with out-of-bounds start position for INSERT", (t) => {
 		},
 	];
 
-	// MagicString allows out-of-bounds positions and appends at the end
-	const result = applyChanges(content, changeSet);
-	t.is(result, "Hello world", "Should handle out-of-bounds start position by appending at end");
+	// MagicString 1.4.5+ rejects out-of-bounds indices
+	t.throws(() => {
+		applyChanges(content, changeSet);
+	}, {message: /index 10 is out of bounds/}, "Should throw MagicString error for out-of-bounds start position in INSERT");
 });
 
 test("applyChanges with out-of-bounds start position for INSERT on empty string", (t) => {
@@ -298,9 +299,10 @@ test("applyChanges with out-of-bounds start position for INSERT on empty string"
 		},
 	];
 
-	// MagicString allows out-of-bounds positions and appends at the end
-	const result = applyChanges(content, changeSet);
-	t.is(result, "Hello world", "Should handle out-of-bounds start position by appending at end");
+	// MagicString 1.4.5+ rejects out-of-bounds indices
+	t.throws(() => {
+		applyChanges(content, changeSet);
+	}, {message: /index 10 is out of bounds/}, "Should throw MagicString error for out-of-bounds start position in INSERT on empty string");
 });
 
 test("applyChanges with negative start position for REPLACE", (t) => {
@@ -500,9 +502,10 @@ test("applyChanges with extremely large position numbers", (t) => {
 		},
 	];
 
-	// MagicString handles large numbers as end of string
-	const result = applyChanges(content, changeSet);
-	t.is(result, "Hello world", "Should handle extremely large position numbers by treating as end of string");
+	// MagicString 1.4.5+ rejects out-of-bounds indices
+	t.throws(() => {
+		applyChanges(content, changeSet);
+	}, {message: /index \d+ is out of bounds/}, "Should throw MagicString error for extremely large position numbers");
 });
 
 test("applyChanges with zero-length DELETE operation", (t) => {
@@ -664,7 +667,7 @@ test("applyChanges with REPLACE missing end", (t) => {
 
 	t.throws(() => {
 		applyChanges(content, changeSet);
-	}, {message: /cannot overwrite across a split point/}, "Should throw MagicString error for REPLACE missing end");
+	}, {message: /index must be an integer/}, "Should throw MagicString error for REPLACE missing end");
 });
 
 test("applyChanges with REPLACE missing value", (t) => {
@@ -691,9 +694,10 @@ test("applyChanges with DELETE missing end", (t) => {
 		},
 	] as unknown as ChangeSet[];
 
-	// DELETE without end removes everything from start to end of string
-	const result = applyChanges(content, changeSet);
-	t.is(result, "", "Should handle DELETE missing end by deleting from start to end of string");
+	// MagicString 1.4.5+ rejects undefined end (non-integer)
+	t.throws(() => {
+		applyChanges(content, changeSet);
+	}, {message: /index must be an integer/}, "Should throw MagicString error for DELETE missing end");
 });
 
 test("applyChanges with non-numeric start position", (t) => {
@@ -706,9 +710,10 @@ test("applyChanges with non-numeric start position", (t) => {
 		},
 	] as unknown as ChangeSet[];
 
-	// MagicString coerces non-numeric positions and treats them as end of string
-	const result = applyChanges(content, changeSet);
-	t.is(result, "Hello world!Hi", "Should coerce non-numeric start position and append at end");
+	// MagicString 1.4.5+ rejects non-integer indices
+	t.throws(() => {
+		applyChanges(content, changeSet);
+	}, {message: /index must be an integer/}, "Should throw MagicString error for non-numeric start position");
 });
 
 test("applyChanges with non-numeric end position", (t) => {
@@ -724,7 +729,7 @@ test("applyChanges with non-numeric end position", (t) => {
 
 	t.throws(() => {
 		applyChanges(content, changeSet);
-	}, {message: /cannot overwrite across a split point/}, "Should throw MagicString error for non-numeric end position");
+	}, {message: /index must be an integer/}, "Should throw MagicString error for non-numeric end position");
 });
 
 test("applyChanges with non-string value", (t) => {
@@ -798,9 +803,10 @@ test("applyChanges with float positions", (t) => {
 		},
 	] as unknown as ChangeSet[];
 
-	// MagicString should handle float positions (floors them)
-	const result = applyChanges(content, changeSet);
-	t.is(result, "Hello there world!", "Should handle float positions by flooring them");
+	// MagicString 1.4.5+ rejects non-integer (float) indices
+	t.throws(() => {
+		applyChanges(content, changeSet);
+	}, {message: /index must be an integer/}, "Should throw MagicString error for float positions");
 });
 
 test("applyChanges with Infinity position", (t) => {
@@ -813,9 +819,10 @@ test("applyChanges with Infinity position", (t) => {
 		},
 	] as unknown as ChangeSet[];
 
-	// MagicString should handle Infinity as end of string
-	const result = applyChanges(content, changeSet);
-	t.is(result, "Hello world", "Should handle Infinity position by appending at end");
+	// MagicString 1.4.5+ rejects non-integer (Infinity) indices
+	t.throws(() => {
+		applyChanges(content, changeSet);
+	}, {message: /index must be an integer/}, "Should throw MagicString error for Infinity position");
 });
 
 test("applyChanges with NaN position", (t) => {
@@ -828,9 +835,10 @@ test("applyChanges with NaN position", (t) => {
 		},
 	] as unknown as ChangeSet[];
 
-	// MagicString should handle NaN positions
-	const result = applyChanges(content, changeSet);
-	t.is(result, "Hello world!Hi!", "Should handle NaN position by appending at end");
+	// MagicString 1.4.5+ rejects non-integer (NaN) indices
+	t.throws(() => {
+		applyChanges(content, changeSet);
+	}, {message: /index must be an integer/}, "Should throw MagicString error for NaN position");
 });
 
 test("applyChanges with multiline content and operations", (t) => {
