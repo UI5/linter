@@ -85,7 +85,7 @@
 		"he": "^1.2.0",
 		"json-source-map": "^0.6.1",
 		"magic-string": "^1.4.5",
-		"minimatch": "^10.2.6",
+		"minimatch": "^11.0.1",
 		"sax-wasm": "^3.3.0",
 		"semver": "^7.8.5",
 		"typescript": "^5.9.3",
