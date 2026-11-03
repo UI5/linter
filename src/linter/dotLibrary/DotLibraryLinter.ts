@@ -26,55 +26,49 @@ export default class DotLibraryLinter {
 		}
 	}
 
-	async #parseDotLibrary(contentStream: ReadStream): Promise<SaxTag[]> {
+	async #parseDotLibrary(contentStream: ReadStream): Promise<Iterable<SaxTag>> {
 		const libs = new Set();
 		const tagsStack: string[] = [];
 		const libNamePath = ["library", "dependencies", "dependency"];
 		await parseXml(contentStream, (event, tag) => {
-			if (!(tag instanceof SaxTag)) {
+			const saxTag = tag as SaxTag;
+			if (!saxTag.selfClosing && event === SaxEventType.OpenTag) {
+				tagsStack.push(saxTag.name);
 				return;
 			}
+			tagsStack.pop();
 
-			const serializedTag = tag.toJSON() as SaxTag;
-			if (event === SaxEventType.OpenTag && !serializedTag.selfClosing) {
-				tagsStack.push(serializedTag.name);
-			} else if (event === SaxEventType.CloseTag && !serializedTag.selfClosing) {
-				tagsStack.pop();
-			}
-
-			if (event === SaxEventType.CloseTag &&
-				serializedTag.name === "libraryName") {
+			if (saxTag.name === "libraryName") {
 				const isMatchingPath = libNamePath.length === tagsStack.length &&
 					libNamePath.every((lib, index) => lib === tagsStack[index]);
-
 				if (isMatchingPath) {
-					libs.add(serializedTag);
+					libs.add(saxTag);
 				}
 			}
-		});
-
-		return Array.from(libs) as SaxTag[];
+		}, SaxEventType.OpenTag | SaxEventType.CloseTag);
+		// Prefer iterators to avoid eager consumption and an unnecessary array
+		return libs.values() as Iterable<SaxTag>;
 	}
 
-	#analyzeDeprecatedLibs(libs: SaxTag[]) {
+	#analyzeDeprecatedLibs(libs: Iterable<SaxTag>) {
 		// Check for deprecated libraries
-		libs.forEach((lib) => {
-			// textNodes is always an array, but it might be empty
+		for (const lib of libs) {
 			const libraryName = lib.textNodes[0]?.value;
 
-			if (deprecatedLibraries.includes(libraryName)) {
-				this.#context.addLintingMessage(
-					this.#resourcePath,
-					{
-						id: MESSAGE.DEPRECATED_LIBRARY,
-						args: {libraryName},
-						position: {
-							line: lib.openStart.line + 1,
-							column: lib.openStart.character + 1,
-						},
-					}
-				);
+			if (!deprecatedLibraries.includes(libraryName)) {
+				continue;
 			}
-		});
+			this.#context.addLintingMessage(
+				this.#resourcePath,
+				{
+					id: MESSAGE.DEPRECATED_LIBRARY,
+					args: {libraryName},
+					position: {
+						line: lib.openStart.line + 1,
+						column: lib.openStart.character + 1,
+					},
+				}
+			);
+		}
 	}
 }
