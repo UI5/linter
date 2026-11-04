@@ -103,6 +103,14 @@ function transform(
 	const metadata = context.getMetadata(resourcePath);
 	findDirectives(sourceFile, metadata);
 
+	// For now, only resolve relative imoprts in productive code.
+	// (In test code, issues with externally configured resource roots are
+	// more likely)
+	const defaultModuleID =
+		resourcePath.startsWith("/resources/") ?
+				resourcePath.slice("/resources/".length, -2) : // extract runtime module ID
+			undefined;
+
 	// Visit the AST depth-first and collect module definitions
 	function visit(nodeIn: ts.Node): ts.VisitResult<ts.Node> {
 		const node = ts.visitEachChild(nodeIn, visit, tContext);
@@ -111,7 +119,8 @@ function transform(
 			if (matchPropertyAccessExpression(node.expression, "sap.ui.define")) {
 				try {
 					const moduleDeclaration = parseModuleDeclaration(node.arguments, checker);
-					const moduleDefinition = moduleDeclarationToDefinition(moduleDeclaration, sourceFile, nodeFactory);
+					const moduleDefinition = moduleDeclarationToDefinition(moduleDeclaration, sourceFile,
+						nodeFactory, defaultModuleID);
 					moduleDefinitions.push(moduleDefinition);
 					if (moduleDefinition.imports.length) {
 						moduleDefinition.imports.forEach((importStatement) =>
