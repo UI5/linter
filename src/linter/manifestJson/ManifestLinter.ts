@@ -1,6 +1,7 @@
 import type {
 	JSONSchemaForSAPUI5Namespace,
 	JSONSchemaForSAPAPPNamespace,
+	JSONSchemaForSAPCLOUDNamespace,
 	Model as ManifestModel,
 	DataSource as ManifestDataSource,
 } from "../../manifest.d.ts";
@@ -13,6 +14,7 @@ import {MESSAGE} from "../messages.js";
 import semver from "semver";
 import {jsonSourceMapType, parseManifest} from "./parser.js";
 import RemoveJsonPropertyFix from "./fix/RemoveJsonPropertyFix.js";
+import ReplaceJsonValueFix from "./fix/ReplaceJsonValueFix.js";
 
 const deprecatedViewTypes = ["JSON", "HTML", "JS", "Template"];
 
@@ -75,6 +77,7 @@ export default class ManifestLinter {
 		const {resources, models, dependencies, rootView, routing} =
 			(manifest["sap.ui5"] ?? {} as JSONSchemaForSAPUI5Namespace);
 		const {dataSources} = (manifest["sap.app"] ?? {} as JSONSchemaForSAPAPPNamespace);
+		const {service} = (manifest["sap.cloud"] ?? {} as JSONSchemaForSAPCLOUDNamespace);
 
 		// Validate async flags for manifest version 2
 		if (isManifest2) {
@@ -203,6 +206,22 @@ export default class ManifestLinter {
 				}, key, fix);
 			}
 		});
+
+		if (typeof service === "string" && dataSources) {
+			for (const [dataSourceName, dataSource] of Object.entries(dataSources)) {
+				const uri = dataSource.uri;
+				if (typeof uri === "string" && uri.startsWith("/")) {
+					const fix = new ReplaceJsonValueFix({
+						key: `/sap.app/dataSources/${dataSourceName}/uri`,
+						pointers: source.pointers,
+						value: uri.slice(1),
+					});
+					this.#reporter?.addMessage(MESSAGE.NO_ABSOLUTE_DATA_SOURCE_URI, {
+						dataSourceName,
+					}, `/sap.app/dataSources/${dataSourceName}/uri`, fix);
+				}
+			}
+		}
 	}
 
 	#validateAsyncFlagsForManifestV2(
