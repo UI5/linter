@@ -28,3 +28,28 @@ test.serial("Deprecated library findings are preserved across stream chunks", as
 	const multipleChunkMessages = await lintDotLibrary(chunks);
 	t.deepEqual(multipleChunkMessages, singleChunkMessages);
 });
+
+for (const {name, prefix} of [
+	{
+		name: "before dependencies",
+		prefix: "<library><documentation/><dependencies>",
+	},
+	{
+		name: "inside a preceding dependency",
+		prefix: "<library><dependencies><dependency><libraryName/></dependency>",
+	},
+]) {
+	test.serial(`Deprecated libraries are detected after a self-closing tag ${name}`, async (t) => {
+		const content = `${prefix}
+<dependency><libraryName>sap.ui.commons</libraryName></dependency>
+</dependencies></library>`;
+		// Use one chunk to isolate ancestor-stack handling from SAX event lifetime issues.
+		const messages = await lintDotLibrary([content]);
+
+		t.is(messages.length, 1);
+		t.is(messages[0].ruleId, "no-deprecated-library");
+		t.is(messages[0].message, "Use of deprecated library 'sap.ui.commons'");
+		t.is(messages[0].line, 2);
+		t.is(messages[0].column, 13);
+	});
+}
