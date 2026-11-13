@@ -1,5 +1,5 @@
 import {Resource} from "@ui5/fs";
-import {Attribute, Position, SaxEventType, Tag} from "sax-wasm";
+import {Position, SaxEventType, Tag} from "sax-wasm";
 import {parseXml} from "../utils/xmlParser.js";
 import Fix from "../linter/ui5Types/fix/Fix.js";
 import XmlEnabledFix from "../linter/ui5Types/fix/XmlEnabledFix.js";
@@ -13,7 +13,7 @@ import {removeConflictingFixes} from "./utils.js";
 interface NodeSearchInfo {
 	position: Position;
 	fix: XmlEnabledFix;
-	xmlEventTypes: SaxEventType[];
+	xmlEventTypes: number;
 }
 
 export default async function generateChangesXml(
@@ -22,7 +22,6 @@ export default async function generateChangesXml(
 	const lines = content.split("\n");
 
 	const nodeSearchInfo = new Set<NodeSearchInfo>();
-	let events = 0;
 
 	// Collect all fixes from the messages
 	for (const {fix} of messages) {
@@ -31,13 +30,9 @@ export default async function generateChangesXml(
 		}
 		// Map "position for search" (calculated from the transpiled AST using the source map) to the absolute
 		// position in the XML file
-		const {position: fixStart, xmlEventTypes} = fix.getNodeSearchParameters();
+		const {position: fixStart, xmlEventTypes = 0} = fix.getNodeSearchParameters();
 		if (!xmlEventTypes) {
 			throw new Error(`Fix ${fix.constructor.name} does not provide xmlEventTypes for autofix`);
-		}
-
-		for (const eventType of xmlEventTypes) {
-			events |= eventType;
 		}
 
 		nodeSearchInfo.add({
@@ -55,30 +50,26 @@ export default async function generateChangesXml(
 	};
 
 	const matchedFixes = new Set<Fix>();
-	await parseXml(resource.getStream(), (event, data) => {
-		if (data instanceof Tag) {
-			if (event === SaxEventType.OpenTag) {
-				for (const {position, fix, xmlEventTypes} of nodeSearchInfo) {
-					if (xmlEventTypes.includes(SaxEventType.OpenTag)) {
-						if (data.openStart.line === position.line && data.openStart.character === position.character) {
-							fix.visitAutofixXmlNode(data, toPositionCallback);
-						}
-					}
-				}
-			}
-		} else if (data instanceof Attribute) {
-			for (const nodeInfo of nodeSearchInfo) {
-				const {position, fix, xmlEventTypes} = nodeInfo;
-				if (xmlEventTypes.includes(event)) {
-					if (data.name.start.line === position.line && data.name.start.character === position.character &&
-						fix.visitAutofixXmlNode(data, toPositionCallback)) {
+	await parseXml(resource.getStream(), (_, data) => {
+		const tag = data as Tag;
+		for (const nodeInfo of nodeSearchInfo) {
+			const {position, fix, xmlEventTypes} = nodeInfo;
+			if (xmlEventTypes & SaxEventType.Attribute) {
+				tag.attributes.forEach((attr) => {
+					if (attr.name.start.line === position.line && attr.name.start.character === position.character &&
+						fix.visitAutofixXmlNode(attr, toPositionCallback)) {
 						matchedFixes.add(fix);
 						nodeSearchInfo.delete(nodeInfo);
 					}
-				}
+				});
+			}
+			if (xmlEventTypes & SaxEventType.OpenTag &&
+				tag.openStart.line === position.line &&
+				tag.openStart.character === position.character) {
+				fix.visitAutofixXmlNode(tag, toPositionCallback);
 			}
 		}
-	}, events);
+	}, SaxEventType.OpenTag); // The OpenTag event contains all Attributes in the yielded data
 
 	removeConflictingFixes(matchedFixes);
 

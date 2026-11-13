@@ -51,7 +51,7 @@ class TestFix extends XmlEnabledFix {
 	getNodeSearchParameters() {
 		return {
 			nodeTypes: [ts.SyntaxKind.PropertyAccessExpression, ts.SyntaxKind.ElementAccessExpression],
-			xmlEventTypes: [SaxEventType.Attribute],
+			xmlEventTypes: SaxEventType.Attribute,
 			position: this.position,
 		};
 	}
