@@ -154,6 +154,8 @@ sap.ui.define(["sap/base/strings/NormalizePolyfill"], async function (NormalizeP
 	var clone8 = jQuery.sap.extend(var1, var2); // Do not migrate. We don't know the types of var1 and var2
 	var clone9 = jQuery.sap.extend(12, [undefined]); // Do not migrate. We don't know how to handle this
 	var clone9 = jQuery.sap.extend(true); // Invalid: Missing second argument must not be migrated
+	// https://github.com/UI5/linter/issues/1179
+	var clone10 = jQuery.sap.extend(true, {}, { name: "me" }, { firstName: "myself" });
 	var timestampsnumber = jQuery.sap.now();
 	var props = jQuery.sap.properties({ url: sap.ui.require.toUrl(sap.ui.require.toUrl("testdata/test.properties")) });
 	var myUid = jQuery.sap.uid();
