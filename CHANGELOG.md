@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.23.9](https://github.com/UI5/linter/compare/v1.23.8...v1.23.9) (2026-11-16)
+
+
+### Bug Fixes
+
+* **autofix:** Preserve all arguments when replacing jQuery.sap.extend ([#1180](https://github.com/UI5/linter/issues/1180)) ([a819a49](https://github.com/UI5/linter/commit/a819a4948896f6c195b5bed42f6667c6a571e783))
+
+
+### Dependencies
+
+* Bump @ui5/project from 4.0.18 to 4.0.19 in the npm group ([8d72b4d](https://github.com/UI5/linter/commit/8d72b4dd84dec8fcba1f63c3e9f0d645738dfffd))
+* Bump fast-xml-parser from 5.11.2 to 5.12.0 ([acc9066](https://github.com/UI5/linter/commit/acc906636840c84e1452a40689307f10332291e3))
+
 ## [1.23.8](https://github.com/UI5/linter/compare/v1.23.7...v1.23.8) (2026-11-04)
 
 
