@@ -53,7 +53,8 @@ async function transpileXmlToJs(
 	resourcePath: string, contentStream: ReadStream, context: LinterContext, controllerByIdInfo: ControllerByIdInfo
 ): Promise<TranspileResult> {
 	const parser = new Parser(resourcePath, apiExtract, context, controllerByIdInfo);
-	const events: number = SaxEventType.CloseTagSignal | SaxEventType.OpenTag | SaxEventType.Comment;
+	const events: number =
+		SaxEventType.CloseTagSignal | SaxEventType.OpenTag | SaxEventType.Comment | SaxEventType.Text;
 
 	await parseXml(contentStream, (event, data) => {
 		switch (event) {
@@ -65,6 +66,9 @@ async function transpileXmlToJs(
 				break;
 			case SaxEventType.CloseTagSignal:
 				parser.popTag();
+				break;
+			case SaxEventType.Text:
+				parser.processTextContent(data as SaxText);
 				break;
 		}
 	}, events);

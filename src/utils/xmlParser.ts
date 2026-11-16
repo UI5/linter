@@ -62,7 +62,7 @@ export async function initSaxWasm() {
 
 export async function parseXml(
 	contentStream: Readable, parseHandler: typeof SAXParser.prototype.eventHandler,
-	events: number = SaxEventType.CloseTag | SaxEventType.OpenTag | SaxEventType.Comment) {
+	events: number = SaxEventType.CloseTag | SaxEventType.OpenTag | SaxEventType.Comment | SaxEventType.Text) {
 	const saxWasmBuffer = await initSaxWasm();
 	const saxParser = new SAXParser(events);
 

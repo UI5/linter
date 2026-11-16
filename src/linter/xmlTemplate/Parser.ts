@@ -152,6 +152,26 @@ export default class Parser {
 		}
 	}
 
+	processTextContent(text: SaxText) {
+		const parentNode = this._findParentNode(
+			NodeKind.Control | NodeKind.Aggregation | NodeKind.FragmentDefinition
+		) as ControlDeclaration | AggregationDeclaration | FragmentDefinitionDeclaration;
+
+		if (parentNode?.namespace === SAP_HTML_NAMESPACE &&
+			(parentNode.kind === NodeKind.Control ||
+				parentNode.kind === NodeKind.Aggregation)) {
+			const textContent = this._createTextContent(text);
+			this.#generator.writeControl(textContent);
+			if (parentNode.kind === NodeKind.Control) {
+				// Insert the current control in the default aggregation of the last control
+				this._addDefaultAggregation(parentNode, textContent);
+			} else if (parentNode.kind === NodeKind.Aggregation) {
+				const aggregationNode = parentNode;
+				aggregationNode.controls.push(textContent);
+			}
+		}
+	}
+
 	generate(): TranspileResult {
 		if (this.#directives.size) {
 			// Add directives to the context
@@ -739,6 +759,28 @@ export default class Parser {
 			end: attr.end,
 		};
 		return customData;
+	}
+
+	_createTextContent(text: SaxText): ControlDeclaration {
+		const start = toPosition(text.start);
+		const end = toPosition(text.end);
+		const textContent: ControlDeclaration = {
+			kind: NodeKind.Control,
+			name: "TextContent",
+			namespace: SAP_HTML_NAMESPACE,
+			properties: new Set([
+				{
+					name: "text",
+					value: text.value,
+					start: start,
+					end: end,
+				},
+			]),
+			aggregations: new Map(),
+			start: start,
+			end: end,
+		};
+		return textContent;
 	}
 
 	_handleTemplatingNamespace(

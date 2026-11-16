@@ -28,9 +28,19 @@
     <span data-foo-bar="My Bar">Hello me</span>
   </div>
 
+  <!-- Scenario with text content -->
+  <div>
+    Hello world!
+    <m:Button text="Press Me!"/>
+    How are you?
+    <children>
+      How are you?
+    </children>
+  </div>
+
   <!-- Scenario with attributes -->
   <div style="color:red;" />
   <label for="input"/>
-  <input id="input" type="phone" />
+  <input id="input" type="tel" />
 
 </mvc:View>
