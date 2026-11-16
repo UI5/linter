@@ -1,7 +1,6 @@
 import ts from "typescript";
 import {PositionInfo} from "../../LinterContext.js";
 import {ChangeSet} from "../../../utils/textChanges.js";
-import {SaxEventType} from "sax-wasm";
 import {JSONSchemaForSAPUI5Namespace} from "../../../manifest.js";
 
 export interface ModuleDependencyRequest {
@@ -28,7 +27,7 @@ export interface SourceCodeRange {
 
 export interface NodeSearchParameters {
 	nodeTypes: ts.SyntaxKind[];
-	xmlEventTypes?: SaxEventType[];
+	xmlEventTypes?: number;
 	position: PositionInfo;
 }
 

@@ -7,7 +7,7 @@
 
 		// DOM is required because the WebAssembly type required by sax-wasm
 		// is only provided in that library (https://github.com/microsoft/TypeScript-DOM-lib-generator/issues/826)
-		"lib": ["ES2022", "DOM"],
+		"lib": ["ES2024", "DOM"],
 		"strict": true,
 		"sourceMap": true,
 
