@@ -1,0 +1,36 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.html"
+    xmlns:m="sap.m"
+>
+  <!-- Simple scenario -->
+  <div>
+    <m:Button text="Press Me!"/>
+  </div>
+
+  <!-- Scenario with children aggregation -->
+  <div>
+    <m:Button text="Press Me!"/>
+    <children>
+      <p>Hello me</p>
+    </children>
+  </div>
+
+  <!-- Scenario with sap/ui/core/Control borrowed aggregation -->
+  <div>
+    <m:Button text="Press Me!"/>
+    <dependents>
+      <m:Text text="Hello me"/>
+    </dependents>
+  </div>
+
+  <!-- Scenario with custom data property -->
+  <div>
+    <span data-foo-bar="My Bar">Hello me</span>
+  </div>
+
+  <!-- Scenario with attributes -->
+  <div style="color:red;" />
+  <label for="input"/>
+  <input id="input" type="phone" />
+
+</mvc:View>

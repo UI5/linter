@@ -37,6 +37,7 @@ const SVG_NAMESPACE = "http://www.w3.org/2000/svg";
 const TEMPLATING_NAMESPACE = "http://schemas.sap.com/sapui5/extension/sap.ui.core.template/1";
 const FESR_NAMESPACE = "http://schemas.sap.com/sapui5/extension/sap.ui.core.FESR/1";
 const SAP_BUILD_NAMESPACE = "sap.build";
+const SAP_HTML_NAMESPACE = "sap.html";
 const SAP_UI_DT_NAMESPACE = "sap.ui.dt";
 const CUSTOM_DATA_NAMESPACE = "http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1";
 const CORE_NAMESPACE = "sap.ui.core";
@@ -65,6 +66,21 @@ function toPosition(saxPos: SaxPosition): Position {
 		column: saxPos.character,
 	};
 }
+
+/**
+ * @param str input string, e.g. "asd"
+ * @returns {string} first character being upper case, e.g. "Asd"
+ */
+const capitalize = function (str: string): string {
+	if (str.length < 1) {
+		return "";
+	}
+	return str[0].toUpperCase() + str.substring(1);
+};
+
+const camelize = function (str: string): string {
+	return str.replace(/-([a-z])/g, (_, c: string) => c.toUpperCase());
+};
 
 export default class Parser {
 	#resourcePath: string;
@@ -187,7 +203,9 @@ export default class Parser {
 		owner: ControlDeclaration, control: ControlDeclaration
 	) {
 		let aggregationName = this.#apiExtract.getDefaultAggregation(`${owner.namespace}.${owner.name}`);
-
+		if (!aggregationName && owner.namespace === SAP_HTML_NAMESPACE) {
+			aggregationName = "children";
+		}
 		if (!aggregationName) {
 			log.verbose(`Failed to determine default aggregation for control ${owner.name} used in ` +
 				`resource ${this.#resourcePath}. Falling back to 'dependents'`);
@@ -420,28 +438,7 @@ export default class Parser {
 					// Silently ignore FESR, sap.build and sap.ui.dt attributes
 				} else if (resolvedNamespace === CUSTOM_DATA_NAMESPACE) {
 					// Add custom data element and add it as an aggregation
-					const customData: ControlDeclaration = {
-						kind: NodeKind.Control,
-						name: "CustomData",
-						namespace: CORE_NAMESPACE,
-						properties: new Set([
-							{
-								name: "key",
-								value: attr.name,
-								start: attr.start,
-								end: attr.end,
-							},
-							{
-								name: "value",
-								value: attr.value,
-								start: attr.start,
-								end: attr.end,
-							},
-						]),
-						aggregations: new Map(),
-						start: attr.start,
-						end: attr.end,
-					};
+					const customData = this._createCustomData(attr);
 					customDataElements.push(customData);
 					// Immediately write the custom data element declaration to make it usable
 					// in the control aggregation
@@ -450,6 +447,13 @@ export default class Parser {
 					log.verbose(`Ignoring unknown namespaced attribute ${attr.localNamespace}:${attr.name} ` +
 						`for ${moduleName} in resource ${this.#resourcePath}`);
 				}
+			} else if (attr.name.startsWith("data-")) {
+				const name = camelize(attr.name.slice("data-".length));
+				const customData = this._createCustomData(attr, name);
+				customDataElements.push(customData);
+				// Immediately write the custom data element declaration to make it usable
+				// in the control aggregation
+				this.#generator.writeControl(customData);
 			} else {
 				controlProperties.add(attr);
 			}
@@ -459,7 +463,7 @@ export default class Parser {
 			NodeKind.Control | NodeKind.Aggregation | NodeKind.FragmentDefinition
 		) as ControlDeclaration | AggregationDeclaration | FragmentDefinitionDeclaration;
 
-		if (/^[a-z]/.exec(moduleName)) {
+		if (this._isAggregationName(moduleName, namespace)) {
 			const aggregationName = moduleName;
 			// TODO: Replace the above with a check against known controls. Even though there are
 			// no known cases of lower case control names in the framework.
@@ -671,9 +675,11 @@ export default class Parser {
 			}
 			// This node declares a control
 			// Or a fragment definition in case of a fragment
+			const normalizedModuleName =
+				(namespace === SAP_HTML_NAMESPACE) ? capitalize(moduleName.toLowerCase()) : moduleName;
 			const node: ControlDeclaration = {
 				kind: NodeKind.Control,
-				name: moduleName,
+				name: normalizedModuleName,
 				namespace,
 				properties: controlProperties,
 				aggregations: new Map(),
@@ -706,6 +712,33 @@ export default class Parser {
 			}
 			return node;
 		}
+	}
+
+	_createCustomData(attr: AttributeDeclaration, name = attr.name): ControlDeclaration {
+		// Add custom data element and add it as an aggregation
+		const customData: ControlDeclaration = {
+			kind: NodeKind.Control,
+			name: "CustomData",
+			namespace: CORE_NAMESPACE,
+			properties: new Set([
+				{
+					name: "key",
+					value: name,
+					start: attr.start,
+					end: attr.end,
+				},
+				{
+					name: "value",
+					value: attr.value,
+					start: attr.start,
+					end: attr.end,
+				},
+			]),
+			aggregations: new Map(),
+			start: attr.start,
+			end: attr.end,
+		};
+		return customData;
 	}
 
 	_handleTemplatingNamespace(
@@ -753,5 +786,18 @@ export default class Parser {
 			line: line + 1,
 			column: column + 1,
 		});
+	}
+
+	_isAggregationName(moduleName: string, namespace: Namespace) {
+		if (namespace === SAP_HTML_NAMESPACE) {
+			if (this.#apiExtract.isAggregation("sap.ui.core.Control", moduleName, true)) {
+				return true;
+			}
+			if (moduleName === "children") {
+				return true;
+			}
+			return false;
+		}
+		return /^[a-z]/.test(moduleName);
 	}
 }
