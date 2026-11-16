@@ -201,7 +201,7 @@ t.declareModule("jQuery", [
 		})),
 
 		/* "extend" migration requires special handling:
-			jQuery.sap.extends has an optional first argument "deep" which controls whether
+			jQuery.sap.extend has an optional first argument "deep" which controls whether
 			a shallow or deep copy is performed.
 
 			In case of a shallow clone (default), Object.assign might be a suitable replacement
@@ -223,8 +223,8 @@ t.declareModule("jQuery", [
 				}
 				return true;
 			},
-			generator(ctx, [moduleIdentifierName], _, arg2, arg3) {
-				return `${moduleIdentifierName}(${arg2.trim()},${arg3})`;
+			generator(ctx, [moduleIdentifierName], _, arg2, ...remainingArgs) {
+				return `${moduleIdentifierName}(${arg2.trim()},${remainingArgs.join(",")})`;
 			},
 		})),
 		t.namespace("now", accessExpressionFix({
