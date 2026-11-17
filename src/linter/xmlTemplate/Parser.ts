@@ -152,7 +152,7 @@ export default class Parser {
 	processTextContent(text: SaxText) {
 		const parentNode = this._findParentNode(
 			NodeKind.Control | NodeKind.Aggregation | NodeKind.FragmentDefinition
-		) as ControlDeclaration | AggregationDeclaration | FragmentDefinitionDeclaration;
+		) as ControlDeclaration | AggregationDeclaration | FragmentDefinitionDeclaration | null;
 
 		// only controls from sap.html can have text content and only in the default aggregation (children)
 		if (text.value?.trim() &&
@@ -482,7 +482,7 @@ export default class Parser {
 
 		const parentNode = this._findParentNode(
 			NodeKind.Control | NodeKind.Aggregation | NodeKind.FragmentDefinition
-		) as ControlDeclaration | AggregationDeclaration | FragmentDefinitionDeclaration;
+		) as ControlDeclaration | AggregationDeclaration | FragmentDefinitionDeclaration | null;
 
 		if (this._isAggregationName(moduleName, namespace)) {
 			const aggregationName = moduleName;
