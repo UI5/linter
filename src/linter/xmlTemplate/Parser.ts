@@ -42,6 +42,7 @@ const SAP_UI_DT_NAMESPACE = "sap.ui.dt";
 const CUSTOM_DATA_NAMESPACE = "http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1";
 const CORE_NAMESPACE = "sap.ui.core";
 const PATTERN_LIBRARY_NAMESPACES = /^([a-zA-Z_$][a-zA-Z0-9_$]*(\.[a-zA-Z_$][a-zA-Z0-9_$]*)*)$/;
+const SAP_HTML_DEFAULT_AGGREGATION = "children";
 
 const enum DocumentKind {
 	View,
@@ -76,10 +77,6 @@ const capitalize = function (str: string): string {
 		return "";
 	}
 	return str[0].toUpperCase() + str.substring(1);
-};
-
-const camelize = function (str: string): string {
-	return str.replace(/-([a-z])/g, (_, c: string) => c.toUpperCase());
 };
 
 export default class Parser {
@@ -157,9 +154,10 @@ export default class Parser {
 			NodeKind.Control | NodeKind.Aggregation | NodeKind.FragmentDefinition
 		) as ControlDeclaration | AggregationDeclaration | FragmentDefinitionDeclaration;
 
+		// only controls from sap.html can have text content and only in the default aggregation (children)
 		if (parentNode?.namespace === SAP_HTML_NAMESPACE &&
 			(parentNode.kind === NodeKind.Control ||
-				parentNode.kind === NodeKind.Aggregation)) {
+				(parentNode.kind === NodeKind.Aggregation && parentNode.name === SAP_HTML_DEFAULT_AGGREGATION))) {
 			const textContent = this._createTextContent(text);
 			this.#generator.writeControl(textContent);
 			if (parentNode.kind === NodeKind.Control) {
@@ -223,8 +221,9 @@ export default class Parser {
 		owner: ControlDeclaration, control: ControlDeclaration
 	) {
 		let aggregationName = this.#apiExtract.getDefaultAggregation(`${owner.namespace}.${owner.name}`);
+		// hard coded knowledge about sap.html: default aggregation
 		if (!aggregationName && owner.namespace === SAP_HTML_NAMESPACE) {
-			aggregationName = "children";
+			aggregationName = SAP_HTML_DEFAULT_AGGREGATION;
 		}
 		if (!aggregationName) {
 			log.verbose(`Failed to determine default aggregation for control ${owner.name} used in ` +
@@ -457,7 +456,6 @@ export default class Parser {
 					resolvedNamespace === SAP_BUILD_NAMESPACE || resolvedNamespace === SAP_UI_DT_NAMESPACE) {
 					// Silently ignore FESR, sap.build and sap.ui.dt attributes
 				} else if (resolvedNamespace === CUSTOM_DATA_NAMESPACE) {
-					// Add custom data element and add it as an aggregation
 					const customData = this._createCustomData(attr);
 					customDataElements.push(customData);
 					// Immediately write the custom data element declaration to make it usable
@@ -467,8 +465,10 @@ export default class Parser {
 					log.verbose(`Ignoring unknown namespaced attribute ${attr.localNamespace}:${attr.name} ` +
 						`for ${moduleName} in resource ${this.#resourcePath}`);
 				}
-			} else if (attr.name.startsWith("data-")) {
-				const name = camelize(attr.name.slice("data-".length));
+			} else if (namespace === SAP_HTML_NAMESPACE && attr.name.startsWith("data-")) {
+				// Controls from sap.html can have custom data modelled as data-* attributes
+				// The runtime uses the remainder of the name "as is" (no dataset-like name conversion)
+				const name = attr.name.slice("data-".length);
 				const customData = this._createCustomData(attr, name);
 				customDataElements.push(customData);
 				// Immediately write the custom data element declaration to make it usable
@@ -485,8 +485,7 @@ export default class Parser {
 
 		if (this._isAggregationName(moduleName, namespace)) {
 			const aggregationName = moduleName;
-			// TODO: Replace the above with a check against known controls. Even though there are
-			// no known cases of lower case control names in the framework.
+			// TODO: Replace the above with a check against known controls.
 			// This node likely declares an aggregation
 			if (!parentNode || parentNode.kind === NodeKind.FragmentDefinition) {
 				if (this.#xmlDocumentKind !== DocumentKind.Fragment) {
@@ -521,7 +520,7 @@ export default class Parser {
 						`Parent control could not be determined.`,
 				});
 				// In case of top-level aggregations in fragments, generate an sap.ui.core.Control instance and
-				// add the aggregation's content to it's dependents aggregation
+				// add the aggregation's content to its dependents aggregation
 				const coreControl: ControlDeclaration = {
 					kind: NodeKind.Control,
 					name: "Control",
@@ -735,7 +734,6 @@ export default class Parser {
 	}
 
 	_createCustomData(attr: AttributeDeclaration, name = attr.name): ControlDeclaration {
-		// Add custom data element and add it as an aggregation
 		const customData: ControlDeclaration = {
 			kind: NodeKind.Control,
 			name: "CustomData",
@@ -831,13 +829,17 @@ export default class Parser {
 	}
 
 	_isAggregationName(moduleName: string, namespace: Namespace) {
+		// hard coded knowledge about the post-1.136 lib sap.html (it allows lower-case control names)
 		if (namespace === SAP_HTML_NAMESPACE) {
+			// controls from sap.html inherit all control aggregations ...
 			if (this.#apiExtract.isAggregation("sap.ui.core.Control", moduleName, true)) {
 				return true;
 			}
-			if (moduleName === "children") {
+			// ... and the default aggregation "children"
+			if (moduleName === SAP_HTML_DEFAULT_AGGREGATION) {
 				return true;
 			}
+			// any other child is not an aggregation
 			return false;
 		}
 		return /^[a-z]/.test(moduleName);
