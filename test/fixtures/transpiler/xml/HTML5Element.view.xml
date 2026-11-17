@@ -36,6 +36,7 @@
     <children>
       How are __you__?
     </children>
+    <children>        </children><!-- ws only text content should be ignored -->
     <dependents>
       Again, this content should be ignored
     </dependents>

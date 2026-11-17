@@ -155,7 +155,8 @@ export default class Parser {
 		) as ControlDeclaration | AggregationDeclaration | FragmentDefinitionDeclaration;
 
 		// only controls from sap.html can have text content and only in the default aggregation (children)
-		if (parentNode?.namespace === SAP_HTML_NAMESPACE &&
+		if (text.value?.trim() &&
+			parentNode?.namespace === SAP_HTML_NAMESPACE &&
 			(parentNode.kind === NodeKind.Control ||
 				(parentNode.kind === NodeKind.Aggregation && parentNode.name === SAP_HTML_DEFAULT_AGGREGATION))) {
 			const textContent = this._createTextContent(text);
