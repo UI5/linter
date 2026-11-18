@@ -1,0 +1,3 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m" >
+  <Button data-foo="My Bar" />
+</mvc:View>
