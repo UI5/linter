@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.23.10](https://github.com/UI5/linter/compare/v1.23.9...v1.23.10) (2026-11-18)
+
+
+### Bug Fixes
+
+* Don't enforce a renderer for subclasses of HTMLElement ([#1126](https://github.com/UI5/linter/issues/1126)) ([92f3c5c](https://github.com/UI5/linter/commit/92f3c5c2659c02acc18617877b1e79448f345c23))
+* **xmlTemplate:** Support sap.html controls whose name starts with a lower case letter ([#1182](https://github.com/UI5/linter/issues/1182)) ([65a1363](https://github.com/UI5/linter/commit/65a1363d6dc5ad73370e4f80fc3922f2ceecbb79))
+
 ## [1.23.9](https://github.com/UI5/linter/compare/v1.23.8...v1.23.9) (2026-11-16)
 
 
