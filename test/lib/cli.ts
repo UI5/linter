@@ -25,7 +25,7 @@ const test = anyTest as TestFn<{
 }>;
 
 const pkgJsonPath = new URL("../../package.json", import.meta.url);
-const pkg = JSON.parse(((readFileSync(pkgJsonPath) as unknown) as string));
+const pkg = JSON.parse((readFileSync(pkgJsonPath) as unknown) as string);
 
 test.beforeEach(async (t) => {
 	t.context.argvGetter = sinon.stub();

@@ -21,7 +21,7 @@ export async function initLogger(argv: ArgumentsCamelCase) {
 		// argv.loglevel defaults to "info", which is anyways already the Logger's default
 		// Therefore do not explicitly set it again in order to allow overwriting the log level
 		// using the UI5_LOG_LVL environment variable
-		setLogLevel((argv.loglevel as string));
+		setLogLevel(argv.loglevel as string);
 	}
 
 	// Initialize writer

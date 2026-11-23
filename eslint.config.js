@@ -104,6 +104,10 @@ export default tseslint.config(
 				"error",
 				"unix",
 			],
+			// With v6 of @stylistic/list-style this "list-style" is introduced
+			// (incl. forcing spaces inside any kind of brackets),
+			// turning it off prevents a lot of diff across the repo:
+			"@stylistic/list-style": "off",
 			"@stylistic/object-curly-spacing": [
 				"error",
 				"never",
