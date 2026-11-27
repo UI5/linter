@@ -59,7 +59,7 @@ declare module "@ui5/project/graph" {
 		workspaceConfigPath?: string;
 	}
 	export function graphFromPackageDependencies(options?: GraphFromPackageDependenciesOptions):
-	Promise<import("@ui5/project").ProjectGraph>;
+		Promise<import("@ui5/project").ProjectGraph>;
 }
 
 declare module "@ui5/fs" {

@@ -171,8 +171,8 @@ export function createTestsForFixtures(fixturesPath: string, fix = false) {
 
 function testDefinition(
 	{testName, fileName, fixturesPath, filePaths, namespace, fix}:
-	{testName: string; fileName: string; fixturesPath: string;
-		filePaths: string[]; namespace?: string; fix?: boolean;}) {
+		{testName: string; fileName: string; fixturesPath: string;
+			filePaths: string[]; namespace?: string; fix?: boolean;}) {
 	let defineTest = test.serial;
 
 	if (fileName.startsWith("_")) {

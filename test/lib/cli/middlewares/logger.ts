@@ -9,7 +9,7 @@ const test = anyTest as TestFn<{
 	getFormattedVersionStub: SinonStub;
 	logger: MockFunction & {
 		initLogger: (args:
-		{loglevel?: string; verbose?: boolean; perf?: boolean; silent?: boolean}) => Promise<void> | void;
+			{loglevel?: string; verbose?: boolean; perf?: boolean; silent?: boolean}) => Promise<void> | void;
 	};
 }>;
 

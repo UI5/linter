@@ -313,7 +313,7 @@ function createDefaultExport(factory: ts.NodeFactory, node: ts.Node): ts.Stateme
 			return factory.createExportAssignment(undefined, undefined, node as ts.Expression);
 		case SyntaxKind.ClassDeclaration:
 			return factory.updateClassDeclaration(
-				(node as ts.ClassDeclaration),
+				node as ts.ClassDeclaration,
 				exportModifiers,
 				(node as ts.ClassDeclaration).name,
 				(node as ts.ClassDeclaration).typeParameters,
@@ -321,7 +321,7 @@ function createDefaultExport(factory: ts.NodeFactory, node: ts.Node): ts.Stateme
 				(node as ts.ClassDeclaration).members);
 		case SyntaxKind.FunctionDeclaration:
 			return factory.updateFunctionDeclaration(
-				(node as ts.FunctionDeclaration),
+				node as ts.FunctionDeclaration,
 				exportModifiers,
 				(node as ts.FunctionDeclaration).asteriskToken,
 				(node as ts.FunctionDeclaration).name,
